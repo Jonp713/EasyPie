@@ -12,14 +12,23 @@
 		
 		if($currentpost['reply_on'] == 1){
 		
-			echo('<span id = "'.$currentpost['id'].'"><input type = "text" id = "reply">&nbsp;<span onclick="reply_post('.$currentpost['id'].', '.$session_user_id.')">Reply</span></span><br><br>');
+			if(logged_in() == false){
+			
+				echo("If you want to reply, you need to log in<br><br>");
 		
+			}else{
+		
+				echo('<span id = "'.$currentpost['id'].'"><input type = "text" id = "reply">&nbsp;<span onclick="reply_post('.$currentpost['id'].', '.$session_user_id.')">Reply</span></span><br><br>');
+		
+			}
+	
 		}else{
-		
+	
+	
 			echo('<br>');
 		
-		}
 	
+		}
 	}
 
 ?>

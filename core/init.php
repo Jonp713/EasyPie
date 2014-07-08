@@ -15,7 +15,7 @@ if(!in_array($_SERVER['REMOTE_ADDR'], $whitelist)){
 
 if(!$session_local){
 	
-	//error_reporting(0);
+	error_reporting(0);
 }	
 
 date_default_timezone_set('America/New_York');
