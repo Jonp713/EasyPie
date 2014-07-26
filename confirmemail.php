@@ -3,8 +3,6 @@ include 'core/init.php';
 protect_page();
 include 'includes/overall/header.php';
 
-
-
 if (empty($_POST) === false) {
 	$required_fields = array('email', 'password');
 	foreach($_POST as $key=>$value) {

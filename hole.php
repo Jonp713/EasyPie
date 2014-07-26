@@ -1,7 +1,13 @@
 <?php
 include 'core/init.php';
+
+active_protect($_GET['c']);
+has_hole($_GET['c']);
+
 $hole = array();
 $hole['posts'] = array();
+
+
 ?>
 <html>
 <head>
@@ -23,6 +29,9 @@ include 'includes/navbar.php';
 	
 <script src = 'js/jquery.js' type = 'text/javascript'></script>
 <script src = 'js/posts.js' type = 'text/javascript'></script>
+<script src = 'js/communities.js' type = 'text/javascript'></script>
+<script src = 'js/messages.js' type = 'text/javascript'></script>
+
 
 <?php 
 include 'js/theholejs.php';

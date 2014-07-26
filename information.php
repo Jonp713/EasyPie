@@ -12,6 +12,23 @@ if (empty($_POST) === false) {
 		$errors[] = 'Your username must not contain any spaces.';
 	}	
 	
+	$count = get_request_count($_SERVER['REMOTE_ADDR'], 'update_info');
+
+	if(!$session_local){
+    $privatekey = "6LcXHfYSAAAAANnTCLXRiag_cz0BijZII2_ysboN";
+     $resp = recaptcha_check_answer ($privatekey,
+                                   $_SERVER["REMOTE_ADDR"],
+                                   $_POST["recaptcha_challenge_field"],
+                                   $_POST["recaptcha_response_field"]);
+
+     if (!$resp->is_valid) {
+       // What happens when the CAPTCHA was entered incorrectly
+	   	//$errors[] = $resp->error;
+		$errors[] = 'Incorrect Captcha';
+     }
+ 
+ 	}
+	
 	if ((empty($errors) === true) && (empty($_POST['email']) === false)){
 		if (filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) === false) {
 			$errors[] = 'A valid email address is required';
@@ -97,8 +114,24 @@ if (isset($_GET['s']) === true && empty($_GET['s']) === true) {
 				<li>
 					<input type="checkbox" name="allow_email" <?php if ($user_data['allow_email'] == 1) { echo 'checked="checked"'; } ?>>Recieve Emails
 				</li>
+				
+	<li>
+	<?php 
+	}
 			
-			<?php   } ?>
+	$count = get_request_count($_SERVER['REMOTE_ADDR'], 'update_info');		
+				
+	if(!$session_local && $count >= 1){
+	  	 
+	   $publickey = "6LcXHfYSAAAAAOSU0ArSOLuYhoLuIB69u5900_M_";
+	   echo recaptcha_get_html($publickey);
+   
+	  			
+	}
+
+	?>
+		 
+	</li>
 			
 			<li>
 				<input type="submit" value="Update">

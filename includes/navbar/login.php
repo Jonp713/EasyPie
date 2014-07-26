@@ -7,9 +7,11 @@
 	Password:
 	<input type="password" name="password">
 	
-	<input type="submit" value="Log in">&nbsp;
+	<input type="submit" value="Log in">
 
-	<a href="register.php">Register</a>&nbsp;&nbsp;&nbsp;
-	
-	Forgotten your <a href="recover.php?mode=username">username</a> or <a href="recover.php?mode=password">password</a>?
 </form>
+&nbsp;
+
+<a href="register.php">Register</a>&nbsp;&nbsp;&nbsp;
+
+Forgotten your <a href="recover.php?mode=username">username</a>?

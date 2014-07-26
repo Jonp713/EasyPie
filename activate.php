@@ -1,10 +1,11 @@
 <?php
 include 'core/init.php';
+logged_in_redirect();
 include 'includes/overall/header.php';
 
 if (isset($_GET['success']) === true && empty($_GET['success']) === true) {
 ?>
-	<h2>We've activated your account</h2>
+	<h2>We've confirmed your email</h2>
 <?php
 } else if (isset($_GET['email'], $_GET['email_code']) === true) {
 

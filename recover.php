@@ -8,10 +8,10 @@ include 'includes/overall/header.php';
 <?php
 if (isset($_GET['success']) === true && empty($_GET['success']) === true) {
 ?>
-	<p>Thanks, we've emailed you.</p>
+	<p>An email has been sent to that address</p>
 <?php
 } else {
-	$mode_allowed = array('username', 'password');
+	$mode_allowed = array('username');
 	if (isset($_GET['mode']) === true && in_array($_GET['mode'], $mode_allowed) === true) {
 		if (isset($_POST['email']) === true && empty($_POST['email']) === false) {
 			if (email_exists($_POST['email']) === true) {
@@ -19,7 +19,7 @@ if (isset($_GET['success']) === true && empty($_GET['success']) === true) {
 				header('Location: recover.php?success');
 				exit();
 			} else {
-				echo '<p>Oops, we couldn\'t find that email address!</p>';
+				echo '<p>An email has been sent to that address</p>';
 			}
 		}
 	?>

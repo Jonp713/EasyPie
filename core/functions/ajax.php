@@ -4,7 +4,7 @@ require ('../init.php');
 
 $function = $_POST['function'];
 
-if($function == 'save_post' && isset($_POST['post_id'])){
+if($function == 'save_post' && isset($_POST['post_id']) && isset($session_user_id)){
 	
 	$success = save_post($session_user_id, $_POST['post_id']);
 	
@@ -18,9 +18,35 @@ if($function == 'save_post' && isset($_POST['post_id'])){
 }
 
 
-if($function == 'reply_post' && isset($_POST['post_id']) && isset($_POST['user_id']) && isset($_POST['message'])){
+if($function == 'unsave_post' && isset($_POST['post_id']) && isset($session_user_id)){
 	
-	$success = reply_post($_POST['user_id'], $_POST['post_id'], $_POST['message']);
+	$success = unsave_post($session_user_id, $_POST['post_id']);
+	
+	if($success){
+	
+		echo("Post Unsaved");
+	
+	}
+	
+	
+}
+
+if($function == 'delete_post' && isset($_POST['post_id']) && isset($session_user_id)){
+	
+	$success = delete_post($session_user_id, $_POST['post_id']);
+	
+	if($success){
+	
+		echo("Post Deleted");
+	
+	}
+	
+	
+}
+
+if($function == 'reply_post' && isset($_POST['post_id']) && isset($session_user_id) && isset($_POST['message'])){
+	
+	$success = reply_post($session_user_id, $_POST['post_id'], $_POST['message']);
 	
 	if($success){
 	
@@ -31,9 +57,9 @@ if($function == 'reply_post' && isset($_POST['post_id']) && isset($_POST['user_i
 	
 }
 
-if($function == 'reply_message' && isset($_POST['message_id']) && isset($_POST['user_id']) && isset($_POST['message'])){
+if($function == 'reply_message' && isset($_POST['message_id']) && isset($session_user_id) && isset($_POST['message'])){
 	
-	$success = reply_message($_POST['user_id'], $_POST['message_id'], $_POST['message']);
+	$success = reply_message($session_user_id, $_POST['message_id'], $_POST['message']);
 	
 	if($success){
 	
@@ -46,9 +72,30 @@ if($function == 'reply_message' && isset($_POST['message_id']) && isset($_POST['
 	
 }
 
-if($function == 'subscribe_community' && isset($_POST['community_name']) && isset($_POST['user_id'])){
+if($function == 'set_reply' && isset($_POST['post_id']) && isset($_POST['status_in']) && isset($session_user_id)){
 	
-	$success = subscribe_community($_POST['user_id'], $_POST['community_name']);
+	$success = set_reply($_POST['post_id'], $_POST['status_in'], $session_user_id);
+	
+	
+	if($success){		
+			
+		if($_POST['status_in'] == 1){
+		
+			echo('Reply Added');
+	
+		}
+		if($_POST['status_in'] == 0){
+		
+			echo('Reply Removed');
+	
+		}
+	}	
+	
+}
+
+if($function == 'subscribe_community' && isset($_POST['community_name']) && isset($session_user_id)){
+	
+	$success = subscribe_community($session_user_id, $_POST['community_name']);
 	
 	if($success){
 	
@@ -57,5 +104,32 @@ if($function == 'subscribe_community' && isset($_POST['community_name']) && isse
 	}	
 	
 }
+
+if($function == 'delete_subscription' && isset($_POST['community_name']) && isset($session_user_id)){
+	
+	$success = delete_subscription($session_user_id, $_POST['community_name']);
+	
+	if($success){
+	
+		echo('You are now unsubscribed');
+	
+	}	
+	
+}
+
+if($function == 'delete_message' && isset($_POST['message_id']) && isset($session_user_id)){
+	
+	$success = delete_message($_POST['message_id'], $session_user_id, $_POST['type']);
+		
+	if($success){
+	
+		echo('Message deleted');
+	
+	}	
+	
+}
+
+
+
 	
 ?>

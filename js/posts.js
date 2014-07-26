@@ -1,19 +1,46 @@
-function save_post(postid){
+function save_post(post_id){
 	
-    $.post("../rl/core/functions/ajax.php",{function: "save_post", post_id: postid},function(data){
+    $.post("../rl/core/functions/ajax.php",{function: "save_post", post_id: post_id},function(data){
                 
 		alert(data);
     
     }); 
 }
 
-function reply_post(postid, user_id){
+function unsave_post(post_id){
 	
-	var spannumber = "#" + postid
+    $.post("../rl/core/functions/ajax.php",{function: "unsave_post", post_id: post_id},function(data){
+                
+		alert(data);
+    
+    }); 
+}
+
+function delete_post(post_id){
+	
+    $.post("../rl/core/functions/ajax.php",{function: "delete_post", post_id: post_id},function(data){
+                
+		alert(data);
+    	
+    }); 
+}
+
+function set_reply(post_id, status_in){
+	
+    $.post("../rl/core/functions/ajax.php",{function: "set_reply", post_id: post_id, status_in: status_in},function(data){
+                
+		alert(data);
+    	
+    }); 
+}
+
+function reply_post(post_id){
+	
+	var spannumber = "#" + post_id
 	
 	var message = $(spannumber).children('#reply').val();  	
 	
-    $.post("../rl/core/functions/ajax.php",{function: "reply_post", post_id: postid, message: message, user_id: user_id},function(data){
+    $.post("../rl/core/functions/ajax.php",{function: "reply_post", post_id: post_id, message: message},function(data){
                 
 		alert(data);
     

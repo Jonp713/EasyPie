@@ -1,8 +1,8 @@
-<?php
-include 'core/init.php';
-include 'includes/overall/header.php';
+<h1>Create Community</h1>
 
-if (empty($_POST) === false) {
+<?php 
+
+if (empty($_POST) === false && isset($_POST['state'])) {
 	$required_fields = array('name');
 	foreach($_POST as $key=>$value) {
 		if (empty($value) && in_array($key, $required_fields) === true) {
@@ -21,28 +21,28 @@ if (empty($_POST) === false) {
 }
 
 
-if (isset($_GET['s']) === true && empty($_GET['s']) === true) {
+if (isset($_GET['c']) === true && empty($_GET['c']) === true) {
 	echo 'Community Created!';
-} else {
+}
 	
 	
-	if (empty($_POST) === false && empty($errors) === true) {
-		
-		
-			$data = array(
-				'name' 		=> $_POST['name'],
-				'state' 		=> $_POST['state']
-			);
+if (empty($_POST) === false && isset($_POST['state']) && empty($errors) === true) {
 	
-			create_community($data);
-			header('Location: createcommunity.php?s');
-			exit();
-					
-	}else if (empty($errors) === false) {
 	
-		echo output_errors($errors);
-	}
-	
+		$data = array(
+			'name' 		=> $_POST['name'],
+			'state' 		=> $_POST['state']
+		);
+
+		create_community($data);
+		header('Location: creation.php?c');
+		exit();
+				
+}else if (empty($errors) === false) {
+
+	echo output_errors($errors);
+}
+
 
 ?>
 
@@ -121,8 +121,3 @@ if (isset($_GET['s']) === true && empty($_GET['s']) === true) {
 	</ul>
 
 </form>
-
-<?php 
-
-}
-include 'includes/overall/footer.php'; ?>

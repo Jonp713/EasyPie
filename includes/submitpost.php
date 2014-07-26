@@ -9,6 +9,22 @@ if (empty($_POST) === false) {
 			break 1;
 		}
 	}
+	
+	if(!$session_local){
+    $privatekey = "6LcXHfYSAAAAANnTCLXRiag_cz0BijZII2_ysboN";
+     $resp = recaptcha_check_answer ($privatekey,
+                                   $_SERVER["REMOTE_ADDR"],
+                                   $_POST["recaptcha_challenge_field"],
+                                   $_POST["recaptcha_response_field"]);
+
+     if (!$resp->is_valid) {
+       // What happens when the CAPTCHA was entered incorrectly
+	   	//$errors[] = $resp->error;
+		$errors[] = 'Incorrect Captcha';
+     }
+ 
+ 	}
+	
 	if ((empty($_POST['email']) === false) && (filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) === false)) {
 		$errors[] = 'A valid email address is required';
 	}
@@ -22,52 +38,52 @@ if (empty($_POST) === false) {
 if (isset($_GET['s']) === true && empty($_GET['s']) === true) {
 	echo 'Your post has been submitted';
 	
-} else {
+}
 		
-	if (empty($_POST) === false && empty($errors) === true) {
+if (empty($_POST) === false && empty($errors) === true) {
+
+    $timestamp = date('g:i A \ \ D, M d, Y' , time());
+				
+	$post_data = array(
+		'post'	 		=> $_POST['post'],
+		'site'			=> $community_in,
+		'display_time'	=> $timestamp,
+		'second'		=> time()
+	);
 	
-	    $timestamp = date('g:i A \ \ D, M d, Y' , time());
-					
-		$post_data = array(
-			'post'	 		=> $_POST['post'],
-			'site'			=> $community_in,
-			'display_time'	=> $timestamp,
-			'second'		=> time()
-		);
-		
-		if(logged_in() === true){
-		
-			if($_POST['reply_on'] == 'on'){
-		
-				$post_data['reply_on'] = 1;
-			
-			}	
-			
-			$post_data['user_id'] = $session_user_id;
-			
-		}else if(empty($_POST['email']) === false){
-			
-			$post_data['email'] = $_POST['email'];
+	if(logged_in() === true){
+	
+		if($_POST['reply_on'] == 'on'){
+	
 			$post_data['reply_on'] = 1;
-			
-		}
-		$success = submit_post($post_data);
 		
-		if($success){
-			
-			header('Location: posts.php?c='.$community_in.'&s');
-			exit();
+		}	
 		
-		}else{
-			
-			echo($success);
-			
-		}
+		$post_data['user_id'] = $session_user_id;
 		
-	}else if (empty($errors) === false) {
-	
-		echo output_errors($errors);
+	}else if(empty($_POST['email']) === false){
+		
+		$post_data['email'] = $_POST['email'];
+		$post_data['reply_on'] = 1;
+		
 	}
+	$success = submit_post($post_data);
+	
+	if($success){
+		
+		header('Location: posts.php?c='.$community_in.'&s');
+		exit();
+	
+	}else{
+		
+		echo($success);
+		
+	}
+	
+}else if (empty($errors) === false) {
+
+	echo output_errors($errors);
+}
 	
 ?>
 
@@ -91,13 +107,24 @@ if (isset($_GET['s']) === true && empty($_GET['s']) === true) {
 					You must be logged in to get replies
 				</li>
 				
-			<?php }?>
+			<li>
+			<?php 
+			}
 			
+			
+			$count = get_request_count($_SERVER['REMOTE_ADDR'], 'submit_post');		
+				
+			if(!$session_local && $count >= 5){
+	  	 
+			   $publickey = "6LcXHfYSAAAAAOSU0ArSOLuYhoLuIB69u5900_M_";
+			   echo recaptcha_get_html($publickey);
+   
+			}
+
+			?>
+			</li>			
 			<li>
 				<input type="submit" value="Post">
 			</li>
 		</ul>
 	</form>
-
-<?php 
-}

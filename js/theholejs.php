@@ -9,7 +9,7 @@ document.getElementById("hole").appendChild(can);
 
 
 ///set posts
-<?php $hole['posts'] = get_posts(0, $community_in, 1);?>
+<?php $hole['posts'] = get_posts(2, $community_in, 1, false);?>
 
 //display posts
 var posts = <?php echo json_encode($hole['posts']); ?>;
@@ -18,11 +18,153 @@ var ambientLight = 0;
 var intensity = 1;
 var radius = 70;
 var amb = 'rgba(0,0,0,' + (1-ambientLight) + ')';
+var mouse = {};
 
 can.addEventListener('mousemove', function(e) {
-    var mouse = getMouse(e, can);
+	
+    mouse = getMouse(e, can);
     redraw(mouse);
+	
 }, false);
+
+function cameraMove(){
+	
+	if(camera.y <= postsparse.length * 50 - $(window).width()/2.2){
+	
+		if(mouse.y >= ($(window).height() - 300)){
+		
+			camera.y += 1;
+		
+		}
+		if(mouse.y >= ($(window).height() - 200)){
+		
+		
+			camera.y += 1;
+		
+		}
+		if(mouse.y >= ($(window).height() - 100)){
+		
+		
+			camera.y += 1;
+		
+		}
+	
+	}
+	
+	if(camera.y >= 0){
+		if(mouse.y <= 300){
+		
+			camera.y -= 1;
+		
+		}
+		if(mouse.y <= 200){
+		
+		
+			camera.y -= 1;
+		
+		}
+		if(mouse.y <= 100){
+		
+		
+			camera.y -= 1;
+		
+		}
+	}
+	
+} 
+
+var camera = {};
+camera.y = 0;
+
+var postlinelength = 12;
+var count = 0;
+var postsparse = [];
+var words = [];
+var totalcharcount = 0
+var totallines = 0;
+
+
+function prepPosts(){
+	
+	for(var i=0;i< posts.length; i++){
+		
+		newArray = posts[i].post.split(" ");
+		
+		array = [];
+		
+		words.push(array);
+		
+		for(var j = 0; j< newArray.length; j++){
+			
+			if(newArray[j] != undefined){
+					
+				words[i].push(newArray[j]);
+			
+			}
+		
+		}
+		
+	}
+	
+	for(var i=0; i < words.length; i++){
+						
+		postsparse.push("");
+		
+		for(var j = 0; j < words[i].length; j++){
+								
+			if(words[i][j] != undefined){
+					
+				totalcharcount = totalcharcount + words[i][j].length;
+			
+			}
+			
+		
+		}	
+		
+		buildString = '';
+		for(var j = 0; j < words[i].length; j++){
+				
+			if(count < postlinelength){
+				
+				if(words[i][j] != undefined){
+
+					buildString += words[i][j] + ' ';
+				
+					count = count + words[i][j].length;
+				
+				}
+								
+			}
+			
+			if(count >= postlinelength || count >= totalcharcount){
+								
+				postsparse.push(buildString);
+				
+				buildString = '';
+				
+				count = 0;
+				
+			}
+		
+		}
+		totalcharcount = 0;
+		
+		
+	}
+
+		
+
+	
+}
+function displayPosts(){
+	
+	for(var i=0;i<postsparse.length;i++){
+
+	       ctx.fillText(postsparse[i], $(window).width()/3, ((i * 50) + 50) - camera.y);
+		   
+	 }
+	
+}
 
 
 function redraw(mouse) {
@@ -30,10 +172,7 @@ function redraw(mouse) {
     //ctx.drawImage(img, 0, 0);
 	ctx.fillStyle = 'black';
 	ctx.font = "40px Helvetica"
-	for(var i=0;i<posts.length;i++){
-
-	       ctx.fillText(posts[i].post, $(window).width()/3, (i * 50) + 50);
-	 }
+	displayPosts();
 	
 	g = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, radius);
 	g.addColorStop(1, amb);
@@ -47,7 +186,6 @@ function redraw(mouse) {
     ctx.fillRect(0,0,can.width,can.height);
 	ctx.fillStyle = 'white';
     ctx.fillText('The Hole', 30, 50);
-
 	
 }
 
@@ -55,13 +193,10 @@ var img = new Image();
 img.onload = function() {
     redraw({x: -500, y: -500})
 }
-        img.src = 'http://placekitten.com/200/200';
+        //img.src = 'http://placekitten.com/200/200';
 
 // Creates an object with x and y defined,
 // set to the mouse position relative to the state's canvas
-// If you wanna be super-correct this can be tricky,
-// we have to worry about padding and borders
-// takes an event and a reference to the canvas
 
 
 function getMouse(e, canvas) {
@@ -87,5 +222,10 @@ function getMouse(e, canvas) {
         y: my
     };
 }
+
+prepPosts();
+
+setInterval(cameraMove, 0);
+
 
 </script>

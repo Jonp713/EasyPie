@@ -11,7 +11,7 @@ if (empty($_POST) === false) {
 		}
 	}
 
-	if (md5($_POST['current_password']) === $user_data['password']) {
+	if (check_hash( $user_data['password'], $_POST['current_password'])){
 		if (trim($_POST['password']) !== trim($_POST['password_again'])) {
 			$errors[] = 'Your new passwords do not match';
 		} else if (strlen($_POST['password']) < 6) {

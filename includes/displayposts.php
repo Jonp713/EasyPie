@@ -2,31 +2,37 @@
 
 <?php
 
-	$posts = get_posts(0, $community_in, false);
+	$posts = get_posts(1, $community_in, 0, false);
 
 	foreach ($posts as $currentpost) {
 		
 		echo($currentpost['post'] . '<br>');
 		echo($currentpost['display_time'] . '<br>');
-		echo('<span class = "save_post" onclick="save_post('.$currentpost['id'].')">Save Post</span><br>');
 		
-		if($currentpost['reply_on'] == 1){
 		
-			if(logged_in() == false){
+		if(logged_in() == false){
 			
-				echo("If you want to reply, you need to log in<br><br>");
+			echo("If you want to reply or save a post, you need to log in<br><br>");
 		
-			}else{
-		
-				echo('<span id = "'.$currentpost['id'].'"><input type = "text" id = "reply">&nbsp;<span onclick="reply_post('.$currentpost['id'].', '.$session_user_id.')">Reply</span></span><br><br>');
-		
-			}
+			
 	
 		}else{
-	
-	
-			echo('<br>');
+			
+			echo('<span class = "save_post" onclick="save_post('.$currentpost['id'].')">Save Post</span><br>');
+			
+				
+			if($currentpost['reply_on'] == 1){
+				
+				echo('<span id = "'.$currentpost['id'].'"><input type = "text" id = "reply">&nbsp;<span onclick="reply_post('.$currentpost['id'].')">Reply</span></span><br><br>');
+				
 		
+			}else{
+				
+				echo('<br>');
+			}
+			
+	
+			
 	
 		}
 	}

@@ -4,10 +4,12 @@
  
  $timestamp = date('g:i A \ \ D, M d, Y' , time());
  
- echo($timestamp);
+ echo($_SESSION['ddos']. '&nbsp;');
+ echo(get_request_count($_SERVER['REMOTE_ADDR'], 'login'));
+  
+ echo('&nbsp;');
  
- echo(time());
+?>
  
- ?>
  
 </footer>

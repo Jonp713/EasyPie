@@ -8,7 +8,9 @@ if(logged_in() == true){
 
 	}else{
 		
-		echo("You are subscribed to this community<br><br>");
+		echo("You are subscribed to this community<br>");
+		echo('<span onclick="delete_subscription(\''.$community_in.'\','.$session_user_id.')">Unsubscribe</span><br><br>');
+		
 		
 	}
 	

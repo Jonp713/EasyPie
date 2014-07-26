@@ -1,23 +1,4 @@
 <?php
-function change_profile_image($user_id, $file_temp, $file_extn) {
-	$file_path = 'images/profile/' . substr(md5(time()), 0, 10) . '.' . $file_extn;
-	move_uploaded_file($file_temp, $file_path);
-	mysql_query("UPDATE `users` SET `profile` = '" . mysql_real_escape_string($file_path) . "' WHERE `user_id` = " . (int)$user_id);
-}
-
-function mail_users($subject, $body) {
-	$query = mysql_query("SELECT `email`, `username` FROM `users` WHERE `allow_email` = 1");
-	while (($row = mysql_fetch_assoc($query)) !== false) {
-		email($row['email'], $subject, "Hello " . $row['username'] . ",\n\n" . $body);
-	}
-}
-
-function has_access($user_id, $type) {
-	$user_id 	= (int)$user_id;
-	$type 		= (int)$type;
-	
-	return (mysql_result(mysql_query("SELECT COUNT(`user_id`) FROM `users` WHERE `user_id` = $user_id AND `type` = $type"), 0) == 1) ? true : false;
-}
 
 function recover($mode, $email) {
 	$mode 		= sanitize($mode);
@@ -26,20 +7,26 @@ function recover($mode, $email) {
 	$user_data 	= user_data(user_id_from_email($email), 'user_id', 'username');
 	
 	if ($mode == 'username') {
-		email($email, 'Your username', "Hello " . ",\n\nYour username is: " . $user_data['username'] . "\n\n- NG");
-	} else if ($mode == 'password') {
-		$generated_password = substr(md5(rand(999, 999999)), 0, 8);
+		email($email, 'Your username', "Hello " . ",\n\nYour username is: " . $user_data['username'] . "");
+	}
+	
+	if ($mode == 'password') {
+		$generated_password = rand(999, 999999);
+		
 		change_password($user_data['user_id'], $generated_password);
 		
 		update_user($user_data['user_id'], array('password_recover' => '1'));
 		
-		email($email, 'Your password recovery', "Hello " . $user_data['username'] . ",\n\nYour new password is: " . $generated_password . "\n\n- NG");
+		email($email, 'Your password recovery', "Hello " . $user_data['username'] . ",\n\nYour new password is: " . $generated_password . "\n\n");
 	}
+	
 }
 
 function update_user($user_id, $update_data) {
 	$update = array();
 	array_walk($update_data, 'array_sanitize');
+	
+	save_suspicious_request('user_update');
 	
 	foreach($update_data as $field=>$data) {
 		$update[] = '`' . $field . '` = \'' . $data . '\'';
@@ -49,8 +36,8 @@ function update_user($user_id, $update_data) {
 }
 
 function activate($email, $email_code) {
-	$email 		= mysql_real_escape_string($email);
-	$email_code = mysql_real_escape_string($email_code);
+	$email 		= sanitize($email);
+	$email_code = sanitize($email_code);
 	
 	if (mysql_result(mysql_query("SELECT COUNT(`user_id`) FROM `users` WHERE `email` = '$email' AND `email_code` = '$email_code' AND `active` = 2"), 0) == 1) {
 		mysql_query("UPDATE `users` SET `active` = 3 WHERE `email` = '$email'");
@@ -61,16 +48,67 @@ function activate($email, $email_code) {
 }
 
 function change_password($user_id, $password) {
-	$user_id = (int)$user_id;
-	$password = md5($password);
+	$user_id = sanitize($user_id);
+	$password = hash_password($password);
+	
+	save_suspicious_request('password_change');
 	
 	mysql_query("UPDATE `users` SET `password` = '$password', `password_recover` = 0 WHERE `user_id` = $user_id");
 }
 
+function hash_password($password){
+	
+	$hasher = new PasswordHash(8, false);
+	
+	if (strlen($password) > 72) { die("Password must be 72 characters or less"); }
+	
+	$hash = $hasher->HashPassword($password);
+	
+	if (strlen($hash) >= 20) {
+
+		return $hash;
+
+	} else {
+
+		die('Hash Failed');
+	}
+
+
+}
+
+function check_hash($hash, $password){
+	
+	$hasher = new PasswordHash(8, false);
+
+	// Passwords should never be longer than 72 characters to prevent DoS attacks
+	if (strlen($password) > 72) { die("Password must be 72 characters or less"); }
+
+	// Retrieve the hash that you stored earlier
+	$stored_hash = $hash;
+
+	// Check that the password is correct, returns a boolean
+	$check = $hasher->CheckPassword($password, $stored_hash);
+
+	if ($check){
+
+		return true;
+
+	}else{
+
+		return false;
+
+	}
+	
+	
+}
+
 function register_user($register_data) {
 	array_walk($register_data, 'array_sanitize');
-	$register_data['password'] = md5($register_data['password']);
 	
+	save_suspicious_request('registration');
+	
+	$register_data['password'] = hash_password($register_data['password']);
+		
 	$fields = '`' . implode('`, `', array_keys($register_data)) . '`';
 	$data = '\'' . implode('\', \'', $register_data) . '\'';
 	
@@ -80,7 +118,8 @@ function register_user($register_data) {
 
 function register_user_with_email($register_data) {
 	array_walk($register_data, 'array_sanitize');
-	$register_data['password'] = md5($register_data['password']);
+	
+	$register_data['password'] = hash_password($register_data['password']);
 	
 	$fields = '`' . implode('`, `', array_keys($register_data)) . '`';
 	$data = '\'' . implode('\', \'', $register_data) . '\'';
@@ -90,7 +129,6 @@ function register_user_with_email($register_data) {
 }
 
 function register_email_only($email, $user_id) {
-	
 	$user_id = sanitize($user_id);
 	$email = sanitize($email);
 	
@@ -102,17 +140,13 @@ function register_email_only($email, $user_id) {
 	
 }
 
-
-function user_count() {
-	return mysql_result(mysql_query("SELECT COUNT(`user_id`) FROM `users` WHERE `active` = 1"), 0);
-}
-
 function user_data($user_id) {
 	$data = array();
 	$user_id = (int)$user_id;
 	
 	$func_num_args = func_num_args();
 	$func_get_args = func_get_args();
+	array_walk($func_get_args, 'array_sanitize');
 	
 	if ($func_num_args > 1) {
 		unset($func_get_args[0]);
@@ -158,19 +192,36 @@ function user_id_from_username($username) {
 	return mysql_result(mysql_query("SELECT `user_id` FROM `users` WHERE `username` = '$username'"), 0, 'user_id');
 }
 
+function user_id_from_post_id($post_id) {
+	$post_id = sanitize($post_id);
+	return mysql_result(mysql_query("SELECT `user_id` FROM `posts` WHERE `id` = '$post_id'"), 0, 'user_id');
+}
+
+function username_from_user_id($user_id) {
+	$user_id = sanitize($user_id);
+	return mysql_result(mysql_query("SELECT `username` FROM `users` WHERE `id` = '$user_id'"), 0, 'username');
+}
+
 function user_id_from_email($email) {
 	$email = sanitize($email);
 	return mysql_result(mysql_query("SELECT `user_id` FROM `users` WHERE `email` = '$email'"), 0, 'user_id');
 }
 
-function login($username, $password) {
+function login($username, $password) {	
 	$user_id = user_id_from_username($username);
-	
-	$username = sanitize($username);
-	$password = md5($password);	
-	
-	return (mysql_result(mysql_query("SELECT COUNT(`user_id`) FROM `users` WHERE `username` = '$username' AND `password` = '$password'"), 0) == 1) ? $user_id : false;
-	
+		
+	save_suspicious_request('login');
+			
+	$userhash = mysql_result(mysql_query("SELECT `password` FROM `users` WHERE `user_id` = '$user_id'"), 0, 'password');	
+				
+	if(check_hash($userhash, $password)){
+		
+		return $user_id;
+		
+	}else{
+		
+		return false;
+	}
 	
 }
 

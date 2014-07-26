@@ -1,13 +1,16 @@
 <?php ob_start(); session_start();
 
-$whitelist = array(
+$locallist = array(
     '127.0.0.1',
     '::1'
 );
 
-if(!in_array($_SERVER['REMOTE_ADDR'], $whitelist)){
+if(!in_array($_SERVER['REMOTE_ADDR'], $locallist)){
+	
     $session_local = false;
+	
 }else{
+	
     $session_local = true;
 	
 	
@@ -15,10 +18,14 @@ if(!in_array($_SERVER['REMOTE_ADDR'], $whitelist)){
 
 if(!$session_local){
 	
-	error_reporting(0);
+	//error_reporting(0);
+	require_once('recaptchalib.php');
+	
 }	
 
 date_default_timezone_set('America/New_York');
+
+require("PasswordHash.php");
 
 require 'database/connect.php';
 require 'functions/general.php';
@@ -26,7 +33,10 @@ require 'functions/users.php';
 require 'functions/posts.php';
 require 'functions/messages.php';
 require 'functions/communities.php';
+require 'functions/points.php';
 
+terminator();
+ddos();
 
 $current_file = explode('/', $_SERVER['SCRIPT_NAME']);
 $current_file = end($current_file);
