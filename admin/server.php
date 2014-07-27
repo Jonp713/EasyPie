@@ -11,7 +11,8 @@ include 'includes/overall/header.php';
 
 include('includes/terminator.php');
 include('includes/displayrequests.php');
-	
+
+clear_old_requests();
 	
 	
 ?>

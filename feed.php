@@ -7,6 +7,7 @@ include 'includes/overall/header.php';
 <?php
 
 include 'includes/currentsubscriptions.php';
+include 'includes/submitpost.php';
 include 'includes/displayfeed.php';
 
 ?>

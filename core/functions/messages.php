@@ -7,12 +7,12 @@ function get_user_messages($user_id, $status, $type){
 	
 	if($type == 0){
 	
-		$result = mysql_query("SELECT * FROM messages WHERE recieve_id = '$user_id' AND status = 0 ORDER BY ID DESC");
+		$result = mysql_query("SELECT * FROM messages WHERE recieve_id = '$user_id' AND status = 0 AND expired = 0 ORDER BY ID DESC");
 	
 	}
 	if($type == 1){
 		
-		$result = mysql_query("SELECT * FROM messages WHERE send_id = '$user_id' AND status = 0 ORDER BY ID DESC");
+		$result = mysql_query("SELECT * FROM messages WHERE send_id = '$user_id' AND status = 0 AND expired = 0 ORDER BY ID DESC");
 		
 	}
 	
@@ -40,7 +40,11 @@ function reply_message($user_id, $message_id, $message){
 	
 	$success = mysql_query("INSERT INTO messages (recieve_id, send_id, message, prev_message, second, post_id, from_post) VALUES ('$reciever', '$user_id', '$message', '$prev_message', '$second', '$post_id', 0)") or die(mysql_error());
 	
-	mysql_query("UPDATE `messages` SET `status` = 2 WHERE `id` = '$message_id'");		
+	mysql_query("UPDATE `messages` SET `status` = 2 WHERE `id` = '$message_id'");	
+	
+	$theid = mysql_fetch_assoc(mysql_query("SELECT LAST_INSERT_ID() AS id FROM messages WHERE recieve_id = '$reciever'"));
+		
+	create_notification($reciever, 'reply_message', 'You have a new message!', $theid['id']);
 	
 	return $success;
 	

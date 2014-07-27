@@ -14,7 +14,12 @@ function ddos(){
 		$_SESSION['ddos'] = $_SESSION['ddos'] + 1;
 		$_SESSION['lasturl'] = $_SERVER['REQUEST_URI'];
 		
-		//sleep($_SESSION['ddos']);
+		
+		if($_SESSION['ddos'] > 10){
+				
+			sleep(($_SESSION['ddos'] - 10)/2);
+		
+		}
 	
 	}else{
 	
@@ -83,17 +88,6 @@ function get_blacklist(){
 	
 }
 
-function add_to_blacklist($ip){
-	
-	mysql_query("INSERT INTO `blacklist` (ip) VALUES ('$ip')");
-	
-}
-
-function ok_request($id){
-	
-	$success = mysql_query("UPDATE `suspicious_requests` SET `count` = 0 WHERE `id` = '$id'");
-	
-}
 
 function get_request_count($ip, $type){
 	$type = sanitize($type);
@@ -118,6 +112,85 @@ function check_new_request($ip, $type){
 		
 		return false;
 	}
+	
+}
+
+function clear_old_requests(){
+	$results = mysql_query("SELECT * FROM `suspicious_requests`");
+    
+	while($number = mysql_fetch_assoc($results)) { 
+		
+		if(time() > ($number['second'] + 86400)){
+				
+			$all_ids[] = $number['id'];		
+		
+		}
+   	}
+	
+	if(!isset($all_ids)){
+		
+		return false;
+	}
+	
+	$all_ids = "'" . implode("','",$all_ids) . "'";
+			
+	$result_communities = mysql_query("DELETE FROM `suspicious_requests`WHERE id IN ($all_ids)");
+	
+	return true;
+	
+}
+
+function clear_old_posts($community){
+	$community = sanitize($community);
+	
+	$results = mysql_query("SELECT * FROM `posts` WHERE status = 2 AND site = '$community'");
+    
+	while($number = mysql_fetch_assoc($results)) { 
+		
+		if(time() > ($number['second'] + 86400)){
+		
+			$all_ids[] = $number['id'];		
+		
+		}
+   	}
+	
+	if(!isset($all_ids)){
+		
+		return false;
+	}
+	
+	$all_ids = "'" . implode("','",$all_ids) . "'";
+			
+	$result_communities = mysql_query("UPDATE `posts` SET expired = 1 WHERE id IN ($all_ids)");
+	
+	return true;
+	
+}
+
+function clear_old_messages($user_id){
+	$user_id = sanitize($user_id);
+	
+	$results = mysql_query("SELECT * FROM `messages` WHERE status = 0 AND recieve_id = '$user_id'");
+    
+	while($number = mysql_fetch_assoc($results)) { 
+		
+		if(time() > ($number['second'] + 8640)){
+
+			$all_ids[] = $number['id'];		
+		
+		}
+   	}
+	
+	if(!isset($all_ids)){
+		
+		return false;
+	}
+	
+	$all_ids = "'" . implode("','",$all_ids) . "'";
+			
+	$result_communities = mysql_query("UPDATE `messages` SET expired = 1 WHERE id IN ($all_ids)");
+	
+	return true;
 	
 }
 

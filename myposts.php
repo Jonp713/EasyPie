@@ -11,7 +11,7 @@ include 'includes/displaymessages.php';
 include 'includes/displaymessagessent.php';	
 include 'includes/displaypoints.php';	
 
-	
+clear_old_messages($session_user_id);
 	
 ?>
 

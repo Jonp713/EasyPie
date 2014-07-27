@@ -11,7 +11,7 @@ if (empty($_POST) === false) {
 		}
 	}
 
-	if (check_hash( $user_data['password'], $_POST['current_password'])){
+	if (check_hash($user_data['password'], $_POST['current_password'])){
 		if (trim($_POST['password']) !== trim($_POST['password_again'])) {
 			$errors[] = 'Your new passwords do not match';
 		} else if (strlen($_POST['password']) < 6) {
@@ -34,7 +34,7 @@ if (isset($_GET['success']) === true && empty($_GET['success']) === true) {
 	
 	if (isset($_GET['force']) === true && empty($_GET['force']) === true) {
 	?>
-		<p>You must change your password now that you've requested.</p>
+		<p>You must change your password.</p>
 	<?php
 	}
 	

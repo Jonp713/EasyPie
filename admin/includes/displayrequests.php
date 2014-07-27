@@ -26,7 +26,8 @@ foreach ($requestlist as $currentrequest){
 		
 	echo('Type: '.$currentrequest['type'].'<br>');
 	
-	echo('<span onclick="blacklist(\''.$currentrequest['ip'].'\')">Blacklist</span><br><br>');
+	echo('<span onclick="blacklist(\''.$currentrequest['ip'].'\')">Blacklist</span><br>');
+	echo('<span onclick="ok_requests(\''.$currentrequest['id'].'\')">Ok Request</span><br><br>');
 	
 }
 

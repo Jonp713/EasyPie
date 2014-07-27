@@ -84,3 +84,12 @@ function remove_blacklist(ip){
 				    
     }); 
 }
+
+function ok_requests(id){
+			
+    $.post("../admin/core/functions/ajax.php",{function: "ok_requests", id: id}, function(data){
+				
+		alert(data); 
+				    
+    }); 
+}

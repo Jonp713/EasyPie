@@ -49,6 +49,7 @@ function activate($email, $email_code) {
 
 function change_password($user_id, $password) {
 	$user_id = sanitize($user_id);
+	$password = sanitize($password);
 	$password = hash_password($password);
 	
 	save_suspicious_request('password_change');
@@ -217,6 +218,7 @@ function login($username, $password) {
 	if(check_hash($userhash, $password)){
 		
 		return $user_id;
+		
 		
 	}else{
 		

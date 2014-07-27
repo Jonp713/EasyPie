@@ -114,6 +114,18 @@ if($function == 'remove_blacklist' && isset($_POST['ip']) && isset($session_admi
 }
 
 
+if($function == 'ok_requests' && isset($_POST['id']) && isset($session_admin_id)){
+	
+	$success = ok_requests($_POST['id'], $session_admin_id);
+		
+	if($success){
+		
+		echo('Requests Okay\'d');
+	}	
+	
+	
+}
+
 
 
 ?>

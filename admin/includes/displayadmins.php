@@ -56,8 +56,8 @@
 		
 		echo('<a href = "approved.php?codename=' . $currentadmin['codename'] . '">Approved</a><br>');
 		echo('<a href = "denied.php?codename=' . $currentadmin['codename'] . '">Denied</a><br>');
-		echo('<a href = "adminposts.php?codename=' . $currentadmin['codename'] . '">Admin Posts</a><br><br>');
-		//echo('<a href = "points.php?codename=' . $currentadmin['codename'] . '">Points</a><br><br>');
+		echo('<a href = "adminposts.php?codename=' . $currentadmin['codename'] . '">Admin Posts</a><br>');
+		echo('<a href = "flagged.php?codename=' . $currentadmin['codename'] . '">Flagged Posts('.count_flags(admin_id_from_codename($currentadmin['codename'])).')</a><br><br>');
 	
 		
 	}

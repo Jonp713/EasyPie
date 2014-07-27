@@ -3,6 +3,7 @@ include 'core/init.php';
 
 active_protect($_GET['c']);
 has_hole($_GET['c']);
+clear_old_posts($_GET['c']);
 
 $hole = array();
 $hole['posts'] = array();

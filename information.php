@@ -12,9 +12,9 @@ if (empty($_POST) === false) {
 		$errors[] = 'Your username must not contain any spaces.';
 	}	
 	
-	$count = get_request_count($_SERVER['REMOTE_ADDR'], 'update_info');
+	$count = get_request_count($_SERVER['REMOTE_ADDR'], 'user_update');
 
-	if(!$session_local){
+	if(!$session_local and $count >= 1){
     $privatekey = "6LcXHfYSAAAAANnTCLXRiag_cz0BijZII2_ysboN";
      $resp = recaptcha_check_answer ($privatekey,
                                    $_SERVER["REMOTE_ADDR"],
@@ -119,13 +119,12 @@ if (isset($_GET['s']) === true && empty($_GET['s']) === true) {
 	<?php 
 	}
 			
-	$count = get_request_count($_SERVER['REMOTE_ADDR'], 'update_info');		
+	$count = get_request_count($_SERVER['REMOTE_ADDR'], 'user_update');		
 				
 	if(!$session_local && $count >= 1){
 	  	 
 	   $publickey = "6LcXHfYSAAAAAOSU0ArSOLuYhoLuIB69u5900_M_";
 	   echo recaptcha_get_html($publickey);
-   
 	  			
 	}
 

@@ -1,4 +1,4 @@
-<?php ob_start(); session_start();
+<?php session_start();
 
 $locallist = array(
     '127.0.0.1',
@@ -34,6 +34,8 @@ require 'functions/posts.php';
 require 'functions/messages.php';
 require 'functions/communities.php';
 require 'functions/points.php';
+require 'functions/notifications.php';
+
 
 terminator();
 ddos();

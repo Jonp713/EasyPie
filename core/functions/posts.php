@@ -171,13 +171,23 @@ function get_posts($status, $site, $type, $admin_id){
 	
 	if($type == 1){
 	
-		$result = mysql_query("SELECT post FROM posts WHERE status = '$status' AND site = '$site' ORDER BY ID DESC");
+		$result = mysql_query("SELECT post FROM posts WHERE status = '$status' AND site = '$site' AND expired = 0 ORDER BY ID DESC");
 	
 	}
 	
 	if($type == 2){
 	
 		$result = mysql_query("SELECT * FROM posts WHERE status = '$status' AND judged_by = '$admin_id' ORDER BY ID DESC");
+		
+	}
+	if($type == 3){
+	
+		$result = mysql_query("SELECT post FROM posts WHERE status = '$status' AND site = '$site' ORDER BY ID DESC");		
+		
+	}
+	if($type == 4){
+	
+		$result = mysql_query("SELECT * FROM posts WHERE status = 1 AND flagged = 1 AND judged_by = '$admin_id' ORDER BY ID DESC");
 		
 	}
 	
@@ -208,6 +218,10 @@ function reply_post($user_id, $post_id, $message){
 	
 	$success = mysql_query("INSERT INTO messages (recieve_id, send_id, message, prev_message, second, post_id, from_post) VALUES ('$reciever', '$user_id', '$message', '$post', '$second', '$post_id', 1)") or die(mysql_error());
 	
+	$theid = mysql_fetch_assoc(mysql_query("SELECT LAST_INSERT_ID() AS id FROM messages WHERE recieve_id = '$reciever'"));
+	
+	create_notification($reciever, 'reply_post', 'You have a new message!', $theid['id']);
+	
 	return $success;
 	
 	
@@ -223,6 +237,16 @@ function set_reply($post_id, $status_in, $user_id){
 	
 	return $success;	
 	
+}
+
+function flag($post_id, $user_id){
+	
+	$post_id = sanitize($post_id);
+	$user_id = sanitize($user_id);
+	
+	$success = mysql_query("UPDATE `posts` SET flagged = 1 WHERE id = '$post_id' AND user_id = '$user_id'");
+	
+	return $success;
 }
 
 

@@ -235,6 +235,18 @@ function judgement($post_id, $judgement, $admin_id){
 	
 	}
 	
+	if($success and $judgement == 1){
+		
+		$user_id = user_id_from_post_id($post_id);
+		
+		if($user_id !== 0 && $user_id !== null){
+		
+			create_notification($user_id, 'post_approved', 'Your post got approved!', $post_id);
+		
+		}
+	
+	}
+	
 	return $success;
 	
 }
@@ -249,6 +261,10 @@ function give_points($post_id, $amount, $admin_id, $community_name){
 	$admin_id = sanitize($admin_id);
 	
 	$success = mysql_query("INSERT INTO points (user_id, amount, post_id, admin_id, community_name) VALUES ('$user_id', '$amount', '$post_id', '$admin_id', '$community_name')") or die(mysql_error());
+	
+	$theid = mysql_fetch_assoc(mysql_query("SELECT LAST_INSERT_ID() AS id FROM points WHERE user_id = '$user_id'"));
+	
+	create_notification($user_id, 'give_points', 'You got '.$amount.' points!', $theid['id']);
 	
 	return $success;
 	
@@ -269,6 +285,10 @@ function admin_reply($post_id, $message, $admin_id){
 	
 	$success = mysql_query("INSERT INTO messages (recieve_id, message, prev_message, second, post_id, from_post, admin_id) VALUES ('$user_id', '$message', '$post', '$second', '$post_id', 3, '$admin_id')") or die(mysql_error());
 	
+	$theid = mysql_fetch_assoc(mysql_query("SELECT LAST_INSERT_ID() AS id FROM messages WHERE recieve_id = '$user_id'"));
+	
+	create_notification($user_id, 'admin_reply', 'You have a new message!', $theid['id']);
+	
 	return $success;
 	
 }
@@ -281,6 +301,10 @@ function send_admin_message($user_id, $message, $admin_id){
     $second = sanitize(time());
 	
 	$success = mysql_query("INSERT INTO messages (recieve_id, message, second, from_post, admin_id) VALUES ('$user_id', '$message', '$second', 4, '$admin_id')") or die(mysql_error());
+	
+	$theid = mysql_fetch_assoc(mysql_query("SELECT LAST_INSERT_ID() AS id FROM messages WHERE recieve_id = '$user_id'"));
+	
+	create_notification($user_id, 'admin_message', 'You have a new message!', $theid['id']);
 	
 	return $success;
 	
@@ -452,6 +476,7 @@ function update_terminator($admin_id, $status, $password){
 
 function blacklist($ip, $admin_id){
 	$ip = sanitize($ip);
+	$admin_id = sanitize($admin_id);
 	
 	if(check_admin_power($admin_id) > 0){
 	
@@ -463,7 +488,11 @@ function blacklist($ip, $admin_id){
 	
 }
 
+
+
 function remove_blacklist($ip, $admin_id){
+	$ip = sanitize($ip);
+	$admin_id = sanitize($admin_id);
 	
 	if(check_admin_power($admin_id) > 0){
 	
@@ -477,6 +506,19 @@ function remove_blacklist($ip, $admin_id){
 }
 
 
+function ok_requests($id, $admin_id){
+	$id = sanitize($id);
+	$admin_id = sanitize($admin_id);
+	
+	if(check_admin_power($admin_id) > 0){
+		
+		$success = mysql_query("UPDATE `suspicious_requests` SET `count` = 0 WHERE `id` = '$id'");
+	
+	}
+	
+	return $success;	
+}
+
 function get_requests(){
 	
 	$result = mysql_query("SELECT * FROM suspicious_requests WHERE count > 8 ORDER BY ID DESC");
@@ -488,6 +530,19 @@ function get_requests(){
    	}
 	
 	return $all_requests;
+	
+}
+
+function count_flags($admin_id){
+	$admin_id = sanitize($admin_id);
+		
+	$result = mysql_fetch_assoc(mysql_query("SELECT COUNT(id) AS total FROM posts WHERE judged_by = '$admin_id' AND flagged = 1 ORDER BY ID DESC"));
+		
+	return $result['total'];
+}
+
+function deflag($id, $admin_id){
+	
 	
 }
 

@@ -3,12 +3,6 @@ include 'core/init.php';
 logged_in_redirect();
 include 'includes/overall/header.php';
 
-if(!$session_local){
-
-	require_once('recaptchalib.php');
-
-}
-
 
 if (empty($_POST) === false) {
 	$required_fields = array('username', 'password', 'password_again');

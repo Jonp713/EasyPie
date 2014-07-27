@@ -18,6 +18,7 @@ function moderator_protect_page() {
 }
 
 
+
 function admin_protect_page() {
 	if (admin_logged_in() === false) {
 		header('Location: index.php');
@@ -32,6 +33,7 @@ function admin_protect_page() {
 		
 	}
 }
+
 
 function admin_protect_function(){
 	

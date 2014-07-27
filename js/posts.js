@@ -34,6 +34,15 @@ function set_reply(post_id, status_in){
     }); 
 }
 
+function flag(post_id){
+	
+    $.post("../rl/core/functions/ajax.php",{function: "flag", post_id: post_id},function(data){
+                
+		alert(data);
+    	
+    }); 
+}
+
 function reply_post(post_id){
 	
 	var spannumber = "#" + post_id

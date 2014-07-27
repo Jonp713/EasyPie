@@ -129,6 +129,17 @@ if($function == 'delete_message' && isset($_POST['message_id']) && isset($sessio
 	
 }
 
+if($function == 'flag' && isset($_POST['post_id']) && isset($session_user_id)){
+	
+	$success = flag($_POST['post_id'], $session_user_id);
+		
+	if($success){
+	
+		echo('Post Flagged');
+	
+	}	
+	
+}
 
 
 	

@@ -19,8 +19,8 @@
 		}else{
 			
 			echo('<span class = "save_post" onclick="save_post('.$currentpost['id'].')">Save Post</span><br>');
+			echo('<span class = "flag" onclick="flag('.$currentpost['id'].')">Flag Post</span><br>');
 			
-				
 			if($currentpost['reply_on'] == 1){
 				
 				echo('<span id = "'.$currentpost['id'].'"><input type = "text" id = "reply">&nbsp;<span onclick="reply_post('.$currentpost['id'].')">Reply</span></span><br><br>');

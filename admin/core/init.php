@@ -22,7 +22,7 @@ date_default_timezone_set('America/New_York');
 $current_file = explode('/', $_SERVER['SCRIPT_NAME']);
 $current_file = end($current_file);
 
-require 'database/connect.php';
+require('database/connect.php');
 require("PasswordHash.php");
 
 if ($current_file == 'ajax.php'){
@@ -33,6 +33,8 @@ if ($current_file == 'ajax.php'){
 	require '../../../core/functions/messages.php';
 	require '../../../core/functions/communities.php';
 	require '../../../core/functions/points.php';
+	require '../../../core/functions/notifications.php';
+	
 	
 }else{
 
@@ -42,6 +44,8 @@ if ($current_file == 'ajax.php'){
 	require '../core/functions/messages.php';
 	require '../core/functions/communities.php';
 	require '../core/functions/points.php';
+	require '../core/functions/notifications.php';
+	
 	
 
 }

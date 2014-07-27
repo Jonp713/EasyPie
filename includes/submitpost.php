@@ -10,7 +10,9 @@ if (empty($_POST) === false) {
 		}
 	}
 	
-	if(!$session_local){
+	$count = get_request_count($_SERVER['REMOTE_ADDR'], 'submit_post');		
+	
+	if(!$session_local && $count >= 5){
     $privatekey = "6LcXHfYSAAAAANnTCLXRiag_cz0BijZII2_ysboN";
      $resp = recaptcha_check_answer ($privatekey,
                                    $_SERVER["REMOTE_ADDR"],
@@ -44,12 +46,26 @@ if (empty($_POST) === false && empty($errors) === true) {
 
     $timestamp = date('g:i A \ \ D, M d, Y' , time());
 				
-	$post_data = array(
-		'post'	 		=> $_POST['post'],
-		'site'			=> $community_in,
-		'display_time'	=> $timestamp,
-		'second'		=> time()
-	);
+	if(!empty($_GET['c'])){			
+	
+		$post_data = array(
+			'post'	 		=> $_POST['post'],
+			'site'			=> $community_in,
+			'display_time'	=> $timestamp,
+			'second'		=> time()
+		);
+	
+	}else{
+		
+		$post_data = array(
+			'post'	 		=> $_POST['post'],
+			'site'			=> $_POST['community'],
+			'display_time'	=> $timestamp,
+			'second'		=> time()
+		);
+		
+		
+	}
 	
 	if(logged_in() === true){
 	
@@ -61,17 +77,21 @@ if (empty($_POST) === false && empty($errors) === true) {
 		
 		$post_data['user_id'] = $session_user_id;
 		
-	}else if(empty($_POST['email']) === false){
-		
-		$post_data['email'] = $_POST['email'];
-		$post_data['reply_on'] = 1;
-		
 	}
+	
 	$success = submit_post($post_data);
 	
 	if($success){
 		
-		header('Location: posts.php?c='.$community_in.'&s');
+		if(!empty($_GET['c'])){			
+		
+			header('Location: posts.php?c='.$community_in.'&s');
+		
+		}else{
+			
+			header('Location: feed.php?s');
+			
+		}
 		exit();
 	
 	}else{
@@ -107,19 +127,38 @@ if (empty($_POST) === false && empty($errors) === true) {
 					You must be logged in to get replies
 				</li>
 				
-			<li>
 			<?php 
 			}
 			
-			
-			$count = get_request_count($_SERVER['REMOTE_ADDR'], 'submit_post');		
+			if(empty($_GET['c'])){
+				echo('<li>Community: <select name = "community">');
 				
-			if(!$session_local && $count >= 5){
-	  	 
-			   $publickey = "6LcXHfYSAAAAAOSU0ArSOLuYhoLuIB69u5900_M_";
-			   echo recaptcha_get_html($publickey);
-   
+				$communities = get_subscriptions(0, $session_user_id, '');
+
+				foreach ($communities as $currentcommunity){
+
+					echo('<option value = "' . $currentcommunity['name'] . '">'. $currentcommunity['name']  .'</option>');
+
+				}
+				
+				echo('</select></li>');	
 			}
+			
+			?>
+			
+			<li>
+			
+			<?php
+			
+			
+				$count = get_request_count($_SERVER['REMOTE_ADDR'], 'submit_post');		
+				
+				if(!$session_local && $count >= 5){
+	  	 
+				   $publickey = "6LcXHfYSAAAAAOSU0ArSOLuYhoLuIB69u5900_M_";
+				   echo recaptcha_get_html($publickey);
+   
+				}
 
 			?>
 			</li>			
