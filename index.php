@@ -7,11 +7,11 @@ include 'includes/overall/header.php';
 
 if(logged_in() == true){
 		
-	include 'includes/displaycommunities.php';
+	include 'includes/content/displaycommunities.php';
 	
 }else{
 		
-	include 'includes/displaycommunities.php';
+	include 'includes/content/displaycommunities.php';
 	
 }
 

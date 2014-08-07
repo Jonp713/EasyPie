@@ -30,9 +30,6 @@ include 'includes/navbar.php';
 	
 <script src = 'js/jquery.js' type = 'text/javascript'></script>
 <script src = 'js/posts.js' type = 'text/javascript'></script>
-<script src = 'js/communities.js' type = 'text/javascript'></script>
-<script src = 'js/messages.js' type = 'text/javascript'></script>
-
 
 <?php 
 include 'js/theholejs.php';

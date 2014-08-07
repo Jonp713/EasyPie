@@ -1,11 +1,14 @@
-
-<form action="login.php" method="post">
+<form class="navbar-form navbar-left form" action="login.php" method="post">
 	
-	Username:
-	<input type="text" name="username">
+	<div class="form-group">
+	    <label for="username"><font color = "white">Username:</font></label>
+	    <input type = "text" name = "username" class="form-control" id="username">
+	  </div>
 
-	Password:
-	<input type="password" name="password">
+	<div class="form-group">
+	    <label for="username"><font color = "white">Password:</font></label>
+	    <input type = "password" class="form-control" name = "password" id="password">
+	</div>
 	
-	<input type="submit" value="Log in">&nbsp;	
+  <button type="submit" class="btn btn-default">Log in</button>
 </form>

@@ -13,21 +13,20 @@ check_if_head_moderator_exists($session_admin_id, $_GET['community']);
 
 $head_codename = head_admin_codename_from_community_name($_GET['community']);
 
-echo('<h1>Community: '. $_GET['community'] . '</h1><br>');
+echo('<h1>'.$_GET['community'] . ' Overview</h1><br>');
 
-include ('includes/communitydescription.php');
+include ('includes/widgets/communitydescription.php');
 
 echo('<hr><h1>Head Moderator: ' . $head_codename . '</h1>');
 
 echo('<h3>All '. $_GET['community'] .' Moderators:</h3>');
 
-include ('includes/displayadmins.php');
+include ('includes/content/displayadmins.php');
 	
-include ('includes/adminpost.php');
+include ('includes/widgets/adminpost.php');
+include("includes/content/displayadminposts.php");
 
-include ('includes/selectpic.php');
-	
-	
+include ('includes/widgets/selectpic.php');
 	
 ?>
 

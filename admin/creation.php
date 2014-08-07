@@ -9,8 +9,8 @@ include 'includes/overall/header.php';
 
 <?php
 		
-include("includes/register.php");
-include("includes/createcommunity.php");
+include("includes/widgets/register.php");
+include("includes/widgets/createcommunity.php");
 
 
 

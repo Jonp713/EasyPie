@@ -14,7 +14,9 @@ if(!in_array($_SERVER['REMOTE_ADDR'], $locallist)){
 
 if(!$session_local){
 	
-	error_reporting(0);
+	//error_reporting(0);
+	require_once('recaptchalib.php');
+	
 }	
 
 date_default_timezone_set('America/New_York');
@@ -51,6 +53,10 @@ if ($current_file == 'ajax.php'){
 }
 require 'functions/general.php';
 require 'functions/admin.php';
+require 'functions/communities.php';
+require 'functions/messages.php';
+require 'functions/posts.php';
+require 'functions/points.php';
 
 
 //user initialization

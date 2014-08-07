@@ -9,13 +9,11 @@ include 'includes/overall/header.php';
 
 <?php
 
-echo('<h1>Community: '. $_GET['community'] . ' Stats</h1><br>');
+echo('<h1>'. $_GET['community'] . ' Stats</h1><br>');
 
 $count = community_sub_count($_GET['community']);
 
 echo("<h2>Subscription Count: ". $count . "</h2><br>");	
-	
-	
 	
 ?>
 

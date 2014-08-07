@@ -6,9 +6,11 @@ include 'includes/overall/header.php';
 
 ?>
 
+<h1>Admins</h1>
+
 <?php
 		
-include("includes/displayadmins.php")
+include("includes/content/displayadmins.php")
 
 
 ?>

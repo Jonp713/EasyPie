@@ -13,8 +13,8 @@ if(isset($_GET['codename']) && check_admin_power($session_admin_id) > 0){
 	
 }
 	
-include('includes/admindata.php');
-include('includes/selectpic.php');
+include('includes/widgets/admindata.php');
+include('includes/widgets/selectpic.php');
 
 
 

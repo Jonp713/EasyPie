@@ -25,6 +25,9 @@ if($function == 'admin_reply' && isset($_POST['post_id']) && isset($_POST['messa
 	
 		echo("Reply Sent");
 	
+	}else{
+		
+		echo($success);
 	}	
 	
 }
@@ -37,7 +40,10 @@ if($function == 'give_points' && isset($_POST['post_id']) && isset($_POST['amoun
 	
 		echo("Points Dished");
 	
-	}	
+	}else{
+		
+		echo($success);
+	}
 	
 }
 
@@ -122,7 +128,6 @@ if($function == 'ok_requests' && isset($_POST['id']) && isset($session_admin_id)
 		
 		echo('Requests Okay\'d');
 	}	
-	
 	
 }
 

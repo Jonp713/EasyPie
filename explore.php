@@ -5,7 +5,7 @@ include 'includes/overall/header.php';
 
 <?php
 
-include 'includes/displaycommunities.php';
+include 'includes/content/displaycommunities.php';
 
 ?>
 

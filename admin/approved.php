@@ -30,7 +30,7 @@ if(empty($_GET) === true){
 
 }
 	
-include("includes/approved.php")
+include("includes/content/approved.php");
 
 
 

@@ -16,13 +16,13 @@ $count = community_sub_count($admin_data['community']);
 
 echo("<h2>Subscription Count: ". $count . "</h2><br>");	
 	
-include ('includes/communitydescription.php');	
+include ('includes/widgets/communitydescription.php');	
 	
 ?>
 
 <?php
 	
-	include 'includes/overall/footer.php'; 
-	
-	?>
+include 'includes/overall/footer.php'; 
+
+?>
 

@@ -27,7 +27,7 @@ if(empty($_GET) === true){
 echo('<h2>High Scores</h2><br>');
 
 
-include ('includes/displaypoints.php');
+include ('includes/content/displaypoints.php');
 
 	
 	

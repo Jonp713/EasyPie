@@ -31,7 +31,7 @@ if(empty($_GET) === true){
 }
 
 
-include("includes/denied.php")
+include("includes/content/denied.php")
 
 
 

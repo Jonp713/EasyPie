@@ -9,7 +9,7 @@ include 'includes/overall/header.php';
 
 <?php
 
-include('includes/moderatorpics.php');
+include('includes/widgets/moderatorpics.php');
 	
 	
 ?>

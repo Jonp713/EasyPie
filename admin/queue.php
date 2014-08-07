@@ -20,7 +20,7 @@ if(isset($_GET['community']) && check_admin_power($session_admin_id) > 0){
 
 }
 	
-include("includes/pending.php")
+include("includes/content/pending.php")
 
 
 

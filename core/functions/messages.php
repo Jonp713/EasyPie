@@ -71,4 +71,32 @@ function delete_message($message_id, $user_id, $type){
 
 }
 
+function clear_old_messages($user_id){
+	$user_id = sanitize($user_id);
+	
+	$results = mysql_query("SELECT * FROM `messages` WHERE status = 0 AND recieve_id = '$user_id'");
+    
+	while($number = mysql_fetch_assoc($results)) { 
+		
+		if(time() > ($number['second'] + 8640)){
+
+			$all_ids[] = $number['id'];		
+		
+		}
+   	}
+	
+	if(!isset($all_ids)){
+		
+		return false;
+	}
+	
+	$all_ids = "'" . implode("','",$all_ids) . "'";
+			
+	$result_communities = mysql_query("UPDATE `messages` SET expired = 1 WHERE id IN ($all_ids)");
+	
+	return true;
+	
+}
+
+
 ?>

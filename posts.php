@@ -12,10 +12,10 @@ include 'includes/overall/header.php';
 
 
 include 'includes/widgets/subscribe.php';
-include 'includes/communityinfo.php';
-include 'includes/adminposts.php';
-include 'includes/submitpost.php';
-include 'includes/displayposts.php';
+include 'includes/content/communityinfo.php';
+include 'includes/content/adminposts.php';
+include 'includes/widgets/submitpost.php';
+include 'includes/content/displayposts.php';
 
 
 ?>

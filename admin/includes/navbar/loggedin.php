@@ -1,16 +1,15 @@
-Hello, <?php echo $admin_data['initials']; ?>&nbsp;
+<li><a><span class = "hello_user">Hello, <?php echo $admin_data['initials']; ?></span></a></li>
 
 <?php
 
 if(check_admin_power($session_admin_id) == 1){
 
 ?>
-
-<a href="communities.php">Communities</a>&nbsp;
-<a href="admins.php">Admins</a>&nbsp;
-<a href="creation.php">Creation</a>&nbsp;
-<a href="server.php">Server</a>&nbsp;
-<a href="pics.php">Pics</a>&nbsp;
+<li><a href="communities.php">Communities</a></li>
+<li><a href="admins.php">Admins</a></li>
+<li><a href="creation.php">Creation</a></li>
+<li><a href="server.php">Server</a></li>
+<li><a href="pics.php">Pics</a></li>
 
 
 <?php
@@ -19,12 +18,13 @@ if(check_admin_power($session_admin_id) == 1){
 
 	
 ?>
-<a href="queue.php">Queue</a>&nbsp;
-<a href="denied.php">Denied Posts</a>&nbsp;
-<a href="approved.php">Approved Posts</a>&nbsp;
-<a href="community.php">Community</a>&nbsp;
-<a href="me.php">Me</a>&nbsp;
-<a href="points.php">High Scores</a>&nbsp;
+
+<li><a href="queue.php">Queue</a></li>
+<li><a href="denied.php">Denied Posts</a></li>
+<li><a href="approved.php">Approved Posts</a></li>
+<li><a href="community.php">Community</a></li>
+<li><a href="me.php">Me</a></li>
+<li><a href="points.php">High Scores</a></li>
 
 <?php
 
@@ -32,5 +32,5 @@ if(check_admin_power($session_admin_id) == 1){
 }
 ?>
 
-<a href="logout.php">Log out</a>
+<li><a href="logout.php">Log out</a></li>
 

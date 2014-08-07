@@ -1,4 +1,4 @@
-<?php session_start();
+<?php ob_start(); session_start();
 
 $locallist = array(
     '127.0.0.1',

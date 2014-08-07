@@ -5,7 +5,7 @@ include 'includes/overall/header.php';?>
 
 <?php
 
-include 'includes/displaynotifications.php';
+include 'includes/content/displaynotifications.php';
 	
 ?>
 

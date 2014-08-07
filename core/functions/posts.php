@@ -249,5 +249,214 @@ function flag($post_id, $user_id){
 	return $success;
 }
 
+function clear_old_posts($community){
+	$community = sanitize($community);
+	
+	$results = mysql_query("SELECT * FROM `posts` WHERE status = 2 AND site = '$community'");
+    
+	while($number = mysql_fetch_assoc($results)) { 
+		
+		if(time() > ($number['second'] + 86400)){
+		
+			$all_ids[] = $number['id'];		
+		
+		}
+   	}
+	
+	if(!isset($all_ids)){
+		
+		return false;
+	}
+	
+	$all_ids = "'" . implode("','",$all_ids) . "'";
+			
+	$result_communities = mysql_query("UPDATE `posts` SET expired = 1 WHERE id IN ($all_ids)");
+	
+	return true;
+	
+}
+
+
+function display_post($post_id){
+	$update = array();
+	
+	$num_args = func_num_args();
+	$fields = func_get_args();
+	array_walk($fields, 'array_sanitize');
+	
+	if ($num_args > 1) {
+		unset($fields[0]);
+	}
+	
+	$data = mysql_fetch_assoc(mysql_query("SELECT * FROM posts WHERE id = '$post_id'"));
+	
+	echo('<span class = "row" id = "post'.$post_id.'">');
+	echo('<span class = "well well-sm col-xs-10 col-sm-6" col-md-6>');
+	
+	
+	if(in_array('post', $fields)){
+	
+		echo($data['post'] . '<br>');
+	
+	}
+	if(in_array('display_time', $fields)){
+	
+	
+		echo($data['display_time'] . '<br>');
+	
+	}
+	
+	if(in_array('site', $fields)){
+		
+		echo($data['site'] . '<br>');
+		
+	}
+	
+	if(in_array('saved_count', $fields)){
+	
+		$savedcount = count_saved($data['id'], 1);
+	
+		echo("Times Saved: " . $savedcount . "<br>");
+	
+	}
+	
+	if(isset($data['user_id'])){
+		
+		if(in_array('username', $fields)){
+
+			$current_post_user_data = user_data($data['user_id'], 'username');
+	
+			echo("Submitted by:<i> " . $current_post_user_data['username'] . "</i><br>");
+		
+		}
+	
+		if($data['reply_on'] == 1){
+			
+			if(in_array('direct_replies', $fields)){
+			
+				$directreplies = count_replies($data['id'], 0);
+				
+				echo("Direct Replies: " . $directreplies . "<br>");
+			
+			}
+			
+			if(in_array('sustained_replies', $fields)){
+			
+				$sustainedreplies = count_replies($data['id'], 1);
+			
+				echo("Sustained Replies: " . $sustainedreplies . "<br>");
+			
+			}
+			
+		}
+		
+		if(in_array('admin_reply', $fields)){
+	
+			echo('<span class = "'.$data['id'].'reply"><input type = "text" class = "reply">&nbsp;<span onclick="admin_reply('.$data['id'].', 1)"><span class="btn btn-default btn-xs"><span class="glyphicon glyphicon-share-alt"></span> Admin Reply</span></span><br></span>');
+		
+		}
+		
+		if(in_array('points_awarded', $fields)){
+			
+			$points = get_points(2, $data['id'], null);
+			
+			if(isset($points['amount'])){
+			
+				echo('Points Awarded: '. $points['amount'] . '<br>');
+
+			}
+	
+		}
+		
+		if(in_array('give_points', $fields)){
+		
+		echo('<span class = "'.$data['id'].'points"><input type = "text" class = "points">&nbsp;<span onclick="give_points('.$data['id'].',\''.$data['site'].'\')"><span class="btn btn-default btn-xs"><span class="glyphicon glyphicon-certificate"></span> Dish Points</span></span><br></span>');
+		
+		}
+	
+	
+	}
+	
+	if(in_array('approve', $fields)){
+	
+		echo('<span class = "'.$data['id'].'approve"><span onclick="judgement('.$data['id'].', 1)"><span class="btn btn-default btn-xs"><span class="glyphicon glyphicon-thumbs-up"></span> Approve</span></span><br></span>');
+	
+	}
+	if(in_array('deny', $fields)){
+	
+		echo('<span class = "'.$data['id'].'deny"><span onclick="judgement('.$data['id'].', 2)"><span class="btn btn-default btn-xs"><span class="glyphicon glyphicon-thumbs-down"></span> Deny</span></span><br></span>');
+	
+	}
+	if(in_array('delete', $fields)){
+	
+		echo('<span class = "'.$data['id'].'delete"><span onclick="judgement('.$data['id'].', 3)"><span class="btn btn-default btn-xs"><span class="glyphicon glyphicon-remove-sign"></span> Delete</span></span><br></span>');
+		
+	}
+	
+	
+	if(in_array('save_post', $fields) || in_array('reply_post', $fields)){
+	
+	
+		if(logged_in() == false){
+		
+			echo("If you want to reply or save a post, you need to log in<br>");
+
+		}else{
+		
+			if(in_array('save_post', $fields)){
+		
+				echo('<span class = "save_post" onclick="save_post('.$data['id'].')">Save Post<br></span>');
+				
+			}
+		
+			if(in_array('reply', $fields) && $data['reply_on'] == 1){
+			
+				echo('<span id = "'.$data['id'].'"><input type = "text" id = "reply">&nbsp;<span onclick="reply_post('.$data['id'].')">Reply</span><br></span>');
+			
+	
+			}
+		}
+	
+
+	}
+
+	if(in_array('flag', $fields)){
+
+		echo('<span class = "flag" onclick="flag('.$data['id'].')">Flag Post</span><br>');
+	
+	}
+	
+	if(in_array('unsave_post', $fields)){
+	
+		echo('<span class = "unsave_post" onclick="unsave_post('.$data['id'].')">Unsave Post<br></span>');
+		
+	}
+	
+	if(in_array('reply_toggle', $fields)){
+		
+		if($data['reply_on'] == 1){
+	
+			echo('<span onclick="set_reply('.$data['id'].', 0)">Remove Reply<br></span>');
+	
+		}
+		if($data['reply_on'] == 0){
+	
+			echo('<span onclick="set_reply('.$data['id'].', 1)">Add Reply<br></span>');
+	
+		}
+		
+	}
+	
+	if(in_array('delete_post-user', $fields)){
+	
+		echo('<span onclick="delete_post('.$data['id'].')">Delete Post<br></span>');
+		
+	}
+	
+	echo('</span>');
+	echo('</span>');
+	
+	
+}
 
 ?>

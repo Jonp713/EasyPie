@@ -57,51 +57,6 @@ function change_password($user_id, $password) {
 	mysql_query("UPDATE `users` SET `password` = '$password', `password_recover` = 0 WHERE `user_id` = $user_id");
 }
 
-function hash_password($password){
-	
-	$hasher = new PasswordHash(8, false);
-	
-	if (strlen($password) > 72) { die("Password must be 72 characters or less"); }
-	
-	$hash = $hasher->HashPassword($password);
-	
-	if (strlen($hash) >= 20) {
-
-		return $hash;
-
-	} else {
-
-		die('Hash Failed');
-	}
-
-
-}
-
-function check_hash($hash, $password){
-	
-	$hasher = new PasswordHash(8, false);
-
-	// Passwords should never be longer than 72 characters to prevent DoS attacks
-	if (strlen($password) > 72) { die("Password must be 72 characters or less"); }
-
-	// Retrieve the hash that you stored earlier
-	$stored_hash = $hash;
-
-	// Check that the password is correct, returns a boolean
-	$check = $hasher->CheckPassword($password, $stored_hash);
-
-	if ($check){
-
-		return true;
-
-	}else{
-
-		return false;
-
-	}
-	
-	
-}
 
 function register_user($register_data) {
 	array_walk($register_data, 'array_sanitize');
@@ -137,7 +92,7 @@ function register_email_only($email, $user_id) {
 	
 	mysql_query("UPDATE `users` SET `email` = '$email', `active` = 2  WHERE `user_id` = '$user_id'");
 	
-	email($email, 'Activate your account', "Hello " . $emailer_data['username'] . ",\n\nTo confirm your email, use the link below:\n\nhttp://phishi.com/rl/activate.php?email=" . $email . "&email_code=" . $emailer_data['email_code'] . "\n\n");
+	email($email, 'Confirm Your Email', "Hello " . $emailer_data['username'] . ",\n\nTo confirm your email, use the link below:\n\nhttp://phishi.com/rl/activate.php?email=" . $email . "&email_code=" . $emailer_data['email_code'] . "\n\n");
 	
 }
 
@@ -224,6 +179,14 @@ function login($username, $password) {
 		
 		return false;
 	}
+	
+}
+
+function logout(){
+	
+	session_start();
+	session_destroy();
+	header('Location: index.php');
 	
 }
 

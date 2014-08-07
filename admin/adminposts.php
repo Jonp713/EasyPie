@@ -8,7 +8,7 @@ include 'includes/overall/header.php';
 
 <?php
 		
-include("includes/adminpost.php")
+include("includes/content/displayadminposts.php");
 
 
 ?>

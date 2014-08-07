@@ -9,8 +9,8 @@ include 'includes/overall/header.php';
 
 <?php
 
-include('includes/terminator.php');
-include('includes/displayrequests.php');
+include('includes/widgets/terminator.php');
+include('includes/content/displayrequests.php');
 
 clear_old_requests();
 	

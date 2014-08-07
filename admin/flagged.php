@@ -15,7 +15,7 @@ if(isset($_GET['codename']) && check_admin_power($session_admin_id) > 0){
 
 }
 
-include("includes/flagged.php")
+include("includes/content/flagged.php")
 
 
 

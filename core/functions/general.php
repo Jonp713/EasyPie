@@ -120,7 +120,7 @@ function clear_old_requests(){
     
 	while($number = mysql_fetch_assoc($results)) { 
 		
-		if(time() > ($number['second'] + 86400)){
+		if(time() > ($number['second'] + 25920)){
 				
 			$all_ids[] = $number['id'];		
 		
@@ -140,59 +140,6 @@ function clear_old_requests(){
 	
 }
 
-function clear_old_posts($community){
-	$community = sanitize($community);
-	
-	$results = mysql_query("SELECT * FROM `posts` WHERE status = 2 AND site = '$community'");
-    
-	while($number = mysql_fetch_assoc($results)) { 
-		
-		if(time() > ($number['second'] + 86400)){
-		
-			$all_ids[] = $number['id'];		
-		
-		}
-   	}
-	
-	if(!isset($all_ids)){
-		
-		return false;
-	}
-	
-	$all_ids = "'" . implode("','",$all_ids) . "'";
-			
-	$result_communities = mysql_query("UPDATE `posts` SET expired = 1 WHERE id IN ($all_ids)");
-	
-	return true;
-	
-}
-
-function clear_old_messages($user_id){
-	$user_id = sanitize($user_id);
-	
-	$results = mysql_query("SELECT * FROM `messages` WHERE status = 0 AND recieve_id = '$user_id'");
-    
-	while($number = mysql_fetch_assoc($results)) { 
-		
-		if(time() > ($number['second'] + 8640)){
-
-			$all_ids[] = $number['id'];		
-		
-		}
-   	}
-	
-	if(!isset($all_ids)){
-		
-		return false;
-	}
-	
-	$all_ids = "'" . implode("','",$all_ids) . "'";
-			
-	$result_communities = mysql_query("UPDATE `messages` SET expired = 1 WHERE id IN ($all_ids)");
-	
-	return true;
-	
-}
 
 function save_suspicious_request($type){
 	$type = sanitize($type);
@@ -269,6 +216,53 @@ function has_hole($community_name){
 		header('location: explore.php');
 		
 	}
+	
+}
+
+
+function hash_password($password){
+	
+	$hasher = new PasswordHash(8, false);
+	
+	if (strlen($password) > 72) { die("Password must be 72 characters or less"); }
+	
+	$hash = $hasher->HashPassword($password);
+	
+	if (strlen($hash) >= 20) {
+
+		return $hash;
+
+	} else {
+
+		die('Hash Failed');
+	}
+
+
+}
+
+function check_hash($hash, $password){
+	
+	$hasher = new PasswordHash(8, false);
+
+	// Passwords should never be longer than 72 characters to prevent DoS attacks
+	if (strlen($password) > 72) { die("Password must be 72 characters or less"); }
+
+	// Retrieve the hash that you stored earlier
+	$stored_hash = $hash;
+
+	// Check that the password is correct, returns a boolean
+	$check = $hasher->CheckPassword($password, $stored_hash);
+
+	if ($check){
+
+		return true;
+
+	}else{
+
+		return false;
+
+	}
+	
 	
 }
 

@@ -5,13 +5,9 @@ include 'includes/overall/header.php';?>
 
 <?php
 
-include 'includes/savedposts.php';
-include 'includes/approvedposts.php';
-include 'includes/displaymessages.php';	
-include 'includes/displaymessagessent.php';	
-include 'includes/displaypoints.php';	
-
-clear_old_messages($session_user_id);
+include 'includes/content/savedposts.php';
+include 'includes/content/approvedposts.php';
+include 'includes/content/displaypoints.php';	
 	
 ?>
 

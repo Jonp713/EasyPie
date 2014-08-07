@@ -15,7 +15,7 @@ if(admin_logged_in() === true){
 	
 }else{
 	
-	echo('Nothing to see here. Why dont you go take a walk?');
+	echo('Nothing to see here....');
 	
 }
 

@@ -9,8 +9,9 @@ include 'includes/overall/header.php';
 
 <?php
 
-include ('includes/adminpost.php');
-include ('includes/selectpic.php');
+include ('includes/widgets/adminpost.php');
+include("includes/content/displayadminposts.php");
+include ('includes/widgets/selectpic.php');
 	
 ?>
 
