@@ -52,8 +52,11 @@ function send_admin_message(user_id){
 	
     $.post("../admin/core/functions/ajax.php",{function: "send_admin_message", user_id: user_id, message: messageIn},function(data){
               
-		alert(data);
-    }); 
+		var newhtml = '<div class="alert alert-success" role="alert"><span class="alert-link">Message Sent</span></div>';
+    
+		$(spannumber).replaceWith(newhtml);
+		
+	});     
 }
 
 

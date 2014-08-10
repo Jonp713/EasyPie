@@ -2,12 +2,12 @@
 
 <?php
 
-$blacklist = get_blacklist();
+$blacklist = get_blacklist(0);
 
 foreach ($blacklist as $currentip){
 	
-	echo('IP Address: '.$currentip.'<br>');
-	echo('<span onclick="remove_blacklist(\''.$currentip.'\')">Remove Blacklist</span><br><br>');
+	echo('IP Address: '.$currentip['ip'].'<br>');
+	echo('<span class = "'.$currentip['id'].'remove" onclick="remove_blacklist(\''.$currentip['ip'].'\')">Remove Blacklist</span><br><br>');
 	
 }
 ?>
@@ -19,6 +19,9 @@ foreach ($blacklist as $currentip){
 $requestlist = get_requests(6);
 
 foreach ($requestlist as $currentrequest){
+	
+	echo('<span class = "row">');
+	echo('<span class = "well well-sm col-xs-6">');
 		
 	echo('IP Address: '.$currentrequest['ip'].'<br>');
 	
@@ -26,8 +29,10 @@ foreach ($requestlist as $currentrequest){
 		
 	echo('Type: '.$currentrequest['type'].'<br>');
 	
-	echo('<span onclick="blacklist(\''.$currentrequest['ip'].'\')">Blacklist</span><br>');
-	echo('<span onclick="ok_requests(\''.$currentrequest['id'].'\')">Ok Request</span><br><br>');
+	echo('<span class = "'.$currentrequest['id'].'blacklist" onclick="blacklist(\''.$currentrequest['ip'].'\')"><span class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Blacklist</span></span><br>');
+	echo('<span class = "'.$currentrequest['id'].'ok" onclick="ok_requests(\''.$currentrequest['id'].'\')"><span class="btn btn-success btn-xs"><span class="glyphicon glyphicon-ok"></span> Ok Requests</span></span><br><br>');
+	
+	echo('</span></span>');
 	
 }
 

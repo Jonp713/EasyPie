@@ -15,6 +15,9 @@ if(isset($_GET['community']) === false && isset($_GET['codename']) === false){
 
 foreach ($userlist as $currentuser){
 	
+	echo('<span class = "row">');
+	echo('<span class = "well well-sm col-xs-6">');
+	
 	$currentuser_data = user_data($currentuser['id'], 'username');
 	
 	echo('Username: '.$currentuser_data['username'].'<br>');
@@ -25,7 +28,9 @@ foreach ($userlist as $currentuser){
 	
 	echo('Posts: '.$currentuser_posts['total'].'<br>');
 	
-	echo('<span class = "'.$currentuser['id'].'send"><input type = "text" id = "send">&nbsp;<span onclick="send_admin_message('.$currentuser['id'].', 1)">Send Message</span></span><br><br>');
+	echo('<span class = "'.$currentuser['id'].'send"><input type = "text" id = "send">&nbsp;<span onclick="send_admin_message('.$currentuser['id'].', 1)"><span class="btn btn-default btn-xs"><span class="glyphicon glyphicon-share-alt"></span>Send Message</span></span></span><br><br>');
+	
+	echo('</span></span>');
 	
 }
 

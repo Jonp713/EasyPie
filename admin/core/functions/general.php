@@ -95,14 +95,19 @@ function remove_blacklist($ip, $admin_id){
 
 
 
-function update_terminator($admin_id, $status, $password){
+function update_terminator($admin_id, $status){
 	$status = sanitize($status);
 		
-	if(check_admin_power($admin_id) > 0 && $password == 'f998325eeb785830789ca65e6b99a247'){
+		if(check_admin_power($admin_id) > 0){
 	
-		$success = mysql_query("UPDATE `general` SET `status` = '$status' WHERE `name` = 'terminator'");
+			$success = mysql_query("UPDATE `general` SET `status` = '$status' WHERE `name` = 'terminator'");
+			
+			return $success;
 	
-	}
+		}
+		
+	
+	
 		
 }
 

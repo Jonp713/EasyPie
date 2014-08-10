@@ -14,7 +14,6 @@ function check_admin_power($admin_id){
 	
 }
 
-
 function change_profile_image($admin_id, $file_temp, $file_extn) {
 	$admin_id = sanitize($admin_id);
 	$file_temp = sanitize($file_temp);
@@ -272,10 +271,6 @@ function update_admin($admin_id, $update_data) {
 	
 	mysql_query("UPDATE `cementsalesmen` SET " . implode(', ', $update) . " WHERE `id` = $admin_id");
 }
-
-
-
-
 
 
 

@@ -10,6 +10,7 @@ foreach ($communities as $currentcommunity){
 	echo('ICU' . $currentcommunity['name'] . '<br>');
 	echo('State: '.$currentcommunity['state'] . '<br>');
 	
+	$admin = admin_data($currentcommunity['head_admin_id'], 'codename');
 
 	if($currentcommunity['status'] == 0){
 		
@@ -17,8 +18,6 @@ foreach ($communities as $currentcommunity){
 				
 	}
 	if($currentcommunity['status'] == 1){
-		
-		$admin = admin_data($currentcommunity['head_admin_id'], 'codename');
 		
 		echo('Status: Live<br>');
 				

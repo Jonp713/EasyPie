@@ -22,7 +22,7 @@ $hole['posts'] = array();
 </body>
 <?php
 
-include 'includes/navbar.php';
+include 'includes/overall/navbar.php';
 
 ?>
 

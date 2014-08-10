@@ -2,9 +2,11 @@
 
 if(isset($_GET['community']) && check_admin_power($session_admin_id) > 0){
 	
-	echo("<h1>Live Posts</h1>");
-	
 	$admin_posts = get_admin_post($_GET['community'], $session_admin_id, 0, 1);
+	
+	if(count($admin_posts) > 0){
+		echo("<h1>Live Admin Posts</h1>");
+	}	
 
 	foreach ($admin_posts as $currentpost) {
 		echo('<span class = "row">');
@@ -55,9 +57,12 @@ if(isset($_GET['codename']) && check_admin_power($session_admin_id) > 0){
 
 if(isset($_GET['codename']) == false && isset($_GET['community']) == false){
 	
-	echo("<h1>Live Posts</h1>");
 
 	$admin_posts = get_admin_post($admin_data['community'], $session_admin_id, 0, 0);
+	
+	if(count($admin_posts) > 0){
+		echo("<h1>Live Admin Posts</h1>");
+	}
 
 	foreach ($admin_posts as $currentpost) {
 		echo('<span class = "row">');

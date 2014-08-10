@@ -3,7 +3,7 @@
 <?php 
 
 if (empty($_POST) === false && isset($_POST['state'])) {
-	$required_fields = array('name');
+	$required_fields = array('name', 'description');
 	foreach($_POST as $key=>$value) {
 		if (empty($value) && in_array($key, $required_fields) === true) {
 			$errors[] = 'You must fill out the required fields';
@@ -22,7 +22,7 @@ if (empty($_POST) === false && isset($_POST['state'])) {
 
 
 if (isset($_GET['c']) === true && empty($_GET['c']) === true) {
-	echo 'Community Created!';
+	echo('<div class="alert alert-success" role="alert"><strong>Community Created</strong></div>');
 }
 	
 	
@@ -31,7 +31,9 @@ if (empty($_POST) === false && isset($_POST['state']) && empty($errors) === true
 	
 		$data = array(
 			'name' 		=> $_POST['name'],
-			'state' 		=> $_POST['state']
+			'state' 		=> $_POST['state'],
+			'description' 		=> $_POST['description']
+			
 		);
 
 		create_community($data);
@@ -47,18 +49,26 @@ if (empty($_POST) === false && isset($_POST['state']) && empty($errors) === true
 ?>
 
 
-<form action="" method="post">
-	
-	<ul>
-		
-		<li>
+<form action="" method="post" class="form-horizontal" role="form">
 			
-			Community Name:<input type= 'text' name = 'name'>
+	  	  <div class="form-group">
+	  	    <label for="name" class="col-xs-2 control-label">Community Name</label>
+	  	    <div class="col-xs-6">
+	  	      <input type="text" class="form-control" id="name" name="name">
+	  	    </div>
+	  	  </div>
+		  
+	  	  <div class="form-group">
+	  	    <label for="description" class="col-xs-2 control-label">Description</label>
+	  	    <div class="col-xs-6">
+	  	      <input type="text" class="form-control" id="description" name="description">
+	  	    </div>
+	  	  </div>
 			
-		</li>
-		<li>
-		
-			State:<select name="state"> 
+    <div class="form-group">
+      <label for="state" class="col-xs-2 control-label">State</label>
+      <div class="col-xs-6">
+   	<select class = "form-control" id = "state" name="state">
 			<option value="" selected="selected">Select a State</option> 
 			<option value="AL">Alabama</option> 
 			<option value="AK">Alaska</option> 
@@ -111,13 +121,15 @@ if (empty($_POST) === false && isset($_POST['state']) && empty($errors) === true
 			<option value="WV">West Virginia</option> 
 			<option value="WI">Wisconsin</option> 
 			<option value="WY">Wyoming</option>
-		</li>
 </select>
-	<li>
-
-<input type = 'submit'>
-	</li>
-
-	</ul>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <div class="col-xs-offset-2 col-xs-10">
+      <button type = "submit" name = "update" class="btn btn-default">Submit</button>
+    </div>	
+    </div>
+  </div>
 
 </form>

@@ -40,7 +40,7 @@ function terminator(){
 	
 	if($result['status'] == 1){
 			
-		$blacklist = get_blacklist();
+		$blacklist = get_blacklist(1);
 				
 		if(in_array($_SERVER['REMOTE_ADDR'], $blacklist)){
 	
@@ -52,7 +52,7 @@ function terminator(){
 	
 	if($result['status'] == 2){
 		
-		$blacklist = get_blacklist();
+		$blacklist = get_blacklist(1);
 		
 		if(in_array($_SERVER['REMOTE_ADDR'], $blacklist)){
 	
@@ -74,15 +74,27 @@ function terminator(){
 	
 }
 
-function get_blacklist(){
+function get_blacklist($type){
 	
 	$result = mysql_query('SELECT * FROM `blacklist` WHERE `status` = 0');
 	
 	$all_blacklist = array();
 		
-    while($number = mysql_fetch_assoc($result)) { 
-		$all_blacklist[] = $number['ip'];	
-   	}
+	if($type == 0){
+		
+	    while($number = mysql_fetch_assoc($result)) { 
+			$all_blacklist[] = $number;	
+	   	}
+	
+	}
+	
+	if($type == 1){
+		
+	    while($number = mysql_fetch_assoc($result)) { 
+			$all_blacklist[] = $number['ip'];	
+	   	}
+	
+	}
 	
 	return $all_blacklist;	
 	
@@ -275,7 +287,8 @@ function sanitize($data) {
 }
 
 function output_errors($errors) {
-	return '<ul><li>' . implode('</li><li>', $errors) . '</li></ul>';
+	
+	return '<div class="alert alert-danger" role="alert"><strong>' . implode('</strong></div><div class="alert alert-danger" role="alert"><strong>', $errors) . '</strong></div>';
 }
 
 

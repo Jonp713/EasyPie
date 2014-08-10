@@ -1,10 +1,10 @@
 <?php
 
-if (empty($_POST) === false && isset($_POST['description'])) {
+if (empty($_POST) === false && isset($_POST['email'])) {
 	
 	if ((empty($errors) === true) && (empty($_POST['email']) === false)){
 		if (filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) === false) {
-			$errors[] = '<p class = "form_error">A valid email address is required</p>';
+			$errors_ad[] = 'A valid email address is required';
 		}
 	}
 }
@@ -16,10 +16,11 @@ if (empty($_POST) === false && isset($_POST['description'])) {
 <?php
 
 if (isset($_GET['d']) === true && empty($_GET['d']) === true) {
-	echo 'Admin Updated';
+	echo('<div class="alert alert-success" role="alert"><strong>Admin Updated</strong></div>');
+
 }
 
-if(empty($_POST) === false && empty($errors) === true && isset($_POST['email'])){
+if(empty($_POST) === false && empty($errors_ad) === true && isset($_POST['email'])){
 	
 	if(isset($_GET['codename']) && check_admin_power($session_admin_id) > 0){
 			
@@ -37,8 +38,8 @@ if(empty($_POST) === false && empty($errors) === true && isset($_POST['email']))
 	}
 	exit();
 	
-} else if (empty($errors) === false) {
-	echo output_errors($errors);
+} else if (empty($errors_ad) === false) {
+	echo output_errors($errors_ad);
 }
 
 if(isset($_GET['codename']) && check_admin_power($session_admin_id) > 0){
@@ -50,26 +51,81 @@ if(isset($_GET['codename']) && check_admin_power($session_admin_id) > 0){
 
 ?>
 
-<form class = "admin_data_form" action="" method="post">
-				
-	Email:<br>
-	<input type="text" name="email" value="<?php echo $result['email']; ?>">
-
-	Status:<select name="status">
-		<option value = '<?php echo($result['status']) ?>'><?php echo($result['status']) ?></option>
+<form class="form-horizontal" role="form" action="" method="post">
+	
+  <div class="form-group">
+    <label for="email" class="col-xs-2 control-label">Email</label>
+    <div class="col-xs-6">
+	<input class = "form-control" id = "email" type="text" name="email" value="<?php echo $result['email']; ?>">
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <label for="status" class="col-xs-2 control-label">Status</label>
+    <div class="col-xs-6">
+   	<select class = "form-control" id = "status" name="status">
+		<option value = '<?php echo($result['status']) ?>'><?php 
+		
+		if($result['status'] == 0){
+			
+			echo("Good Standing");
+			
+		}
+		if($result['status'] == 1){
+			
+			echo("Warned");
+			
+		}
+		if($result['status'] == 2){
+			
+			echo("Fired");
+			
+		}
+		if($result['status'] == 3){
+			
+			echo("Quit");
+			
+		}
+	  
+	   ?></option>
 		<option value = '0'>Good Standing</option>
 		<option value = '1'>Warned</option>
 		<option value = '2'>Fired</option>
 		<option value = '3'>Quit</option>
 	</select>
+</div>
+</div>
 
-	Privelages:<select name="type">
-		<option value = '<?php echo $result['type'] ?>'><?php echo $result['type'] ?></option>
+  <div class="form-group">
+    <label for="privelages" class="col-xs-2 control-label">Privelages</label>
+    <div class="col-xs-6">
+   	<select class = "form-control" id = "privelages" name="type">
+		<option value = '<?php echo $result['type'] ?>'>
+		<?php	
+			
+		if($result['type'] == 0){
+			
+			echo("Moderator");
+			
+		}
+		if($result['type'] == 1){
+			
+			echo("Admin");
+			
+		}
+
+		?></option>
 		<option value = '0'>Moderator</option>
 		<option value = '1'>Admin</option>
 	</select>
-
-	Community:<select name="community_name">
+	</div>
+	</div>
+	
+	
+  <div class="form-group">
+    <label for="community" class="col-xs-2 control-label">Community</label>
+    <div class="col-xs-6">
+   	<select class = "form-control" id = "community" name="community_name">
 		<option value = '<?php  echo $result['community']; ?>'><?php echo $result['community']; ?></option>
 		<?php 
 		$communities = get_communities(0, '');
@@ -82,8 +138,15 @@ if(isset($_GET['codename']) && check_admin_power($session_admin_id) > 0){
 		
 		?>
 	</select>
+</div>
+</div>
 
-	<input type="submit" value="Update">
+<div class="form-group">
+    <div class="col-xs-offset-2 col-xs-10">
+      <button type = "submit" name = "update" class="btn btn-default">Update</button>
+    </div>	
+    </div>
+  </div>
 </form>
 
 		<?php
