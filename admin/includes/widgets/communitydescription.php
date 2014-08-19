@@ -1,12 +1,11 @@
 
 <?php
 
-if (empty($_POST) === false && isset($_POST['status'])) {
+if (empty($_POST) === false && isset($_POST['description'])) {
 	
-	if (strlen($_POST['description']) < 80) {
+	if (strlen($_POST['description']) > 80) {
 		$errors[] = 'The description must be under 80 characters';
 	}
-
 
 }
 
@@ -158,7 +157,7 @@ $result = mysql_fetch_assoc(mysql_query("SELECT * FROM communities WHERE name = 
 						$admins2 = get_admins(null, 2);
 						
 						foreach ($admins2 as $currentadmin) {
-							echo('<option value = '.$currentadmin['id'].'>'.$currentadmin['codename'].'</option>');
+							echo('<option value = '.$currentadmin['id'].'>'.$currentadmin['codename'].' - Admin</option>');
 						
 						}
 						

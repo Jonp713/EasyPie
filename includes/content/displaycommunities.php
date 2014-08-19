@@ -1,6 +1,6 @@
 <?php
 
-$communities = get_communities(0, '');
+$communities = get_communities(1, '');
 
 foreach ($communities as $currentcommunity){
 	

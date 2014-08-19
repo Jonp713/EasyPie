@@ -15,9 +15,9 @@ function ddos(){
 		$_SESSION['lasturl'] = $_SERVER['REQUEST_URI'];
 		
 		
-		if($_SESSION['ddos'] > 10){
+		if($_SESSION['ddos'] > 20){
 				
-			sleep(($_SESSION['ddos'] - 10)/2);
+			sleep(($_SESSION['ddos'] - 20)/7);
 		
 		}
 	

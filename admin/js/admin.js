@@ -37,10 +37,18 @@ function admin_reply(post_id){
 	
     $.post("../admin/core/functions/ajax.php",{function: "admin_reply", post_id: post_id, message: messageIn},function(data){
               
-		var newhtml = '<div class="alert alert-success" role="alert"><span class="alert-link">Admin Reply Sent</span></div>';
+		if(data == true){
+		
+			var newhtml = '<div class="alert alert-success" role="alert"><span class="alert-link">Admin Reply Sent</span></div>';
     
-		$(spannumber).replaceWith(newhtml);       
+			$(spannumber).replaceWith(newhtml);       
 		 
+		}else{
+			
+			var newhtml = '<div class="alert alert-danger" role="alert"><span class="alert-link">'+ data + '</span></div>';
+    
+			$(spannumber).replaceWith(newhtml);
+		}
     }); 
 }
 
@@ -52,9 +60,18 @@ function send_admin_message(user_id){
 	
     $.post("../admin/core/functions/ajax.php",{function: "send_admin_message", user_id: user_id, message: messageIn},function(data){
               
-		var newhtml = '<div class="alert alert-success" role="alert"><span class="alert-link">Message Sent</span></div>';
+		if(data == true){
+		
+			var newhtml = '<div class="alert alert-success" role="alert"><span class="alert-link">Message Sent</span></div>';
     
-		$(spannumber).replaceWith(newhtml);
+			$(spannumber).replaceWith(newhtml);
+		
+		}else{
+			
+			var newhtml = '<div class="alert alert-danger" role="alert"><span class="alert-link">'+ data + '</span></div>';
+
+			$(spannumber).replaceWith(newhtml);
+		}
 		
 	});     
 }
@@ -67,10 +84,20 @@ function give_points(post_id, community_name){
 	var amountIn = $(spannumber).children('input').val();  	
 	
     $.post("../admin/core/functions/ajax.php",{function: "give_points", post_id: post_id, amount: amountIn, community_name: community_name},function(data){
-				
-		var newhtml = '<div class="alert alert-success" role="alert"><span class="alert-link">'+ amountIn + ' Points Given</span></div>';
+	
+		if(data == true){
+		
+			var newhtml = '<div class="alert alert-success" role="alert"><span class="alert-link">'+ amountIn + ' Points Given</span></div>';
     
-		$(spannumber).replaceWith(newhtml);
+			$(spannumber).replaceWith(newhtml);
+			
+		}else{
+			
+			var newhtml = '<div class="alert alert-danger" role="alert"><span class="alert-link">'+ data + '</span></div>';
+    
+			$(spannumber).replaceWith(newhtml);
+			
+		}
     
     }); 
 }
@@ -121,4 +148,28 @@ function ok_requests(id){
 		alert(data); 
 				    
     }); 
+}
+
+function get_more_denied_posts_admin(start, site, type){
+	
+    $.post("../admin/core/functions/ajax.php",{function: "get_more_denied_posts_admin", start: start, site: site, type: type}, function(data){
+		
+		$('#clickmore').replaceWith();       
+				
+		$('#posts').append(data);       
+				    
+    }); 
+	
+}
+
+function get_more_approved_posts_admin(start, site, type){
+	
+    $.post("../admin/core/functions/ajax.php",{function: "get_more_approved_posts_admin", start: start, site: site, type: type}, function(data){
+		
+		$('#clickmore').replaceWith();       
+				
+		$('#posts').append(data);       
+				    
+    }); 
+	
 }

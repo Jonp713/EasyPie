@@ -66,7 +66,9 @@ function save_post($user_id, $post_id){
 	$post_id = sanitize($post_id);
 	$user_id = sanitize($user_id);
 	
-	$success = mysql_query("INSERT INTO saved_posts (user_id, post_id) VALUES ('$user_id', '$post_id')") or die(mysql_error());
+	$time = time();
+	
+	$success = mysql_query("INSERT INTO saved_posts (user_id, post_id, second) VALUES ('$user_id', '$post_id', '$time')") or die(mysql_error());
 	
 	return $success;
 }
@@ -90,6 +92,8 @@ function delete_post($user_id, $post_id){
 	
 	return $success;
 }
+
+
 
 function get_user_saved_posts($user_id){
 	
@@ -125,7 +129,8 @@ function get_user_saved_posts($user_id){
 }
 
 
-function get_user_feed($user_id){
+
+function get_user_feed($user_id, $start){
 	
 	$user_id = sanitize($user_id);
 	
@@ -146,7 +151,7 @@ function get_user_feed($user_id){
 		
 	$all_names2 = "'" . implode("','", $all_names) . "'";
 		
-	$result_posts = mysql_query("SELECT * FROM posts WHERE site IN ($all_names2) AND status = 1 ORDER BY id DESC");
+	$result_posts = mysql_query("SELECT * FROM posts WHERE site IN ($all_names2) AND status = 1 ORDER BY id DESC LIMIT $start,30");
 		
 	$all_posts = array();
 		
@@ -154,14 +159,60 @@ function get_user_feed($user_id){
 		$all_posts[] = $number;	
    	}
 	
-	return $all_posts;
+	if(count($all_posts) < 30){
+		
+		return [$all_posts, false];
+		
+	}else{
+		
+		return [$all_posts, true];
+		
+	}
+	
 
+}
+
+function get_more_approved_posts($start, $site){
+	
+	$start = sanitize($start);
+	$site = sanitize($site);
+	
+	$result = mysql_query("SELECT * FROM posts WHERE status = 1 AND site = '$site' ORDER BY ID DESC LIMIT $start,30") or die(mysql_error());
+
+	$newposts = array();
+	
+    while($number = mysql_fetch_assoc($result)) { 
+		$newposts[] = $number;		
+   	}
+	
+	if(count($newposts) < 30){
+		
+		return [$newposts, false];
+		
+	}else{
+		
+		return [$newposts, true];
+		
+	}
 }
 
 function get_posts($status, $site, $type, $admin_id){
 	
+	$admin_id = sanitize($admin_id);
 	$status = sanitize($status);
 	$site = sanitize($site);
+	
+	if($type == -2){
+		
+		$result = mysql_query("SELECT * FROM posts WHERE status = '$status' AND judged_by = '$admin_id' ORDER BY ID DESC LIMIT 0, 30");
+		
+	}
+	
+	if($type == -1){
+	
+		$result = mysql_query("SELECT * FROM posts WHERE status = '$status' AND site = '$site' ORDER BY ID DESC LIMIT 0, 30");
+		
+	}
 	
 	if($type == 0){
 	
@@ -197,7 +248,15 @@ function get_posts($status, $site, $type, $admin_id){
 		$allposts[] = $number;		
    	}
 	
-	return $allposts;
+	if(count($allposts) < 30){
+		
+		return [$allposts, false];
+		
+	}else{
+		
+		return [$allposts, true];
+		
+	}
 }
 
 function reply_post($user_id, $post_id, $message){
@@ -239,12 +298,11 @@ function set_reply($post_id, $status_in, $user_id){
 	
 }
 
-function flag($post_id, $user_id){
+function flag($post_id){
 	
 	$post_id = sanitize($post_id);
-	$user_id = sanitize($user_id);
 	
-	$success = mysql_query("UPDATE `posts` SET flagged = 1 WHERE id = '$post_id' AND user_id = '$user_id'");
+	$success = mysql_query("UPDATE `posts` SET flagged = 1 WHERE id = '$post_id'");
 	
 	return $success;
 }
@@ -252,13 +310,17 @@ function flag($post_id, $user_id){
 function clear_old_posts($community){
 	$community = sanitize($community);
 	
-	$results = mysql_query("SELECT * FROM `posts` WHERE status = 2 AND site = '$community'");
+	$results = mysql_query("SELECT * FROM `posts` WHERE status = 2 AND expired = 0 AND site = '$community'");
     
 	while($number = mysql_fetch_assoc($results)) { 
 		
-		if(time() > ($number['second'] + 86400)){
+		if(empty($number['second_judged']) == false){
 		
-			$all_ids[] = $number['id'];		
+			if(time() > ($number['second_judged'] + 86400)){
+		
+				$all_ids[] = $number['id'];		
+		
+			}
 		
 		}
    	}

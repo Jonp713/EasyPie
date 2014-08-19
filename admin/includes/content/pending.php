@@ -11,7 +11,7 @@ if(isset($_GET['community']) === false && isset($_GET['codename']) === false){
 	$posts = get_posts(0, $admin_data['community'], 0, false);
 }
 
-foreach ($posts as $currentpost) {
+foreach ($posts[0] as $currentpost) {
 	
 	display_post($currentpost['id'], 'post', 'display_time', 'username', 'admin_reply', 'give_points', 'approve', 'deny', 'delete');
 	

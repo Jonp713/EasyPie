@@ -12,7 +12,7 @@ if(isset($_GET['codename']) && check_admin_power($session_admin_id) > 0){
 
 
 
-foreach ($posts as $currentpost) {
+foreach ($posts[0] as $currentpost) {
 	
 	display_post($currentpost['id'], 'post', 'site', 'display_time', 'saved_count', 'username', 'direct_replies', 'sustained_replies', 'admin_reply',  'deny', 'delete');
 

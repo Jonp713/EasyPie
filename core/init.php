@@ -38,7 +38,7 @@ require 'functions/notifications.php';
 
 
 terminator();
-ddos();
+//ddos();
 
 $current_file = explode('/', $_SERVER['SCRIPT_NAME']);
 $current_file = end($current_file);

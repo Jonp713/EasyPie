@@ -18,7 +18,7 @@
     <script src = '../rl/js/posts.js' type = 'text/javascript'></script>
     <script src = '../rl/js/communities.js' type = 'text/javascript'></script>
     <script src = '../rl/js/messages.js' type = 'text/javascript'></script>
-    <script src = "../rl/js/bootstrap.min.js" type = 'text/javascript'></script>
+    <script src = "../rl/js/bootstrap.js" type = 'text/javascript'></script>
 
 </body>
 </html>

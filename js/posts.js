@@ -65,3 +65,27 @@ function set_hole_posts(statusIn, siteIn){
     }); 
 		
 }
+
+function get_more_approved_posts(start, site){
+	
+    $.post("../rl/core/functions/ajax.php",{function: "get_more_approved_posts", start: start, site: site}, function(data){
+		
+		$('#clickmore').replaceWith();       
+				
+		$('#posts').append(data);       
+				    
+    }); 
+	
+}
+
+function get_more_feed_posts(start){
+	
+    $.post("../rl/core/functions/ajax.php",{function: "get_more_feed_posts", start: start}, function(data){
+		
+		$('#clickmore').replaceWith();       
+						
+		$('#posts').append(data);       
+				    
+    }); 
+	
+}

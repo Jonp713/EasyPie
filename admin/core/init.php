@@ -63,9 +63,16 @@ require 'functions/points.php';
 if (admin_access() === true) {
 	$session_admin_id = $_SESSION['admin_id'];
 	$admin_data = admin_data($session_admin_id, 'id', 'profile', 'initials', 'codename', 'email', 'type', 'status', 'community');
+	
+	if($admin_data['status'] > 1){
+	
+		logout();
+	
+	}
 }
 
 $errors = array();
+
 if(isset($_GET['c'])){
 
 	$community_in = $_GET['c'];

@@ -129,9 +129,9 @@ if($function == 'delete_message' && isset($_POST['message_id']) && isset($sessio
 	
 }
 
-if($function == 'flag' && isset($_POST['post_id']) && isset($session_user_id)){
+if($function == 'flag' && isset($_POST['post_id'])){
 	
-	$success = flag($_POST['post_id'], $session_user_id);
+	$success = flag($_POST['post_id']);
 		
 	if($success){
 	
@@ -140,6 +140,50 @@ if($function == 'flag' && isset($_POST['post_id']) && isset($session_user_id)){
 	}	
 	
 }
+
+if($function == 'get_more_approved_posts' && isset($_POST['start'])){
+	
+	$posts = get_more_approved_posts($_POST['start'], $_POST['site']);
+			
+	foreach ($posts[0] as $currentpost) {
+		
+		display_post($currentpost['id'], 'post', 'display_time', 'save_post', 'flag', 'reply');
+		
+		echo('<br>');
+	}
+	
+	if($posts[1]){
+		
+		$newstart = $_POST['start'] + 30;
+	
+		echo('<span id = "clickmore" onclick = "get_more_approved_posts('.$newstart.', '.$_POST['site'].')">More Posts</span>');
+	
+	}
+	
+}
+
+
+if($function == 'get_more_feed_posts' && isset($_POST['start']) && isset($session_user_id)){
+		
+	$posts = get_user_feed($session_user_id, $_POST['start']);
+			
+	foreach ($posts[0] as $currentpost) {
+		
+		display_post($currentpost['id'], 'post', 'site', 'display_time', 'save_post', 'flag', 'reply');
+		
+		echo('<br>');
+	}
+	
+	if($posts[1]){
+		
+		$newstart = $_POST['start'] + 30;
+	
+		echo('<span id = "clickmore" onclick = "get_more_feed_posts('.$newstart.')">More Posts</span>');
+	
+	}
+	
+}
+
 
 
 	

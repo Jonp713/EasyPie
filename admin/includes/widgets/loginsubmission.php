@@ -35,7 +35,19 @@ if (empty($_POST) === false) {
 			$errors[] = 'That username/password combination is incorrect';
 		} else {
 			$_SESSION['admin_id'] = $login;
-			header('Location: index.php');
+			
+			if(check_admin_power($_SESSION['admin_id']) > 0){
+				
+				header('Location: communities.php');
+				
+			}else{
+				
+				header('Location: queue.php');
+				
+			}
+			
+			
+				
 			exit();
 		}
 	}

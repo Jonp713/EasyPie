@@ -30,7 +30,7 @@ foreach ($communities as $currentcommunity){
 
 		if($currentcommunity['needs_moderator'] == 1){
 		
-			echo('<div class="alert alert-danger" role="alert">Alert: Needs Moderator</div>');
+			echo('<div class="alert alert-danger" role="alert">Alert: Needs Head Moderator</div>');
 				
 		}else{
 		

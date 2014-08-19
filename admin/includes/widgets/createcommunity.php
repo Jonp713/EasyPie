@@ -12,6 +12,11 @@ if (empty($_POST) === false && isset($_POST['state'])) {
 	}
 	
 	
+	if (strlen($_POST['description']) > 80) {
+		$errors[] = 'The description must be under 80 characters';
+	}
+	
+	
 	if (empty($errors) === true) {
 		if (community_exists($_POST['name']) === true) {
 			$errors[] = 'Sorry, the community \'' . $_POST['name'] . '\' already exists';

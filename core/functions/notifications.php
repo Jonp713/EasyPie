@@ -45,8 +45,10 @@ function create_notification($user_id, $type, $textin, $ref_id){
 	$user_id = sanitize($user_id);
 	$textin = sanitize($textin);
 	$ref_id = sanitize($ref_id);
+	
+	$time = time();
 		
-	$success = mysql_query("INSERT INTO notifications (user_id, type, textin, ref_id) VALUES ('$user_id', '$type', '$textin', '$ref_id')") or die(mysql_error());
+	$success = mysql_query("INSERT INTO notifications (user_id, type, textin, ref_id, second) VALUES ('$user_id', '$type', '$textin', '$ref_id', '$time')") or die(mysql_error());
 	
 	return $success;
 	

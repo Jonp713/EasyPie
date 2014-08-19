@@ -184,13 +184,22 @@ function head_admin_codename_from_community_name($community_name){
 	
 }
 
+function head_admin_id_from_community_name($community_name){
+	$community_name = sanitize($community_name);
+	
+	$result = mysql_fetch_assoc(mysql_query("SELECT head_admin_id FROM communities WHERE name = '$community_name' LIMIT 1"));
+	
+	return $result['head_admin_id'];
+	
+}
+
 function get_admins($community_name, $type){
 	$type = sanitize($type);
 	$community_name = sanitize($community_name);
 	
 	if($type == 0){
 		
-		$result = mysql_query("SELECT * FROM cementsalesmen ORDER BY ID DESC");
+		$result = mysql_query("SELECT * FROM cementsalesmen ORDER BY status");
 		
 	}
 	if($type == 1){
@@ -219,7 +228,7 @@ function check_if_head_moderator_exists($admin_id, $community_name){
 	
 	$result = mysql_fetch_assoc(mysql_query("SELECT head_admin_id FROM communities WHERE name = '$community_name' LIMIT 1"));
 	
-	if($result['head_admin_id'] < 0){
+	if($result['head_admin_id'] < 0 || $result['head_admin_id'] == null){
 		
 		$update_data = array(
 			'needs_moderator' 	=> 1,
@@ -227,6 +236,8 @@ function check_if_head_moderator_exists($admin_id, $community_name){
 		);
 		
 		update_community($admin_id, $update_data, $community_name);
+		
+		return false;
 		
 	}else{
 		
@@ -245,6 +256,8 @@ function check_if_head_moderator_exists($admin_id, $community_name){
 	
 			update_community($admin_id, $update_data, $community_name);
 			
+			return false;
+			
 		}else{
 			
 			$update_data = array(
@@ -252,6 +265,8 @@ function check_if_head_moderator_exists($admin_id, $community_name){
 			);
 			
 			update_community($admin_id, $update_data, $community_name);
+			
+			return true;
 			
 		}
 		

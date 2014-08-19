@@ -71,12 +71,12 @@ function get_communities($type, $state){
 	
 	if($type == 0){
 	
-		$result = mysql_query("SELECT * FROM communities ORDER BY state DESC");
+		$result = mysql_query("SELECT * FROM communities ORDER BY status");
 		
 	}
 	if($type == 1){
 	
-		$result = mysql_query("SELECT * FROM communities WHERE state = '$state' ORDER BY state DESC");
+		$result = mysql_query("SELECT * FROM communities WHERE status = 1 ORDER BY state DESC");
 	
 	}
 	
@@ -93,7 +93,6 @@ function get_subscriptions($type, $user_id, $state){
 	
 	$user_id = sanitize($user_id);
 	$state = sanitize($state);
-	
 	
 	if($type == 0){
 	
@@ -137,7 +136,9 @@ function subscribe_community($user_id, $community_name){
 	$user_id = sanitize($user_id);
 	$community_name = sanitize($community_name);
 	
-	$success = mysql_query("INSERT INTO subscriptions (user_id, community_name) VALUES ('$user_id', '$community_name')") or die(mysql_error());
+	$time = time();
+	
+	$success = mysql_query("INSERT INTO subscriptions (user_id, community_name, second) VALUES ('$user_id', '$community_name', '$time')") or die(mysql_error());
 	
 	return $success;
 }

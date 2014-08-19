@@ -5,6 +5,11 @@
 		$admins = get_admins($_GET['community'], 1);
 		$type = 0;
 		
+		if(count($admins) == 0){
+			
+			echo('<div class="alert alert-danger" role="alert">No Moderators!</div>');
+			
+		}
 		
 
 	}else{
