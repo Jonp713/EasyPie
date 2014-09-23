@@ -18,7 +18,7 @@ if(!in_array($_SERVER['REMOTE_ADDR'], $locallist)){
 
 if(!$session_local){
 	
-	//error_reporting(0);
+	error_reporting(0);
 	require_once('recaptchalib.php');
 	
 }	
@@ -35,6 +35,8 @@ require 'functions/messages.php';
 require 'functions/communities.php';
 require 'functions/points.php';
 require 'functions/notifications.php';
+require 'functions/ads.php';
+
 
 
 terminator();
@@ -59,11 +61,19 @@ if (logged_in() === true) {
 	}
 }
 
+
 $errors = array();
 
 if(isset($_GET['c'])){
 
 	$community_in = $_GET['c'];
+
+}
+
+//temp
+if(isset($_SESSION['seen_ad']) == false){
+
+	$_SESSION['seen_ad'] = 0;
 
 }
 

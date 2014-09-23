@@ -25,8 +25,16 @@ function count_saved($post_id){
 	$count = mysql_fetch_assoc(mysql_query("SELECT COUNT(id) AS total FROM saved_posts WHERE post_id = '$post_id'"));
 	
 	return ($count['total']);
+		
+}
+
+function random_post($community_name){
 	
+	$community_name = sanitize($community_name);	
 	
+	$id = mysql_fetch_assoc(mysql_query("SELECT id FROM posts WHERE site = '$community_name' AND status = 1 ORDER BY RAND() LIMIT 1"));
+	
+	return $id['id'];
 }
 
 function submit_post($post_data){
@@ -38,7 +46,7 @@ function submit_post($post_data){
 	
 	save_suspicious_request('submit_post');
 	
-	return mysql_query("INSERT INTO `posts` ($fields) VALUES ($data)") or die(mysql_error());
+	return mysql_query("INSERT INTO `posts` ($fields) VALUES ($data)");
 	
 	
 }
@@ -66,10 +74,15 @@ function save_post($user_id, $post_id){
 	$post_id = sanitize($post_id);
 	$user_id = sanitize($user_id);
 	
+	$user_for_not = user_id_from_post_id($post_id);
+	
+	create_notification($user_for_not, "saved_post", "Someone saved your post!", $post_id);
+	
 	$time = time();
 	
-	$success = mysql_query("INSERT INTO saved_posts (user_id, post_id, second) VALUES ('$user_id', '$post_id', '$time')") or die(mysql_error());
+	$success = mysql_query("INSERT INTO saved_posts (user_id, post_id, second) VALUES ('$user_id', '$post_id', '$time')");
 	
+
 	return $success;
 }
 
@@ -93,6 +106,13 @@ function delete_post($user_id, $post_id){
 	return $success;
 }
 
+function post_text_from_post_id($post_id){
+	$post_id = sanitize($post_id);
+	
+		
+	return mysql_result(mysql_query("SELECT `post` FROM `posts` WHERE `id` = '$post_id'"), 0, 'post');
+	
+}
 
 
 function get_user_saved_posts($user_id){
@@ -133,6 +153,7 @@ function get_user_saved_posts($user_id){
 function get_user_feed($user_id, $start){
 	
 	$user_id = sanitize($user_id);
+	$start = sanitize($start);
 	
 	$result_saved = mysql_query("SELECT * FROM subscriptions WHERE user_id = '$user_id'");
 	
@@ -161,11 +182,11 @@ function get_user_feed($user_id, $start){
 	
 	if(count($all_posts) < 30){
 		
-		return [$all_posts, false];
+		return array($all_posts, false);
 		
 	}else{
 		
-		return [$all_posts, true];
+		return array($all_posts, true);
 		
 	}
 	
@@ -177,7 +198,7 @@ function get_more_approved_posts($start, $site){
 	$start = sanitize($start);
 	$site = sanitize($site);
 	
-	$result = mysql_query("SELECT * FROM posts WHERE status = 1 AND site = '$site' ORDER BY ID DESC LIMIT $start,30") or die(mysql_error());
+	$result = mysql_query("SELECT * FROM posts WHERE status = 1 AND site = '$site' ORDER BY ID DESC LIMIT $start,30");
 
 	$newposts = array();
 	
@@ -185,13 +206,14 @@ function get_more_approved_posts($start, $site){
 		$newposts[] = $number;		
    	}
 	
+	
 	if(count($newposts) < 30){
 		
-		return [$newposts, false];
+		return array($newposts, false);
 		
 	}else{
 		
-		return [$newposts, true];
+		return array($newposts, true);
 		
 	}
 }
@@ -248,13 +270,18 @@ function get_posts($status, $site, $type, $admin_id){
 		$allposts[] = $number;		
    	}
 	
+	if($type == 1){
+	
+		return $allposts;
+	}
+	
 	if(count($allposts) < 30){
 		
-		return [$allposts, false];
+		return array($allposts, false);
 		
 	}else{
 		
-		return [$allposts, true];
+		return array($allposts, true);
 		
 	}
 }
@@ -273,16 +300,17 @@ function reply_post($user_id, $post_id, $message){
 		
 	$post = $result['post'];
 	
+	$post = sanitize($post);
+	
 	save_suspicious_request('reply_post');
 	
-	$success = mysql_query("INSERT INTO messages (recieve_id, send_id, message, prev_message, second, post_id, from_post) VALUES ('$reciever', '$user_id', '$message', '$post', '$second', '$post_id', 1)") or die(mysql_error());
+	$success = mysql_query("INSERT INTO messages (recieve_id, send_id, message, prev_message, second, post_id, from_post) VALUES ('$reciever', '$user_id', '$message', '$post', '$second', '$post_id', 1)");
 	
 	$theid = mysql_fetch_assoc(mysql_query("SELECT LAST_INSERT_ID() AS id FROM messages WHERE recieve_id = '$reciever'"));
 	
-	create_notification($reciever, 'reply_post', 'You have a new message!', $theid['id']);
+	create_notification($reciever, 'reply_post', 'You have a new message!', $post_id);
 	
 	return $success;
-	
 	
 }
 
@@ -339,7 +367,9 @@ function clear_old_posts($community){
 }
 
 
-function display_post($post_id){
+function display_post_admin($post_id){
+	$post_id = sanitize($post_id);
+	
 	$update = array();
 	
 	$num_args = func_num_args();
@@ -520,5 +550,184 @@ function display_post($post_id){
 	
 	
 }
+
+
+function display_post($post_id){
+	$post_id = sanitize($post_id);
+	
+	$totalspan = 0;
+	
+	$update = array();
+	
+	$num_args = func_num_args();
+	$fields = func_get_args();
+	array_walk($fields, 'array_sanitize');
+	
+	if ($num_args > 1) {
+		unset($fields[0]);
+	}
+	
+	$data = mysql_fetch_assoc(mysql_query("SELECT * FROM posts WHERE id = '$post_id'"));
+	
+	echo('<span class = "row" id = "post'.$post_id.'">');
+	echo('<span class = "col-xs-12">');
+	
+	//functions
+	echo('<span class = "row posttop">');
+	
+	echo('<span style = "padding:0px;" class = "pull-left text-left col-xs-4 col-sm-4">');
+	
+	if(in_array('display_time', $fields)){
+		
+		$time = $data['second'];
+		
+		echo("<script>	var time = moment.unix(".$time.");"); 
+		echo("document.write(time.from(moment()));</script>");
+		
+		echo('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
+	}
+	
+	if(in_array('change_time', $fields)){
+			
+		$time = $data['second'];
+		
+		echo('<span class = "changeme">'.$time.'</span>');
+		
+		echo('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
+		
+	}
+	
+	if(in_array('site', $fields)){
+		
+		echo('<span class = "postsite communityonpost">');
+				
+		echo('<a href = "posts.php?c='.$data['site'].'">'.$data['site'].'</a>');
+		
+		echo('</span>');
+		
+	}
+	echo('</span>');
+	
+	echo('<span style = "padding:0px;" class = "pull-right col-xs-8 text-right">');
+
+	if(in_array('save_post', $fields) || in_array('reply_post', $fields)){
+	
+		if(logged_in() == false){
+		
+			//echo("If you want to reply or save a post, you need to log in<br>");
+
+		}else{
+			
+			if(in_array('reply', $fields) && $data['reply_on'] == 1){
+								
+				echo('<span class = "hoverer reply reply'.$post_id.'" id = "'.$data['id'].'" onclick = "start_reply(this,'.$data['id'].')">REPLY&nbsp;&nbsp;&nbsp;</span>');
+			
+			}
+			
+			if(in_array('save_post', $fields)){
+		
+				echo('<span class = "hoverer save_post" onclick="save_post('.$data['id'].', this)">SAVE&nbsp;&nbsp;&nbsp;</span>');
+				
+			}
+			
+			if(in_array('flag', $fields)){
+
+				echo('<span class = "hoverer flag" onclick="flag('.$data['id'].', this)">FLAG&nbsp;&nbsp;&nbsp;</span>');
+	
+			}
+	
+		}
+	
+	}
+
+	if(in_array('unsave_post', $fields)){
+	
+		echo('<span class = "hoverer unsave_post" onclick="unsave_post('.$data['id'].', this)">REMOVE&nbsp;&nbsp;&nbsp;</span>');
+		
+	}
+	
+	if(in_array('reply_toggle', $fields)){
+		
+		if($data['reply_on'] == 1){
+	
+			echo('<span class = "hoverer remove_reply'.$data['id'].'" onclick="set_reply('.$data['id'].', 0, this)">DISABLE-REPLY&nbsp;&nbsp;&nbsp;</span>');
+	
+		}
+		if($data['reply_on'] == 0){
+	
+			echo('<span class = "hoverer add_reply'.$data['id'].'" onclick="set_reply('.$data['id'].', 1, this)">ENABLE-REPLY&nbsp;&nbsp;&nbsp;</span>');
+	
+		}
+		
+	}
+	
+	if(in_array('delete_post-user', $fields)){
+	
+		echo('<span class = "hoverer delete_post" onclick="delete_post('.$data['id'].', this)">DELETE&nbsp;&nbsp;&nbsp;</span>');
+		
+	}
+	
+	if(in_array('share_post', $fields)){
+		//$link = md5($data['id']);
+		
+		$link = $data['id'];
+				
+		echo('<span class = "share">');
+		echo('<a href = "posts.php?c='.$data['site'].'&share='.$link.'">SHARE</a>');
+		echo('</span>');
+		
+		
+		//echo('<span class = "share" onclick="share_post('.$data['id'].')">SHARE</span>');
+		
+	}
+	
+	//end of right pull
+	echo('</span>');
+	
+	echo('</span>');
+	//END OF ROW ONE
+	
+	//begin post row
+	echo('<span class = "row">');
+	
+	if(in_array('post', $fields)){
+		
+		echo('<span style = "padding:0px;" class = "apost col-xs-12">');
+	
+		echo($data['post'] . '<br>');
+	
+		echo('</span>');
+	}
+	
+	echo('</span>');
+	//end of post row
+	
+	
+	if(empty($_GET['share']) == false && in_array('reply_share', $fields) && $data['reply_on'] == 1 && logged_in() == true){
+
+		echo('<br><span class = "replyshare pull-left">REPLY</span><hr class = "replysharehr"><span class = "form-group col-xs-12" id = "replygroup'.$data['id'].'"><textarea class = "form-control col-xs-2" id = "reply_submit'.$data['id'].'" placeholder = "ICU2..."></textarea><span data-dismiss="modal" class = "col-xs-2 replysendbutton pull-right btn-info btn-sm" onclick="reply_post('.$data['id'].')">SEND</span></span>');
+
+	}
+	
+	echo('</span>');
+	echo('</span>');
+	
+}
+
+function search_posts($keyword){
+	$keyword = sanitize($keyword);
+	
+	$result = mysql_query("SELECT * FROM posts WHERE post LIKE '%$keyword%' AND status = 1 ORDER BY ID DESC");
+	
+	$foundposts = array();
+	
+    while($number = mysql_fetch_assoc($result)) { 
+		$foundposts[] = $number;		
+   	}
+	
+	return $foundposts;
+}
+
+
 
 ?>

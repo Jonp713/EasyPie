@@ -75,6 +75,7 @@ function terminator(){
 }
 
 function get_blacklist($type){
+	$type = sanitize($type);
 	
 	$result = mysql_query('SELECT * FROM `blacklist` WHERE `status` = 0');
 	
@@ -179,7 +180,7 @@ function save_suspicious_request($type){
 		
 		$count = get_request_count($ip, $type) + 1;
 		
-		mysql_query("UPDATE `suspicious_requests` SET `count` = '$count', `second` = '$second', community = '$community' WHERE `ip` = '$ip' AND `type` = '$type'") or die(mysql_error());
+		mysql_query("UPDATE `suspicious_requests` SET `count` = '$count', `second` = '$second', community = '$community' WHERE `ip` = '$ip' AND `type` = '$type'");
 		
 		return $count;
 		
@@ -189,7 +190,9 @@ function save_suspicious_request($type){
 }
 
 function email($to, $subject, $body) {
-	mail($to, $subject, $body, 'From: donotreply@icuhampy.com');
+	
+	mail($to, "hey", "Hey", 'From: donotreply@icu.university');
+	
 }
 
 
@@ -208,6 +211,8 @@ function protect_page() {
 }
 
 function active_protect($community_name){
+	$community_name = sanitize($community_name);
+	
 	
 	$is = community_is_active($community_name);
 	
@@ -220,6 +225,7 @@ function active_protect($community_name){
 }
 
 function has_hole($community_name){
+	$community_name = sanitize($community_name);
 	
 	$is = hole_is_active($community_name);
 	
@@ -287,6 +293,8 @@ function sanitize($data) {
 }
 
 function output_errors($errors) {
+	
+	$errorsin = true;
 	
 	return '<div class="alert alert-danger" role="alert"><strong>' . implode('</strong></div><div class="alert alert-danger" role="alert"><strong>', $errors) . '</strong></div>';
 }

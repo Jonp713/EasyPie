@@ -20,8 +20,6 @@ if (empty($_POST) === false) {
 	}
 }
 
-include 'includes/overall/header.php';
-
 ?>
 <h1>Change Password</h1>
 
@@ -44,24 +42,22 @@ if (isset($_GET['success']) === true && empty($_GET['success']) === true) {
 	}
 	?>
 
-	<form action="" method="post">
-		<ul>
-			<li>
-				Current password*:<br>
-				<input type="password" name="current_password">
-			</li>
-			<li>
-				New password*:<br>
-				<input type="password" name="password">
-			</li>
-			<li>
-				New password again*:<br>
-				<input type="password" name="password_again">
-			</li>
-			<li>
-				<input type="submit" value="Change password">
-			</li>
-		</ul>
+	<form class = "form-horizontal"  role = "form" action="" method="post">
+		<div class = "form-group">
+			<label for = "current">Current Password:</label>
+			<input class = "form-control" id = "current" type="password" name="current_password">
+		</div>
+		<div class = "form-group">
+			<label for = "password1">New Password:</label>
+			<input class = "form-control" id = "password" type="password" name="password">
+		</div>
+		<div class = "form-group">
+			<label for = "password2">Confirm Password:</label>
+				<input class = "form-control" id = "password2" type="password" name="password_again">
+		</div>
+
+	  <button type="submit" class="btn btn-default">Change</button>
+		
 	</form>
 <?php
 

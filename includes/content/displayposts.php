@@ -1,5 +1,3 @@
-<h1>Posts</h1>
-
 <?php
 
 	echo('<div id = "posts">');
@@ -8,17 +6,18 @@
 
 	foreach ($posts[0] as $currentpost) {
 		
-		display_post($currentpost['id'], 'post', 'display_time', 'save_post', 'flag', 'reply');
+		display_post($currentpost['id'], 'post', 'display_time', 'share_post', 'save_post', 'flag', 'reply');
 		
 		echo('<br>');
 	}
 	
 	if($posts[1]){
 	
-		echo('<span id = "clickmore" onclick = "get_more_approved_posts(30,\''.$community_in.'\')">More Posts</span>');
+		echo('<span class = "btn btn-default" id = "clickmore" onclick = "get_more_approved_posts(30,\''.$community_in.'\')">More Posts</span>');
 	
 	}
 	
 	echo('</div>');
 
 ?>
+

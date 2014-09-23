@@ -51,7 +51,7 @@ function delete_community($community_name){
 	
 	$community_name = sanitize($community_name);
 	
-	$success = mysql_query("DELETE FROM communities WHERE community_name = '$community_name'") or die(mysql_error());
+	$success = mysql_query("DELETE FROM communities WHERE community_name = '$community_name'");
 	
 	return $success;
 	
@@ -138,7 +138,7 @@ function subscribe_community($user_id, $community_name){
 	
 	$time = time();
 	
-	$success = mysql_query("INSERT INTO subscriptions (user_id, community_name, second) VALUES ('$user_id', '$community_name', '$time')") or die(mysql_error());
+	$success = mysql_query("INSERT INTO subscriptions (user_id, community_name, second) VALUES ('$user_id', '$community_name', '$time')");
 	
 	return $success;
 }
@@ -148,7 +148,7 @@ function delete_subscription($user_id, $community_name){
 	$user_id = sanitize($user_id);
 	$community_name = sanitize($community_name);
 	
-	$success = mysql_query("DELETE FROM subscriptions WHERE user_id = '$user_id' AND community_name = '$community_name'") or die(mysql_error());
+	$success = mysql_query("DELETE FROM subscriptions WHERE user_id = '$user_id' AND community_name = '$community_name'");
 	
 	return $success;
 }
@@ -163,6 +163,7 @@ function user_subscribed($user_id, $community_name) {
 }
 
 function community_is_active($community_name){
+	$community_name = sanitize($community_name);
 	
 	$result = mysql_fetch_assoc(mysql_query("SELECT status FROM `communities` WHERE name = '$community_name'"));
 	
@@ -178,6 +179,7 @@ function community_is_active($community_name){
 }
 
 function hole_is_active($community_name){
+	$community_name = sanitize($community_name);
 	
 	$result = mysql_fetch_assoc(mysql_query("SELECT hole FROM `communities` WHERE name = '$community_name'"));
 	
@@ -207,6 +209,7 @@ function admin_posts($community_name){
 }
 
 function get_mods_picurl($admin_id){
+	$admin_id = sanitize($admin_id);
 	
 	$result = mysql_fetch_assoc(mysql_query("SELECT profile FROM cementsalesmen WHERE id = '$admin_id' ORDER BY ID DESC"));
 	
@@ -217,6 +220,9 @@ function get_mods_picurl($admin_id){
 	return $result2['url'];
 	
 }
+
+
+
 
 	
 ?>

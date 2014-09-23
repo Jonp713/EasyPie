@@ -1,16 +1,36 @@
 <?php
 
-echo("<h1>Admin Posts</h1>");
 	
 	$admin_posts = admin_posts($_GET['c']);
+	
 
 	foreach ($admin_posts as $currentpost) {
+				
+		echo("<span class = 'glyphicon glyphicon-bullhorn'></span>&nbsp;&nbsp;");
 		
-		//$codename = admin_data($currentpost['admin_id'], 'initials');
-
+		$time = $currentpost['second'];
+		
+		echo("<script>	var time = moment.unix(".$time.");"); 
+		echo("document.write(time.from(moment()));</script>");
+		
+		echo('<br><span class = "adminpost"><h3>');
+		
 		echo($currentpost['message'] . '<br>');
-
+		
+		echo('</h3>');
+		
+		$id = $currentpost['admin_id'];
+				
+		$codename = mysql_result(mysql_query("SELECT `initials` FROM `cementsalesmen` WHERE `id` = '$id'"), 0, 'initials');
+		
+		echo("-".$codename);
+		
+		echo('</span><br><br>');
+		
+		
 	}
+	
+	
 
-	echo('<br>')
+	echo('<br>');
 ?>

@@ -11,7 +11,8 @@ if (empty($_POST) === false) {
 		
 		$count = get_request_count($_SERVER['REMOTE_ADDR'], 'login');
 	
-		if(!$session_local){
+		if(!$session_local && $count >= 10){
+			
 	    $privatekey = "6LcXHfYSAAAAANnTCLXRiag_cz0BijZII2_ysboN";
 	     $resp = recaptcha_check_answer ($privatekey,
 	                                   $_SERVER["REMOTE_ADDR"],
@@ -26,17 +27,17 @@ if (empty($_POST) === false) {
 	 
 	 	}
 		
-		if (strlen($password) > 32) {
-			$errors[] = 'Password too long';
-		}
-		
 		$login = login($username, $password);
 		
 		if($login){
 			
-			$_SESSION['user_id'] = $login;
-			header('Location: index.php');
-			exit();
+			if(empty($errors) === true){
+			
+				$_SESSION['user_id'] = $login;
+				header('Location: index.php');
+				exit();
+			
+			}
 			
 		}else {
 			
@@ -47,49 +48,90 @@ if (empty($_POST) === false) {
 	
 	
 } else {
-	$errors[] = 'No data received';
-}
-include 'includes/overall/header.php';
-if (empty($errors) === false) {
-?>
-	<h2>We tried to log you in, but...</h2>
-<?php
-	echo output_errors($errors);
+
 	
 }
+
 ?>
+<span class = "row">
 
-<form action="" method="post">
-	<ul>
-	<li>
-	
-	Username:
-	<input type="text" name="username">
-	
-	</li>
-	<li>
+<span class = "col-xs-8 col-xs-offset-2 col-sm-4 col-sm-offset-4 text-center">
 
-	Password:
-	<input type="password" name="password">
+<h1>LOGIN</h1>
+<hr>
+
+<!-- Forgotten your <a href="recover.php?mode=username">username</a>? -->
+
+</span>
+
+</span>
+
+<span class = "row">
+
+
+<span class = "col-sm-2 col-sm-offset-5 col-xs-4 col-xs-offset-4">
+
+<img src = "images/logonotext.png" class="img-responsive" alt="Responsive image">
+</span>
+
+
+</span>
+
+<span class = "row">
+
+<span class = "col-xs-8 col-xs-offset-2 col-sm-4 col-sm-offset-4 text-center">
 	
-	</li>
-	<li>
+	<?php
+
+	if (empty($errors) === false) {
+
+		echo output_errors($errors);
+	
+	}
+	?>
+
+
+<form action = "" method = "POST" class="form-horizontal" role="form">
+  <div class="form-group">
+    <div class="col-sm-12">
+      <input type="text" class="form-control" id="username" name = 'username' placeholder="Username">
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-12">
+      <input type="password" class="form-control" id="password" name = "password" placeholder="Password">
+    </div>
+  </div>
+
 	<?php 
 			
 	$count = get_request_count($_SERVER['REMOTE_ADDR'], 'login');		
-				
-	if(!$session_local && $count >= 1){
-	  	 
+			
+	if(!$session_local && $count >= 10){
+		
+		echo("<br>Captcha:<br>");
+		
+  	 
 	   $publickey = "6LcXHfYSAAAAAOSU0ArSOLuYhoLuIB69u5900_M_";
 	   echo recaptcha_get_html($publickey);
-   
-	  			
+
+
+	echo("<br>");
+
+  			
 	}
 
 	?>
-		 
-	</li>
-	<li>
-	<input type="submit" value="Log in">
-	</li>
-</form>
+	
+	
+		<div class="form-group">
+		    <div class="col-sm-12">
+	<button type = 'submit' class="col-xs-12 btn btn-info btn-large">Go!</button>	    
+	</div>
+	</div>
+
+	</form>
+
+	</span>
+
+	</span>

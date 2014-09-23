@@ -9,16 +9,17 @@ if (empty($_POST) === false) {
 		}
 	}
 	
-	if(md5($_POST['password']) != $user_data['password']){
-		
-		$errors[] = 'Invalid password';		
+	if (check_hash($user_data['password'], $_POST['password'])){
+
+	} else {
+		$errors[] = 'Your current password is incorrect';
 	}
 	
 	if (empty($errors) === true) {
 		if ((empty($_POST['email']) === false) && (filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) === false)) {
 			$errors[] = 'A valid email address is required';
 		}
-		if ((empty($_POST['email']) === false) && (email_exists_outsideuser($_POST['email'], $user_data['user_id']) === true)) {
+		if ((empty($_POST['email']) === false) && (email_exists_outside($_POST['email'], $user_data['user_id']) === true)) {
 			$errors[] = 'Sorry, the email \'' . $_POST['email'] . '\' is already in use';
 		}
 	}
@@ -28,15 +29,14 @@ if (empty($_POST) === false) {
 <h1>Confirm Email</h1>
 
 <?php
-if (isset($_GET['s']) === true && empty($_GET['s']) === true) {
-	echo 'Awesome, check your email and click the link to finish the process';
+if (isset($_GET['success']) === true && empty($_GET['success']) === true) {
+	echo 'Awesome, an email will be there shortly. Check your email and click the link to finish the process';
 } else {
-	
 	
 	if (empty($_POST) === false && empty($errors) === true) {
 				
 		register_email_only($_POST['email'], $session_user_id);
-		header('Location: confirmemail.php?s');
+		header('Location: confirmemail.php?success');
 		exit();
 					
 	}else if (empty($errors) === false) {
@@ -44,23 +44,20 @@ if (isset($_GET['s']) === true && empty($_GET['s']) === true) {
 		echo output_errors($errors);
 	}
 	
-
 ?>
 
-<form action="" method="post">
-	<ul>
-		<li>
-			Email:<br>
-			<input type="text" name="email">
-		</li>
-		<li>
-			Password:<br>
-			<input type="password" name="password">
-		</li>
-		<li>
-			<input type="submit" value="Register">
-		</li>
-	</ul>
+<form class ="form-horizontal" action="" method="post">
+	<div class = "form-group">
+		<label for = "email">Email:</label>
+		<input class = "form-control" id = "email" type="text" name="email">
+	</div>
+	<div class = "form-group">
+		<label for = "password">Password:</label>
+		<input id = "password" class = "form-control" type="password" name="password">
+	</div>
+	<div class = "form-group">
+	  <button type="submit" class="btn btn-default">Confirm Email</button>
+	</div>
 </form>
 
 <?php

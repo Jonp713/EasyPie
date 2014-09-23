@@ -1,11 +1,12 @@
 
-Hello, <?php echo $user_data['username']; ?>&nbsp;
-<a href="information.php">My Information</a>&nbsp;
-<a href="myposts.php">My Posts</a>&nbsp;
-<a href="mymessages.php">My Messages</a>&nbsp;
-<a href='feed.php'>My Feed</a>&nbsp;
-<a href='notifications.php'>Notifications (<?php echo(count_notifications($session_user_id)); ?>)</a>&nbsp;
+
+    <li class="active"><a href='feed.php'>FEED</a></li>
+	
+	<?php $notcount = count_notifications($session_user_id); ?>
+
+    <li><a href='dashboard.php?t=notifications'><?php echo(strtoupper($user_data['username'])); ?>&nbsp;<?php if($notcount > 0){ echo('(&nbsp;<span class = "notcount">'.$notcount.'</span>&nbsp;)'); }?></a></li>
+	
+ 
 
 
-<a href="logout.php">Log out</a>
-
+ 

@@ -79,9 +79,10 @@ function register_user_with_email($register_data) {
 	
 	$fields = '`' . implode('`, `', array_keys($register_data)) . '`';
 	$data = '\'' . implode('\', \'', $register_data) . '\'';
-	
+		
 	mysql_query("INSERT INTO `users` ($fields) VALUES ($data)");
-	email($register_data['email'], 'Activate your account', "Hello " . $register_data['username'] . ",\n\nTo confirm your email, use the link below:\n\nhttp://phishi.com/rl/activate.php?email=" . $register_data['email'] . "&email_code=" . $register_data['email_code'] . "\n\n");
+	
+	email($register_data['email'], 'Activate your account', "Hello " . $register_data['username'] . ",\n\nTo confirm your email, use the link below:\n\nhttps://icu.university/activate.php?email=" . $register_data['email'] . "&email_code=" . $register_data['email_code'] . "\n\n");
 }
 
 function register_email_only($email, $user_id) {
@@ -92,7 +93,7 @@ function register_email_only($email, $user_id) {
 	
 	mysql_query("UPDATE `users` SET `email` = '$email', `active` = 2  WHERE `user_id` = '$user_id'");
 	
-	email($email, 'Confirm Your Email', "Hello " . $emailer_data['username'] . ",\n\nTo confirm your email, use the link below:\n\nhttp://phishi.com/rl/activate.php?email=" . $email . "&email_code=" . $emailer_data['email_code'] . "\n\n");
+	email($email, 'Confirm Your Email', "Hello " . $emailer_data['username'] . ",\n\nTo confirm your email, use the link below:\n\nhttps://icu.university/activate.php?email=" . $email . "&email_code=" . $emailer_data['email_code'] . "\n\n");
 	
 }
 
@@ -164,6 +165,8 @@ function user_id_from_email($email) {
 }
 
 function login($username, $password) {	
+	$username = sanitize($username);
+
 	$user_id = user_id_from_username($username);
 		
 	save_suspicious_request('login');

@@ -39,7 +39,7 @@ if (empty($_POST) === false) {
 <h1>My information</h1>
 
 <?php
-if (isset($_GET['s']) === true && empty($_GET['s']) === true) {
+if (isset($_GET['success']) === true && empty($_GET['success']) === true) {
 	echo '<p class = "form_success">Your details have been updated</p>';
 } else {
 	if (empty($_POST) === false && empty($errors) === true) {
@@ -74,7 +74,7 @@ if (isset($_GET['s']) === true && empty($_GET['s']) === true) {
 		
 		}
 		
-		header('Location: information.php?s');
+		header('Location: information.php?success');
 		exit();
 		
 	} else if (empty($errors) === false) {
@@ -82,40 +82,74 @@ if (isset($_GET['s']) === true && empty($_GET['s']) === true) {
 	}
 	?>
 
-	<form class = "update_user_info" action="" method="post">
-				Username:<br>
-				<input type="text" name="username" value="<?php echo $user_data['username']; ?>">
-
-				Password:<br>
-				<a href="changepassword.php">Change Password</a>
-				
-			<?php if ($user_data['active'] <= 2){ ?>
+	<form class = "form-horizontal update_user_info" role = "form" action="" method="post">
+  	  <div class="form-group">
+  	    <label for="username">Username:</label>
+			<input id = "username" class = "form-control" type="text" name="username" value="<?php echo $user_data['username']; ?>">
+  	  </div>
+  	  <div class="form-group">
+  	    <label for="password">Password:</label>
+				<a class = "form-control" id = "password" href="changepassword.php">Change Password</a>
+  	  </div>
+	  
+	  <!-- 
+							
+		<?php //if ($user_data['active'] <= 2){ ?>
 			
-					Email:<br>
-					<a href="confirmemail.php">Confirm an email</a>
-
-			<?php   }else{ ?>
+	    	  <div class="form-group">
+	    	    <label for="confirmemail">Email:</label>
+					<a id = "confirmemail "class = "form-control" href="confirmemail.php">Confirm an email</a>
+	    	  </div>
+	
+		<?php   //}else{ ?>
 			
+			
+    	  <div class="form-group">
+    	    <label for="emailvalue">Email:</label>
+			<input id = "emailvalue" class = "form-control" type="text" name="email" value="<?php //echo $user_data['email']; ?>" disabled>
+    	  </div>		
+		
+	  	  <div class="form-group">
+	  	    <label for="recieveemail">Recieve Emails:</label>
+			<input id = "recieveemail" class = "form-control" type="checkbox" name="allow_email" <?php //if ($user_data['allow_email'] == 1) { echo 'checked="checked"'; } ?>>
+	  	  </div>
 
-					Email:<br>
-					<input type="text" name="email" value="<?php echo $user_data['email']; ?>">
-
-					<input type="checkbox" name="allow_email" <?php if ($user_data['allow_email'] == 1) { echo 'checked="checked"'; } ?>>Recieve Emails
+	    	  <div class="form-group">
+	    	    <label for="confirmemail">Change Email:</label>
+					<a id = "confirmemail "class = "form-control" href="confirmemail.php">Confirm a different email</a>
+	    	  </div>
+		
+		
+  	  <div class="form-group">
+		  
+	 -->
+		
 	<?php 
-	}
+	//}
+	
 			
 	$count = get_request_count($_SERVER['REMOTE_ADDR'], 'user_update');		
 				
 	if(!$session_local && $count >= 1){
 	  	 
+		echo('<div class="form-group">');
+		
+		echo("<br><strong>Captcha:</strong><br>");
+		
+		 
 	   $publickey = "6LcXHfYSAAAAAOSU0ArSOLuYhoLuIB69u5900_M_";
 	   echo recaptcha_get_html($publickey);
+	   
+	   echo('<br>');
+	   
+	   echo('</div>');
 	  			
 	}
+	
 
 	?>
 
-	<input type="submit" value="Update">
+	  <button type="submit" class="btn btn-default">Update</button>
 
 	</form>
 

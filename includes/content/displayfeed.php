@@ -1,4 +1,4 @@
-<h1>My Feed</h1>
+<span class = 'feedtitle'></span>
 
 <?php
 	
@@ -8,7 +8,7 @@ echo('<div id = "posts">');
 
 foreach ($posts[0] as $currentpost) {
 
-	display_post($currentpost['id'], 'post', 'site', 'display_time', 'save_post', 'flag', 'reply');
+	display_post($currentpost['id'], 'post', 'site', 'display_time', 'share_post', 'save_post', 'flag', 'reply');
 
 	echo('<br>');
 
@@ -16,7 +16,7 @@ foreach ($posts[0] as $currentpost) {
 
 if($posts[1]){
 
-	echo('<span id = "clickmore" onclick = "get_more_feed_posts(30)">More Posts</span>');
+	echo('<span class = "btn btn-default" id = "clickmore" onclick = "get_more_feed_posts(30)">More Posts</span>');
 
 }
 

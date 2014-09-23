@@ -54,7 +54,6 @@ if($function == 'reply_post' && isset($_POST['post_id']) && isset($session_user_
 	
 	}
 	
-	
 }
 
 if($function == 'reply_message' && isset($_POST['message_id']) && isset($session_user_id) && isset($_POST['message'])){
@@ -147,7 +146,7 @@ if($function == 'get_more_approved_posts' && isset($_POST['start'])){
 			
 	foreach ($posts[0] as $currentpost) {
 		
-		display_post($currentpost['id'], 'post', 'display_time', 'save_post', 'flag', 'reply');
+		display_post($currentpost['id'], 'post', 'change_time', 'share_post', 'save_post', 'flag', 'reply', "share_post");
 		
 		echo('<br>');
 	}
@@ -169,7 +168,7 @@ if($function == 'get_more_feed_posts' && isset($_POST['start']) && isset($sessio
 			
 	foreach ($posts[0] as $currentpost) {
 		
-		display_post($currentpost['id'], 'post', 'site', 'display_time', 'save_post', 'flag', 'reply');
+		display_post($currentpost['id'], 'change_time', 'post', 'site', 'save_post', 'flag', 'reply', "share_post");
 		
 		echo('<br>');
 	}

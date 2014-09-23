@@ -1,4 +1,4 @@
-<h1>Recover</h1>
+<h1>Recover Username</h1>
 <?php
 if (isset($_GET['success']) === true && empty($_GET['success']) === true) {
 ?>
@@ -18,10 +18,13 @@ if (isset($_GET['success']) === true && empty($_GET['success']) === true) {
 		}
 	?>
 		
-		<form action="" method="post">
-			Please enter your email address:<br>
-			<input type="text" name="email">
-			<input type="submit" value="Recover">
+		<form class = "form-horizontal" action="" method="post">
+			<div class = "form-group">
+				<label for = "email">Email address:</label>
+				<input id = "email" class = "form-control" type="text" name="email">
+			</div>
+				
+	 	   	<button type="submit" class="btn btn-default">Recover</button>
 		</form>
 		
 	<?php

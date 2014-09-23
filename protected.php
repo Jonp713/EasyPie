@@ -2,8 +2,12 @@
 include 'core/init.php';
 include 'includes/overall/header.php';
 ?>
+
+<span class = "col-xs-6 col-xs-offset-3">
+
 <h1>Sorry, you need to be logged in to do that!</h1>
-<p>Please register or log in</p>
+
+</span>
 
 
 <?php 

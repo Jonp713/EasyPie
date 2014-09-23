@@ -49,10 +49,9 @@ if (empty($_POST) === false) {
 }
 
 ?>
-<h1>Register</h1>
 
 <?php
-if (isset($_GET['s']) === true && empty($_GET['s']) === true) {
+if (isset($_GET['success']) === true && empty($_GET['success']) === true) {
 	echo '<p>You\'ve been registered successfully!</p>';
 } else {
 	
@@ -72,7 +71,7 @@ if (isset($_GET['s']) === true && empty($_GET['s']) === true) {
 		
 			register_user_with_email($register_data);
 			$_SESSION['user_id'] = login($_POST['username'], $_POST['password']);
-			header('Location: register.php?s');
+			header('Location: register.php?success');
 			exit();
 			
 		}else{
@@ -86,49 +85,112 @@ if (isset($_GET['s']) === true && empty($_GET['s']) === true) {
 	
 			register_user($register_data);
 			$_SESSION['user_id'] = login($_POST['username'], $_POST['password']);
-			header('Location: register.php?s');
+			header('Location: register.php?success');
 			exit();
 			
 		}
 		
-	}else if (empty($errors) === false) {
-	
-		echo output_errors($errors);
 	}
 	
 ?>
 
-<form action="" method="post">
-	
-	Username*:<br>
-	<input type="text" name="username">
+<span class = "row">
 
-	Password*:<br>
-	<input type="password" name="password">
+<span class = "col-xs-8 col-xs-offset-2 col-sm-4 col-sm-offset-4 text-center">
+
+<h1>SIGNUP</h1>
+
+<hr>
+
+<!-- Forgotten your <a href="recover.php?mode=username">username</a>? -->
+
+</span>
+
+
+</span>
+
+<span class = "row">
+
+<span class = "col-sm-2 col-sm-offset-5 col-xs-4 col-xs-offset-4">
+   
+<img src = "images/logonotext.png" class="img-responsive" alt="Responsive image">
+
+</span>
+
+
+</span>
+
+<span class = "row">
+
+
+<span class = "col-xs-8 col-xs-offset-2 col-sm-4 col-sm-offset-4 text-center">
 	
-	Confirm Password*:<br>
-	<input type="password" name="password_again">
+	<?php
 	
-	Email (Optional):<br>
-	<input type="text" name="email">
+	if (empty($errors) === false) {
+	
+			echo output_errors($errors);
+	}
+		
+	?>
+
+
+<form action = "" method = "POST" class="form-horizontal" role="form">
+	
+  <div class="form-group">
+    <div class="col-sm-12">
+      <input type="text" class="form-control" id="username" name = 'username' placeholder="Username">
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <div class="col-sm-12">
+      <input type="password" class="form-control" id="password" name = "password" placeholder="Password">
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <div class="col-sm-12">
+      <input type="password" class="form-control" id="password_again" name = "password_again" placeholder="Confirm Password">
+    </div>
+  </div>
+  <div class="form-group">
+      <div class="col-sm-12">
+        <input type="email" class="hidden form-control" id="email" name = "email" placeholder="Email (Optional)">
+      </div>
+    </div>
+  
 
 	<?php 
 			
 	$count = get_request_count($_SERVER['REMOTE_ADDR'], 'registration');		
 			
 	if(!$session_local && $count >= 1){
+		
+		echo("<br>Captcha:<br>");
+		
   	 
 	   $publickey = "6LcXHfYSAAAAAOSU0ArSOLuYhoLuIB69u5900_M_";
 	   echo recaptcha_get_html($publickey);
+	   
+	   echo('<br>');
 
-  			
 	}
 
 	?>
-
-	<input type="submit" value="Register">
+	
+	<div class="form-group">
+	    <div class="col-sm-12">
+<button class="col-xs-12 btn btn-info btn-large">Go!</button>	    
+</div>
+	  </div>
 
 </form>
+
+</span>
+
+
+</span>
 
 <?php 
 }

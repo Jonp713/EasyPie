@@ -97,6 +97,8 @@ function count_user_points($user_id, $type, $community_name){
 function highest_points($community_name, $place){
 	
 	$community_name = sanitize($community_name);
+	$place = sanitize($place);
+	
 	
 	$userswpoints = array();
 	

@@ -15,8 +15,8 @@ document.getElementById("hole").appendChild(can);
 var posts = <?php echo json_encode($hole['posts']); ?>;
 
 var ambientLight = 0;
-var intensity = 1;
-var radius = 70;
+var intensity = .8;
+var radius = 100;
 var amb = 'rgba(0,0,0,' + (1-ambientLight) + ')';
 var mouse = {};
 
@@ -31,15 +31,15 @@ function cameraMove(){
 	
 	if(camera.y <= postsparse.length * 50 - $(window).width()/2.2){
 	
-		if(mouse.y >= ($(window).height() - 300)){
-		
-			camera.y += 1;
-		
-		}
 		if(mouse.y >= ($(window).height() - 200)){
 		
+			camera.y += .3;
 		
-			camera.y += 1;
+		}
+		if(mouse.y >= ($(window).height() - 150)){
+		
+		
+			camera.y += .6;
 		
 		}
 		if(mouse.y >= ($(window).height() - 100)){
@@ -52,15 +52,15 @@ function cameraMove(){
 	}
 	
 	if(camera.y >= 0){
-		if(mouse.y <= 300){
-		
-			camera.y -= 1;
-		
-		}
 		if(mouse.y <= 200){
 		
+			camera.y -= .3;
 		
-			camera.y -= 1;
+		}
+		if(mouse.y <= 150){
+		
+		
+			camera.y -= .6;
 		
 		}
 		if(mouse.y <= 100){
@@ -76,13 +76,16 @@ function cameraMove(){
 var camera = {};
 camera.y = 0;
 
-var postlinelength = 12;
+var postlinelength = $(window).width()/40;
 var count = 0;
+var count2 = 0;
 var postsparse = [];
 var words = [];
-var totalcharcount = 0
+var totalcharcount = 0;
 var totallines = 0;
+var dontnewline = false;
 
+var debugparse = [];
 
 function prepPosts(){
 	
@@ -114,53 +117,57 @@ function prepPosts(){
 								
 			if(words[i][j] != undefined){
 					
-				totalcharcount = totalcharcount + words[i][j].length;
+				totalcharcount = totalcharcount + words[i][j].length + 1;
 			
 			}
 			
-		
-		}	
+		}
 		
 		buildString = '';
 		for(var j = 0; j < words[i].length; j++){
-				
+			
 			if(count < postlinelength){
 				
 				if(words[i][j] != undefined){
 
 					buildString += words[i][j] + ' ';
 				
-					count = count + words[i][j].length;
+					count = count + words[i][j].length + 1;
+					count2 = count2 + words[i][j].length + 1;
+					
+				
+				}
+				
+				if(count >= postlinelength || count2 >= totalcharcount){
+					
+					debugparse.push([count, totalcharcount, words[i][j]]);
+								
+					postsparse.push(buildString);
+				
+					buildString = '';
+				
+					count = 0;
 				
 				}
 								
 			}
 			
-			if(count >= postlinelength || count >= totalcharcount){
-								
-				postsparse.push(buildString);
-				
-				buildString = '';
-				
-				count = 0;
-				
-			}
+	
 		
 		}
+		count = 0;
+		count2 = 0;
 		totalcharcount = 0;
 		
 		
 	}
-
-		
-
 	
 }
 function displayPosts(){
 	
 	for(var i=0;i<postsparse.length;i++){
 
-	       ctx.fillText(postsparse[i], $(window).width()/3, ((i * 50) + 50) - camera.y);
+	       ctx.fillText(postsparse[i], $(window).width()/10, ((i * 50) + 50) - camera.y);
 		   
 	 }
 	
@@ -169,9 +176,9 @@ function displayPosts(){
 
 function redraw(mouse) {
     can.width = can.width;
-    //ctx.drawImage(img, 0, 0);
 	ctx.fillStyle = 'black';
-	ctx.font = "40px Helvetica"
+	ctx.font = "40px Titillium";
+    //ctx.drawImage(img, 0, 0);
 	displayPosts();
 	
 	g = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, radius);
@@ -185,7 +192,7 @@ function redraw(mouse) {
     ctx.clip();
     ctx.fillRect(0,0,can.width,can.height);
 	ctx.fillStyle = 'white';
-    ctx.fillText('The Hole', 30, 50);
+   // ctx.fillText('The Hole', 30, 50);
 	
 }
 
@@ -224,6 +231,11 @@ function getMouse(e, canvas) {
 }
 
 prepPosts();
+
+ctx.fillStyle = 'black';
+ctx.font = "20px Titillium";
+
+//ctx.fillText('The Hole is loading...', (can.width/2) - 100,(can.height/2) - 40);
 
 setInterval(cameraMove, 0);
 
