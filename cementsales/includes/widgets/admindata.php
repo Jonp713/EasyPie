@@ -50,7 +50,7 @@ if(empty($_POST) === false && empty($errors_ad) === true && isset($_POST['email'
 
 if(isset($_GET['codename']) && check_admin_power($session_admin_id) > 0){
 
-	$codename = $_GET['codename'];
+	$codename = sanitize($_GET['codename']);
 	
 	$result = mysql_fetch_assoc(mysql_query("SELECT * FROM cementsalesmen WHERE codename = '$codename'"));
 	

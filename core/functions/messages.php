@@ -15,6 +15,7 @@ function get_user_messages($user_id, $status, $type){
 	
 	$user_id = sanitize($user_id);
 	$status = sanitize($status);
+	$type = sanitize($type);
 	
 	if($type == 0){
 	

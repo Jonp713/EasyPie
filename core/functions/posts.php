@@ -433,7 +433,7 @@ function display_post_admin($post_id){
 			}
 			
 			if(in_array('sustained_replies', $fields)){
-			
+				
 				$sustainedreplies = count_replies($data['id'], 1);
 			
 				echo("Sustained Replies: " . $sustainedreplies . "<br>");
@@ -575,7 +575,7 @@ function display_post($post_id){
 	//functions
 	echo('<span class = "row posttop">');
 	
-	echo('<span style = "padding:0px;" class = "pull-left text-left col-xs-4 col-sm-4">');
+	echo('<span style = "padding:0px;" class = "pull-left text-left col-xs-12 col-sm-4">');
 	
 	if(in_array('display_time', $fields)){
 		
@@ -600,9 +600,11 @@ function display_post($post_id){
 	if(in_array('site', $fields)){
 		
 		echo('<span class = "postsite communityonpost">');
-				
-		echo('<a href = "posts.php?c='.$data['site'].'">'.$data['site'].'</a>');
 		
+		$color = get_community_color_from_community_name($data['site']);
+				
+		echo('<a style = "color:'.$color.';" href = "posts.php?c='.$data['site'].'">'.$data['site'].'</a>');
+				
 		echo('</span>');
 		
 	}
@@ -620,7 +622,8 @@ function display_post($post_id){
 			
 			if(in_array('reply', $fields) && $data['reply_on'] == 1){
 								
-				echo('<span class = "hoverer reply reply'.$post_id.'" id = "'.$data['id'].'" onclick = "start_reply(this,'.$data['id'].')">REPLY&nbsp;&nbsp;&nbsp;</span>');
+				echo('<span data-toggle="tooltip" title="Your username will not appear
+"  data-placement="bottom" class = "hoverer reply reply'.$post_id.'" id = "'.$data['id'].'" onclick = "start_reply(this,'.$data['id'].')">REPLY&nbsp;&nbsp;&nbsp;</span>');
 			
 			}
 			
@@ -731,3 +734,4 @@ function search_posts($keyword){
 
 
 ?>
+

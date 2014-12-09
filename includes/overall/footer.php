@@ -1,14 +1,30 @@
-	</div>
+	</div></div></div>
 	<footer>
- 
+ <center>
+<span style = "padding-bottom:6px" class = "col-xs-12"> &copy; 2014 ICU-5 Connections LLC &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href = "mailto:contact@icu.university">Contact</a></span>
+</center>
  
 	</footer>
+  
     <script src = 'js/jquery.js' type = 'text/javascript'></script>
     <script src = 'js/posts.js' type = 'text/javascript'></script>
-    <script src = 'js/ads.js' type = 'text/javascript'></script>
+    <script src = 'js/bla.js' type = 'text/javascript'></script>
     <script src = 'js/communities.js' type = 'text/javascript'></script>
     <script src = 'js/messages.js' type = 'text/javascript'></script>
     <script src = "js/bootstrap.js" type = 'text/javascript'></script>
+    <script src = "js/sidebar.js" type = 'text/javascript'></script>
+	
+	<script>
+	
+		$('[data-toggle="tooltip"]').tooltip({
+		    'placement': 'bottom'
+		});
+		$('[data-toggle="popover"]').popover({
+		    trigger: 'hover',
+		        'placement': 'right'
+		});
+
+	</script>
 	
 	<?php if(empty($_GET['share']) == false){?>
 	

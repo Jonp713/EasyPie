@@ -1,5 +1,5 @@
 
-<li><a href="register.php">REGISTER</a></li>
+<li><a href="register.php">SIGN UP</a></li>
 <li><a href="login.php">LOGIN</a></li>
 
 <!--

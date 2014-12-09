@@ -18,6 +18,7 @@ if(check_admin_power($session_admin_id) == 1){
 <li><a href="creation.php">Creation</a></li>
 <li><a href="server.php">Server</a></li>
 <li><a href="pics.php">Pics</a></li>
+<li><a href="submit.php">Submit</a></li>
 
 
 <?php

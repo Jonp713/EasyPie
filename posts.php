@@ -9,13 +9,16 @@ include 'includes/overall/header.php';
 <?php 
 
 
-if($_GET['c'] == "Hampy" && $_SESSION['seen_ad'] == 0){
-
-	//include 'includes/content/fullpagead.php';
+if($_SESSION['seen_ad'] == 0){
 	
-	//$_SESSION['seen_ad'] = 1;
+	if($_GET['c'] == "Hampy"){
+	
+		include 'includes/content/fullpagead.php';
+	
+		$_SESSION['seen_ad'] = 1;
+	
+	}
 }
-
 
 echo('<span class = "communityother pull-left col-xs-12 col-sm-3">');
 
@@ -46,13 +49,14 @@ include 'includes/content/adminposts.php';
 
 echo('</span>');
 
-if($_GET['c'] == "Hampy"){
+if($_GET['c'] == "TrapCity"){
+	
 
-	$adid = get_random_ad(2);
+	//$adid = get_random_ad(2);
 
-	display_side_ad($adid);
+	//display_side_ad($adid);
 
-	increment_display_count($adid);	
+	//increment_display_count($adid);	
 		
 }
 
@@ -62,8 +66,6 @@ echo('</span>');
 echo('<span class = "postfeed pull-left col-xs-12 col-sm-6">');
 
 echo('<span class = "hidden-sm hidden-md hidden-lg">');
-
-echo('<br><br><h1 class = "modtitle">Recent Posts</h1>');
 
 echo('</span>');
 

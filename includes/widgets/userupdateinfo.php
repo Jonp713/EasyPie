@@ -68,6 +68,8 @@ if (isset($_GET['success']) === true && empty($_GET['success']) === true) {
 		
 			$update_data = array(
 				'username' 	=> $_POST['username'],
+				'allow_email'	=> ($_POST['allow_email'] == 'on') ? 1 : 0
+				
 			);
 			update_user($session_user_id, $update_data);
 	
@@ -92,26 +94,25 @@ if (isset($_GET['success']) === true && empty($_GET['success']) === true) {
 				<a class = "form-control" id = "password" href="changepassword.php">Change Password</a>
   	  </div>
 	  
-	  <!-- 
 							
-		<?php //if ($user_data['active'] <= 2){ ?>
+		<?php if ($user_data['active'] <= 2){ ?>
 			
 	    	  <div class="form-group">
 	    	    <label for="confirmemail">Email:</label>
 					<a id = "confirmemail "class = "form-control" href="confirmemail.php">Confirm an email</a>
 	    	  </div>
 	
-		<?php   //}else{ ?>
+		<?php   }else{ ?>
 			
 			
     	  <div class="form-group">
     	    <label for="emailvalue">Email:</label>
-			<input id = "emailvalue" class = "form-control" type="text" name="email" value="<?php //echo $user_data['email']; ?>" disabled>
+			<input id = "emailvalue" class = "form-control" type="text" name="email" value="<?php echo $user_data['email']; ?>" disabled>
     	  </div>		
 		
 	  	  <div class="form-group">
 	  	    <label for="recieveemail">Recieve Emails:</label>
-			<input id = "recieveemail" class = "form-control" type="checkbox" name="allow_email" <?php //if ($user_data['allow_email'] == 1) { echo 'checked="checked"'; } ?>>
+			<input id = "recieveemail" class = "form-control" type="checkbox" name="allow_email" <?php if ($user_data['allow_email'] == 1) { echo 'checked="checked"'; } ?>>
 	  	  </div>
 
 	    	  <div class="form-group">
@@ -121,11 +122,9 @@ if (isset($_GET['success']) === true && empty($_GET['success']) === true) {
 		
 		
   	  <div class="form-group">
-		  
-	 -->
-		
+		  		
 	<?php 
-	//}
+}
 	
 			
 	$count = get_request_count($_SERVER['REMOTE_ADDR'], 'user_update');		

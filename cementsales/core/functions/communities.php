@@ -1,5 +1,43 @@
 <?php
 
+function community_sub_count($community_name){
+	$community_name = sanitize($community_name);
+	
+	$count = mysql_fetch_assoc(mysql_query("SELECT COUNT(user_id) AS totalsubs FROM subscriptions WHERE community_name = '$community_name'"));
+	
+	return ($count['totalsubs']);
+}
+
+function community_queue_count($community_name){
+	$community_name = sanitize($community_name);
+	
+	$count = mysql_fetch_assoc(mysql_query("SELECT COUNT(id) AS totalqueue FROM posts WHERE site = '$community_name' AND status = 0"));
+	
+	return ($count['totalqueue']);
+}
+
+
+function create_community($community_data){
+		
+	array_walk($community_data, 'array_sanitize');
+
+	$fields = '`' . implode('`, `', array_keys($community_data)) . '`';
+	$data = '\'' . implode('\', \'', $community_data) . '\'';
+
+	mysql_query("INSERT INTO `communities` ($fields) VALUES ($data)");
+	
+}
+	
+function delete_community($community_name){
+	
+	$community_name = sanitize($community_name);
+	
+	$success = mysql_query("DELETE FROM communities WHERE community_name = '$community_name'");
+	
+	return $success;
+	
+}
+
 function update_community($admin_id, $update_data, $community_name){
 	$admin_id = sanitize($admin_id);
 	$community_name = sanitize($community_name);

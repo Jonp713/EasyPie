@@ -2,7 +2,6 @@
 
 moderator_protect_page();
 
-
 $communities = get_communities(0, '');
 
 foreach ($communities as $currentcommunity){

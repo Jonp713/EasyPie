@@ -15,9 +15,11 @@ echo('<span class = "pull-right otherfeedinfo col-xs-12 col-sm-4">');
 
 include 'includes/widgets/submitpost.php';
 
+echo("<span class = 'hidden-xs'>");
+
 include 'includes/content/currentsubscriptions.php';
 
-echo('</span>');
+echo('</span></span>');
 
 
 echo('<span class = "pull-left feed col-xs-12 col-sm-8">');

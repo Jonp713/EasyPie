@@ -26,6 +26,8 @@ function update_user($user_id, $update_data) {
 	$update = array();
 	array_walk($update_data, 'array_sanitize');
 	
+	$user_id = sanitize($user_id);
+	
 	save_suspicious_request('user_update');
 	
 	foreach($update_data as $field=>$data) {
@@ -100,6 +102,7 @@ function register_email_only($email, $user_id) {
 function user_data($user_id) {
 	$data = array();
 	$user_id = (int)$user_id;
+	$user_id = sanitize($user_id);
 	
 	$func_num_args = func_num_args();
 	$func_get_args = func_get_args();
@@ -126,6 +129,8 @@ function user_exists($username) {
 
 function user_exists_outside($username, $user_id) {
 	$username = sanitize($username);
+	$user_id = sanitize($user_id);
+	
 	return (mysql_result(mysql_query("SELECT COUNT(`user_id`) FROM `users` WHERE `username` = '$username' AND `user_id` <> '$user_id'"), 0) == 1) ? true : false;
 }
 
@@ -136,6 +141,8 @@ function email_exists($email) {
 
 function email_exists_outside($email, $user_id) {
 	$email = sanitize($email);
+	$user_id = sanitize($user_id);
+	
 	return (mysql_result(mysql_query("SELECT COUNT(`user_id`) FROM `users` WHERE `email` = '$email' AND `user_id` <> '$user_id'"), 0) == 1) ? true : false;
 }
 

@@ -14,12 +14,12 @@ $hole['posts'] = array();
 <head>
 	<title>The Hole - <?php echo($_GET['c']);?></title>
 	<meta charset="UTF-8">
-	<link rel="stylesheet" href="css/screen.css">
+	<link rel="stylesheet" href="css/screen2.css">
 	<link rel="stylesheet" href="css/bootstrap.css">
 	<link rel="shortcut icon" type="image/png" href="https://www.icu.university/images/blackhole.png"/>
 	<meta name="description" content="Posts that should never be seen">
-	<meta name="keywords" content="<?php echo($_GET['c'].',');?> ICU, I see you, compliments, crushes, confessions, missed connections, college, school, hookups, dating, Ucrush, Tinder, FML, MLIA">
-	<meta name="author" content="Hege Refsnes">
+	<meta name="keywords" content="<?php echo($_GET['c'].',');?> ICU, I see you, hole, denied, posts, drama, gossip, compliments, crushes, confessions, missed connections, college, school, hookups, dating, Ucrush, Tinder, FML, MLIA">
+	<meta name="author" content="The Devil">
 	
 </head>
 <body>

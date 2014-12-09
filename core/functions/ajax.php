@@ -75,7 +75,6 @@ if($function == 'set_reply' && isset($_POST['post_id']) && isset($_POST['status_
 	
 	$success = set_reply($_POST['post_id'], $_POST['status_in'], $session_user_id);
 	
-	
 	if($success){		
 			
 		if($_POST['status_in'] == 1){
@@ -155,10 +154,10 @@ if($function == 'get_more_approved_posts' && isset($_POST['start'])){
 		
 		$newstart = $_POST['start'] + 30;
 	
-		echo('<span id = "clickmore" onclick = "get_more_approved_posts('.$newstart.', '.$_POST['site'].')">More Posts</span>');
+		echo('<button class = "btn btn-default" id = "clickmore" onclick = "get_more_approved_posts('.$newstart.', \''.$_POST['site'].'\')">More Posts</button>');
 	
 	}
-	
+
 }
 
 
@@ -177,7 +176,7 @@ if($function == 'get_more_feed_posts' && isset($_POST['start']) && isset($sessio
 		
 		$newstart = $_POST['start'] + 30;
 	
-		echo('<span id = "clickmore" onclick = "get_more_feed_posts('.$newstart.')">More Posts</span>');
+		echo('<button class = "btn btn-default" id = "clickmore" onclick = "get_more_feed_posts('.$newstart.')">More Posts</button>');
 	
 	}
 	

@@ -102,10 +102,9 @@ if (isset($_GET['success']) === true && empty($_GET['success']) === true) {
 
 <hr>
 
-<!-- Forgotten your <a href="recover.php?mode=username">username</a>? -->
+Forgotten your <a href="recover.php?mode=username">username</a>
 
 </span>
-
 
 </span>
 
@@ -138,7 +137,7 @@ if (isset($_GET['success']) === true && empty($_GET['success']) === true) {
 <form action = "" method = "POST" class="form-horizontal" role="form">
 	
   <div class="form-group">
-    <div class="col-sm-12">
+    <div data-container="body" data-toggle="popover" data-placement="left" data-content="Your information will never be seen by other users" class="col-sm-12">
       <input type="text" class="form-control" id="username" name = 'username' placeholder="Username">
     </div>
   </div>
@@ -156,7 +155,7 @@ if (isset($_GET['success']) === true && empty($_GET['success']) === true) {
   </div>
   <div class="form-group">
       <div class="col-sm-12">
-        <input type="email" class="hidden form-control" id="email" name = "email" placeholder="Email (Optional)">
+        <input type="email" class="form-control" id="email" name = "email" placeholder="Email (Optional)">
       </div>
     </div>
   

@@ -12,7 +12,7 @@ if (empty($_POST) === false) {
 	
 	$count = get_request_count($_SERVER['REMOTE_ADDR'], 'submit_post');		
 	
-	if(!$session_local && $count >= 5){
+	if(!$session_local && $count >= 10){
     $privatekey = "6LcXHfYSAAAAANnTCLXRiag_cz0BijZII2_ysboN";
      $resp = recaptcha_check_answer ($privatekey,
                                    $_SERVER["REMOTE_ADDR"],
@@ -176,11 +176,12 @@ if (empty($_POST) === false && empty($errors) === true) {
 									
 
 			    <div class="checkbox">
-			      <label>
+			      <label data-container="body" data-toggle="popover" data-placement="left" data-content="
+Users can anonymously send you messages by clicking reply. They cannot see your username.
+">
 			 		 <input type="checkbox" name="reply_on" checked = 'checked'>I want replies
 			      </label>
 			    </div>
-			
 			
 			<?php }else{?>
 				
@@ -234,7 +235,7 @@ if (empty($_POST) === false && empty($errors) === true) {
 						
 				$count = get_request_count($_SERVER['REMOTE_ADDR'], 'submit_post');		
 				
-				if(!$session_local && $count >= 5){
+				if(!$session_local && $count >= 10){
 					
 					echo("<br>Captcha:<br>");
 	  	 

@@ -14,7 +14,7 @@ include 'core/init.php';
 	
 	
 	<link href="css/bootstrap.css" rel="stylesheet">
-	<link href="css/screen.css" rel="stylesheet">
+	<link href="css/screen2.css" rel="stylesheet">
 	
 	
 	<link rel="shortcut icon" type="image/png" href="https://icu.university/images/logonotext.png"/>
@@ -129,17 +129,16 @@ include 'core/init.php';
 	 
 	</span>
 </span>
-
-	<span class = "buttonhome col-xs-4 col-xs-offset-4">
-
-<a href="posts.php?c=Hampy" class="btn btn-custom2 btn-lg btn-block">Lets dig in</a>	
 	
-	</span>
+		<span class = "buttonhome col-xs-4 col-xs-offset-4">
+
+	<a href="posts.php?c=Hampy" style = "background-color:#aab341;" class="btn btn-custom2 btn-lg btn-block">Lets dig in</a>	
+	
+		</span>
 </div>
 
 <div class = "topthing col-xs-12">
 	
 </div>
-
 
 <?php include 'includes/overall/footer.php'; ?>

@@ -1,21 +1,5 @@
 <?php
 
-function community_sub_count($community_name){
-	$community_name = sanitize($community_name);
-	
-	$count = mysql_fetch_assoc(mysql_query("SELECT COUNT(user_id) AS totalsubs FROM subscriptions WHERE community_name = '$community_name'"));
-	
-	return ($count['totalsubs']);
-}
-
-function community_queue_count($community_name){
-	$community_name = sanitize($community_name);
-	
-	$count = mysql_fetch_assoc(mysql_query("SELECT COUNT(id) AS totalqueue FROM posts WHERE site = '$community_name' AND status = 0"));
-	
-	return ($count['totalqueue']);
-}
-
 function community_data($community_name) {
 	$data = array();
 	$community_name = (string)$community_name;
@@ -35,27 +19,6 @@ function community_data($community_name) {
 	}
 }
 
-
-function create_community($community_data){
-	
-	array_walk($community_data, 'array_sanitize');
-
-	$fields = '`' . implode('`, `', array_keys($community_data)) . '`';
-	$data = '\'' . implode('\', \'', $community_data) . '\'';
-
-	mysql_query("INSERT INTO `communities` ($fields) VALUES ($data)");
-	
-}
-	
-function delete_community($community_name){
-	
-	$community_name = sanitize($community_name);
-	
-	$success = mysql_query("DELETE FROM communities WHERE community_name = '$community_name'");
-	
-	return $success;
-	
-}
 	
 function community_exists($name) {
 	
@@ -167,14 +130,13 @@ function community_is_active($community_name){
 	
 	$result = mysql_fetch_assoc(mysql_query("SELECT status FROM `communities` WHERE name = '$community_name'"));
 	
-	if($result['status'] == 1){
+	if($result['status'] <= 1){
 		
 		return true;
 	}else{
 		
 		return false;
 	}
-	
 	
 }
 
@@ -221,6 +183,29 @@ function get_mods_picurl($admin_id){
 	
 }
 
+
+function get_community_color_from_community_name($community_name){
+	
+	$community_name = sanitize($community_name);
+		
+	return mysql_result(mysql_query("SELECT `color` FROM `communities` WHERE `name` = '$community_name'"), 0, 'color');
+	
+}
+
+
+function get_logo_picture_url_from_community_name($community_name){
+	
+	$community_name = sanitize($community_name);
+	
+	$picture_id = mysql_fetch_assoc(mysql_query("SELECT picture FROM communities WHERE name = '$community_name'"));
+	
+	$picture_id = $picture_id['picture'];
+	
+	$url =  mysql_fetch_assoc(mysql_query("SELECT url FROM pictures WHERE id = '$picture_id'"));
+	
+	return $url['url'];
+	
+}
 
 
 

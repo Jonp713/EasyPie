@@ -37,8 +37,6 @@ require 'functions/points.php';
 require 'functions/notifications.php';
 require 'functions/ads.php';
 
-
-
 terminator();
 //ddos();
 

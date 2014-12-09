@@ -12,7 +12,7 @@ foreach ($communities as $currentcommunity){
 	
 	echo('');
 	
-	echo('<button class = "pull-right btn btn-danger btn-sm" onclick="delete_subscription(\''.$currentcommunity['name'].'\', this, 1)">UNSUBSCRIBE</button>');
+	echo('<button class = "pull-right btn btn-danger btn-sm" onclick="delete_subscription(\''.$currentcommunity['name'].'\', this, 1)">REMOVE</button>');
 	
 	
 	

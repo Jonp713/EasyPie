@@ -1,6 +1,8 @@
 <?php
 
 function get_random_ad($type){
+	
+	$type = sanitize($type);
 
 	$result = mysql_fetch_assoc(mysql_query("SELECT id FROM ads WHERE expired = 0 AND type = '$type' ORDER BY RAND() LIMIT 1"));
 
@@ -14,7 +16,7 @@ function display_full_page_ad($ad_id){
 	
 	$data = mysql_fetch_assoc(mysql_query("SELECT * FROM ads WHERE id = '$ad_id' LIMIT 1"));
 	
-	echo("<div id = 'overlay'><button class = 'adxbutton btn btn-lg btn-default glyphicon glyphicon-remove-sign'></button><a href = 'http://www.hampshirezombledon.com' target ='_blank'><img src = 'images/bla/".$data['img']."' class = 'bla img-responsive col-xs-4 col-xs-offset-4'></a></div>");
+	echo("<div id = 'overlay'><button class = 'xbutton btn btn-lg btn-default glyphicon glyphicon-remove-sign'></button><a href = 'http://www.hampshirehungergames.com' target ='_blank'><img src = 'images/bla/".$data['img']."' class = 'bla img-responsive col-xs-10 col-xs-offset-1 col-sm-4 col-sm-offset-4'></a></div>");
 	
 	
 }

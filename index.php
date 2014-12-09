@@ -10,19 +10,26 @@ include 'includes/overall/header.php';
 <?php
 	
 if(logged_in() == true){
-	
+
 
 	$communities = get_subscriptions(0, $session_user_id, '');
 
 	if(count($communities) > 0){
 
 	echo('<span class = "pull-right otherfeedinfo col-xs-12 col-sm-4">');
+	
+	?>
+		
+	<?php
 
 	include 'includes/widgets/submitpost.php';
 
+	echo("<span class = 'hidden-xs'>");
+
 	include 'includes/content/currentsubscriptions.php';
 
-	echo('</span>');
+	echo('</span></span>');
+
 
 	echo('<span class = "pull-left feed col-xs-12 col-sm-8">');
 
@@ -46,11 +53,31 @@ if(logged_in() == true){
 	
 		echo('</span>');
 	
-	}	
+	
+	}
+
+
 	
 }else{
 	
-	include 'includes/content/displaycommunities.php';
+	$iPod    = stripos($_SERVER['HTTP_USER_AGENT'],"iPod");
+	$iPhone  = stripos($_SERVER['HTTP_USER_AGENT'],"iPhone");
+	$iPad    = stripos($_SERVER['HTTP_USER_AGENT'],"iPad");
+	$Android = stripos($_SERVER['HTTP_USER_AGENT'],"Android");
+	$webOS   = stripos($_SERVER['HTTP_USER_AGENT'],"webOS");
+	
+	if($Android || $iPod || $iPhone || $iPad) {
+
+	
+		header('Location: app.php');
+	
+		
+	}else{
+		
+	
+		header('Location: landing.php');
+	
+	}
 	
 }
 	

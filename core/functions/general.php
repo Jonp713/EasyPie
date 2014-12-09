@@ -167,6 +167,7 @@ function save_suspicious_request($type){
 	if(isset($_GET['c'])){
 		
 		$community = $_GET['c'];
+		$community = sanitize($community);
 		
 	}
 		
@@ -191,7 +192,7 @@ function save_suspicious_request($type){
 
 function email($to, $subject, $body) {
 	
-	mail($to, "hey", "Hey", 'From: donotreply@icu.university');
+	mail($to, $subject, $body, 'From: donotreply@icu.university');
 	
 }
 
@@ -213,10 +214,12 @@ function protect_page() {
 function active_protect($community_name){
 	$community_name = sanitize($community_name);
 	
-	
 	$is = community_is_active($community_name);
 	
 	if($is == false){
+		
+		echo("fuck you");
+		die();
 		
 		header('location: explore.php');
 	}

@@ -5,6 +5,8 @@
 	
 
 	foreach ($admin_posts as $currentpost) {
+		
+		echo('<span class = "hidden-xs">');
 				
 		echo("<span class = 'glyphicon glyphicon-bullhorn'></span>&nbsp;&nbsp;");
 		
@@ -26,6 +28,8 @@
 		echo("-".$codename);
 		
 		echo('</span><br><br>');
+		
+		echo('</span>');
 		
 		
 	}

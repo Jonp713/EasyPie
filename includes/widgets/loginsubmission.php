@@ -34,7 +34,7 @@ if (empty($_POST) === false) {
 			if(empty($errors) === true){
 			
 				$_SESSION['user_id'] = $login;
-				header('Location: index.php');
+				header('Location: feed.php');
 				exit();
 			
 			}

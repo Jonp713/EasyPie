@@ -30,6 +30,7 @@ function upload_image($admin_id, $nickname, $type, $file_temp, $file_extn){
 	$admin_id = sanitize($admin_id);
 	$file_temp = sanitize($file_temp);
 	$file_extn = sanitize($file_extn);
+	$nickname = sanitize($nickname);
 	
 	$file_path = 'images/profile/' . substr(md5(time()), 0, 10) . '.' . $file_extn;
 	move_uploaded_file($file_temp, '../'.$file_path);
