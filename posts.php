@@ -43,15 +43,9 @@ include 'includes/content/displaymoderator.php';
 echo("<br>");
 
 
-echo('<span class = "adminposts">');
-
-include 'includes/content/adminposts.php';
-
-echo('</span>');
 
 if($_GET['c'] == "TrapCity"){
 	
-
 	//$adid = get_random_ad(2);
 
 	//display_side_ad($adid);

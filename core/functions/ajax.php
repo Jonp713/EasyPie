@@ -93,7 +93,7 @@ if($function == 'set_reply' && isset($_POST['post_id']) && isset($_POST['status_
 
 if($function == 'subscribe_community' && isset($_POST['community_name']) && isset($session_user_id)){
 	
-	$success = subscribe_community($session_user_id, $_POST['community_name']);
+	$success = subscribe_community($session_user_id, $_POST['community_name'], $_POST['service']);
 	
 	if($success){
 	
@@ -105,7 +105,7 @@ if($function == 'subscribe_community' && isset($_POST['community_name']) && isse
 
 if($function == 'delete_subscription' && isset($_POST['community_name']) && isset($session_user_id)){
 	
-	$success = delete_subscription($session_user_id, $_POST['community_name']);
+	$success = delete_subscription($session_user_id, $_POST['community_name'], $_POST['service']);
 	
 	if($success){
 	
@@ -141,7 +141,7 @@ if($function == 'flag' && isset($_POST['post_id'])){
 
 if($function == 'get_more_approved_posts' && isset($_POST['start'])){
 	
-	$posts = get_more_approved_posts($_POST['start'], $_POST['site']);
+	$posts = get_more_approved_posts($_POST['start'], $_POST['site'], $_POST['service']);
 			
 	foreach ($posts[0] as $currentpost) {
 		
@@ -154,7 +154,7 @@ if($function == 'get_more_approved_posts' && isset($_POST['start'])){
 		
 		$newstart = $_POST['start'] + 30;
 	
-		echo('<button class = "btn btn-default" id = "clickmore" onclick = "get_more_approved_posts('.$newstart.', \''.$_POST['site'].'\')">More Posts</button>');
+		echo('<button class = "btn btn-default" id = "clickmore" onclick = "get_more_approved_posts('.$newstart.', \''.$_POST['site'].'\', \''.$_POST['service'].'\')">More Posts</button>');
 	
 	}
 

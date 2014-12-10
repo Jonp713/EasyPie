@@ -70,9 +70,13 @@ function get_subscriptions($type, $user_id, $state){
 	
     while($number = mysql_fetch_assoc($result_subscribed)) { 
 		
-		$all_names[] = $number['community_name'];		
+		$all_names[] = $number;		
 		
    	}
+	
+	return $all_names;
+	
+	/* 4 communities???
 	
 	if(!isset($all_names)){
 		
@@ -90,38 +94,43 @@ function get_subscriptions($type, $user_id, $state){
    	}
 	
 	return $all_communities;
-
+*/
 }
 
 
-function subscribe_community($user_id, $community_name){
+function subscribe_community($user_id, $community_name, $service){
 	
 	$user_id = sanitize($user_id);
 	$community_name = sanitize($community_name);
+	$service = sanitize($service);
 	
 	$time = time();
 	
-	$success = mysql_query("INSERT INTO subscriptions (user_id, community_name, second) VALUES ('$user_id', '$community_name', '$time')");
+	$success = mysql_query("INSERT INTO subscriptions (user_id, community_name, second, service) VALUES ('$user_id', '$community_name', '$time', '$service')");
 	
 	return $success;
 }
 
-function delete_subscription($user_id, $community_name){
+function delete_subscription($user_id, $community_name, $service){
 	
 	$user_id = sanitize($user_id);
 	$community_name = sanitize($community_name);
+	$service = sanitize($service);
 	
-	$success = mysql_query("DELETE FROM subscriptions WHERE user_id = '$user_id' AND community_name = '$community_name'");
+	
+	$success = mysql_query("DELETE FROM subscriptions WHERE user_id = '$user_id' AND community_name = '$community_name' AND service = '$service'");
 	
 	return $success;
 }
 
-function user_subscribed($user_id, $community_name) {	
+function user_subscribed($user_id, $community_name, $service) {	
 	
 	$user_id = sanitize($user_id);
 	$community_name = sanitize($community_name);
+	$service = sanitize($service);
 	
-	return (mysql_result(mysql_query("SELECT COUNT('id') FROM `subscriptions` WHERE `user_id` = '$user_id' AND `community_name` = '$community_name'"), 0) == 1) ? true : false;
+	
+	return (mysql_result(mysql_query("SELECT COUNT('id') FROM `subscriptions` WHERE `user_id` = '$user_id' AND `community_name` = '$community_name' AND `service` = '$service'"), 0) == 1) ? true : false;
 	
 }
 

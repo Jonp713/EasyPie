@@ -193,12 +193,21 @@ function get_user_feed($user_id, $start){
 
 }
 
-function get_more_approved_posts($start, $site){
+function get_more_approved_posts($start, $site, $service){
 	
 	$start = sanitize($start);
 	$site = sanitize($site);
 	
-	$result = mysql_query("SELECT * FROM posts WHERE status = 1 AND site = '$site' ORDER BY ID DESC LIMIT $start,30");
+	if($service = 'all'){
+		
+		$result = mysql_query("SELECT * FROM posts WHERE status = 1 AND site = '$site' ORDER BY ID DESC LIMIT $start,30");
+		
+	}else{
+	
+		$result = mysql_query("SELECT * FROM posts WHERE status = 1 AND site = '$site' AND service = '$service' ORDER BY ID DESC LIMIT $start,30");
+		
+	}
+
 
 	$newposts = array();
 	
@@ -218,50 +227,78 @@ function get_more_approved_posts($start, $site){
 	}
 }
 
-function get_posts($status, $site, $type, $admin_id){
+function get_posts($status, $site, $type, $admin_id, $service){
 	
 	$admin_id = sanitize($admin_id);
 	$status = sanitize($status);
 	$site = sanitize($site);
+	$service = sanitize($service);
 	
-	if($type == -2){
+	if($service != 'all'){
+		//shit with services
 		
-		$result = mysql_query("SELECT * FROM posts WHERE status = '$status' AND judged_by = '$admin_id' ORDER BY ID DESC LIMIT 0, 30");
+		if($type == -1){
+	
+			$result = mysql_query("SELECT * FROM posts WHERE status = '$status' AND site = '$site' AND service = '$service' ORDER BY ID DESC LIMIT 0, 30");
 		
-	}
-	
-	if($type == -1){
-	
-		$result = mysql_query("SELECT * FROM posts WHERE status = '$status' AND site = '$site' ORDER BY ID DESC LIMIT 0, 30");
+		}
 		
-	}
+		if($type == 0){
 	
-	if($type == 0){
-	
-		$result = mysql_query("SELECT * FROM posts WHERE status = '$status' AND site = '$site' ORDER BY ID DESC");
+			$result = mysql_query("SELECT * FROM posts WHERE status = '$status' AND site = '$site' AND service = '$service' ORDER BY ID DESC");
 		
-	}
+		}
 	
-	if($type == 1){
+		if($service == 'hole'){
 	
-		$result = mysql_query("SELECT post FROM posts WHERE status = '$status' AND site = '$site' AND expired = 0 ORDER BY ID DESC");
+			$result = mysql_query("SELECT post FROM posts WHERE status = 2 AND site = '$site' ORDER BY ID DESC LIMIT 30");
 	
-	}
-	
-	if($type == 2){
-	
-		$result = mysql_query("SELECT * FROM posts WHERE status = '$status' AND judged_by = '$admin_id' ORDER BY ID DESC");
+		}
 		
-	}
-	if($type == 3){
-	
-		$result = mysql_query("SELECT post FROM posts WHERE status = '$status' AND site = '$site' ORDER BY ID DESC");		
+	}else{
 		
-	}
-	if($type == 4){
+		//old shit?
 	
-		$result = mysql_query("SELECT * FROM posts WHERE status = 1 AND flagged = 1 AND judged_by = '$admin_id' ORDER BY ID DESC");
+		if($type == -2){
 		
+			$result = mysql_query("SELECT * FROM posts WHERE status = '$status' AND judged_by = '$admin_id' ORDER BY ID DESC LIMIT 0, 30");
+		
+		}
+	
+		if($type == -1){
+	
+			$result = mysql_query("SELECT * FROM posts WHERE status = '$status' AND site = '$site' ORDER BY ID DESC LIMIT 0, 30");
+		
+		}
+	
+		if($type == 0){
+	
+			$result = mysql_query("SELECT * FROM posts WHERE status = '$status' AND site = '$site' ORDER BY ID DESC");
+		
+		}
+	
+		if($type == 1){
+	
+			$result = mysql_query("SELECT post FROM posts WHERE status = '$status' AND site = '$site' ORDER BY ID DESC LIMIT 30");
+	
+		}
+	
+		if($type == 2){
+	
+			$result = mysql_query("SELECT * FROM posts WHERE status = '$status' AND judged_by = '$admin_id' ORDER BY ID DESC");
+		
+		}
+		if($type == 3){
+	
+			$result = mysql_query("SELECT post FROM posts WHERE status = '$status' AND site = '$site' ORDER BY ID DESC");		
+		
+		}
+		if($type == 4){
+	
+			$result = mysql_query("SELECT * FROM posts WHERE status = 1 AND flagged = 1 AND judged_by = '$admin_id' ORDER BY ID DESC");
+		
+		}
+	
 	}
 	
 	$allposts = array();

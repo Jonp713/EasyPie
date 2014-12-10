@@ -104,9 +104,9 @@ function set_hole_posts(statusIn, siteIn){
 }
 
 
-function get_more_approved_posts(start, site){
+function get_more_approved_posts(start, site, service){
 	
-    $.post("core/functions/ajax.php",{function: "get_more_approved_posts", start: start, site: site}, function(data){
+    $.post("core/functions/ajax.php",{function: "get_more_approved_posts", start: start, site: site, service: service}, function(data){
 		
 		$('#clickmore').replaceWith();       
 				

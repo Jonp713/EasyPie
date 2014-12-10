@@ -68,6 +68,15 @@ if(isset($_GET['c'])){
 
 }
 
+if(isset($_GET['service'])){
+
+	$service_in = $_GET['service'];
+
+}else{
+	
+	$service_in = 'icu';
+}
+
 //temp
 if(isset($_SESSION['seen_ad']) == false){
 

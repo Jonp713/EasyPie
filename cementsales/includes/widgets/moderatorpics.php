@@ -52,6 +52,7 @@ if (isset($_FILES['pic']) === true && empty($errors_p)){
 }else if (empty($errors_p) === false) {
 	
 	echo output_errors($errors_p);
+	
 }
 			
 		

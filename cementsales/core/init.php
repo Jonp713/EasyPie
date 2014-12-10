@@ -57,6 +57,7 @@ require 'functions/communities.php';
 require 'functions/messages.php';
 require 'functions/posts.php';
 require 'functions/points.php';
+require 'functions/services.php';
 
 
 //user initialization

@@ -56,13 +56,13 @@ moderator_protect_page();
 
 if(isset($_GET['community']) && check_admin_power($session_admin_id) > 0){
 	
-	$posts = get_posts(0, $_GET['community'], 0, false);
+	$posts = get_posts(0, $_GET['community'], 0, false, 'all');
 
 }
 
 if(isset($_GET['community']) === false && isset($_GET['codename']) === false){
 
-	$posts = get_posts(0, $admin_data['community'], 0, false);
+	$posts = get_posts(0, $admin_data['community'], 0, false, 'all');
 }
 
 foreach ($posts[0] as $currentpost) {

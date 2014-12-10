@@ -7,7 +7,7 @@ if(isset($_GET['codename']) && check_admin_power($session_admin_id) > 0){
 	
 	$admin_profile_id = admin_id_from_codename($_GET['codename']);
 		
-	$posts = get_posts(1, null, 4, $admin_profile_id);
+	$posts = get_posts(1, null, 4, $admin_profile_id, 'all');
 	
 	$adminshow = true;
 	

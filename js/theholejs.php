@@ -9,7 +9,7 @@ document.getElementById("hole").appendChild(can);
 
 
 ///set posts
-<?php $hole['posts'] = get_posts(2, $community_in, 1, false);?>
+<?php $hole['posts'] = get_posts(2, $community_in, 1, false, 'hole');?>
 
 //display posts
 var posts = <?php echo json_encode($hole['posts']); ?>;

@@ -85,8 +85,16 @@ if (empty($_POST) === false && empty($errors) === true) {
 		if(empty($errors) === true){
 				
 			if(!empty($_GET['c'])){			
-		
-				header('Location: posts.php?c='.$community_in.'&s');
+				
+				if(!empty($_GET['service'])){
+					
+					header('Location: posts.php?c='.$community_in.'&service='.$service_in.'&s');
+				
+				}else{
+					
+					header('Location: posts.php?c='.$community_in.'&s');
+					
+				}
 		
 			}else{
 			

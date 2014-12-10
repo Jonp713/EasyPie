@@ -26,7 +26,6 @@ if(empty($_GET['share']) == false){
 			  
 			  ?>
 			  
-			  
 			  <span class = "col-xs-12">
 				  				  
 				  Share link:
