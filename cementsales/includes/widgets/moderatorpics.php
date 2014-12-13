@@ -41,7 +41,7 @@ if (isset($_FILES['pic']) === true && empty($errors_p)){
 			
 	if(check_admin_power($session_admin_id) > 0){
 		
-		upload_image($session_admin_id, $_POST['nickname'], 'moderator', $file_temp, $file_extn);
+		upload_image($session_admin_id, $_POST['nickname'], $_POST['type'], $file_temp, $file_extn);
 		
 		header('Location: pics.php?s');
 		exit();
@@ -72,6 +72,14 @@ if (isset($_FILES['pic']) === true && empty($errors_p)){
 </div>
 	
 	
+	    <div class="form-group">
+	      <label for="type" class="col-xs-2 control-label">Type</label>
+	      <div class="col-xs-6">
+	   	<input class = "form-control" id = "type" type="text" name = 'type'>
+		</div>
+	</div>
+	
+	
  <div class="form-group">
 	     <label for="pic" class="col-xs-2 control-label">Picture:</label>
  <div class="col-xs-6">
@@ -93,7 +101,7 @@ if (isset($_FILES['pic']) === true && empty($errors_p)){
 
 <?php
 
-$pics = get_pics('moderator', 0);
+$pics = get_pics('moderator', 0, 0);
 
 foreach ($pics as $currentpics) {
 	

@@ -13,25 +13,12 @@
 			
 		<?php
 		
-		if(isset($_GET['c'])){
-		
-			$community = $_GET['c'];
-			
-			$community = sanitize($community);
-		
-			$result = mysql_fetch_assoc(mysql_query("SELECT * FROM communities WHERE name = '$community'"));
-		
-			$name = strtoupper($result['name']);
-	
-			echo('<span style = "color:white; font-size:20px; !important" class ="communityname">ICU<font color = "'.$result['color'].'">'.$name.'</font></span><br>');
-			
-	
-		}
+		//This is where youd put the other services
 		
 		?>
         </li>
 		
-		<li><a data-placement="bottom" href = 'explore.php'>EXPLORE</a></li>
+		<li><a href = 'posts.php?c=Hampy'>POSTS</a></li>
   				<?php
   				if (logged_in() === true) {
   					include 'includes/navbar/loggedin.php';
@@ -49,57 +36,9 @@
 			
 		<?php
 		
-		if(isset($_GET['c'])){
+		//Moderator PIC THING IN HERE!!
 		
-		
-			echo('<span style = "color:#fff;">');
-			
-			if($result['needs_moderator'] == 0){
-	
-				$id = $result['head_admin_id'];
-				
-				$id = sanitize($id);
-	
-				$admin = mysql_fetch_assoc(mysql_query("SELECT profile, initials FROM cementsalesmen WHERE id = '$id'"));
-	
-				echo('<span style = "color:white; font-size:30px;" class = "modtitle">Mod '.$admin['initials'].'</span><br>');
-	
-				$url = get_mods_picurl($id);
-	
-				echo '<img class = "col-xs-6 col-sm-12 img-responsive" src="'. $url . '"><br><br>';
-				
-			}
-			
-			$admin_posts = admin_posts($_GET['c']);
-			
-			echo('<span class = "col-xs-12" style = "width:200px;">');
-			
-			foreach ($admin_posts as $currentpost) {
-		
-				echo('<br><span class = "pull-left adminpost" style = "padding-left:0px; text-indent:0px; line-height:15px !important;">');
-		
-				echo($currentpost['message'] . '<br><br>');
-		
-				echo('');
-		
-				$id = $currentpost['admin_id'];
-				
-				$id = sanitize($id);
-				
-				$codename = mysql_result(mysql_query("SELECT `initials` FROM `cementsalesmen` WHERE `id` = '$id'"), 0, 'initials');
-		
-				echo("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-".$codename);
-		
-				echo('</span><br><br>');
-				
-			
-			}	
-			echo('</span>');
-		
-		
-		}
 
-echo('</span>');
 
 		?>
 		

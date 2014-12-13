@@ -132,7 +132,7 @@ if(isset($_GET['community']) === false && isset($_GET['codename']) === false){
 	
 				<?php 
 								
-				$pics = get_pics('moderator', 0);	
+				$pics = get_pics('moderator', 0, 0);	
 				
 				foreach ($pics as $currentpic) {
 					

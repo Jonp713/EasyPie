@@ -18,7 +18,7 @@ if(!in_array($_SERVER['REMOTE_ADDR'], $locallist)){
 
 if(!$session_local){
 	
-	error_reporting(0);
+	//error_reporting(0);
 	require_once('recaptchalib.php');
 	
 }	
@@ -36,6 +36,9 @@ require 'functions/communities.php';
 require 'functions/points.php';
 require 'functions/notifications.php';
 require 'functions/ads.php';
+require 'functions/postsdisplay.php';
+require 'functions/services.php';
+
 
 terminator();
 //ddos();
@@ -71,10 +74,12 @@ if(isset($_GET['c'])){
 if(isset($_GET['service'])){
 
 	$service_in = $_GET['service'];
-
+	$colortouse =  get_service_color_from_service_name($_GET['service']);	
+	
 }else{
 	
-	$service_in = 'icu';
+	$service_in = 'ICU';
+	$colortouse = "#aab341";
 }
 
 //temp

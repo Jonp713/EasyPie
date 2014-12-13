@@ -39,7 +39,12 @@
 	<script src="js/html5shiv.js"></script>
 	<![endif]-->
 </head>
+
+
+
 <body>
+	
+	
 <header>
 	
 		
@@ -95,7 +100,7 @@
 		
 		
 </header>
-
+<span class = "background"></span>
 
 <div id = "wrapper">
 
@@ -105,6 +110,7 @@
 	
 
 <div id = "page-content-wrapper">
+	<?php include 'includes/widgets/modals.php'; ?>
 	
 	
 <div class="container-fluid" >

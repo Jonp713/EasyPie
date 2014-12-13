@@ -758,26 +758,57 @@ overflow-x: hidden;
     background: none;
 }
 
-@media(min-width:768px) {
-    #wrapper {
-    }
+@media(max-width:768px) {
+	.hole-post{
+	
+		font-size:1.4em;
+		color:black;
+		margin:0px;
+		margin-bottom:20px;
+	}
 
-    #wrapper.toggled {
-    }
+	.hole-post .viewcomments{
+	
+	}
 
-    #sidebar-wrapper {
-        width: 150px;
-    }
+	.hole-post .viewcomments:hover;{
+	
+	
+	}
+}
 
-    #wrapper.toggled #sidebar-wrapper {
-        width: 0;
-    }
+.hole-feed{
+	margin-top:30px;
+	
+}
 
-    #page-content-wrapper {
-        padding: 20px;
-    }
+.hole-post{
+	
+	font-size:2em;
+	color:black;
+	margin:5px;
+	margin-bottom:30px;
+	
+}
 
-    #wrapper.toggled #page-content-wrapper {
-  
-    }
+.a-hole-comment{
+	
+	
+}
+
+.hole-comments{
+	
+	
+}
+
+
+.low-padding{
+
+	padding-left:2px !important;
+	
+}
+
+.no-padding{
+	
+	padding:0px !important;
 }

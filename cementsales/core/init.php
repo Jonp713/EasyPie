@@ -32,10 +32,13 @@ if ($current_file == 'ajax.php'){
 	require '../../../core/functions/general.php';
 	require '../../../core/functions/users.php';
 	require '../../../core/functions/posts.php';
+	require '../../../core/functions/postsdisplay.php';
 	require '../../../core/functions/messages.php';
 	require '../../../core/functions/communities.php';
 	require '../../../core/functions/points.php';
 	require '../../../core/functions/notifications.php';
+	require '../../../core/functions/services.php';
+	
 	
 	
 }else{
@@ -43,11 +46,12 @@ if ($current_file == 'ajax.php'){
 	require '../core/functions/general.php';
 	require '../core/functions/users.php';
 	require '../core/functions/posts.php';
+	require '../core/functions/postsdisplay.php';
 	require '../core/functions/messages.php';
 	require '../core/functions/communities.php';
 	require '../core/functions/points.php';
 	require '../core/functions/notifications.php';
-	
+	require '../core/functions/services.php';
 	
 
 }

@@ -20,29 +20,15 @@ if($_SESSION['seen_ad'] == 0){
 	}
 }
 
-echo('<span class = "communityother pull-left col-xs-12 col-sm-3">');
+echo('<span class = "communitymoderator pull-right hidden-xs">');
 
-include 'includes/content/communityinfo.php';
+echo('<span class = "lowerandscroll">');
 
 include 'includes/widgets/submitpost.php';
 
 include 'includes/widgets/subscribe.php';
 
-if(hole_is_active($_GET['c'])){
-
-	echo('<span class ="hidden-xs"><a href="hole.php?c='.$_GET['c'].'" class="btn btn-custom btn-lg btn-block">ENTER THE HOLE</a></span>');
-
-}
-
-echo('</span>');
-
-echo('<span class = "communityother pull-right col-xs-12 col-sm-3">');
-
 include 'includes/content/displaymoderator.php';
-
-echo("<br>");
-
-
 
 if($_GET['c'] == "TrapCity"){
 	
@@ -54,10 +40,26 @@ if($_GET['c'] == "TrapCity"){
 		
 }
 
+echo('</span></span>');
 
-echo('</span>');
+//$rgb = hex2rgb($colortouse);
 
-echo('<span class = "postfeed pull-left col-xs-12 col-sm-6">');
+//echo('<span class = "communitynav col-xs-12" style = "background-color:rgba('.implode($rgb,',').',0.5)">');
+
+echo('<span class = "communitynav col-xs-12">');
+
+
+//include 'includes/content/communityinfo.php';
+
+echo('<span class = "lowerandscroll">');
+
+include 'includes/content/servicelist.php';
+
+echo('</span></span>');
+
+
+
+echo('<span class = "postfeed">');
 
 echo('<span class = "hidden-sm hidden-md hidden-lg">');
 

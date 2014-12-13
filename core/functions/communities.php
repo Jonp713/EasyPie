@@ -201,7 +201,6 @@ function get_community_color_from_community_name($community_name){
 	
 }
 
-
 function get_logo_picture_url_from_community_name($community_name){
 	
 	$community_name = sanitize($community_name);

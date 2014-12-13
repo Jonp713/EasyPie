@@ -1,3 +1,6 @@
+    <script src = "js/CanvasInput.min.js" type = 'text/javascript'></script>
+
+
 <script type = 'text/javascript'>
 
 // Create the canvas
@@ -7,7 +10,6 @@ can.width = $(window).width();
 can.height = $(window).height();
 document.getElementById("hole").appendChild(can);
 
-
 ///set posts
 <?php $hole['posts'] = get_posts(2, $community_in, 1, false, 'hole');?>
 
@@ -15,8 +17,8 @@ document.getElementById("hole").appendChild(can);
 var posts = <?php echo json_encode($hole['posts']); ?>;
 
 var ambientLight = 0;
-var intensity = .8;
-var radius = 100;
+var intensity = 1;
+var radius = 200;
 var amb = 'rgba(0,0,0,' + (1-ambientLight) + ')';
 var mouse = {};
 
@@ -76,7 +78,7 @@ function cameraMove(){
 var camera = {};
 camera.y = 0;
 
-var postlinelength = $(window).width()/40;
+var postlinelength = $(window).width()/80;
 var count = 0;
 var count2 = 0;
 var postsparse = [];
@@ -87,7 +89,13 @@ var dontnewline = false;
 
 var debugparse = [];
 
+
+var inputs = [];
+
+
 function prepPosts(){
+	
+
 	
 	for(var i=0;i< posts.length; i++){
 		
@@ -159,20 +167,62 @@ function prepPosts(){
 		count2 = 0;
 		totalcharcount = 0;
 		
-		
+	}
+	
+	for(var i=0; i<postsparse.length;i++){
+	   if(postsparse[i] == ''){
+	
+			inputs[i] = new CanvasText( can, {
+			    x: $(window).width() - $(window).width()/1.8 ,
+			    y: ((i * 50) + 50) - camera.y,
+			    width: $(window).width()/4,
+			    placeholder: 'Comment on this...'
+			} );
+	
+	   }
 	}
 	
 }
+
+
+
+
+var submit = new CanvasSubmit( can, {
+    x: 'center',
+    y: 195,
+    width: 300,
+    placeholder: 'Submit',
+    onSubmit: ( function() {
+        return alert( 'Submit button pressed' );
+    } )
+} );
+
+var nextOneInput = false;
+
+
 function displayPosts(){
 	
-	for(var i=0;i<postsparse.length;i++){
+	
+	for(var i=0; i<postsparse.length;i++){
+		
+	   		if(postsparse[i] == ''){
+							
+				inputs[i].yPos = ((i * 50) + 80) - camera.y;
+				
+			}
 
 	       ctx.fillText(postsparse[i], $(window).width()/10, ((i * 50) + 50) - camera.y);
 		   
+		
 	 }
+	 
+	 
 	
 }
 
+document.onkeydown = function () {
+	redraw(mouse);
+}
 
 function redraw(mouse) {
     can.width = can.width;
@@ -180,6 +230,15 @@ function redraw(mouse) {
 	ctx.font = "40px Titillium";
     //ctx.drawImage(img, 0, 0);
 	displayPosts();
+	
+	
+	for(var i=0; i<postsparse.length;i++){
+	   	if(postsparse[i] == ''){
+				
+			inputs[i].refresh();
+		}	
+	}
+
 	
 	g = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, radius);
 	g.addColorStop(1, amb);
@@ -193,6 +252,11 @@ function redraw(mouse) {
     ctx.fillRect(0,0,can.width,can.height);
 	ctx.fillStyle = 'white';
    // ctx.fillText('The Hole', 30, 50);
+   
+   
+
+  
+   
 	
 }
 

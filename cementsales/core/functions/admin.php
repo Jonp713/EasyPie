@@ -55,11 +55,19 @@ function remove_pic($pic_id, $admin_id){
 	
 }
 
-function get_pics($type, $status){
+function get_pics($type, $status, $all){
 	$type = sanitize($type);
 	$status = sanitize($status);
 	
+	if($all == 1){
+	
 	$result = mysql_query("SELECT * FROM pictures WHERE type = '$type' AND status = '$status' ORDER BY ID DESC");
+	
+}else{
+	
+		$result = mysql_query("SELECT * FROM pictures WHERE status = '$status' ORDER BY ID DESC");
+	
+}
 	
 	$all_pics = array();
 	

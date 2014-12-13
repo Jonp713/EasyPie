@@ -3,7 +3,7 @@
 
 if(isset($_GET['service']) == false){
 
-	echo('<div id = "posts">');
+	echo('<div id = "posts" class = "icu-feed">');
 
 	$posts = get_posts(1, $community_in, -1, false, $service_in);
 
@@ -25,9 +25,9 @@ if(isset($_GET['service']) == false){
 
 }
 
-if($_GET['service'] == "icu"){
+if($_GET['service'] == "ICU"){
 
-	echo('<div id = "posts">');
+	echo('<div id = "posts" class = "icu-feed">');
 
 	$posts = get_posts(1, $community_in, -1, false, $service_in);
 
@@ -42,6 +42,32 @@ if($_GET['service'] == "icu"){
 		
 		echo('<span class = "btn btn-default" id = "clickmore" onclick = "get_more_approved_posts(30,\''.$community_in.'\',\''.$service_in.'\')">More Posts</span>');
 	
+	
+	
+	}
+	
+	echo('</div>');
+	
+	
+}
+
+
+if($_GET['service'] == "Bone"){
+
+	echo('<div id = "posts" class = "icu-feed">');
+
+	$posts = get_posts(1, $community_in, -1, false, $service_in);
+
+	foreach ($posts[0] as $currentpost) {
+		
+		display_post($currentpost['id'], 'post', 'display_time', 'share_post', 'save_post', 'flag', 'reply');
+		
+		echo('<br>');
+	}
+	
+	if($posts[1]){
+		
+		echo('<span class = "btn btn-default" id = "clickmore" onclick = "get_more_approved_posts(30,\''.$community_in.'\',\''.$service_in.'\')">More Posts</span>');
 	
 	
 	}
