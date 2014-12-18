@@ -127,7 +127,7 @@ function user_exists($username) {
 	return (mysql_result(mysql_query("SELECT COUNT(`user_id`) FROM `users` WHERE `username` = '$username'"), 0) == 1) ? true : false;
 }
 
-function user_exists_outside($username, $user_id) {
+function user_exists_outside($username, $user_id ) {
 	$username = sanitize($username);
 	$user_id = sanitize($user_id);
 	
@@ -163,7 +163,8 @@ function user_id_from_post_id($post_id) {
 
 function username_from_user_id($user_id) {
 	$user_id = sanitize($user_id);
-	return mysql_result(mysql_query("SELECT `username` FROM `users` WHERE `id` = '$user_id'"), 0, 'username');
+		
+	return mysql_result(mysql_query("SELECT `username` FROM `users` WHERE `user_id` = '$user_id'"), 0, 'username');
 }
 
 function user_id_from_email($email) {

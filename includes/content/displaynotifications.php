@@ -5,6 +5,8 @@
 
 	$notifications = get_notifications($session_user_id, 0);
 	
+	
+	
 	if(count($notifications) <= 0){
 		
 		echo('<span class = "col-xs-8 col-sm-offset-2 text-center">');
@@ -17,7 +19,10 @@
 		
 	foreach ($notifications as $currentnot) {
 		
-		echo("<span class = 'row'>");
+		notification_seen($currentnot['id'], $session_user_id);
+		
+		
+		echo("<span class = 'col-xs-12 row anotification'>");
 		
 		echo("<span class = 'col-xs-3 text-center'>");
 			
@@ -57,7 +62,12 @@
 			
 			echo('<span class="glyphicon glyphicon-bullhorn"></span><br>');
 			
-		}				
+		}	
+		if($currentnot['type'] == "comment"){
+			
+			echo('<span class="glyphicon glyphicon-comment"></span><br>');
+			
+		}					
 			
 			
 		echo('</span>');
@@ -66,8 +76,7 @@
 		echo("<span class = 'col-xs-6'>");
 		
 			
-		echo('<span class = "notificationtext">'.$currentnot['textin'].'</span><br>');
-		notification_seen($currentnot['id'], $session_user_id);
+		echo('<span class = "notificationtext">'.$currentnot['textin'].'</span>');
 		
 		echo('<span class = "extranottext">');
 		
@@ -128,6 +137,24 @@
 				echo($post);
 				
 			}
+			
+		}
+		if($currentnot['type'] == "comment"){
+			
+			$service_name = service_name_from_post_id($currentnot['ref_id']);
+			$community_name = community_name_from_post_id($currentnot['ref_id']);
+			
+			echo('<a class = "plzgoup" href = "posts.php?c='.$community_name.'&service='.$service_name.'&share='.$currentnot['ref_id'].'">');
+			
+			$post = post_text_from_post_id($currentnot['ref_id']);
+			
+			if(isset($post)){
+
+				echo($post);
+				
+			}
+			
+			echo('</a>');
 			
 		}
 		if($currentnot['type'] == "admin_message"){

@@ -16,11 +16,11 @@ if($service_in == 'ICU'){
 
 				<div class="form-group">
 				
-			    <input type="text" value = "ICU" name = "service" hidden>
+			    <input type="text" id = "sf-ICU-service" value = "ICU" name = "service" hidden>
 				
 				
-		      <div class="col-sm-12">
-				<textarea placeholder = "ICU..." name="post" class = "form-control"></textarea>
+		      <div class="col-xs-12">
+				<textarea placeholder = "ICU..." name="post" class = "form-control" id = "sf-ICU-textarea"></textarea>
 				</div>
 			</div>
 		
@@ -34,6 +34,7 @@ Users can anonymously send you messages by clicking reply. They cannot see your 
 			 		 <input type="checkbox" name="reply_on" checked = 'checked'>I want replies
 			      </label>
 			    </div>
+						
 			
 			<?php }else{?>
 				
@@ -48,6 +49,12 @@ Users can anonymously send you messages by clicking reply. They cannot see your 
 	
 	
 <?php } ?>
+
+			    <div class="checkbox">
+			      <label>
+			 		 <input type="checkbox" id = "sf-ICU-comments" name="comments_on">Allow comments
+			      </label>
+			    </div>	
 		
 	</span>
 	
@@ -73,16 +80,22 @@ if($service_in == 'Bone'){
 
 				<div class="form-group">
 				
-			    <input type="text" value = "Bone" name = "service" hidden>
+			    <input type="text" id = "sf-Bone-service"  value = "Bone" name = "service" hidden>
 				<input type="checkbox" name="reply_on" checked = 'checked' hidden>	
 				
 				
 				
-		      <div class="col-sm-12">
-				<textarea placeholder = "Will someone with a hot body make out with me NSA?" name="post" class = "form-control"></textarea>
+		      <div class="col-xs-12">
+				<textarea placeholder = "Will someone with a hot body make out with me NSA?" name="post" id = "sf-Bone-textarea" class = "form-control"></textarea>
 				</div>
 			</div>
 						
+						
+		    <div class="checkbox">
+		      <label>
+		 		 <input type="checkbox" id = "sf-Bone-comments" name="comments_on">Allow comments
+		      </label>
+		    </div>
 											
 				
 				<?php }else{
@@ -95,3 +108,58 @@ if($service_in == 'Bone'){
 			
 		
 	</span>		
+	
+	
+	
+	
+	
+	<?php
+
+	//BONE
+	
+	if($service_in == 'Hole'){
+
+		echo('<span id = "sf-Hole" data-active = "active">');
+
+	}else{
+	
+	   echo('<span id = "sf-Hole" data-active = "notactive">');
+   
+	}
+	
+	?>
+
+
+					<div class="form-group">
+				
+				    <input type="text" id = "sf-Hole-service" value = "Hole" name = "service" hidden>
+								
+			      <div class="col-xs-12">
+					<textarea placeholder = "Post to the hole do not go through our moderation system" name="post" id = "sf-Hole-textarea" class = "form-control"></textarea>
+					</div>
+				</div>
+				
+				
+				<div class = "form-group">
+   			     <label for="is_image" class="col-xs-3 control-label">Use a picture:</label>
+					
+				 <div class="col-xs-8">
+					
+					 <input id = "is_image" onclick = "toggle_post_picture()" type="checkbox" name = "is_image" value="checked">
+				 
+				 </div></div>
+				
+			 <div id = "post-pic-form" class="form-group picture-disabled">
+							
+					     <label for="pic" class="col-xs-3 control-label">Picture:</label>
+						 <div class="col-xs-8">
+	
+					 <input class = "form-control" type="file" id = "pic" name="pic">
+	
+				</div></div>
+						
+			
+		
+		</span>
+	
+	

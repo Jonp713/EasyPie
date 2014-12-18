@@ -151,7 +151,7 @@
 		
 	foreach ($messages as $currentmessage) {
 		
-		echo('<span class = "messagerow">');
+		echo('<span class = "messagerow col-xs-12">');
 		
 		
 		echo("<span class = 'col-xs-4 text-center'>");

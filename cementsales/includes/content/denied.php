@@ -41,10 +41,10 @@ foreach ($posts[0] as $currentpost) {
 	
 	if($moretype == 1){
 	
-		display_post_admin($currentpost['id'], 'post', 'site', 'display_time', 'username', 'admin_reply', 'approve', 'delete');
+		display_post_admin($currentpost['id'], 'post', 'site', 'display_time', 'username', 'admin_reply', 'approve', 'delete', 'image', 'service');
 	
 	}else{
-		display_post_admin($currentpost['id'], 'post', 'display_time', 'username', 'admin_reply', 'approve', 'delete');
+		display_post_admin($currentpost['id'], 'post', 'display_time', 'username', 'admin_reply', 'approve', 'delete', 'image', 'service');
 		
 	}
 	

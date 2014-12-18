@@ -4,6 +4,58 @@ require ('../init.php');
 
 $function = $_POST['function'];
 
+
+if($function == 'give_point' && isset($_POST['post_id']) && isset($session_user_id)){
+	
+	$success = give_point($_POST['post_id'], $session_user_id);
+		
+	if($success){
+	
+		echo('Point Given');
+	
+	}	
+	
+}
+
+
+
+if($function == 'get_comments' && isset($_POST['post_id'])){
+	
+	$comments = get_comments($_POST['post_id']);
+	
+	foreach ($comments as $currentcomment) {
+	
+		display_comment($currentcomment['id'], 'text', 'username');
+	
+	}
+	
+}
+
+if($function == 'submit_comment' && isset($_POST['post_id'])){
+
+    $timestamp = date('g:i A \ \ D, M d, Y' , time());
+					
+	$comment_data = array(
+		'text'	 	=> $_POST['comment'],
+		'post_id'			=> $_POST['post_id'],
+		'second'		=> time(),
+	);
+	
+			
+	if(logged_in() === true){
+		
+		$comment_data['user_id'] = $session_user_id;
+		$comment_data['show_username'] = 1;
+		
+	}
+	
+	$success = submit_comment($comment_data);
+	
+	echo($success);
+
+}
+
+
 if($function == 'save_post' && isset($_POST['post_id']) && isset($session_user_id)){
 	
 	$success = save_post($session_user_id, $_POST['post_id']);
@@ -145,9 +197,61 @@ if($function == 'get_more_approved_posts' && isset($_POST['start'])){
 			
 	foreach ($posts[0] as $currentpost) {
 		
-		display_post($currentpost['id'], 'post', 'change_time', 'share_post', 'save_post', 'flag', 'reply', "share_post");
 		
-		echo('<br>');
+		if($currentpost['service'] == "ICU"){
+			
+			if($_POST['service'] === "all"){
+			
+				display_post($currentpost['id'], 'post', 'service', 'change_time', 'share_post', 'save_post', 'reply','comment_count', 'comment_on', 'point_count', 'give_point');
+				echo('<br>');
+			
+			}else{
+				
+				display_post($currentpost['id'], 'post', 'change_time', 'share_post', 'save_post', 'reply','comment_count', 'comment_on', 'point_count', 'give_point');
+				
+			}
+			
+		}
+		if($currentpost['service'] == "Bone"){
+			
+			if($_POST['service'] === "all"){
+		
+				display_post($currentpost['id'], 'post', 'service', 'change_time', 'share_post', 'reply', 'comment_count', 'comment_on', 'point_count', 'give_point');
+				echo('<br>');
+			
+			}else{
+			
+				display_post($currentpost['id'], 'post', 'change_time', 'share_post', 'reply', 'comment_count', 'comment_on', 'point_count', 'give_point');
+			
+			
+			}
+		
+		}
+		
+		if($currentpost['service'] == "Hole"){
+			
+			
+			
+			if($_POST['service'] === "Hole"){
+												
+				echo('<span class = "hole-post col-xs-12 no-padding">');
+		
+				display_hole_post($currentpost['id'], 'post', 'comment_count', 'comment_on', 'point_count', 'give_point', 'change_time', 'image');
+		
+				echo('</span><br>');
+				
+			}else{
+				
+		
+				display_post($currentpost['id'], 'post', 'service', 'comment_count', 'comment_on', 'point_count', 'give_point', 'change_time', 'image');
+			
+				echo('<br>');
+				
+			}
+		
+		
+		
+		}
 	}
 	
 	if($posts[1]){
@@ -167,9 +271,27 @@ if($function == 'get_more_feed_posts' && isset($_POST['start']) && isset($sessio
 			
 	foreach ($posts[0] as $currentpost) {
 		
-		display_post($currentpost['id'], 'change_time', 'post', 'site', 'save_post', 'flag', 'reply', "share_post");
+		if($currentpost['service'] == "ICU"){
+			
+			display_post($currentpost['id'], 'post', 'service', 'change_time', 'share_post', 'save_post', 'reply', 'comment_count', 'comment_on', 'point_count', 'give_point');
+			echo('<br>');
+			
+		}
+		if($currentpost['service'] == "Bone"){
 		
-		echo('<br>');
+			display_post($currentpost['id'], 'post', 'service', 'change_time', 'share_post', 'reply', 'comment_count', 'comment_on', 'point_count', 'give_point');
+			echo('<br>');
+		
+		}
+		
+		if($currentpost['service'] == "Hole"){
+		
+			display_post($currentpost['id'], 'post', 'service', 'comment_count', 'comment_on', 'point_count', 'give_point', 'change_time', 'image');
+			
+			echo('<br>');
+		
+		
+		}
 	}
 	
 	if($posts[1]){

@@ -74,7 +74,7 @@ a{
 }
 
 .btn-custom:hover {
-  background-color: hsl(186, 0%, 10%) !important;
+  background-color: hsl(186, 0%, 35%) !important;
 
   
 }
@@ -407,14 +407,25 @@ z-index:2;
 	
 }
 
+#holeModal{
+	
+	cursor:pointer;
+}
+
 #holeoverlay-right{
 position:fixed;
 
 top:1em;
 right:1em;
+display:inline;
 
 z-index:2;	
 	
+}
+
+.inline{
+	
+	display:inline !important;
 }
 
 
@@ -539,6 +550,11 @@ z-index:2;
 	
 	font-size:3em;
 	
+}
+
+.hoverer{
+	
+	cursor:pointer;
 }
 
 .lasthomesign{
@@ -758,6 +774,42 @@ overflow-x: hidden;
     background: none;
 }
 
+#hole-comments-section{
+	background-color:#171717;
+	border-radius:15px;
+	z-index:20;
+	position:fixed;
+	right:1%;
+	top:10%;
+	cursor:initial;
+	overflow-y:scroll;
+	height:90%;
+	
+}
+
+
+.comment-x{
+	
+	color:white;
+	font-size:1em;
+	padding:5px;
+	
+}
+	.comment-x:hover{
+
+		opacity:0.8;
+		cursor:pointer;
+	}
+	
+	.comment_submit{
+		
+		position:relative;
+		top:-5px;
+		border-radius: 0px 0px 15px 15px !important;
+		
+	}
+
+
 @media(max-width:768px) {
 	.hole-post{
 	
@@ -765,20 +817,28 @@ overflow-x: hidden;
 		color:black;
 		margin:0px;
 		margin-bottom:20px;
+		
 	}
-
-	.hole-post .viewcomments{
+	
+	#hole-comments-section{
+		left:5%;
+		top:10%;
+		width:90%;
+		
+	}
+	
+	.comment-x{
+	
+		color:white;
+		font-size:2.5em;
+		padding:5px;
 	
 	}
-
-	.hole-post .viewcomments:hover;{
 	
-	
-	}
 }
 
 .hole-feed{
-	margin-top:30px;
+	margin-top:5%;
 	
 }
 
@@ -791,14 +851,33 @@ overflow-x: hidden;
 	
 }
 
-.a-hole-comment{
-	
+.a-comment{
+	padding:6px;
+	padding-left:0px;
+	padding-right:0px;
+	margin-top:5px;
+	border-radius:2px;
+	margin-bottom:5px;
+	background-color:#3f3f3f;
 	
 }
 
-.hole-comments{
+.comment-username{
+	position:absolute;
+	border-radius:10px 0px 2px 0px;
+	right:0px;
+	bottom:0px;
+	padding:1px;
+	padding-right:5px;
+	padding-left:5px;
+	color:white;
+	background-color:#a7a7a7;
 	
+}
+
+#actual-comments{
 	
+	color:white;
 }
 
 
@@ -811,4 +890,181 @@ overflow-x: hidden;
 .no-padding{
 	
 	padding:0px !important;
+}
+
+
+.acount{
+	
+	
+}
+
+
+.comment_count{
+	
+
+	/* border-radius: 50%;
+	padding-left:5px;
+	padding-right:10px;
+
+		background-color:#eee;*/
+	
+}
+
+
+.formcontrol.textarea{
+	
+	width:100%;
+}
+
+#myModal{
+	
+	cursor:initial;
+}
+
+.hoverer-icon{
+	
+	opacity:1;
+	cursor:pointer;
+}
+.hoverer-icon:hover{
+	
+	opacity:.2;
+}
+
+.icon-selected{
+	
+	opacity:1;
+	color:orange;
+}
+
+
+.modquote{
+	color:white;
+	font-size:1.2em;
+	width:90% !important;
+	
+}
+
+.modquote-wrapper{
+	width:90% !important;
+	position:relative;
+	left:5%;
+	padding:15px;
+	border-radius:20px;
+}
+
+.modname{
+	
+	position:relative;
+	top:10px;
+	left:10%;
+	color:white;
+	font-size:2em;
+	z-index:3;
+}
+
+.service-desc{
+	
+	padding:1% 3% 3% 3%;
+	background-color:#777777;
+	position:relative;
+	top:5px;
+color:white;	
+border-radius:3px;
+	
+}
+
+.subscribe_community_button{
+	
+
+}
+
+.delete_subscription_button{
+	
+
+}
+
+.service-submit-button{
+	height:11%;
+	width:11%;
+	
+}
+
+.service-submit-button.active{
+	opacity:.4;
+	
+}
+
+
+.submit-services{
+	
+	margin-bottom:30px;
+	
+}
+
+.picture-disabled{
+	
+	color:#bbb;
+
+}
+body{
+    -moz-user-select: none;
+      -khtml-user-select: none;
+      -webkit-user-select: none;
+
+      /*
+        Introduced in IE 10.
+        See http://ie.microsoft.com/testdrive/HTML5/msUserSelect/
+      */
+      -ms-user-select: none;
+      user-select: none;
+	  cursor:none;
+}
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+   background-color:rgba(0,0,0,1); 
+}
+
+::-webkit-scrollbar-thumb {
+    background-color:rgba(255,255,255,1); 
+	
+}
+
+body{
+  background: #000000 !important;
+}
+
+.ploatjeClass{
+  position:absolute;
+  background-color:white;
+  width:100%;
+  top:0px;
+  left:0px;
+
+}
+
+#log{
+  color:#ffffff;
+  position:absolute;
+  opacity:0;  
+}
+
+#logDetails{
+  color:#ffffff;
+  position:absolute;
+  opacity:0;
+}
+
+.topalert{
+position:fixed;
+top:1.1em;
+
+}
+
+img{
+	
+	z-index:-1;
 }

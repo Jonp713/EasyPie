@@ -30,12 +30,11 @@ if(empty($_GET['share']) == false){
 				  				  
 				  Share link:
 				  			  
-			  <input size="6" type = "text"  value = "<?php echo('https://icu.university/posts.php?c='.$data['site'].'&share='.$link); ?>">
-			  
-			  
+			  <input size="6" type = "text"  value = "<?php echo('https://icu.university/posts.php?c='.$data['site'].'&service='.$data['service'].'&share='.$link); ?>">
+			   
 
-<div class="pull-right fb-share-button" data-href="<?php echo('https://icu.university/posts.php?c='.$data['site'].'&share='.$link);
-?>"></div>
+<div class="pull-right fb-share-button" data-href="<?php echo('https://icu.university/posts.php?c='.$data['site'].'&service='.$data['service'].'&share='.$link); ?>">
+</div>
 
 <a href="https://twitter.com/share" class="pull-right twitter-share-button">Tweet</a>
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
@@ -46,12 +45,12 @@ if(empty($_GET['share']) == false){
 
 <br>
 
-<hr class = "replysharehr">
 
 </span>
+<br>
 			  <?php
 								
-	  			display_post($id, 'post', 'display_time', 'reply_share', 'save_post', 'flag');
+	  			display_post($id, 'post', 'display_time', 'reply_share', 'comment_share', 'save_post', 'point_count', 'give_point');
 				
 			  ?>
 

@@ -11,25 +11,17 @@ $communities = get_subscriptions(0, $session_user_id, '');
 
 if(count($communities) > 0){
 
-echo('<span class = "pull-right otherfeedinfo col-xs-12 col-sm-4">');
+echo('<span class = "pull-right otherfeedinfo hidden-xs col-sm-4">');
 
 include 'includes/widgets/submitpost.php';
 
-echo("<span class = 'hidden-xs'>");
-
 include 'includes/content/currentsubscriptions.php';
-
-echo('</span></span>');
-
-
-echo('<span class = "pull-left feed col-xs-12 col-sm-8">');
-
-echo('<span class = "feedtitle hidden-sm hidden-md hidden-lg">');
-
-echo('<br>MY FEED<br>');
 
 echo('</span>');
 
+echo('<span class = "pull-left feed col-xs-12 col-sm-8">');
+
+include 'includes/content/unnapprovedposts.php';
 
 include 'includes/content/displayfeed.php';
 

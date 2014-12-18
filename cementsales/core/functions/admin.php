@@ -65,7 +65,7 @@ function get_pics($type, $status, $all){
 	
 }else{
 	
-		$result = mysql_query("SELECT * FROM pictures WHERE status = '$status' ORDER BY ID DESC");
+		$result = mysql_query("SELECT * FROM pictures WHERE status = '$status' AND type <> 'Hole' ORDER BY ID DESC");
 	
 }
 	

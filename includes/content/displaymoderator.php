@@ -1,5 +1,8 @@
 <?php
 
+
+
+
 if(isset($_GET['service'])){
 
 	$service = $_GET['service'];
@@ -8,18 +11,25 @@ if(isset($_GET['service'])){
 
 	$result = mysql_fetch_assoc(mysql_query("SELECT * FROM services WHERE name = '$service'"));
 	
-	$url = get_logo_picture_url_from_service_name($_GET['service']);	
+	$url = get_logo_picture_url_from_character_id($result['character_id']);	
+	
+	$name = get_character_name_from_character_id($result['character_id']);
+	
+	$quote = get_random_quote_from_character_id($result['character_id'], $_GET['c'], $_GET['service']);
+		
+	echo '<img class = "col-xs-6 col-sm-12 img-responsive" src="'. $url . '"><br>';
+
+	echo('<span class = "modname"><strong>'.$name.'</strong> Says:</span>');
+
+	echo('<span class = "modquote-wrapper col-xs-12" style = "background-color:'.$colortouse.'"><span class = "modquote">'.$quote.'</span></span>');	
 
 }else{
 	
-	$url = 'images/logonotext.png';
+	
+	
 }
 
-echo '<img class = "col-xs-6 col-sm-12 img-responsive" src="'. $url . '"><br>';
 
-echo('<span class = "modname"><strong>NG</strong> Says:</span>');
-
-echo('<span class = "modquote-wrapper col-xs-12" style = "background-color:'.$colortouse.'"><span class = "modquote">Im talking here!!!</span></span>');	
 
 /*
 //old moderator bullshit

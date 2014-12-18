@@ -1,8 +1,11 @@
+
+
+
 <?php
 
 if($_GET['service'] == "Hole"){
 	
-	echo('<div id = "posts" class = "hole-feed col-sm-7 col-sm-offset-1 col-xs-offset-0 low-padding">');
+	echo('<div id = "posts">');
 
 	$posts = get_posts(2, $community_in, null, false, 'Hole');
 
@@ -10,7 +13,7 @@ if($_GET['service'] == "Hole"){
 		
 		echo('<span class = "hole-post col-xs-12 no-padding">');
 		
-		display_post($currentpost['id'], 'post', 'comment_on', 'display_time');
+		display_hole_post($currentpost['id'], 'post', 'comment_count', 'comment_on', 'point_count', 'give_point', 'display_time', 'image');
 		
 		echo('</span><br>');
 	}
@@ -28,3 +31,5 @@ if($_GET['service'] == "Hole"){
 }
 
 ?>
+
+

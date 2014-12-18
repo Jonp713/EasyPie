@@ -59,11 +59,11 @@ if (empty($_POST) === false && empty($errors) === true && isset($_POST['descript
 
 if(isset($_GET['community']) && check_admin_power($session_admin_id) > 0){
 
-	$community = sanizite($_GET['community']);
+	$community = sanitize($_GET['community']);
 	
 }else{
 	
-	$community = sanizite($_GET['community']);
+	$community = sanitize($_GET['community']);
 	
 }
 	

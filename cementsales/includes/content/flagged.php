@@ -17,7 +17,7 @@ if(isset($_GET['codename']) && check_admin_power($session_admin_id) > 0){
 
 foreach ($posts[0] as $currentpost) {
 	
-	display_post_admin($currentpost['id'], 'post', 'site', 'display_time', 'saved_count', 'username', 'direct_replies', 'sustained_replies', 'admin_reply',  'deny', 'delete');
+	display_post_admin($currentpost['id'], 'post', 'site', 'display_time', 'saved_count', 'username', 'direct_replies', 'sustained_replies', 'admin_reply',  'deny', 'delete', 'image', 'service');
 
 	echo('<br>');
 	

@@ -1,3 +1,22 @@
+function view_unsorted_posts(){
+	$('#unapproved-posts').show(1000, function(){
+				
+	});
+	$('.unsorted-posts-button').fadeOut(1000, function(){
+		
+		$(this).hide();
+		
+	});
+	
+}
+
+
+function toggle_post_picture(){
+	$('#post-pic-form').toggleClass( "picture-disabled" );		
+	
+	
+}
+
 function save_post(post_id, span){
 	
     $.post("core/functions/ajax.php",{function: "save_post", post_id: post_id},function(data){
@@ -6,17 +25,33 @@ function save_post(post_id, span){
 		
 		$(span).removeClass( "hoverer" );
 		
+		$(span).attr("onclick","unsave_post("+post_id+", this, 2)");
     
     }); 
 }
 
-function unsave_post(post_id, span){
+function unsave_post(post_id, span, type){
 	
-    $.post("core/functions/ajax.php",{function: "unsave_post", post_id: post_id},function(data){
+	if(type == 1){
+	
+	    $.post("core/functions/ajax.php",{function: "unsave_post", post_id: post_id},function(data){
                 
-    	$(span).closest("#post"+post_id).fadeOut(300);
+	    	$(span).closest("#post"+post_id).fadeOut(300);
 	
-    }); 
+	    }); 
+	
+	}
+	if(type == 2){
+		
+	    $.post("core/functions/ajax.php",{function: "unsave_post", post_id: post_id},function(data){
+                
+			$(span).removeClass( "selected" );		
+		
+			$(span).addClass( "hoverer" );	
+			
+			$(span).attr("onclick","save_post("+post_id+", this)");
+	    }); 
+	}
 }
 
 function delete_post(post_id, span){
@@ -106,12 +141,19 @@ function set_hole_posts(statusIn, siteIn){
 
 function get_more_approved_posts(start, site, service){
 	
-    $.post("core/functions/ajax.php",{function: "get_more_approved_posts", start: start, site: site, service: service}, function(data){
+	var isHole = false;
+	
+	if(service === "Hole"){
+		
+		isHole = true;
+	}
+	
+    $.post("core/functions/ajax.php",{function: "get_more_approved_posts", start: start, site: site, service: service, isHole: isHole}, function(data){
 		
 		$('#clickmore').replaceWith();       
 				
 		$('#posts').append(data);    
-		
+				
 		$(".changeme").each(function() {
   
   		  	var seconds = $(this).text();
@@ -127,16 +169,16 @@ function get_more_approved_posts(start, site, service){
 }
 
 function start_reply(span, id){
-	
-	span.onclick = '';
-	
-	$(span).addClass( "selected" );
-	
-	$(span).removeClass( "hoverer" );
 		
-	data = '<span class = "form-group col-xs-12" id = "replygroup'+id+'"><textarea class = "form-control col-xs-2" id = "reply_submit'+id+'" placeholder = "ICU2..."></textarea><span class = "col-xs-1 replysendbutton pull-right btn-info btn-sm" onclick="reply_post('+id+')">SEND</span></span>';
+	data = '<span id = "replygroup'+id+'"><hr class = "replysharehr"><span class = "form-group col-xs-12"><span class = "no-padding"><span onclick = "close_reply(2, '+id+')" class = "glyphicon pull-right glyphicon-remove comment-x"></span><textarea class = "form-control col-xs-2" placeholder = "Send a message..." id = "reply_submit'+id+'"></textarea><span class = "replysendbutton pull-right btn-info btn" onclick="reply_post('+id+')">SEND</span></span></span>';
 	
-	$("#post"+id).append(data);
+	$("#post"+id+"-bottom").html(data);
+	
+}
+
+function close_reply(type, post_id){
+	
+	$('#post'+post_id+'-bottom').html('');
 	
 }
 
@@ -163,5 +205,51 @@ function get_more_feed_posts(start){
     }); 
 	
 }
+
+$('.hole-post-overlay-image').mousedown(function(e){ 
+  
+	 $('.Hole-post').css('z-index', '-1');
+  
+});
+
+
+$(document).mouseup(function(e){ 
+
+	$('.Hole-post').css('z-index', '2');
+
+});
+
+
+
+
+function getURLParameter(name) {
+  return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null
+}
+
+var currentpostnumber = 30;
+
+$(window).scroll(function() {
+	
+    if ($(window).scrollTop() > $(document).height() - 800)
+    {
+		
+		if(location.pathname.substring(location.pathname.lastIndexOf("/") + 1) == 'posts.php'){
+			get_more_approved_posts(currentpostnumber, getURLParameter('c'), getURLParameter('service'));
+
+			currentpostnumber += 30;
+			
+			//alert(currentpostnumber);
+		}
+		
+		if(location.pathname.substring(location.pathname.lastIndexOf("/") + 1) == 'feed.php'){
+			get_more_feed_posts(currentpostnumber);
+
+			currentpostnumber += 30;
+			
+			//alert(currentpostnumber);
+		}
+
+    }
+});
 
 

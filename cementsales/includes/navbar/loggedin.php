@@ -20,8 +20,8 @@ if(check_admin_power($session_admin_id) == 1){
 <li><a href="pics.php">Pics</a></li>
 <li><a href="submit.php">Submit</a></li>
 <li><a href="service.php">Services</a></li>
-
-
+<li><a href="logos.php">Logos</a></li>
+<li><a href="characters.php">Characters</a></li>
 
 <?php
 	

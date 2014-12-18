@@ -36,9 +36,9 @@ require 'functions/communities.php';
 require 'functions/points.php';
 require 'functions/notifications.php';
 require 'functions/ads.php';
-require 'functions/postsdisplay.php';
 require 'functions/services.php';
-
+require 'functions/comments.php';
+require 'functions/characters.php';
 
 terminator();
 //ddos();
@@ -61,6 +61,8 @@ if (logged_in() === true) {
 		exit();
 	}
 }
+
+require 'functions/postsdisplay.php';
 
 
 $errors = array();

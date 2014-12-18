@@ -6,30 +6,16 @@ $community = sanitize($community);
 
 $result = mysql_fetch_assoc(mysql_query("SELECT * FROM communities WHERE name = '$community'"));
 
-if($result['status'] <= 1){
-	
-	$name = strtoupper($result['name']);
-	
-	echo('<span class ="communityname">ICU<font color = "'.$result['color'].'">'.$name.'</font></span><br>');
-	
-	echo('<span class = "communityinfo">');
-	
-	echo($result['description'].'<br><br>');
-	
-	echo("</span>");
-	
-	if($_GET['c'] == "Amherst"){
+$name = strtoupper($result['name']);
 
-			echo('<a href="intro.php" target = "_blank" style = "background-color:'.$result['color'].'" class="btn btn-custom2 btn-lg btn-block">WHAT IS ICU?</a><br>');
-		
-	}
-	
+echo('<span class ="communityname">'.$name.'</span><br>');
 
+echo('<span class = "community-desc col-xs-12">');
 
-}else{
-	
-	header("Location: explore.php");
-	
-}
+echo('<span class = "communityinfo">');
+
+echo($result['description'].'');
+
+echo("</span></span>");
 
 ?>

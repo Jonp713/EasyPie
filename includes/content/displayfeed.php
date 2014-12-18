@@ -2,15 +2,35 @@
 
 <?php
 	
-$posts = get_user_feed($session_user_id, 0);
+$posts = get_user_feed($session_user_id, 0, 1);
 
 echo('<div id = "posts">');
 
 foreach ($posts[0] as $currentpost) {
 
-	display_post($currentpost['id'], 'post', 'site', 'display_time', 'share_post', 'save_post', 'flag', 'reply');
-
-	echo('<br>');
+	if($currentpost['service'] == "ICU"){
+		
+		display_post($currentpost['id'], 'post', 'service', 'display_time', 'share_post', 'save_post', 'reply', 'comment_count', 'comment_on', 'point_count', 'give_point');
+		echo('<br>');
+		
+	}
+	if($currentpost['service'] == "Bone"){
+	
+		display_post($currentpost['id'], 'post', 'service', 'display_time', 'share_post', 'reply', 'comment_count', 'comment_on', 'point_count', 'give_point');
+		echo('<br>');
+	
+	}
+	
+	
+	if($currentpost['service'] == "Hole"){
+	
+		display_post($currentpost['id'], 'post', 'service', 'comment_count', 'comment_on', 'point_count', 'give_point', 'display_time', 'image');
+		
+		echo('<br>');
+	
+	
+	}
+	
 
 }
 

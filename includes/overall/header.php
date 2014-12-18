@@ -2,7 +2,7 @@
 <html>
 <head>
 
-	<title>ICU <?php if(!empty($community_in)){echo($community_in);} ?></title>
+	<title><?php if(!empty($service_in)){echo($service_in);}else{echo('ICU');} ?> <?php if(!empty($community_in)){echo($community_in);}else{echo('Hampy');}  ?></title>
 	
 	<?php if(isset($_GET['share'])){
 		
@@ -27,12 +27,14 @@
 	 <?php }?>
 	<meta charset="UTF-8">
 	 
-	<meta name="keywords" content="<?php if(!empty($community_in)){echo($community_in.',');} ?> ICU, I see you, compliments, crushes, confessions, missed connections, college, university, icu.university, icu.com, school, hookups, dating, Ucrush, Tinder, FML, MLIA">	
+	<meta name="keywords" content="<?php if(!empty($community_in)){echo($community_in.',');} ?> <?php if(!empty($service_in)){echo($service_in.',');} ?>, college, community, life, tickling, personals, missed connections, compliments, icuhampy">	
 	
 	<link href="css/bootstrap.css" rel="stylesheet">
 	<link href="css/screen3.1.css" rel="stylesheet">
 	
-	<link rel="shortcut icon" type="image/png" href="https://icu.university/images/logonotext.png"/>
+	<?php if(!empty($service_in)){	$url =  get_logo_picture_url_from_service_name($service_in); }else{  $url = "https://icu.university/images/logonotext.png"; } ?>
+	
+	<link rel="shortcut icon" type="image/png" href="<?php echo($url); ?>"/>
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!--[if lt IE 9]>
@@ -66,7 +68,7 @@
 		}(document, 'script', 'facebook-jssdk'));</script>
 		<div class="clear"></div>
 		
-		<div id = "topalert" class="topalert col-md-4 col-md-offset-4"></div>
+		<div id = "topalert" class="topalert col-xs-12 col-sm-6 col-sm-offset-3"></div>
 		
 		
 		<?php
@@ -114,7 +116,6 @@
 	
 	
 <div class="container-fluid" >
-	
 	
 	
 	

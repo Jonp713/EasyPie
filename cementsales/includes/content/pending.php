@@ -67,7 +67,7 @@ if(isset($_GET['community']) === false && isset($_GET['codename']) === false){
 
 foreach ($posts[0] as $currentpost) {
 	
-	display_post_admin($currentpost['id'], 'post', 'display_time', 'username', 'admin_reply', 'give_points', 'approve', 'deny', 'delete');
+	display_post_admin($currentpost['id'], 'post', 'display_time', 'username', 'admin_reply', 'give_points', 'approve', 'deny', 'delete', 'image', 'service');
 	
 	echo('<br>');
 	

@@ -35,10 +35,33 @@ if (empty($_GET) === false) {
 	
 		foreach ($posts as $currentpost) {
 	
-			display_post($currentpost['id'], 'post', 'site', 'display_time', 'save_post', 'reply', 'flag');	
+			if($currentpost['service'] == "ICU"){
+			
+				display_post($currentpost['id'], 'post', 'service', 'display_time', 'share_post', 'save_post', 'reply', 'comment_count', 'comment_on', 'point_count', 'give_point');
+				echo('<br>');
+			
+			}
+			if($currentpost['service'] == "Bone"){
+		
+				display_post($currentpost['id'], 'post', 'service', 'display_time', 'share_post', 'reply', 'comment_count', 'comment_on', 'point_count', 'give_point');
+				echo('<br>');
+		
+			}
+		
+		
+			/*
+		
+			if($currentpost['service'] == "Hole"){
+		
+				display_post($currentpost['id'], 'post', 'service', 'comment_count', 'comment_on', 'point_count', 'give_point', 'display_time', 'image');
+			
+				echo('<br>');
+		
+		
+			}
+		
+			*/
 	
-			echo('<br>');
-
 		}
 	
 	}

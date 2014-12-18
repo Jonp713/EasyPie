@@ -67,34 +67,53 @@ function get_subscriptions($type, $user_id, $state){
 		$result_subscribed = mysql_query("SELECT * FROM subscriptions WHERE user_id = '$user_id'");
 	
 	}
+	if($type == 2){
+	
+		$result_subscribed = mysql_query("SELECT * FROM subscriptions WHERE user_id = '$user_id'");
+	
+	}
+	
 	
     while($number = mysql_fetch_assoc($result_subscribed)) { 
 		
-		$all_names[] = $number;		
+		if($type != 2){
 		
-   	}
-	
-	return $all_names;
-	
-	/* 4 communities???
-	
-	if(!isset($all_names)){
+			$all_names[] = $number;		
 		
-		return array();
-	}
-	
-	$all_names = "'" . implode("','",$all_names) . "'";
+		
+		}else{
 			
-	$result_communities = mysql_query("SELECT * FROM `communities` WHERE name IN ($all_names)");
-	
-	$all_communities = array();
+			$all_names[] = $number['community_name'];		
+			
+		}
 		
-    while($number = mysql_fetch_assoc($result_communities)) { 
-		$all_communities[] = $number;	
+		
    	}
 	
-	return $all_communities;
-*/
+	if($type != 2){
+	
+		return $all_names;
+	
+	}else{
+		
+		if(!isset($all_names)){
+		
+			return array();
+		}
+	
+		$all_names = "'" . implode("','",$all_names) . "'";
+			
+		$result_communities = mysql_query("SELECT * FROM `communities` WHERE name IN ($all_names)");
+	
+		$all_communities = array();
+		
+	    while($number = mysql_fetch_assoc($result_communities)) { 
+			$all_communities[] = $number;	
+	   	}
+	
+		return $all_communities;
+
+	}
 }
 
 

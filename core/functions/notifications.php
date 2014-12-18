@@ -49,7 +49,7 @@ function create_notification($user_id, $type, $textin, $ref_id){
 	$time = time();
 		
 	$success = mysql_query("INSERT INTO notifications (user_id, type, textin, ref_id, second) VALUES ('$user_id', '$type', '$textin', '$ref_id', '$time')");
-	
+		
 	return $success;
 	
 }

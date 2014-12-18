@@ -23,6 +23,8 @@ function add_service($service_data){
 }
 
 
+
+
 function service_exists($service) {
 	$service = sanitize($service);
 	return (mysql_result(mysql_query("SELECT COUNT(`id`) FROM `services` WHERE `name` = '$service'"), 0) == 1) ? true : false;

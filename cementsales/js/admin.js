@@ -29,6 +29,22 @@ function judgement(post_id, judgement){
     }); 
 }
 
+function change_service(post_id, judgement){
+	
+	var service = $("#post" + post_id + "-service-form").val();
+		
+    $.post("../cementsales/core/functions/ajax.php",{function: "change_service", post_id: post_id, service: service},function(data){
+              			  
+		var spannumber = ".post" + post_id + "service";
+		
+		var newhtml = '<div class="alert alert-success" role="alert"><span class="alert-link">Service Changed To '+service+'</span></div>';
+	
+		$(spannumber).replaceWith(newhtml);       
+    	
+    }); 
+}
+
+
 function admin_reply(post_id){
 	
 	var spannumber = "." + post_id + "reply"

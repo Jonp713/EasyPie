@@ -1,6 +1,6 @@
 <?php
 
-moderator_protect_page();
+admin_protect_page();
 
 ?>
 
@@ -16,27 +16,6 @@ if (empty($_POST) === false && isset($_POST['description'])) {
 			break 1;
 		}
 	}
-	
-	if (empty($_FILES['pic']['name']) == true) {
-		
-		$errors_p[] = 'Please choose a file!';
-		
-	}else{
-	
-		$allowed = array('jpg', 'jpeg', 'gif', 'png');
-		
-		$file_name = $_FILES['pic']['name'];
-		$file_extn = strtolower(end(explode('.', $file_name)));
-		$file_temp = $_FILES['pic']['tmp_name'];
-		
-		if (in_array($file_extn, $allowed) === true) {} else {
-			
-			$errors[] =  'Incorrect file type. Allowed: ' . implode(', ', $allowed);
-			
-		}
-		
-	}
-	
 	
 	if (strlen($_POST['description']) > 80) {
 		$errors[] = 'The description must be under 80 characters';
@@ -57,16 +36,12 @@ if (isset($_GET['c']) === true && empty($_GET['c']) === true) {
 }
 	
 if (empty($_POST) === false && isset($_POST['description']) && empty($errors) === true) {
-	
-		upload_image($session_admin_id, $_POST['name'], 'service', $file_temp, $file_extn);
-		
-		$theid = mysql_fetch_assoc(mysql_query("SELECT LAST_INSERT_ID() AS id FROM pictures WHERE admin_id = '$session_admin_id'"));
 			
 		$data = array(
 			'name' 		=> $_POST['name'],
 			'description' 		=> $_POST['description'],
 			'color'		=> $_POST['color'],
-			'picture_id' => $theid['id'],
+			'character_id' => $_POST['character_id'],
 			'core' 				=> 1,
 			
 		);
@@ -100,20 +75,38 @@ if (empty($_POST) === false && isset($_POST['description']) && empty($errors) ==
 	  	    </div>
 	  	  </div>
 		  
-	  	  <div class="form-group">
-	  	    <label for="color" class="col-xs-2 control-label">Color</label>
-	  	    <div class="col-xs-6">
-	  	      <input type="text" class="form-control" id="color" name="color">
-	  	    </div>
-	  	  </div>
-			
-			 <div class="form-group">
-				     <label for="pic" class="col-xs-2 control-label">Logo Picture:</label>
-			 <div class="col-xs-6">
+		  
+		  <div class="form-group">
+		    <label for="character" class="col-xs-2 control-label">Character:</label>
+		    <div class="col-xs-6">
+					<select class = "form-control" name= "character_id" id = "character">
+				
+					<?php
+
+
+					$names = mysql_query("SELECT * FROM characters ORDER BY ID DESC") or die(mysql_error());
+
+					while($number = mysql_fetch_assoc($names)){
 	
-			<input class = "form-control" type="file" id = "pic" name="pic">
-			
-		</div>
+							echo("<option value = '".$number['id']."'>".$number['name']."</option>");
+
+						}
+								
+					?>
+					</select>
+		    </div>
+		  </div>
+		  
+		
+  	  <div class="form-group">
+  	    <label for="color" class="col-xs-2 control-label">Color</label>
+  	    <div class="col-xs-6">
+  	      <input type="text" class="form-control" id="color" name="color">
+  	    </div>
+  	  </div>
+		
+		
+		
 	</div>
 			
   

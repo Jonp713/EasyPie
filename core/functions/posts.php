@@ -68,6 +68,15 @@ function get_user_posts($status, $user_id){
 	return $all_posts;
 }
 
+function check_saved($post_id, $user_id){
+	
+		$post_id = sanitize($post_id);
+		
+		$user_id = sanitize($user_id);
+				
+		return (mysql_result(mysql_query("SELECT COUNT(`id`) FROM `saved_posts` WHERE `user_id` = $user_id AND `post_id` = $post_id"), 0) >= 1) ? true : false;
+
+}
 
 function save_post($user_id, $post_id){
 	
@@ -109,11 +118,24 @@ function delete_post($user_id, $post_id){
 function post_text_from_post_id($post_id){
 	$post_id = sanitize($post_id);
 	
-		
 	return mysql_result(mysql_query("SELECT `post` FROM `posts` WHERE `id` = '$post_id'"), 0, 'post');
 	
 }
 
+
+function community_name_from_post_id($post_id){
+	$post_id = sanitize($post_id);
+	
+	return mysql_result(mysql_query("SELECT `site` FROM `posts` WHERE `id` = '$post_id'"), 0, 'site');
+	
+}
+
+function service_name_from_post_id($post_id){
+	$post_id = sanitize($post_id);
+	
+	return mysql_result(mysql_query("SELECT `service` FROM `posts` WHERE `id` = '$post_id'"), 0, 'service');
+	
+}
 
 function get_user_saved_posts($user_id){
 	
@@ -150,7 +172,7 @@ function get_user_saved_posts($user_id){
 
 
 
-function get_user_feed($user_id, $start){
+function get_user_feed($user_id, $start, $status){
 	
 	$user_id = sanitize($user_id);
 	$start = sanitize($start);
@@ -172,7 +194,7 @@ function get_user_feed($user_id, $start){
 		
 	$all_names2 = "'" . implode("','", $all_names) . "'";
 		
-	$result_posts = mysql_query("SELECT * FROM posts WHERE site IN ($all_names2) AND status = 1 ORDER BY id DESC LIMIT $start,30");
+	$result_posts = mysql_query("SELECT * FROM posts WHERE site IN ($all_names2) AND status = '$status' ORDER BY id DESC LIMIT $start,30");
 		
 	$all_posts = array();
 		
@@ -197,14 +219,24 @@ function get_more_approved_posts($start, $site, $service){
 	
 	$start = sanitize($start);
 	$site = sanitize($site);
+	$service = sanitize($service);
 	
-	if($service = 'all'){
+	if($service === 'all'){
 		
-		$result = mysql_query("SELECT * FROM posts WHERE status = 1 AND site = '$site' ORDER BY ID DESC LIMIT $start,30");
+		$result = mysql_query("SELECT * FROM posts WHERE status = 1 AND service <> 'Hole' AND site = '$site' ORDER BY ID DESC LIMIT $start,30");
 		
 	}else{
+		
+		if($service === 'Hole'){
+			
+			$result = mysql_query("SELECT * FROM posts WHERE status <> 3 AND site = '$site' AND service = '$service' ORDER BY ID DESC LIMIT $start,30");
+			
+		}else{
 	
-		$result = mysql_query("SELECT * FROM posts WHERE status = 1 AND site = '$site' AND service = '$service' ORDER BY ID DESC LIMIT $start,30");
+			$result = mysql_query("SELECT * FROM posts WHERE status = 1 AND site = '$site' AND service = '$service' ORDER BY ID DESC LIMIT $start,30");
+			
+		}
+	
 		
 	}
 
@@ -251,8 +283,8 @@ function get_posts($status, $site, $type, $admin_id, $service){
 	
 		if($service == 'Hole'){
 				
-			$result = mysql_query("SELECT * FROM posts WHERE status = 2 ORDER BY ID DESC");
-	
+			$result = mysql_query("SELECT * FROM posts WHERE service = 'Hole' AND status <> 3 AND site = '$site' ORDER BY ID DESC LIMIT 0,30");
+			
 		}
 		
 	}else{
@@ -267,7 +299,7 @@ function get_posts($status, $site, $type, $admin_id, $service){
 	
 		if($type == -1){
 	
-			$result = mysql_query("SELECT * FROM posts WHERE status = '$status' AND site = '$site' ORDER BY ID DESC LIMIT 0, 30");
+			$result = mysql_query("SELECT * FROM posts WHERE status = '$status' AND site = '$site' AND service <> 'Hole' ORDER BY ID DESC LIMIT 0, 30");
 		
 		}
 	
@@ -373,6 +405,7 @@ function flag($post_id){
 }
 
 function clear_old_posts($community){
+	
 	$community = sanitize($community);
 	
 	$results = mysql_query("SELECT * FROM `posts` WHERE status = 2 AND expired = 0 AND site = '$community'");
@@ -418,6 +451,23 @@ function search_posts($keyword){
 	
 	return $foundposts;
 }
+
+function upload_image_post($type, $file_temp, $file_extn){
+	$file_temp = sanitize($file_temp);
+	$file_extn = sanitize($file_extn);
+	$type = sanitize($type);
+	
+	$file_path = 'images/posts/' . substr(md5(time()), 0, 10) . '.' . $file_extn;
+	move_uploaded_file($file_temp, $file_path);
+		
+	$success = mysql_query("INSERT INTO pictures (url, type) VALUES ('$file_path', '$type')") or die(mysql_error());
+	
+	
+	return $file_path;
+	//echo($success);
+	
+}
+
 
 
 

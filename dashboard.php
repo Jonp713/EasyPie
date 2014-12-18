@@ -37,7 +37,6 @@ include 'includes/overall/header.php';
 		clear_old_messages($session_user_id);
 		
 		include 'includes/content/displaymessages.php';
-		include 'includes/content/displaymessagessent.php';
 		
 		
 	}

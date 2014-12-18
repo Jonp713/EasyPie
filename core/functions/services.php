@@ -4,9 +4,13 @@ function get_logo_picture_url_from_service_name($service_name){
 	
 	$service_name = sanitize($service_name);
 	
-	$picture_id = mysql_fetch_assoc(mysql_query("SELECT picture_id FROM services WHERE name = '$service_name' AND core = 1"));
+	$character_id = mysql_fetch_assoc(mysql_query("SELECT character_id FROM services WHERE name = '$service_name' AND core = 1"));
 	
-	$picture_id = $picture_id['picture_id'];
+	$character_id = $character_id['character_id'];
+	
+	$picture_id = mysql_fetch_assoc(mysql_query("SELECT pic_id FROM characters WHERE id = '$character_id'"));	
+	
+	$picture_id = $picture_id['pic_id'];
 	
 	$url =  mysql_fetch_assoc(mysql_query("SELECT url FROM pictures WHERE id = '$picture_id'"));
 	
@@ -31,6 +35,15 @@ function get_service_description_from_service_name($service_name){
 	return mysql_result(mysql_query("SELECT `description` FROM `services` WHERE `name` = '$service_name' AND core = 1"), 0, 'description');
 	
 }
+
+function get_service_id_from_service_name($service_name){
+	
+	$service_name = sanitize($service_name);
+		
+	return mysql_result(mysql_query("SELECT `id` FROM `services` WHERE `name` = '$service_name' AND core = 1"), 0, 'id');
+	
+}
+
 
 function get_services($community, $type){
 	$type = sanitize($type);
@@ -58,7 +71,6 @@ function get_services($community, $type){
 }
 
 function update_service($update_data, $service_name){
-	$admin_id = sanitize($admin_id);
 	$service_name = sanitize($service_name);
 	
 	$update = array();

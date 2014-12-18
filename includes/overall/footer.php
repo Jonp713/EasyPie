@@ -1,5 +1,7 @@
 	</div></div></div>
 	<footer>
+		
+		<br><br><br>
  <center>
 <!--<span style = "padding-bottom:6px" class = "col-xs-12"> &copy; 2014 ICU-5 Connections LLC &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href = "mailto:contact@icu.university">Contact</a></span>-->
 </center>
@@ -14,6 +16,8 @@
     <script src = "js/bootstrap.js" type = 'text/javascript'></script>
     <script src = "js/sidebar.js" type = 'text/javascript'></script>
     <script src = "js/services.js" type = 'text/javascript'></script>	
+    <script src = "js/comments.js" type = 'text/javascript'></script>	
+    <script src = "js/points.js" type = 'text/javascript'></script>		
 	
 	<script>
 	

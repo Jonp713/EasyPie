@@ -6,14 +6,53 @@
 	height:100%;
 }
 
-@media(max-width:768px){
+@media screen and (max-width: 768px) {
+
+	.unsorted-posts-button{
+		position:fixed !important;
+		top:50px !important;
+		left:40%;
+		color:white;
+		border-radius:0px 0px 15px 15px;
+		padding:20px;
+		padding-top:3px;
+		cursor:pointer;
+		margin-bottom:5px !important;
 	
+	}
+
 	.sectors{
 
 		padding:0px !important;
 		padding-bottom:1em !important;
 	}
 	
+	.container-fluid{
+		
+		padding:0px;
+	}
+	
+	
+    #wrapper {
+    }
+
+    #wrapper.toggled {
+    }
+
+    #sidebar-wrapper {
+        width: 150px;
+    }
+
+    #wrapper.toggled #sidebar-wrapper {
+        width: 0;
+    }
+
+    #wrapper.toggled #page-content-wrapper {
+  
+    }
+    #page-content-wrapper {
+        padding: 0px;
+    }
 
  }
  
@@ -129,7 +168,7 @@ color:white;
 	
 	border-size:0px !important;
 	border-radius:0px !important;
-	max-height:80px;
+	max-height:50px;
 	z-index:100;
 }
 
@@ -173,18 +212,18 @@ hr{
 
 .share a{
 	
-    color: #4dc2c9;
+    color:white !important;
 	
 }
 
 a{
 	
-    color: #4dc2c9;
+    color:white;
 	
 }
 
 .selected{
-	
+	cursor:pointer;
 	font-weight:700;
 }
 
@@ -237,7 +276,6 @@ a{
 	width:21%;
 	padding-left:1%;
 	z-index:1;
-	background-color:#474747;
 
 }
 .communitymoderator{
@@ -249,18 +287,6 @@ a{
 	padding-left:1%;
 	
 	width:21%;
-	background-color:#474747;
-	
-}
-
-.postfeed{
-	
-	position:absolute;
-	top:30px;
-	left:22%;
-	
-	z-index:0;
-	width:56%;
 	
 }
 
@@ -273,6 +299,12 @@ a{
 	position:relative;
 	top:70px;
 }
+
+.higherandscroll{
+	position:relative;
+	top:45px;
+}
+
 
 
 .blackwrapper{
@@ -293,6 +325,10 @@ a{
 .servicebutton{
 	margin:0px 0px 3px 0px !important;
 }
+.servicebutton-feed{
+	margin:0px 0px 3px 0px !important;
+	overflow:hidden;
+}
 
 .cornlogo{
 	left:2em;
@@ -312,19 +348,56 @@ a{
 
 }
 
-.icu-post{
-		
-}
-.icu-feed{
-	
-	background-color:#474747 !important;
+.anypost{
+	border-radius:5px;
+	background-color:#676767;
 	color:white;
+	
 }
+
+#unapprovedposts .row .anypost{
+	background-color:#575757 !important;
+	
+}
+
+
+.ICU-post{
+}
+
+.Bone-post{
+}
+
+.Hole-post{
+}
+
+.all-feed{
+
+}
+
+.ICU-feed{
+	
+}
+
+.Bone-feed{
+
+
+}
+
+.Hole-feed{
+
+
+}
+
+.unapproved-posts{
+	
+	
+}
+
 
 .white{
 	
 	color:#fff;
-	opacity:1;
+	opacity:1 !important;
 }
 
 .sm-navlogo{
@@ -381,13 +454,15 @@ a{
 
 .communityname{
 	
+	position:relative;
+	top:15px;
 	font-size:3em;
 	font-weight:900;
     letter-spacing: 2px;
 	margin-right:0px;
-	color:#3b3b3b;
-	
-	
+	color:white;
+	z-index:10;
+	left:2%;
 }
 
 
@@ -405,11 +480,15 @@ a{
 .postfeed{
 	
 	position:absolute;
-	top:30px;
+	top:50px;
 	left:22%;
 	
-	z-index:0;
 	width:56%;
+	
+	color:white;
+
+	z-index:2;
+	
 	
 }
 
@@ -442,7 +521,7 @@ a{
 
 #topalert{
 	
-	
+	z-index:100000;
 	
 }
 .topalert{
@@ -461,7 +540,6 @@ a{
 .replysendbutton{
 	
 	position:relative;
-	top:.4em;
 	min-width:50px;
 }
 
@@ -469,7 +547,7 @@ a{
 	
 	
 	border-color:#777;
-	border-width:1px;
+	border-width:1px !important;
 
 }
 
@@ -480,12 +558,17 @@ a{
 
 }
 
+.bottomhr{
+	border-color:white;
+	border-width:1px;
+	
+}
+
 .subscriptionstitle{
 	
 	font-size:3em;
 	font-weight:700;
 	margin-right:0px;
-	color:#3b3b3b;
 }
 
 .feedtitle{
@@ -499,13 +582,14 @@ a{
 .feed{
 	
 	position:relative;
-	top:-4em;
+	top:50px;
 }
 
 .otherfeedinfo{
 	
-	position:relative;
-	top:-1em;
+	position:fixed;
+	top:65px;
+	right:0px;
 	
 }
 
@@ -537,12 +621,19 @@ a{
 	
 	font-size:1em;
 	font-weight:600;
+	display:block;
 }
 
 .extranottext{
-	
+	display:block;
 	font-weight:200;
 	font-size:1.3em;
+	
+}
+
+.plzgoup{
+	z-index:10000;
+	
 	
 }
 
@@ -724,10 +815,8 @@ z-index:2;
 		left:0px;
 		top:50px;
 		width:100%;
-		z-index:0;
 	
 	}
-	
 	
 	
 }
@@ -941,7 +1030,6 @@ overflow-x: hidden;
 
 #page-content-wrapper {
     width: 100%;
-    padding: 15px;
 }
 
 #wrapper.toggled #page-content-wrapper {
@@ -1010,30 +1098,6 @@ overflow-x: hidden;
     background: none;
 }
 
-@media(min-width:768px) {
-    #wrapper {
-    }
-
-    #wrapper.toggled {
-    }
-
-    #sidebar-wrapper {
-        width: 150px;
-    }
-
-    #wrapper.toggled #sidebar-wrapper {
-        width: 0;
-    }
-
-    #page-content-wrapper {
-        padding: 20px;
-    }
-
-    #wrapper.toggled #page-content-wrapper {
-  
-    }
-}
-
 
 .modquote{
 	color:white;
@@ -1066,8 +1130,23 @@ overflow-x: hidden;
 	background-color:#777777;
 	position:relative;
 	top:5px;
+	
 color:white;	
 border-radius:3px;
+	
+}
+
+
+
+
+.community-desc{
+	
+	padding:3% 3% 3% 3%;
+	background-color:#777777;
+	position:relative;
+	color:white;	
+	border-radius:3px;
+	margin-bottom:5px;
 	
 }
 
@@ -1103,3 +1182,207 @@ border-radius:3px;
 	
 }
 
+.picture-disabled{
+	
+	color:#bbb;
+
+}
+
+.hoverer-icon{
+	
+	opacity:1;
+	cursor:pointer;
+	color:white;
+}
+.hoverer-icon:hover{
+	
+	opacity:.2;
+}
+
+.icon-selected{
+	
+	opacity:1;
+	color:#5bc0de;
+	
+}
+
+.postservice{
+	
+	font-weight:600;
+}
+
+.hole-post-overlay-image{
+	
+    -webkit-filter: blur(30px);
+     -moz-filter: blur(30px);
+     -o-filter: blur(30px);
+     -ms-filter: blur(30px);
+     filter: blur(30px);
+	 -webkit-touch-callout: none;
+	    -webkit-user-select: none;
+	    -khtml-user-select: none;
+	    -moz-user-select: none;
+	    -ms-user-select: none;
+	    user-select: none;
+ 
+}
+
+.hole-post-overlay-image:hover{
+	
+    -webkit-filter: blur(15px);
+     -moz-filter: blur(15px);
+     -o-filter: blur(15px);
+     -ms-filter: blur(15px);
+     filter: blur(15px);
+	 
+
+}
+
+.hole-post-overlay-image:active { 
+    -webkit-filter: blur(0px);
+     -moz-filter: blur(0px);
+     -o-filter: blur(0px);
+     -ms-filter: blur(0px);
+     filter: blur(0px);
+	 
+}
+
+.hole-post-overlay-text{
+	
+    -webkit-filter: blur(6px);
+     -moz-filter: blur(6px);
+     -o-filter: blur(6px);
+     -ms-filter: blur(6px);
+     filter: blur(6px);
+	 -webkit-touch-callout: none;
+	    -webkit-user-select: none;
+	    -khtml-user-select: none;
+	    -moz-user-select: none;
+	    -ms-user-select: none;
+	    user-select: none;
+
+}
+
+
+.hole-post-overlay-text:hover{
+	
+    -webkit-filter: blur(3px);
+     -moz-filter: blur(3px);
+     -o-filter: blur(3px);
+     -ms-filter: blur(3px);
+     filter: blur(3px);
+
+}
+
+.hole-post-overlay-text:active { 
+    -webkit-filter: blur(0px);
+     -moz-filter: blur(0px);
+     -o-filter: blur(0px);
+     -ms-filter: blur(0px);
+     filter: blur(0px);
+}
+
+.Hole-post{
+	color:white;
+}
+
+.slight-circle{
+
+ 	border-radius:15px;
+ 
+}
+
+.unsorted-posts-button{
+	
+	position:absolute;
+	top:0px;
+	left:40%;
+	color:white;
+	border-radius:0px 0px 15px 15px;
+	padding:10px;
+	padding-top:3px;
+	cursor:pointer;
+	z-index:90;
+	
+}
+
+.unsorted-posts-button:hover;{
+	background-color:black !important;
+}
+
+#unapproved-posts{
+	display:none;
+	color:white;
+}
+
+#unapproved-posts .anypost{
+	background-color:#272727 !important;
+
+}
+
+
+
+.a-comment{
+	
+	border-radius:2px;
+	background-color:#777777;
+	
+}
+
+.comment-username{
+	position:absolute;
+	border-radius:10px 0px 2px 0px;
+	right:0px;
+	bottom:0px;
+	padding:1px;
+	padding-right:5px;
+	padding-left:5px;
+	color:white;
+	background-color:#a7a7a7;
+	
+}
+
+
+.comment-x{
+	
+	color:white;
+	font-size:1em;
+	padding:5px;
+	
+}
+.comment-x:hover{
+
+	opacity:0.8;
+	cursor:pointer;
+}
+
+#actual-comments{
+	
+	color:white;
+}
+
+.anotification{
+	
+	color:white;
+	margin:20px 0px 0px 0px
+}
+
+
+.subscriptions{
+	margin:3% 0% 0% 0%;
+	padding:0% 3% 3% 3%;
+	background-color:#777777;
+	color:white !important;	
+	border-radius:3px;
+	margin-bottom:5px;
+	
+}
+
+.service-name-sub{
+	position:relative;
+	font-weight:900;
+    letter-spacing:1px;
+	color:#fff;
+	opacity:.5;
+	font-size:1.5em;
+}

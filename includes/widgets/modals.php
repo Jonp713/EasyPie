@@ -10,7 +10,7 @@
 		  
 		  <?php include 'submitservices.php'; ?>
 	
-		  <form class = "submit_post form-horizontal" role="form" action="" method="post">
+		  <form class = "submit_post form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
 			  
 			<!--
   			<div class="panel-group" id="accordion">
@@ -69,9 +69,11 @@
 				
 				');
 				
-				echo('<br>Which community are you posting to?: <select class = "form-control" name = "community">');
+				echo('<br>Which community are you posting to?: <select value = "Hampy" class = "form-control" name = "community">');
 				
-				$communities = get_subscriptions(0, $session_user_id, '');
+				$communities = get_subscriptions(2, $session_user_id, '');
+				
+				echo(count($communities));
 
 				foreach ($communities as $currentcommunity){
 

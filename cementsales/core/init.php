@@ -38,8 +38,8 @@ if ($current_file == 'ajax.php'){
 	require '../../../core/functions/points.php';
 	require '../../../core/functions/notifications.php';
 	require '../../../core/functions/services.php';
-	
-	
+	require '../../../core/functions/characters.php';
+
 	
 }else{
 
@@ -52,6 +52,7 @@ if ($current_file == 'ajax.php'){
 	require '../core/functions/points.php';
 	require '../core/functions/notifications.php';
 	require '../core/functions/services.php';
+	require '../core/functions/characters.php';
 	
 
 }
@@ -62,6 +63,8 @@ require 'functions/messages.php';
 require 'functions/posts.php';
 require 'functions/points.php';
 require 'functions/services.php';
+require 'functions/characters.php';
+
 
 
 //user initialization

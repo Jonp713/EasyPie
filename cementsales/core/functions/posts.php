@@ -38,6 +38,25 @@ function judgement($post_id, $judgement, $admin_id){
 	
 }
 
+function change_service($post_id, $service, $admin_id){
+
+	if(check_admin_power($admin_id) > 0){
+		
+		$success = mysql_query("UPDATE `posts` SET `service` = '$service', `judged_by` = '$admin_id', `second_judged` = '$time' WHERE `id` = '$post_id'") or die(mysql_error());
+		
+	}else{
+
+		$result = mysql_fetch_assoc(mysql_query("SELECT community FROM cementsalesmen WHERE id = '$admin_id' LIMIT 1"));
+	
+		$admin_site = $result['community'];
+		
+		$success = mysql_query("UPDATE `posts` SET `service` = '$service', `judged_by` = '$admin_id', `second_judged` = '$time' WHERE `id` = '$post_id' AND `site` = '$admin_site'") or die(mysql_error());	
+	
+	}
+
+
+}
+
 function count_flags($admin_id){
 	$admin_id = sanitize($admin_id);
 		

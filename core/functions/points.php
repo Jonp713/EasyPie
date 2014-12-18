@@ -1,5 +1,66 @@
 <?php
 
+
+function give_point($post_id, $from_user_id){
+	
+	$post_id = sanitize($post_id);
+	$from_user_id = sanitize($from_user_id);	
+	
+	$second = time();
+	
+	$community_name = community_name_from_post_id($post_id);
+		
+	$user_id = user_id_from_post_id($post_id);
+	
+	if(check_given_points($post_id, $from_user_id) == false){
+	
+		mysql_query("INSERT INTO `points` (post_id, user_id, amount, from_user_id, seconds, community_name) VALUES ('$post_id', '$user_id', 1, '$from_user_id', '$second', '$community_name')");
+
+		$user_id = user_id_from_post_id($post_id);
+	
+		create_notification($user_id, "give_points", "Someone one upvoted your post and gave you 1 point", $post_id);
+		
+		$upvotes = mysql_query("SELECT upvotes FROM posts WHERE post_id = '$post_id'");		
+		
+		$upvotes = $upvotes + 1;
+		
+		mysql_query("UPDATE posts SET upvotes = '$upvotes' WHERE id = '$post_id'");	
+		
+	}else{
+		
+		return false;
+	}
+}
+
+function count_post_points($post_id){
+	
+	$post_id = sanitize($post_id);
+
+	$result = mysql_query("SELECT * FROM points WHERE post_id = '$post_id' ORDER BY ID DESC");
+	
+	$count = 0;
+	
+    while($number = mysql_fetch_assoc($result)) { 
+	
+		$count = $number['amount'] + $count;
+	
+	}
+	
+	return $count;
+	
+}
+
+function check_given_points($post_id, $from_user_id){
+	
+		$post_id = sanitize($post_id);
+		
+		$from_user_id = sanitize($from_user_id);
+				
+		return (mysql_result(mysql_query("SELECT COUNT(`id`) FROM `points` WHERE `from_user_id` = $from_user_id AND `post_id` = $post_id"), 0) >= 1) ? true : false;
+
+}
+
+
 function get_points($type, $variable, $variable2){
 	
 	$type = sanitize($type);

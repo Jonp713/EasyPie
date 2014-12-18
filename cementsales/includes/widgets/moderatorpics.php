@@ -4,7 +4,7 @@ moderator_protect_page();
 
 ?>
 
-<h1>Moderator Pictures</h1>
+<h1>Pictures</h1>
 
 <?php
 

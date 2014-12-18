@@ -20,6 +20,23 @@ if($function == 'judgement' && isset($_POST['post_id']) && isset($_POST['judgeme
 }
 
 
+if($function == 'change_service' && isset($session_admin_id)){
+	
+	$success = change_service($_POST['post_id'], $_POST['service'], $session_admin_id);
+		
+	if($success){
+	
+		echo("success");
+	
+	}else{
+		
+		echo($success);
+	}
+	
+}
+
+
+
 if($function == 'admin_reply' && isset($_POST['post_id']) && isset($_POST['message']) && isset($session_admin_id)){
 	
 	if(empty($_POST['message'])){
@@ -196,13 +213,13 @@ if($function == 'get_more_approved_posts_admin' && isset($_POST['start'])){
 		
 		if($_POST['type'] == 0){
 		
-			display_post($currentpost['id'], 'post', 'display_time', 'saved_count', 'username', 'direct_replies', 'sustained_replies', 'admin_reply', 'give_points', 'deny', 'delete');
+			display_post($currentpost['id'], 'post', 'change_time', 'saved_count', 'username', 'direct_replies', 'sustained_replies', 'admin_reply', 'give_points', 'deny', 'delete');
 	
 		}	
 		
 		if($_POST['type'] == 1){
 
-			display_post($currentpost['id'], 'post', 'site', 'display_time', 'saved_count', 'username', 'direct_replies', 'sustained_replies', 'admin_reply', 'give_points', 'deny', 'delete');
+			display_post($currentpost['id'], 'post', 'site', 'change_time', 'saved_count', 'username', 'direct_replies', 'sustained_replies', 'admin_reply', 'give_points', 'deny', 'delete');
 
 		}
 		

@@ -23,7 +23,8 @@ function reply_message(message_id){
 		$('#topalert').html('<span class="alert alert-danger" role="alert"><span class = "glyphicon"></span> &nbsp;&nbsp;You cannot send a blank message</span>');
    
 		$('#topalert').fadeIn("slow", function() { $(this).delay(2000).fadeOut("slow");
- 		});
+ 		
+		});
 		
 		
 		exit();
