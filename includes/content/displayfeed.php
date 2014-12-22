@@ -11,13 +11,11 @@ foreach ($posts[0] as $currentpost) {
 	if($currentpost['service'] == "ICU"){
 		
 		display_post($currentpost['id'], 'post', 'service', 'display_time', 'share_post', 'save_post', 'reply', 'comment_count', 'comment_on', 'point_count', 'give_point');
-		echo('<br>');
 		
 	}
 	if($currentpost['service'] == "Bone"){
 	
 		display_post($currentpost['id'], 'post', 'service', 'display_time', 'share_post', 'reply', 'comment_count', 'comment_on', 'point_count', 'give_point');
-		echo('<br>');
 	
 	}
 	
@@ -25,9 +23,13 @@ foreach ($posts[0] as $currentpost) {
 	if($currentpost['service'] == "Hole"){
 	
 		display_post($currentpost['id'], 'post', 'service', 'comment_count', 'comment_on', 'point_count', 'give_point', 'display_time', 'image');
-		
-		echo('<br>');
+			
 	
+	}
+	
+	if($currentpost['service'] == "Events"){
+	
+		display_post($currentpost['id'], 'title', 'location', 'start_time', 'post', 'service', 'share_post', 'comment_count', 'comment_on', 'point_count', 'give_point', 'image_corner', 'free_food', 'save_post', 'duration');
 	
 	}
 	

@@ -81,7 +81,9 @@ if(isset($_GET['service'])){
 }else{
 	
 	$service_in = 'ICU';
-	$colortouse = "#aab341";
+	$colortouse = "black";
+	
+	
 }
 
 //temp
@@ -90,5 +92,8 @@ if(isset($_SESSION['seen_ad']) == false){
 	$_SESSION['seen_ad'] = 0;
 
 }
+
+
+
 
 ?>

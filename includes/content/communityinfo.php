@@ -6,6 +6,9 @@ $community = sanitize($community);
 
 $result = mysql_fetch_assoc(mysql_query("SELECT * FROM communities WHERE name = '$community'"));
 
+echo($result['description'].'');
+
+
 $name = strtoupper($result['name']);
 
 echo('<span class ="communityname">'.$name.'</span><br>');

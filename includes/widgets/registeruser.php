@@ -85,7 +85,7 @@ if (isset($_GET['success']) === true && empty($_GET['success']) === true) {
 	
 			register_user($register_data);
 			$_SESSION['user_id'] = login($_POST['username'], $_POST['password']);
-			header('Location: register.php?success');
+			header('Location: posts.php?c=Hampy');
 			exit();
 			
 		}
@@ -94,15 +94,21 @@ if (isset($_GET['success']) === true && empty($_GET['success']) === true) {
 	
 ?>
 
+<span class = "whitebg"></span>
+
+
+<span class = "basic-forms">
+
+
 <span class = "row">
 
-<span class = "col-xs-8 col-xs-offset-2 col-sm-4 col-sm-offset-4 text-center">
+<span class = "col-xs-12 col-sm-4 col-sm-offset-4 text-center">
 
 <h1>SIGNUP</h1>
 
-<hr>
+<hr class = "whitehr">
 
-Forgotten your <a href="recover.php?mode=username">username</a>
+<span class = "bump-up"><a href="recover.php?mode=username">Forgotten your username</a>?</span>
 
 </span>
 
@@ -110,9 +116,9 @@ Forgotten your <a href="recover.php?mode=username">username</a>
 
 <span class = "row">
 
-<span class = "col-sm-2 col-sm-offset-5 col-xs-4 col-xs-offset-4">
+<span class = "col-sm-2 col-sm-offset-5 col-xs-6 col-xs-offset-3">
    
-<img src = "images/logonotext.png" class="img-responsive" alt="Responsive image">
+<img src = "images/logonotext.png" class="img-responsive">
 
 </span>
 
@@ -122,7 +128,7 @@ Forgotten your <a href="recover.php?mode=username">username</a>
 <span class = "row">
 
 
-<span class = "col-xs-8 col-xs-offset-2 col-sm-4 col-sm-offset-4 text-center">
+<span class = "col-xs-12 col-sm-4 col-sm-offset-4 text-center">
 	
 	<?php
 	
@@ -137,7 +143,7 @@ Forgotten your <a href="recover.php?mode=username">username</a>
 <form action = "" method = "POST" class="form-horizontal" role="form">
 	
   <div class="form-group">
-    <div data-container="body" data-toggle="popover" data-placement="left" data-content="Your information will never be seen by other users" class="col-sm-12">
+    <div class="col-sm-12">
       <input type="text" class="form-control" id="username" name = 'username' placeholder="Username">
     </div>
   </div>

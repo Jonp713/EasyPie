@@ -1,239 +1,5 @@
 <?php
 
-function display_post_admin($post_id){
-	$post_id = sanitize($post_id);
-	
-	$update = array();
-	
-	$num_args = func_num_args();
-	$fields = func_get_args();
-	array_walk($fields, 'array_sanitize');
-	
-	if ($num_args > 1) {
-		unset($fields[0]);
-	}
-	
-	$data = mysql_fetch_assoc(mysql_query("SELECT * FROM posts WHERE id = '$post_id'"));
-	
-	echo('<span class = "row" id = "post'.$post_id.'">');
-	echo('<span class = "well well-sm col-xs-10 col-sm-6" col-md-6>');
-	
-	
-	if(in_array('post', $fields)){
-	
-		echo('<span class = "col-xs-12">');
-
-			echo($data['post'] . '<br>');
-
-		echo('</span>');
-
-		if(in_array('image', $fields)){
-			if($data['isImage'] == 1){
-
-				echo('<img class = "slight-circle img-responsive col-xs-12" src = "../'.$data['img_src'].'">');
-			}
-		}
-				
-	}
-	if(in_array('display_time', $fields)){
-	
-	
-		echo($data['display_time'] . '<br>');
-	
-	}
-	
-	if(in_array('site', $fields)){
-		
-		echo($data['site'] . '<br>');
-		
-	}
-
-	
-	if(in_array('saved_count', $fields)){
-	
-		$savedcount = count_saved($data['id'], 1);
-	
-		echo("Times Saved: " . $savedcount . "<br>");
-	
-	}
-	
-	if(isset($data['user_id'])){
-		
-		if(in_array('username', $fields)){
-
-			$current_post_user_data = user_data($data['user_id'], 'username');
-	
-			echo("Submitted by:<i> " . $current_post_user_data['username'] . "</i><br><br>");
-		
-		}
-	
-		if($data['reply_on'] == 1){
-			
-			if(in_array('direct_replies', $fields)){
-			
-				$directreplies = count_replies($data['id'], 0);
-				
-				echo("Direct Replies: " . $directreplies . "<br>");
-			
-			}
-			
-			if(in_array('sustained_replies', $fields)){
-				
-				$sustainedreplies = count_replies($data['id'], 1);
-			
-				echo("Sustained Replies: " . $sustainedreplies . "<br>");
-			
-			}
-			
-		}
-		
-		echo('<span class = "form-inline">');
-		
-		if(in_array('admin_reply', $fields)){
-	
-			echo('<span class = "'.$data['id'].'reply"><input type = "text" class = "reply form-control">&nbsp;<span onclick="admin_reply('.$data['id'].', 1)"><span class="btn btn-default btn-md"><span class="glyphicon glyphicon-share-alt"></span> Admin Reply</span></span><br></span>');
-		
-		}
-		
-		if(in_array('points_awarded', $fields)){
-			
-			$points = get_points(2, $data['id'], null);
-			
-			if(isset($points['amount'])){
-			
-				echo('Points Awarded: '. $points['amount'] . '<br>');
-
-			}
-	
-		}
-		
-		if(in_array('give_points', $fields)){
-		
-		echo('<span class = "'.$data['id'].'points"><input type = "text" class = "form-control points">&nbsp;<span onclick="give_points('.$data['id'].',\''.$data['site'].'\')"><span class="btn btn-default btn-md"><span class="glyphicon glyphicon-certificate"></span> Dish Points</span></span><br></span>');
-		
-		}
-	
-	
-	}
-	
-	if(in_array('service', $fields)){
-		
-		echo('<span class = "post'.$data['id'].'service">');
-		
-			echo('<select id = "post'.$data['id'].'-service-form" value = '.$data['site'].' class = "form-control col-xs-8" name = "service">');
-		
-		$services = get_services($data['site'], 0);
-
-		foreach ($services as $currentservice){
-			
-			if($currentservice['name'] == $data['service']){
-				
-				echo('<option value = "' . $currentservice['name'] . '" selected>'. $currentservice['name']  .'</option>');
-				
-			}else{
-				
-				echo('<option value = "' . $currentservice['name'] . '">'. $currentservice['name']  .'</option>');
-				
-			}
-			
-			
-			
-		}
-		echo('</select>');
-		
-	
-		echo('<span onclick="change_service('.$data['id'].')"><span class="btn btn-default btn-md"><span class="glyphicon glyphicon-wrench"></span> Change Service</span></span><br><br>');	
-		
-		echo('</span>');
-
-		
-	}
-	
-	
-	if(in_array('approve', $fields)){
-	
-		echo('<span class = "'.$data['id'].'approve"><span onclick="judgement('.$data['id'].', 1)"><span class="btn btn-default btn-md"><span class="glyphicon glyphicon-thumbs-up"></span> Approve</span></span><br></span>');
-	
-	}
-	if(in_array('deny', $fields)){
-	
-		echo('<span class = "'.$data['id'].'deny"><span onclick="judgement('.$data['id'].', 2)"><span class="btn btn-default btn-md"><span class="glyphicon glyphicon-thumbs-down"></span> Deny</span></span><br></span>');
-	
-	}
-	if(in_array('delete', $fields)){
-	
-		echo('<span class = "'.$data['id'].'delete"><span onclick="judgement('.$data['id'].', 3)"><span class="btn btn-default btn-md"><span class="glyphicon glyphicon-remove-sign"></span> Delete</span></span><br></span>');
-		
-	}
-	
-	echo('</span>');
-	
-	
-	if(in_array('save_post', $fields) || in_array('reply_post', $fields)){
-	
-	
-		if(logged_in() == false){
-		
-			echo("If you want to reply or save a post, you need to log in<br>");
-
-		}else{
-		
-			if(in_array('save_post', $fields)){
-		
-				echo('<span class = "save_post" onclick="save_post('.$data['id'].')">Save Post<br></span>');
-				
-			}
-		
-			if(in_array('reply', $fields) && $data['reply_on'] == 1){
-			
-				echo('<span id = "'.$data['id'].'"><input type = "text" id = "reply">&nbsp;<span onclick="reply_post('.$data['id'].')">Reply</span><br></span>');
-			
-	
-			}
-		}
-	
-
-	}
-
-	if(in_array('flag', $fields)){
-
-		echo('<span class = "flag" onclick="flag('.$data['id'].')">Flag Post</span><br>');
-	
-	}
-	
-	if(in_array('unsave_post', $fields)){
-	
-		echo('<span class = "unsave_post" onclick="unsave_post('.$data['id'].')">Unsave Post<br></span>');
-		
-	}
-	
-	if(in_array('reply_toggle', $fields)){
-		
-		if($data['reply_on'] == 1){
-	
-			echo('<span onclick="set_reply('.$data['id'].', 0)">Remove Reply<br></span>');
-	
-		}
-		if($data['reply_on'] == 0){
-	
-			echo('<span onclick="set_reply('.$data['id'].', 1)">Add Reply<br></span>');
-	
-		}
-		
-	}
-	
-	if(in_array('delete_post-user', $fields)){
-	
-		echo('<span onclick="delete_post('.$data['id'].')">Delete Post<br></span>');
-		
-	}
-	
-	echo('</span>');
-	echo('</span>');
-	
-	
-}
-
 
 function display_post($post_id){
 	$post_id = sanitize($post_id);
@@ -252,16 +18,35 @@ function display_post($post_id){
 	
 	$data = mysql_fetch_assoc(mysql_query("SELECT * FROM posts WHERE id = '$post_id'"));
 	
-	echo('<span class = "row " id = "post'.$post_id.'">');
+	echo('<span class = "col-xs-12 no-padding" id = "post'.$post_id.'">');
 	echo('<span class = "col-xs-12 anypost '.$data['service'].'-post">');
 	
 	//functions
-	echo('<span class = "row posttop">');
+	echo('<span class = "posttop col-xs-12 no-padding">');
 	
-	echo('<span style = "padding:0px;" class = "pull-left text-left col-xs-12 col-sm-4">');
+	//defining size of post-top
+	if(in_array('image_corner', $fields)){
+		
+		if($data['isImage'] == 1){
+			
+			echo('<span style = "padding:0px;" class = "pull-left text-left col-xs-12 col-sm-11">');
+			
+			
+		}else{	
+		
+			echo('<span style = "padding:0px;" class = "pull-left text-left col-xs-12">');
+		
+		}
+	
+	}else{
+		
+		echo('<span style = "padding:0px;" class = "pull-left text-left col-xs-12 col-sm-4">');
+	
+	}	
+	
 	
 	if(in_array('display_time', $fields)){
-		
+				
 		$time = $data['second'];
 		
 		echo("<script>	var time = moment.unix(".$time.");"); 
@@ -272,13 +57,20 @@ function display_post($post_id){
 	
 	if(in_array('change_time', $fields)){
 			
-		$time = $data['second'];
+		$time = $data['second'];		
 		
 		echo('<span class = "changeme">'.$time.'</span>');
 		
 		echo('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
 		
 	}
+	
+	if(in_array('title', $fields)){
+		echo('<span class = "atitle">'.$data['title'].'</span>&nbsp;&nbsp;&nbsp;');
+
+	
+	}
+	
 	
 	if(in_array('site', $fields)){
 		
@@ -298,14 +90,224 @@ function display_post($post_id){
 		
 		$color = get_service_color_from_service_name($data['service']);
 				
-		echo('<a style = "color:'.$color.';" href = "posts.php?c='.$data['site'].'&service='.$data['service'].'">'.$data['service'].'</a>');
+		echo('<a style = "color:'.$color.';" href = "posts.php?c='.$data['site'].'&service='.$data['service'].'">'.$data['service'].'</a>&nbsp;&nbsp;&nbsp;');
 				
 		echo('</span>');
 		
+		
 	}
+
 	
 	echo('</span>');
 	
+	if($data['service'] == "Events"){
+		
+		if(in_array('image_corner', $fields)){
+		
+			if($data['isImage'] == 1){
+		
+				echo('<img class = "pull-right col-sm-1 hidden-xs no-padding" src = "'.$data['img_src'].'">');
+				
+			}
+
+		}
+		
+	}
+	
+	
+	
+	if($data['service'] == "Events"){
+		
+		echo('<span style = "padding:0px;" class = "pull-left text-left col-xs-12 col-sm-11">');
+		
+
+				
+		if(in_array('start_time', $fields)){
+			
+			$time = $data['start_second'];
+			
+			if($data['time_status'] == 1){
+				
+				echo("<span style = 'color:".get_service_color_from_service_name($data['service'])."' class = 'message-icon glyphicon glyphicon-bell'></span> <span class = 'hopnow'>Happening Now!</span>");
+				
+			}else{
+		
+				echo("<script>	var time = moment.unix(".$time.");"); 
+				echo("document.write(time.from(moment()));</script>");
+		
+			}
+			echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
+			
+		}
+		if(in_array('change_start_time', $fields)){
+			
+			if($data['time_status'] == 1){
+				
+				echo("<span style = 'color:".get_service_color_from_service_name($data['service'])."' class = 'message-icon glyphicon glyphicon-bell'></span> <span class = 'hopnow'>Happening Now!</span>");
+			
+			
+			}else{
+			
+				$time = $data['start_second'];		
+		
+				echo('<span class = "changeme">'.$time.'</span>');
+					
+			}
+			
+			echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
+			
+		
+		}
+		
+		if(in_array('free_food', $fields)){
+		
+			if($data['has_free_food'] == 1){
+				
+				echo('<span class = "message-icon glyphicon glyphicon-cutlery"></span> <span class = "free-food">Free Food!</span>&nbsp;&nbsp;|&nbsp;&nbsp;');
+			}
+		
+		}
+	
+		
+		if(in_array('duration', $fields)){
+			
+			if($data['time_status'] == 1){
+				
+				echo("<script>	
+				var endtime = moment.unix(".$data['end_second']."); 
+				
+				document.write('Ends ' + endtime.from(moment()));
+				</script>
+				");
+			
+			}else{
+				
+				$time = $data['end_second'] - $data['start_second'];
+		
+				echo("<script>	
+		
+					document.write(moment.duration(".$time.", 'seconds').humanize() + ' long'); // a minute
+		
+				</script>
+				");
+			
+			}
+					
+			echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
+			
+		}
+		if(in_array('change_duration', $fields)){
+			
+			if($data['time_status'] == 1){
+				
+				echo('<span class = "changeme3">'.$data['end_second'].'</span>');
+				
+			
+			}else{
+				
+				$time = $data['end_second'] - $data['start_second'];
+				
+				echo('<span class = "changeme2">'.$time.'</span>');
+	
+			
+			}
+		
+			echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
+		
+		}
+	
+		
+		
+		
+		if(in_array('location', $fields)){
+			
+			
+			echo($data['location']);
+		
+			
+		}
+		
+		echo('</span>');
+			
+
+	}
+	
+	
+
+	
+	echo('</span>');
+	//END OF ROW ONE
+	
+	//begin post row
+	echo('<span class = "col-xs-12 no-padding apost">');
+	
+	if(in_array('post', $fields)){
+		
+		if($data['service'] == "Hole"){
+			
+			if($data['isImage'] == 1){
+			
+				echo('<span data-toggle="tooltip" title="Click to unblur"  data-placement="top" class = "hole-post-overlay-image">');
+			
+			}else{
+				
+				echo('<span class = "hole-post-overlay-text">');
+				
+			}
+			
+		}
+		
+		if($data['service'] == "Events"){
+	
+			echo('<span class = "posttext events">');
+
+				echo($data['post'] . '<br>');
+
+			echo('</span>');
+
+		}else{
+
+			echo('<span class = "posttext normal">');
+
+				echo($data['post'] . '<br>');
+
+			echo('</span>');
+
+		}	
+
+
+		if(in_array('image', $fields)){
+		
+			echo('<img class = "img-responsive" src = "'.$data['img_src'].'">');
+
+		}
+		
+		if($data['service'] == "Hole"){
+	
+			echo('</span>');
+
+		}
+			
+	
+		
+	}
+	
+	
+	echo('</span>');
+	//end of post row
+	
+	
+	//begin bottom row
+	echo('<span class = "bottomrow col-xs-12 no-padding">');
+	
+	//wierd extras
+	echo('<span style = "padding:0px;" class = "pull-left col-xs-4 text-left">');
+		
+		
+	echo('</span>');
+	//end eiwerd extras
+	
+	//widgetsandbuttons
 	echo('<span style = "padding:0px;" class = "pull-right col-xs-8 text-right">');
 
 	if(in_array('comment_on', $fields)){
@@ -381,8 +383,7 @@ function display_post($post_id){
 			
 			if(in_array('reply', $fields) && $data['reply_on'] == 1){
 								
-				echo('&nbsp;&nbsp;&nbsp;<span data-toggle="tooltip" title="Your username will not appear
-"  data-placement="bottom" class = "hoverer reply reply'.$post_id.'" id = "'.$data['id'].'" onclick = "start_reply(this,'.$data['id'].')">REPLY</span>');
+				echo('&nbsp;&nbsp;&nbsp;<span class = "hoverer reply reply'.$post_id.'" id = "'.$data['id'].'" onclick = "start_reply(this,'.$data['id'].')">REPLY</span>');
 			
 			}
 			
@@ -432,6 +433,21 @@ function display_post($post_id){
 		
 	}
 	
+	if(in_array('comment_toggle', $fields)){
+		
+		if($data['allow_comments'] == 1){
+	
+			echo('<span class = "hoverer remove_comments'.$data['id'].'" onclick="set_comments('.$data['id'].', 0, this)">&nbsp;&nbsp;&nbsp;DISABLE-COMMENTS</span>');
+	
+		}
+		if($data['allow_comments'] == 0){
+	
+			echo('<span class = "hoverer add_comments'.$data['id'].'" onclick="set_comments('.$data['id'].', 1, this)">&nbsp;&nbsp;&nbsp;ALLOW-COMMENTS</span>');
+	
+		}
+		
+	}
+	
 	if(in_array('delete_post-user', $fields)){
 	
 		echo('<span class = "hoverer delete_post" onclick="delete_post('.$data['id'].', this)">&nbsp;&nbsp;&nbsp;DELETE</span>');
@@ -451,69 +467,12 @@ function display_post($post_id){
 		//echo('<span class = "share" onclick="share_post('.$data['id'].')">SHARE</span>');
 		
 	}
-
-	
-	//end of right pull
-	echo('</span>');
 	
 	echo('</span>');
-	//END OF ROW ONE
-	
-	//begin post row
-	echo('<span class = "row apost">');
-	
-	if(in_array('post', $fields)){
-		
-		if($data['service'] == "Hole"){
-			
-			if($data['isImage'] == 1){
-			
-				echo('<span data-toggle="tooltip" title="Click to unblur"  data-placement="top" class = "hole-post-overlay-image col-xs-12">');
-			
-			}else{
-				
-				echo('<span class = "hole-post-overlay-text no-padding col-xs-12">');
-				
-			}
-			
-		}
-	
-		echo('<span class = "col-xs-12">');
-
-			echo($data['post'] . '<br>');
-
-		echo('</span>');
-
-		if(in_array('image', $fields)){
-		
-			echo('<img class = "slight-circle img-responsive col-xs-12" src = "'.$data['img_src'].'">');
-
-		}
-		
-		if($data['service'] == "Hole"){
-	
-			echo('</span>');
-
-		}
-			
-	
-		
-	}
-	
+	//end of right pull widgetns n buttons
 	
 	echo('</span>');
-	//end of post row
-	
-	if(empty($_GET['share']) == false && in_array('comment_share', $fields)){
-		
-		echo('<span class = "row anypost-bottom" id = "post'.$data['id'].'-bottom-share"></span>');
-		
-	}else{
-		
-		echo('<span class = "row anypost-bottom" id = "post'.$data['id'].'-bottom"></span>');
-		
-		
-	}
+	//end of bottom row
 	
 	
 	if(empty($_GET['share']) == false && in_array('reply_share', $fields) && $data['reply_on'] == 1 && logged_in() == true){
@@ -541,7 +500,19 @@ function display_post($post_id){
 	echo('</span>');
 	echo('</span>');
 	
+	if(empty($_GET['share']) == false && in_array('comment_share', $fields)){
+		
+		echo('<span class = "col-xs-12 no-padding post-add-on anypost-bottom" id = "post'.$data['id'].'-bottom-share"></span>');
+		
+	}else{
+		
+		echo('<span class = "col-xs-12 no-padding post-add-on anypost-bottom" id = "post'.$data['id'].'-bottom"></span>');
+		
+		
+	}
+	
 }
+
 
 
 

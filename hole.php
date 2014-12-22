@@ -108,8 +108,15 @@ active_protect($_GET['c']);
 	
 	</span>
 	
-</class>
+		<span class = "hole-moderator hidden-xs col-sm-4 low-padding">
+	<br><br><br>
+			<?php include 'includes/content/displaymoderator.php'; ?>
+		
 
+		</span>
+	
+</class>
+	
 	
 	<span id = "hole-comments-section" class = "col-sm-4 col-xs-12">
 	
@@ -122,6 +129,31 @@ active_protect($_GET['c']);
 	
 <div id="log"></div>  
 <div id="logDetails"></div>  
+
+	<?php if (logged_in() === true) {
+		?>
+	
+		<script>
+	
+			var logged_in = true;
+	
+		</script>
+	
+		<?php
+	
+	}else{
+	
+	
+		?>
+	
+		<script>
+	
+			var logged_in = false;
+	
+		</script>
+	
+		<?php
+	}?>
 
 <script src = 'js/jquery.js' type = 'text/javascript'></script>
 
@@ -142,6 +174,7 @@ active_protect($_GET['c']);
   ga('send', 'pageview');
 
 </script>
+ 
 <script src = 'js/bootstrap.js' type = 'text/javascript'></script>
 <script src = 'js/services.js' type = 'text/javascript'></script>
 <script src = 'js/communities.js' type = 'text/javascript'></script>

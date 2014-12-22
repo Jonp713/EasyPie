@@ -49,15 +49,30 @@ if(empty($_GET['share']) == false){
 </span>
 <br>
 			  <?php
-								
-	  			display_post($id, 'post', 'display_time', 'reply_share', 'comment_share', 'save_post', 'point_count', 'give_point');
+				
+		  		if($currentpost['service'] == "ICU"){
+			
+		  			display_post($id, 'post', 'service', 'display_time','save_post', 'point_count', 'give_point', 'reply_share', 'comment_share');
+			
+		  		}
+		  		if($currentpost['service'] == "Bone"){
+		
+		  			display_post($id, 'post', 'service', 'display_time', 'point_count', 'give_point', 'reply_share', 'comment_share');
+		
+		  		}
+		
+		  		if($currentpost['service'] == "Events"){
+		
+		  			display_post($id, 'title', 'location', 'start_time', 'post', 'service', 'reply_share', 'comment_share', 'point_count', 'give_point', 'image_corner', 'free_food', 'save_post', 'duration');
+		
+		  		}
 				
 			  ?>
 
 
 	      </div>
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	        <button type="button" class="btn btn-default" data-dismiss="modal">CLOSE</button>
 	      </div>
 	    </div>
 	  </div>

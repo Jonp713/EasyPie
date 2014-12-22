@@ -30,6 +30,9 @@
 	<meta name="keywords" content="<?php if(!empty($community_in)){echo($community_in.',');} ?> <?php if(!empty($service_in)){echo($service_in.',');} ?>, college, community, life, tickling, personals, missed connections, compliments, icuhampy">	
 	
 	<link href="css/bootstrap.css" rel="stylesheet">
+	<link href="css/reset.css" rel="stylesheet">
+	
+	
 	<link href="css/screen3.1.css" rel="stylesheet">
 	
 	<?php if(!empty($service_in)){	$url =  get_logo_picture_url_from_service_name($service_in); }else{  $url = "https://icu.university/images/logonotext.png"; } ?>

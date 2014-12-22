@@ -4,7 +4,7 @@ protect_page();
 include 'includes/overall/header.php';
 
 
-echo('<span class = "col-xs-6 col-xs-offset-3">');
+echo('<span class = "col-xs-6 col-xs-offset-3 security">');
 
 
 include 'includes/widgets/changepassword.php';

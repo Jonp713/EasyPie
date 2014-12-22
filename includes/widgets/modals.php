@@ -111,8 +111,8 @@
 	
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-info">Submit</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">CLOSE</button>
+        <button type="submit" class="post-submit-button btn btn-info">SUBMIT</button>
 		
 		</form>
       </div>

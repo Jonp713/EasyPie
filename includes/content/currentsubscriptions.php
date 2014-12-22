@@ -6,7 +6,7 @@ $services = get_subscriptions(0, $session_user_id, '');
 
 foreach ($services as $currentservice){
 	
-	echo('<br><span style = "padding:0px;" class = "subscription col-xs-12">');
+	echo('<span style = "padding:0px;" class = "subscription col-xs-12">');
 	
 	 $color = get_service_color_from_service_name($currentservice['service']);
 
@@ -24,30 +24,76 @@ foreach ($services as $currentservice){
 	
 	}
 
-	echo('<a href="'.$link.'" style = "background-color:'.$color.'" class="btn btn-custom2 no-padding btn-sm col-xs-8 servicebutton-feed"><img class = "service-logo-sub col-xs-2 no-padding" src = "'.$url.'">'); 
-	
-	if($currentservice['service'] == "ICU"){
-	
-		echo('<span class = "service-name-sub">'.strtoupper($currentservice['service']).'</span><span class = "service-name-sub white">'.strtoupper($currentservice['community_name']).'</span></a>');
-
-	}else{
+	switch($currentservice['service']){
+		case "ICU":		
 		
-		echo('<span class = "service-name-sub white">'.strtoupper($currentservice['community_name']).'</span><span class = "service-name-sub">'.strtoupper($currentservice['service']).'</span></a>');
-	}
+			echo('<span class = "col-xs-12 no-padding aservice-list '.$currentservice['community_name'].'-container">');
+		
+		
+			echo('<a href="'.$link.'" style = "background-color:'.$color.'" class="btn btn-custom2 no-padding btn-sm col-xs-9 servicebutton-feed"><img class = "service-logo col-xs-2 no-padding" src = "'.$url.'">'); 
 	
-	
-		echo('<button class = "pull-right btn btn-danger btn-sm col-xs-3" onclick="delete_subscription(\''.$currentservice['community_name'].'\', \''.$currentservice['service'].'\', this, 1)">REMOVE</button>');
-	
-	
-	
-	
-	echo('<span class = "pull-right">&nbsp;&nbsp;</span>');
-	
-	
-	echo('</span><br>');
-	
+			echo('<span class = "service-list-name2"><span class = "service-name-sub">'.strtoupper($currentservice['service']).'</span><span class = "service-name-sub white">'.strtoupper($currentservice['community_name']).'</span></span></a>');
 
+
+
+		break;
+		case "Zombledon":		
+		
+			echo('<span class = "col-xs-12 no-padding aservice-list '.$currentservice['community_name'].'-container">');
+			
+			echo('<a href="'.$link.'" style = "background-color:'.$color.'" class="btn btn-custom2 no-padding btn-sm col-xs-9 servicebutton-feed"><img class = "service-logo col-xs-2 no-padding" src = "'.$url.'">'); 
+ 		
+			$user_count = get_user_count($currentservice['service'], $currentservice['community_name']);
+		
+		
+			echo('<span class = "service-list-name2"><span class = "service-name-sub white">'.strtoupper($currentservice['community_name']).'</span><span class = "service-name-sub">'.strtoupper($currentservice['service']).'</span></span></a>');
+		
+		
+			if($user_count > 0){ 
+				
+
+				echo('<span class = "badge user-count-badge-feed" style = "color:'.$color.'">'.$user_count.'</span>');
+				
+			}
+		
+		break;
+		case "Events":		
+		
+			echo('<span class = "col-xs-12 no-padding aservice-list '.$currentservice['community_name'].'-container">');
+			
+			echo('<a href="'.$link.'" style = "background-color:'.$color.'" class="btn btn-custom2 no-padding btn-sm col-xs-9 servicebutton-feed"><img class = "service-logo col-xs-2 no-padding" src = "'.$url.'">'); 
+ 		
+		 	$live_count = count_total_live_events($currentservice['community_name']);
+		
+		
+			echo('<span class = "service-list-name2"><span class = "service-name-sub white">'.strtoupper($currentservice['community_name']).'</span><span class = "service-name-sub">'.strtoupper($currentservice['service']).'</span></span></a>');
+		
+		
+			if($live_count > 0){ 
+				
+				echo('<span class = "badge user-count-badge-feed" style = "color:'.$color.'">'.$live_count.'</span>');
+				
+			}
+		
+		break;
+		default:
+			
+			echo('<span class = "col-xs-12 no-padding aservice-list '.$currentservice['community_name'].'-container">');
+			
+			
+			echo('<a href="'.$link.'" style = "background-color:'.$color.'" class="btn btn-custom2 no-padding btn-sm col-xs-9 servicebutton-feed"><img class = "service-logo col-xs-2 no-padding" src = "'.$url.'">'); 
+		
+		
+			echo('<span class = "service-list-name2"><span class = "service-name-sub white">'.strtoupper($currentservice['community_name']).'</span><span class = "service-name-sub">'.strtoupper($currentservice['service']).'</span></span></a>');
+		
+		}
+
+	
+			echo('<button class = "pull-right btn btn-danger btn-sm col-xs-3" onclick="delete_subscription(\''.$currentservice['community_name'].'\', \''.$currentservice['service'].'\', this, 1)">REMOVE</button>');
+		
+	
+			echo('</span></span>');
+	
 }
-
 ?>
 </span>

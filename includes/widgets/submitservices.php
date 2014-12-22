@@ -21,7 +21,8 @@ foreach ($services as $currentservice){
 			 	
 	   	     break;
 	   	     default:
-	 			echo('<button style = "background-color:'.$color.'" data-target = "#sf-'.$currentservice['name'].'" class="btn btn-custom2 btn-md service-submit-button "><img class = "img-responsive no-padding" src = "'.$url.'"></button>');
+			 
+	 			echo('<button style = "background-color:'.$color.'" id = "sf-'.$currentservice['name'].'-icon" data-target = "#sf-'.$currentservice['name'].'" class="btn btn-custom2 btn-md service-submit-button "><img class = "img-responsive no-padding" src = "'.$url.'"></button>');
 	   	
 		
 		 }

@@ -14,6 +14,21 @@ function get_logo_picture_url_from_character_id($character_id){
 	
 }
 
+function get_logo_picture_url_from_character_name($character_id){
+	
+	$character_id = sanitize($character_id);	
+	
+	$picture_id = mysql_fetch_assoc(mysql_query("SELECT pic_id FROM characters WHERE name = '$character_id'"));
+	
+	$use_id = $picture_id['pic_id'];
+		
+	$url =  mysql_fetch_assoc(mysql_query("SELECT url FROM pictures WHERE id = '$use_id'"));
+	
+	return $url['url'];
+	
+}
+
+
 
 function get_character_name_from_character_id($character_id){
 	

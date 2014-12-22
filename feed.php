@@ -30,9 +30,9 @@ echo('</span>');
 echo('</span>');
 
 }else{
-	echo('<span class = "text-center">');
+	echo('<span class = "text-center col-xs-12 col-sm-6 col-sm-offset-3">');
 	
-	echo("<h1>You need to <a class = 'exploreonfeed' href ='explore.php'>explore</a></h1><br><h4>and subscribe to some communities before you get your own personal feed.</h4>");
+	echo("<br><br><br><h1>This page will fill up with posts when you add services to your feed</h1><br><h4>Check out your communities <a class = 'exploreonfeed' href ='explore.php'>home</a> page to get started</h4>");
 	
 	echo('</span>');
 	

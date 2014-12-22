@@ -21,7 +21,9 @@ if(isset($_GET['service'])){
 
 	echo('<span class = "modname"><strong>'.$name.'</strong> Says:</span>');
 
-	echo('<span class = "modquote-wrapper col-xs-12" style = "background-color:'.$colortouse.'"><span class = "modquote">'.$quote.'</span></span>');	
+	$newcolor = hex2rgb($colortouse);
+
+	echo('<span class = "modquote-wrapper col-xs-12" style = "background-color:rgba('.implode($newcolor, ',').', .8);"><span class = "modquote">'.$quote.'</span></span>');	
 
 }else{
 	

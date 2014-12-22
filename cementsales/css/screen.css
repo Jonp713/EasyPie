@@ -10,3 +10,7 @@ body{
 	top:-1.33em;
 	
 }
+
+.no-padding{
+	padding:0px !important;
+}

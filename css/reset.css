@@ -1,0 +1,15 @@
+select{
+	
+	border-radius:0px;
+}
+select {
+  -webkit-appearance: none;
+  -webkit-border-radius: 0px;
+cursor:pointer;  
+  
+}
+
+select:hover {
+	background-color:rgba(0,0,0,.1);
+  
+}

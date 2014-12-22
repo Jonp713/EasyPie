@@ -1,4 +1,65 @@
 <?php
+function give_point_comment($comment_id, $from_user_id){
+	
+	$comment_id = sanitize($comment_id);
+	$from_user_id = sanitize($from_user_id);	
+	
+	$second = time();
+	
+	$community_name = community_name_from_comment_id($comment_id);
+		
+	$user_id = user_id_from_comment_id($comment_id);
+	
+	if(check_given_points($comment_id, $from_user_id) == false){
+	
+		mysql_query("INSERT INTO `points` (comment_id, user_id, amount, from_user_id, seconds, community_name) VALUES ('$comment_id', '$user_id', 1, '$from_user_id', '$second', '$community_name')");
+
+		$user_id = user_id_from_comment_id($comment_id);
+	
+		create_notification($user_id, "give_points", "Someone one upvoted your comment and gave you 1 point", $comment_id);
+		
+		$upvotes = mysql_query("SELECT upvotes FROM comments WHERE comment_id = '$comment_id'");		
+		
+		$upvotes = $upvotes + 1;
+		
+		mysql_query("UPDATE comments SET upvotes = '$upvotes' WHERE id = '$comment_id'");	
+		
+	}else{
+		
+		return false;
+	}
+}
+
+function take_point_comment($comment_id, $from_user_id){
+	
+	$comment_id = sanitize($comment_id);
+	$from_user_id = sanitize($from_user_id);	
+	
+	$second = time();
+	
+	$community_name = community_name_from_comment_id($comment_id);
+		
+	$user_id = user_id_from_comment_id($comment_id);
+	
+	if(check_given_points($comment_id, $from_user_id) == false){
+	
+		mysql_query("INSERT INTO `points` (comment_id, user_id, amount, from_user_id, seconds, community_name) VALUES ('$comment_id', '$user_id', -1, '$from_user_id', '$second', '$community_name')");
+
+		$user_id = user_id_from_comment_id($comment_id);
+	
+		create_notification($user_id, "give_points", "Someone one downvoted your comment and you lost 1 point", $comment_id);
+		
+		$upvotes = mysql_query("SELECT upvotes FROM comments WHERE comment_id = '$comment_id'");		
+		
+		$upvotes = $upvotes + 1;
+		
+		mysql_query("UPDATE comments SET upvotes = '$upvotes' WHERE id = '$comment_id'");	
+		
+	}else{
+		
+		return false;
+	}
+}
 
 
 function give_point($post_id, $from_user_id){

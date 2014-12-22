@@ -4,7 +4,6 @@ protect_page();
 include 'includes/overall/header.php';
 ?>
 
-
 <span class = "col-md-8 col-xs-12 col-xs-offset-0 col-md-offset-2 dashboard">
 		
 	<span class = "row">
@@ -74,9 +73,10 @@ include 'includes/overall/header.php';
 
 </span>
 
-
 <?php
 
 include 'includes/overall/footer.php'; 
 
 ?>
+
+

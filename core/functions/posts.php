@@ -176,6 +176,8 @@ function get_user_feed($user_id, $start, $status){
 	
 	$user_id = sanitize($user_id);
 	$start = sanitize($start);
+	$status = sanitize($status);
+	
 	
 	$result_saved = mysql_query("SELECT * FROM subscriptions WHERE user_id = '$user_id'");
 	
@@ -283,8 +285,13 @@ function get_posts($status, $site, $type, $admin_id, $service){
 	
 		if($service == 'Hole'){
 				
-			$result = mysql_query("SELECT * FROM posts WHERE service = 'Hole' AND status <> 3 AND site = '$site' ORDER BY ID DESC LIMIT 0,30");
+			$result = mysql_query("SELECT * FROM posts WHERE (service = 'Hole' OR status = 2) AND status <> 3 AND site = '$site' ORDER BY ID DESC LIMIT 0,30");
 			
+		}
+		
+		if($service == "Events"){
+	
+			$result = mysql_query("SELECT * FROM posts WHERE status = '$status' AND service = '$service' AND time_status <> 2 ORDER BY start_second LIMIT 0,30");
 		}
 		
 	}else{
@@ -330,6 +337,7 @@ function get_posts($status, $site, $type, $admin_id, $service){
 			$result = mysql_query("SELECT * FROM posts WHERE status = 1 AND flagged = 1 AND judged_by = '$admin_id' ORDER BY ID DESC");
 		
 		}
+	
 	
 	}
 	
@@ -395,6 +403,19 @@ function set_reply($post_id, $status_in, $user_id){
 	
 }
 
+
+function set_comments($post_id, $status_in, $user_id){
+	
+	$post_id = sanitize($post_id);
+	$status_in = sanitize($status_in);
+	$user_id = sanitize($user_id);
+	
+	$success = mysql_query("UPDATE `posts` SET `allow_comments` = '$status_in' WHERE `id` = '$post_id' and `user_id` = '$user_id'");	
+	
+	return $success;	
+	
+}
+
 function flag($post_id){
 	
 	$post_id = sanitize($post_id);
@@ -452,22 +473,148 @@ function search_posts($keyword){
 	return $foundposts;
 }
 
+function compress_image($source_url, $destination_url, $quality) {
+
+		$info = getimagesize($source_url);
+
+    		if ($info['mime'] == 'image/jpeg')
+        			$image = imagecreatefromjpeg($source_url);
+
+    		elseif ($info['mime'] == 'image/gif')
+        			$image = imagecreatefromgif($source_url);
+
+   		elseif ($info['mime'] == 'image/png')
+        			$image = imagecreatefrompng($source_url);
+
+    		imagejpeg($image, $destination_url, $quality);
+			
+			
+		return $destination_url;
+}
+
+
 function upload_image_post($type, $file_temp, $file_extn){
 	$file_temp = sanitize($file_temp);
 	$file_extn = sanitize($file_extn);
 	$type = sanitize($type);
 	
+	
+
 	$file_path = 'images/posts/' . substr(md5(time()), 0, 10) . '.' . $file_extn;
+	
+	
 	move_uploaded_file($file_temp, $file_path);
+	
+	
+	if(filesize($file_path) > 3000000){
+													
+		compress_image($file_path, $file_path, 30);
+	
+	}
+	
 		
 	$success = mysql_query("INSERT INTO pictures (url, type) VALUES ('$file_path', '$type')") or die(mysql_error());
 	
 	
+	
+	
 	return $file_path;
-	//echo($success);
 	
 }
 
+
+function time_check($community){
+	$community = sanitize($community);
+	
+	$results = mysql_query("SELECT * FROM `posts` WHERE status = 1 AND time_status <> 2 AND site = '$community'");
+    
+	while($number = mysql_fetch_assoc($results)) { 
+	
+		if(time() > ($number['end_second'])){
+			
+			
+			if($number['recurring_type'] != "Not" && time() < $number['recurring_end']){
+				
+				$new_start_seconds = time();
+				
+				switch($number['recurring_type']){
+					case "Weekly":
+					
+						$new_start_seconds = $number['start_second'] + 604800;
+					
+					break;
+					case "Bi-Weekly":
+					
+						$new_start_seconds = $number['start_second'] + 1209600;
+					
+					break;
+					
+				}
+				
+				$id = $number['id'];
+				
+				$duration = $number['end_second'] - $number['start_second'];
+				
+				$new_end_seconds = $new_start_seconds + $duration;
+				
+				mysql_query("UPDATE `posts` SET start_second = '$new_start_seconds' WHERE id = '$id'");
+				mysql_query("UPDATE `posts` SET end_second = '$new_end_seconds' WHERE id = '$id'");
+				mysql_query("UPDATE `posts` SET time_status = 0 WHERE id = '$id'");
+				
+				create_notification($number['user_id'], "post_approved", "Your event " . $number['title'] . " has been renewed!", $id);
+				
+				
+			}else{
+			
+			
+
+				$all_ids_old[] = $number['id'];		
+			
+			}
+
+		}
+		if(time() < ($number['end_second']) && time() > ($number['start_second']) ){
+
+			$all_ids_now[] = $number['id'];		
+			
+		}
+	}
+	
+	if(!isset($all_ids_old) ){
+		
+		
+	}else{
+	
+		$all_ids_old = "'" . implode("','",$all_ids_old) . "'";
+		
+			
+		$result_communities = mysql_query("UPDATE `posts` SET time_status = 2 WHERE id IN ($all_ids_old)");
+					
+	}
+	
+	if(!isset($all_ids_now) ){
+		
+		
+	}else{
+	
+		$all_ids_now = "'" . implode("','",$all_ids_now) . "'";
+			
+		$result_communities = mysql_query("UPDATE `posts` SET time_status = 1 WHERE id IN ($all_ids_now)");
+	
+		
+	}
+
+	
+}
+
+function count_total_live_events($community){
+	$community = sanitize($community);
+	
+	$count = mysql_fetch_assoc(mysql_query("SELECT COUNT(id) AS total FROM posts WHERE site = '$community' AND time_status = 1"));
+	
+	return ($count['total']);
+	
+}
 
 
 

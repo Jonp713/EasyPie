@@ -20,19 +20,11 @@ if($_SESSION['seen_ad'] == 0){
 	}
 }
 
-echo('<span class = "communitymoderator pull-right hidden-xs">');
+echo('<span class = "communitymoderator hidden-xs">');
 
-if(empty($_GET['service'])){
+echo('<span class = "lowerandscroll">');
 
-	echo('<span class = "higherandscroll">');
-
-	include 'includes/content/communityinfo.php';
-
-}else{
-	
-	echo('<span class = "lowerandscroll">');
-	
-}
+include 'includes/content/servicedescription.php';
 
 include 'includes/widgets/submitpost.php';
 
@@ -65,15 +57,15 @@ include 'includes/content/servicelist.php';
 echo('</span></span>');
 
 
-
 echo('<span class = "postfeed">');
 
-echo('<span class = "hidden-sm hidden-md hidden-lg">');
-
-echo('</span>');
+if(isset($_GET['service']) && $_GET['service'] == "Events"){
+	
+	time_check($community_in);
+	
+}
 
 include 'includes/content/unnapprovedposts.php';
-
 
 include 'includes/content/displayposts.php';
 

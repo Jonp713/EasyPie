@@ -25,7 +25,7 @@ if($function == 'get_comments' && isset($_POST['post_id'])){
 	
 	foreach ($comments as $currentcomment) {
 	
-		display_comment($currentcomment['id'], 'text', 'username');
+		display_comment($currentcomment['id'], 'text', 'username', 'give_point', 'point_count', 'take_point');
 	
 	}
 	
@@ -143,6 +143,26 @@ if($function == 'set_reply' && isset($_POST['post_id']) && isset($_POST['status_
 	
 }
 
+if($function == 'set_comments' && isset($_POST['post_id']) && isset($_POST['status_in']) && isset($session_user_id)){
+	
+	$success = set_comments($_POST['post_id'], $_POST['status_in'], $session_user_id);
+	
+	if($success){		
+			
+		if($_POST['status_in'] == 1){
+		
+			echo('Comments Added');
+	
+		}
+		if($_POST['status_in'] == 0){
+		
+			echo('Comments Removed');
+	
+		}
+	}	
+	
+}
+
 if($function == 'subscribe_community' && isset($_POST['community_name']) && isset($session_user_id)){
 	
 	$success = subscribe_community($session_user_id, $_POST['community_name'], $_POST['service']);
@@ -203,7 +223,6 @@ if($function == 'get_more_approved_posts' && isset($_POST['start'])){
 			if($_POST['service'] === "all"){
 			
 				display_post($currentpost['id'], 'post', 'service', 'change_time', 'share_post', 'save_post', 'reply','comment_count', 'comment_on', 'point_count', 'give_point');
-				echo('<br>');
 			
 			}else{
 				
@@ -217,7 +236,6 @@ if($function == 'get_more_approved_posts' && isset($_POST['start'])){
 			if($_POST['service'] === "all"){
 		
 				display_post($currentpost['id'], 'post', 'service', 'change_time', 'share_post', 'reply', 'comment_count', 'comment_on', 'point_count', 'give_point');
-				echo('<br>');
 			
 			}else{
 			
@@ -238,20 +256,37 @@ if($function == 'get_more_approved_posts' && isset($_POST['start'])){
 		
 				display_hole_post($currentpost['id'], 'post', 'comment_count', 'comment_on', 'point_count', 'give_point', 'change_time', 'image');
 		
-				echo('</span><br>');
+				echo('</span>');
 				
 			}else{
 				
 		
 				display_post($currentpost['id'], 'post', 'service', 'comment_count', 'comment_on', 'point_count', 'give_point', 'change_time', 'image');
 			
-				echo('<br>');
 				
 			}
 		
 		
 		
 		}
+		
+		if($currentpost['service'] == "Events"){
+			
+			if($_POST['service'] === "Events"){
+			
+				display_post($currentpost['id'], 'title', 'location', 'change_start_time', 'post', 'share_post', 'comment_count', 'comment_on', 'point_count', 'give_point', 'image_corner', 'free_food', 'save_post', 'change_duration'); 
+			
+			}else{
+				
+				
+				display_post($currentpost['id'], 'title', 'location', 'change_start_time', 'post', 'service', 'share_post', 'comment_count', 'comment_on', 'point_count', 'give_point', 'image_corner', 'free_food', 'save_post', 'change_duration');
+				
+				
+			}
+		}
+		
+		
+		
 	}
 	
 	if($posts[1]){
@@ -267,29 +302,31 @@ if($function == 'get_more_approved_posts' && isset($_POST['start'])){
 
 if($function == 'get_more_feed_posts' && isset($_POST['start']) && isset($session_user_id)){
 		
-	$posts = get_user_feed($session_user_id, $_POST['start']);
+	$posts = get_user_feed($session_user_id, $_POST['start'], 1);
 			
 	foreach ($posts[0] as $currentpost) {
 		
 		if($currentpost['service'] == "ICU"){
 			
 			display_post($currentpost['id'], 'post', 'service', 'change_time', 'share_post', 'save_post', 'reply', 'comment_count', 'comment_on', 'point_count', 'give_point');
-			echo('<br>');
 			
 		}
 		if($currentpost['service'] == "Bone"){
 		
 			display_post($currentpost['id'], 'post', 'service', 'change_time', 'share_post', 'reply', 'comment_count', 'comment_on', 'point_count', 'give_point');
-			echo('<br>');
 		
 		}
 		
 		if($currentpost['service'] == "Hole"){
 		
 			display_post($currentpost['id'], 'post', 'service', 'comment_count', 'comment_on', 'point_count', 'give_point', 'change_time', 'image');
-			
-			echo('<br>');
+					
 		
+		}
+		
+		if($currentpost['service'] === "Events"){
+		
+			display_post($currentpost['id'], 'title', 'location', 'service', 'change_start_time', 'post', 'share_post', 'comment_count', 'comment_on', 'point_count', 'give_point', 'image_corner', 'free_food', 'save_post', 'change_duration'); 
 		
 		}
 	}
@@ -305,6 +342,24 @@ if($function == 'get_more_feed_posts' && isset($_POST['start']) && isset($sessio
 }
 
 
+
+
+
+if($function == 'user_enter' && isset($_POST['service'])){
+
+	return user_enter($_POST['service'], $_POST['community']);
+
+}
+
+if($function == 'user_leave' && isset($_POST['service'])){
+
+
+	return user_leave($_POST['service'], $_POST['community']);
+	
+	
+
+
+}
 
 	
 ?>

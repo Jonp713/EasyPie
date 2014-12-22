@@ -91,8 +91,13 @@ function get_subscriptions($type, $user_id, $state){
    	}
 	
 	if($type != 2){
+		
+		if(isset($all_names)){
+			
+			return $all_names;
+			
+		}
 	
-		return $all_names;
 	
 	}else{
 		
@@ -168,21 +173,6 @@ function community_is_active($community_name){
 	
 }
 
-function hole_is_active($community_name){
-	$community_name = sanitize($community_name);
-	
-	$result = mysql_fetch_assoc(mysql_query("SELECT hole FROM `communities` WHERE name = '$community_name'"));
-	
-	if($result['hole'] == 1){
-		
-		return true;
-	}else{
-		
-		return false;
-	}
-	
-}
-
 
 function admin_posts($community_name){
 	$community_name = sanitize($community_name);
@@ -198,6 +188,8 @@ function admin_posts($community_name){
 	return $all_posts;
 }
 
+/*
+
 function get_mods_picurl($admin_id){
 	$admin_id = sanitize($admin_id);
 	
@@ -212,13 +204,6 @@ function get_mods_picurl($admin_id){
 }
 
 
-function get_community_color_from_community_name($community_name){
-	
-	$community_name = sanitize($community_name);
-		
-	return mysql_result(mysql_query("SELECT `color` FROM `communities` WHERE `name` = '$community_name'"), 0, 'color');
-	
-}
 
 function get_logo_picture_url_from_community_name($community_name){
 	
@@ -233,7 +218,7 @@ function get_logo_picture_url_from_community_name($community_name){
 	return $url['url'];
 	
 }
-
+*/
 
 
 	

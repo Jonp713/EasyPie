@@ -201,4 +201,32 @@ function logout(){
 	
 }
 
+
+function user_enter($service_name, $community_name){
+	$total_users = mysql_result(mysql_query("SELECT `user_count` FROM `live_service_count` WHERE `community_name` = '$community_name' AND `service_name` = '$service_name'"), 0, 'user_count');	
+	
+	$total_users += 1;
+	
+	return mysql_query("UPDATE `live_service_count` SET `user_count` = '$total_users' WHERE `community_name` = '$community_name' AND `service_name` = '$service_name'");
+	
+}
+
+function user_leave($service_name, $community_name){
+	
+	$total_users = mysql_result(mysql_query("SELECT `user_count` FROM `live_service_count` WHERE `community_name` = '$community_name' AND `service_name` = '$service_name'"), 0, 'user_count');	
+	
+	$total_users -= 1;
+	
+	return mysql_query("UPDATE `live_service_count` SET `user_count` = '$total_users' WHERE `community_name` = '$community_name' AND `service_name` = '$service_name'");
+	
+	
+}
+
+function get_user_count($service_name, $community_name){
+	
+	$total_users = mysql_result(mysql_query("SELECT `user_count` FROM `live_service_count` WHERE `community_name` = '$community_name' AND `service_name` = '$service_name'"), 0, 'user_count');	
+	
+	return $total_users;
+}
+
 ?>

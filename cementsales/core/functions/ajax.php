@@ -212,26 +212,31 @@ if($function == 'get_more_approved_posts_admin' && isset($_POST['start'])){
 	foreach ($posts[0] as $currentpost) {
 		
 		if($_POST['type'] == 0){
+			
+
+			display_post_admin($currentpost['id'], 'post', 'site', 'display_time', 'saved_count', 'username', 'direct_replies', 'sustained_replies', 'admin_reply', 'give_points', 'deny', 'delete', 'image', 'service');
 		
-			display_post($currentpost['id'], 'post', 'change_time', 'saved_count', 'username', 'direct_replies', 'sustained_replies', 'admin_reply', 'give_points', 'deny', 'delete');
 	
 		}	
 		
 		if($_POST['type'] == 1){
 
-			display_post($currentpost['id'], 'post', 'site', 'change_time', 'saved_count', 'username', 'direct_replies', 'sustained_replies', 'admin_reply', 'give_points', 'deny', 'delete');
+			display_post_admin($currentpost['id'], 'post', 'site', 'display_time', 'saved_count', 'username', 'direct_replies', 'sustained_replies', 'admin_reply', 'give_points', 'deny', 'delete', 'image', 'service');
 
 		}
 		
-		if($posts[1]){
-		
-			$newstart = $_POST['start'] + 30;
-	
-			echo('<span id = "clickmore" onclick = "get_more_approved_posts_admin('.$newstart.', '.$_POST['site'].', '.$_POST['type'].')">More Posts</span>');
-	
-		}
 	
 		echo('<br>');
+		
+		
+	}
+	
+	if($posts[1]){
+	
+		$newstart = $_POST['start'] + 30;
+
+		echo('<span id = "clickmore" onclick = "get_more_approved_posts_admin('.$newstart.', '.$_POST['site'].', '.$_POST['type'].')">More Posts</span>');
+
 	}
 	
 }
@@ -245,13 +250,13 @@ if($function == 'get_more_denied_posts_admin' && isset($_POST['start'])){
 		
 		if($_POST['type'] == 0){
 		
-			display_post($currentpost['id'], 'post', 'display_time', 'username', 'admin_reply', 'approve', 'delete');
+		display_post_admin($currentpost['id'], 'post', 'site', 'display_time', 'username', 'admin_reply', 'approve', 'delete', 'image', 'service');
 	
 		}	
 		
 		if($_POST['type'] == 1){
-
-			display_post($currentpost['id'], 'post', 'site', 'display_time', 'username', 'admin_reply', 'approve', 'delete');
+	
+			display_post_admin($currentpost['id'], 'post', 'site', 'display_time', 'username', 'admin_reply', 'approve', 'delete', 'image', 'service');
 
 		}
 	
@@ -266,7 +271,10 @@ if($function == 'get_more_denied_posts_admin' && isset($_POST['start'])){
 		echo('<br>');
 	}
 	
+	
 }
+
+
 
 
 ?>

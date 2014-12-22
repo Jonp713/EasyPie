@@ -38,13 +38,11 @@ if (empty($_GET) === false) {
 			if($currentpost['service'] == "ICU"){
 			
 				display_post($currentpost['id'], 'post', 'service', 'display_time', 'share_post', 'save_post', 'reply', 'comment_count', 'comment_on', 'point_count', 'give_point');
-				echo('<br>');
 			
 			}
 			if($currentpost['service'] == "Bone"){
 		
 				display_post($currentpost['id'], 'post', 'service', 'display_time', 'share_post', 'reply', 'comment_count', 'comment_on', 'point_count', 'give_point');
-				echo('<br>');
 		
 			}
 		

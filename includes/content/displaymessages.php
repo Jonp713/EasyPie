@@ -13,19 +13,19 @@
 	}
 		
 	foreach ($messages as $currentmessage) {
-		
+				
 		if($currentmessage['from_post'] > 2){			
 			
-			echo('<span class = "messagerow">');
+			echo('<span class = "amessage col-xs-12 messagerow">');
 			
 		}else{
 		
-			echo('<span class = "messagerow">');
+			echo('<span class = "amessage  col-xs-12 messagerow">');
 		
 		}
 		
 		
-		echo("<span class = 'col-xs-4 text-center'>");
+		echo("<span class = 'col-xs-4 message-icon text-center'>");
 		
 		
 		if($currentmessage['from_post'] < 3){
@@ -130,12 +130,15 @@
 		
 		echo('</span>');
 		
-		echo('<br><hr class = "col-xs-10 col-xs-offset-1 messagehr"><br></span>');
+		echo('</span>');
+		
+		echo('<span class = "col-xs-12 anymessage-bottom message'.$currentmessage['id'].'-bottom"></span>');
+
 		
 		
-
-
 	}
+	
+	
 
 
 ?>
@@ -150,14 +153,14 @@
 	}
 		
 	foreach ($messages as $currentmessage) {
+				
+		echo('<span class = "messagerow amessage col-xs-12">');
 		
-		echo('<span class = "messagerow col-xs-12">');
 		
-		
-		echo("<span class = 'col-xs-4 text-center'>");
+		echo("<span class = 'col-xs-4 message-icon text-center'>");
 		
 			
-			echo('<span class="	glyphicon glyphicon-send"></span><br>');
+			echo('<span class="glyphicon glyphicon-send"></span><br>');
 
 		
 			$time = $currentmessage['second'];
@@ -188,9 +191,9 @@
 		
 			echo("<span class = 'col-xs-6'>");
 			
-			echo('<i>'.$currentmessage['message'] . '</i><br><br>');		
+			echo('<span class = "bigmessage"><i>'.$currentmessage['message'] . '</i></span><br><br>');		
 								
-			echo($currentmessage['prev_message'] . '<br><br>');
+			echo('<span class = "smallmessage">'.$currentmessage['prev_message'] . '</span><br><br>');
 			
 		
 		echo('</span>');
@@ -200,10 +203,12 @@
 			echo('<span class = "hoverer" onclick="delete_message('.$currentmessage['id'].', 1, this)">DELETE</span><br><br>');
 		
 		echo('</span>');
+		echo('</span>');
 		
-		echo('<br><hr class = "col-xs-10 col-xs-offset-1 messagehr"><br></span>');
+		echo('<span class = "col-xs-12 anymessage-bottom message'.$currentmessage['id'].'-bottom"></span>');
 		
-
+				
+      
 	}
 	
 	if($sentmessages == false && $gotmessages == false){

@@ -59,11 +59,9 @@ function display_comment($comment_id){
 	
 	$data = mysql_fetch_assoc(mysql_query("SELECT * FROM comments WHERE id = '$comment_id'"));
 	
-	echo('<span class = "row no-padding" id = "comment'.$comment_id.'">');
-	echo('<span class = "col-xs-12 a-comment">');
+	echo('<span class = "col-xs-12 a-comment" id = "comment'.$comment_id.'">');
 	
 	//begin post row
-	echo('<span class = "row">');
 	
 	if(in_array('text', $fields)){
 		
@@ -74,6 +72,11 @@ function display_comment($comment_id){
 		echo('</span>');
 	}
 	
+	//end of post row
+	
+	
+	echo('<span class = "comment-widgets">');
+	
 	if(in_array('username', $fields)){
 		
 		if($data['show_username'] == 1){
@@ -82,7 +85,7 @@ function display_comment($comment_id){
 											
 				$username = username_from_user_id($data['user_id']);
 			
-				echo('<span class = "comment-username">'.$username.'</span>');
+				echo('<span class = "">'.$username.'&nbsp;&nbsp;</span>');
 			
 			}
 		
@@ -91,11 +94,58 @@ function display_comment($comment_id){
 
 	}
 	
+	/*
+	if(logged_in() == true){
+
+		if(in_array('give_point', $fields)){
+					
+			if(check_given_points($data['id'], $_SESSION['user_id'])){
+			
+				echo('<span class = "icon-selected upvote glyphicon glyphicon-chevron-up"></span>');
+		
+		
+			}else{
+			
+				echo(check_given_points($data['id'], $_SESSION['user_id']));
+			
+				echo('<span class = "hoverer-icon upvote glyphicon glyphicon-chevron-up" onclick="give_point('.$data['id'].', this)"></span>');			
+			}
+		
+
+		}
+
+		if(in_array('point_count', $fields)){
+		
+			$point_count = count_post_points($post_id);
+		
+			echo('<span id = "point-count'.$data['id'].'" class = "point_count acount">&nbsp;'.$point_count.'&nbsp;</span>');
+		
+
+		}
+		
+		if(in_array('give_point', $fields)){
+		
+			if(check_given_points($data['id'], $_SESSION['user_id'])){
+			
+				echo('<span class = "icon-selected upvote glyphicon glyphicon-chevron-down"></span>');
+		
+		
+			}else{
+			
+				echo(check_given_points($data['id'], $_SESSION['user_id']));
+			
+				echo('<span class = "hoverer-icon upvote glyphicon glyphicon-chevron-up" onclick="take_point('.$data['id'].', this)"></span>');	
+						
+			}
+			
+		}
+		
 	
+	}
+	*/
 	echo('</span>');
-	//end of post row
 	
-	
+		
 	
 	//functions
 	//echo('<span class = "row comment-top">');
@@ -162,9 +212,7 @@ function display_comment($comment_id){
 	
 	//echo('</span>');
 	//END OF ROW ONE
-	
-	echo('</span>');
-	
+		
 	echo('</span>');
 	
 }

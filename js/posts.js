@@ -11,8 +11,8 @@ function view_unsorted_posts(){
 }
 
 
-function toggle_post_picture(){
-	$('#post-pic-form').toggleClass( "picture-disabled" );		
+function toggle_post_picture(service){
+	$('#post-pic-form-'+service).toggleClass( "picture-disabled" );		
 	
 	
 }
@@ -69,12 +69,32 @@ function set_reply(post_id, status_in, span){
                 
 		if(status_in == 0){
 		
-			data = ('<span class = "hoverer add_reply'+post_id+'" onclick="set_reply('+post_id+', 1, this)">ENABLE-REPLY&nbsp;&nbsp;&nbsp;</span>');
+			data = ('<span class = "hoverer add_reply'+post_id+'" onclick="set_reply('+post_id+', 1, this)">&nbsp;&nbsp;&nbsp;ENABLE-REPLY</span>');
 		
 		}
 		if(status_in == 1){
 		
-			data = ('<span class = "hoverer remove_reply'+post_id+'" onclick="set_reply('+post_id+', 0, this)">DISABLE-REPLY&nbsp;&nbsp;&nbsp;</span>');
+			data = ('<span class = "hoverer remove_reply'+post_id+'" onclick="set_reply('+post_id+', 0, this)">&nbsp;&nbsp;&nbsp;DISABLE-REPLY</span>');
+		
+		}
+		
+		$(span).replaceWith(data);
+		
+    }); 
+}
+
+function set_comments(post_id, status_in, span){
+	
+    $.post("core/functions/ajax.php",{function: "set_comments", post_id: post_id, status_in: status_in},function(data){
+                
+		if(status_in == 0){
+		
+			data = ('<span class = "hoverer add_comment'+post_id+'" onclick="set_comments('+post_id+', 1, this)">&nbsp;&nbsp;&nbsp;ALLOW-COMMENTS</span>');
+		
+		}
+		if(status_in == 1){
+		
+			data = ('<span class = "hoverer remove_comment'+post_id+'" onclick="set_comments('+post_id+', 0, this)">&nbsp;&nbsp;&nbsp;DISABLE-COMMENTS</span>');
 		
 		}
 		
@@ -148,9 +168,15 @@ function get_more_approved_posts(start, site, service){
 		isHole = true;
 	}
 	
+
+	if(service == null){
+		
+		service = "all";
+	}
+	
     $.post("core/functions/ajax.php",{function: "get_more_approved_posts", start: start, site: site, service: service, isHole: isHole}, function(data){
 		
-		$('#clickmore').replaceWith();       
+		$('#clickmore').replaceWith();
 				
 		$('#posts').append(data);    
 				
@@ -164,21 +190,53 @@ function get_more_approved_posts(start, site, service){
 						
 		});
 		
+		$(".changeme3").each(function() {
+  
+  		  	var seconds = $(this).text();
+		
+			var time = moment.unix(seconds);
+			
+			
+			$(this).replaceWith('Ends ' + time.from(moment()));
+						
+		});
+		
+		$(".changeme2").each(function() {
+  
+  		  	var seconds = $(this).text();
+		
+			seconds = parseInt(seconds);
+			
+			$(this).replaceWith(moment.duration(seconds, 'seconds').humanize() + ' long');
+						
+						
+		}); 
+		
 	});
 			
 }
 
 function start_reply(span, id){
 		
-	data = '<span id = "replygroup'+id+'"><hr class = "replysharehr"><span class = "form-group col-xs-12"><span class = "no-padding"><span onclick = "close_reply(2, '+id+')" class = "glyphicon pull-right glyphicon-remove comment-x"></span><textarea class = "form-control col-xs-2" placeholder = "Send a message..." id = "reply_submit'+id+'"></textarea><span class = "replysendbutton pull-right btn-info btn" onclick="reply_post('+id+')">SEND</span></span></span>';
+	data = '<span id = "replygroup'+id+'"><span class = "form-group col-xs-12"><span class = "no-padding"><span onclick = "close_reply(2, '+id+')" class = "glyphicon pull-left glyphicon-remove comment-x"></span><textarea class = "form-control col-xs-2" placeholder = "Send a message..." id = "reply_submit'+id+'"></textarea><span class = "replysendbutton pull-right btn-info btn" data-toggle="tooltip" title="Your username will not appear with your message"  data-placement="bottom" onclick="reply_post('+id+')">SEND</span></span></span>';
 	
 	$("#post"+id+"-bottom").html(data);
+	
+	$("#post"+id+"-bottom").show();
+	
+	
+	$('[data-toggle="tooltip"]').tooltip();
+	
 	
 }
 
 function close_reply(type, post_id){
 	
+	$("#post"+post_id+"-bottom").hide();
+	
+	
 	$('#post'+post_id+'-bottom').html('');
+	
 	
 }
 
@@ -200,7 +258,18 @@ function get_more_feed_posts(start){
 			
 			$(this).replaceWith(time.from(moment()));
 						
-		});   
+		}); 
+		
+		$(".changeme2").each(function() {
+  
+  		  	var seconds = $(this).text();
+		
+			//var time = moment.unix(seconds);
+			
+			$(this).replaceWith(moment.duration(seconds, 'seconds').humanize() + ' long');
+						
+						
+		}); 
 				    
     }); 
 	
@@ -238,7 +307,6 @@ $(window).scroll(function() {
 
 			currentpostnumber += 30;
 			
-			//alert(currentpostnumber);
 		}
 		
 		if(location.pathname.substring(location.pathname.lastIndexOf("/") + 1) == 'feed.php'){
@@ -246,7 +314,6 @@ $(window).scroll(function() {
 
 			currentpostnumber += 30;
 			
-			//alert(currentpostnumber);
 		}
 
     }

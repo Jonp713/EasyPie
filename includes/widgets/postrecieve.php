@@ -74,13 +74,15 @@ if (empty($_POST) === false && empty($errors) === true) {
 		
 	}
 	
-	if($_POST['service'] == "Hole"){
+	if($_POST['service'] == "Hole" || $_POST['service'] == "Events"){
 				
-		if($_POST['is_image'] == "checked"){
+		if(isset($_POST['is_image']) && $_POST['is_image'] == "checked"){
+			
+			$servicename = $_POST['service'];
 			
 			$post_data['isImage'] = 1;
 			
-			if (empty($_FILES['pic']['name']) == true) {
+			if (empty($_FILES['pic_'.$servicename]['name']) == true) {
 		
 				$errors[] = 'Please choose a file!';
 		
@@ -88,9 +90,9 @@ if (empty($_POST) === false && empty($errors) === true) {
 	
 				$allowed = array('jpg', 'jpeg', 'gif', 'png');
 		
-				$file_name = $_FILES['pic']['name'];
+				$file_name = $_FILES['pic_'.$servicename]['name'];
 				$file_extn = strtolower(end(explode('.', $file_name)));
-				$file_temp = $_FILES['pic']['tmp_name'];
+				$file_temp = $_FILES['pic_'.$servicename]['tmp_name'];
 		
 				if (in_array($file_extn, $allowed) === true) {} else {
 			
@@ -100,14 +102,62 @@ if (empty($_POST) === false && empty($errors) === true) {
 		
 			}
 			
-			$file_path = upload_image_post('hole', $file_temp, $file_extn);
 			
+			$file_path = upload_image_post($servicename, $file_temp, $file_extn);
 			
 			$post_data['img_src'] = $file_path; 
 			
 		}
 		
 	}
+	
+	if($_POST['service'] == "Events"){
+	
+		if(isset($_POST['free_food']) && $_POST['freefood_on'] == 'on'){
+			
+			$post_data['has_free_food'] = 1;
+			
+		}
+		
+		$real_hour = 0;
+			
+		if($_POST['apm'] == "am"){
+			
+			$real_hour = $_POST['hour'];
+			
+		}else{
+			
+			$real_hour = $_POST['hour'] + 12;
+			
+		}
+		
+		$time = $_POST['year'] . "-" . $_POST['month'] . "-". $_POST['day']  . " " . $real_hour . ":" . $_POST['minute'] . ":" . "00";
+		
+		$seconds = strtotime($time);
+		
+		$end_seconds = $seconds + $_POST['duration'];		
+		
+		$post_data['start_second'] = $seconds;
+		$post_data['end_second'] = $end_seconds;
+		
+		$post_data['title'] = $_POST['title'];
+		
+		$post_data['location'] = $_POST['location'];
+		
+		if($_POST['recurring_type'] != "Not"){
+						
+			$post_data['recurring_type'] = $_POST['recurring_type'];
+			
+			$time = $_POST['r_year'] . "-" . $_POST['r_month'] . "-". $_POST['r_day'];
+		
+			$recurring_end_seconds = strtotime($time);
+			
+			$post_data['recurring_end'] = $recurring_end_seconds;
+			
+		}
+	
+	}
+	
 	
 	if(isset($_POST['comments_on'])){
 		if($_POST['comments_on'] == 'on'){
@@ -141,7 +191,7 @@ if (empty($_POST) === false && empty($errors) === true) {
 				
 				if(!empty($_GET['service'])){
 					
-					if($_GET['service'] == "Hole"){
+					if($_POST['service'] == "Hole"){
 						
 						header('Location: hole.php?c='.$community_in.'&service='.$service_in.'&s');
 						

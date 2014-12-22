@@ -24,7 +24,7 @@ if(isset($_GET['codename']) && check_admin_power($session_admin_id) > 0){
 
 if(isset($_GET['community']) === false && isset($_GET['codename']) === false){
 
-	$posts = get_posts(1, $admin_data['community'], -1, null, 'all');
+	$posts = get_posts(1, $_GET['community'], -1, null, 'all');
 	
 	$moretype = 0;
 	
@@ -49,7 +49,7 @@ foreach ($posts[0] as $currentpost) {
 
 if($posts[1]){
 
-	echo('<span id = "clickmore" onclick = "get_more_approved_posts_admin(30,\''.$admin_data['community'].'\', '.$moretype.')">More Posts</span>');
+	echo('<span id = "clickmore" onclick = "get_more_approved_posts_admin(30,\''.$_GET['community'].'\', '.$moretype.')">More Posts</span>');
 
 }
 

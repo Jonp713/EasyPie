@@ -25,7 +25,7 @@ function delete_subscription(community_name, service, span, type, graphic_type){
                 
 		if(type == 1){		
 				
-			$(span).parent('.subscription').fadeOut(100);
+			$(span).parent('.col-xs-12').parent('.subscription').fadeOut(100);
 		
 		}
 		if(type == 2){

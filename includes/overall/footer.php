@@ -1,7 +1,7 @@
 	</div></div></div>
-	<footer>
+	<footer class = "col-xs-12">
 		
-		<br><br><br>
+		<br><br><br><br>
  <center>
 <!--<span style = "padding-bottom:6px" class = "col-xs-12"> &copy; 2014 ICU-5 Connections LLC &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href = "mailto:contact@icu.university">Contact</a></span>-->
 </center>
@@ -17,7 +17,9 @@
     <script src = "js/sidebar.js" type = 'text/javascript'></script>
     <script src = "js/services.js" type = 'text/javascript'></script>	
     <script src = "js/comments.js" type = 'text/javascript'></script>	
-    <script src = "js/points.js" type = 'text/javascript'></script>		
+    <script src = "js/points.js" type = 'text/javascript'></script>	
+    <script src = "js/users.js" type = 'text/javascript'></script>		
+		
 	
 	<script>
 	
@@ -64,7 +66,33 @@
 			
 		</script>
 	
-	<?php }?>
+	<?php }
+	
+	
+	if (logged_in() === true) {
+		?>
+	
+		<script>
+	
+			var logged_in = true;
+	
+		</script>
+	
+		<?php
+	
+	}else{
+	
+	
+		?>
+	
+		<script>
+	
+			var logged_in = false;
+	
+		</script>
+	
+		<?php
+	}?>
 	
 
 </body>

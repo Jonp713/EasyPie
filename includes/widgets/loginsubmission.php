@@ -34,7 +34,7 @@ if (empty($_POST) === false) {
 			if(empty($errors) === true){
 			
 				$_SESSION['user_id'] = $login;
-				header('Location: feed.php');
+				header('Location: posts.php?c=Hampy');
 				exit();
 			
 			}
@@ -53,12 +53,17 @@ if (empty($_POST) === false) {
 }
 
 ?>
+<span class = "whitebg"></span>
+
+
+<span class = "basic-forms col-xs-12">
+
 <span class = "row">
 
-<span class = "col-xs-8 col-xs-offset-2 col-sm-4 col-sm-offset-4 text-center">
+<span class = "col-xs-12 col-sm-4 col-sm-offset-4 text-center">
 
 <h1>LOGIN</h1>
-<hr>
+<hr class = "whitehr">
 
 <!-- Forgotten your <a href="recover.php?mode=username">username</a>? -->
 
@@ -69,7 +74,7 @@ if (empty($_POST) === false) {
 <span class = "row">
 
 
-<span class = "col-sm-2 col-sm-offset-5 col-xs-4 col-xs-offset-4">
+<span class = "col-sm-2 col-sm-offset-5 col-xs-6 col-xs-offset-3">
 
 <img src = "images/logonotext.png" class="img-responsive" alt="Responsive image">
 </span>
@@ -79,7 +84,7 @@ if (empty($_POST) === false) {
 
 <span class = "row">
 
-<span class = "col-xs-8 col-xs-offset-2 col-sm-4 col-sm-offset-4 text-center">
+<span class = "col-xs-12 col-sm-4 col-sm-offset-4 text-center">
 	
 	<?php
 
@@ -93,12 +98,12 @@ if (empty($_POST) === false) {
 
 <form action = "" method = "POST" class="form-horizontal" role="form">
   <div class="form-group">
-    <div class="col-sm-12">
+    <div class="col-xs-12">
       <input type="text" class="form-control" id="username" name = 'username' placeholder="Username">
     </div>
   </div>
   <div class="form-group">
-    <div class="col-sm-12">
+    <div class="col-xs-12">
       <input type="password" class="form-control" id="password" name = "password" placeholder="Password">
     </div>
   </div>
@@ -125,7 +130,7 @@ if (empty($_POST) === false) {
 	
 	
 		<div class="form-group">
-		    <div class="col-sm-12">
+		    <div class="col-xs-12">
 	<button type = 'submit' class="col-xs-12 btn btn-info btn-large">Go!</button>	    
 	</div>
 	</div>
@@ -135,3 +140,5 @@ if (empty($_POST) === false) {
 	</span>
 
 	</span>
+	
+</span>
