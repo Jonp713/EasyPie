@@ -9,8 +9,7 @@
       <div class="modal-body">
 		  
 		  <?php include 'submitservices.php'; ?>
-	
-		  <form class = "submit_post form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
+
 			  
 			<!--
   			<div class="panel-group" id="accordion">
@@ -60,6 +59,8 @@
 				
 			<?php
 			
+			/*
+			
 			if(empty($_GET['c'])){
 				
 				
@@ -86,7 +87,7 @@
 				
 			}
 			
-			?>
+			
 			
 			
 			<?php
@@ -104,17 +105,14 @@
 				   
    
 				}
-				
+				*/
 
 			?>
 		
 	
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">CLOSE</button>
-        <button type="submit" class="post-submit-button btn btn-info">SUBMIT</button>
-		
-		</form>
+        <button type="button" class="btn btn-default" data-dismiss="modal">CLOSE</button>		
       </div>
     </div>
   </div>

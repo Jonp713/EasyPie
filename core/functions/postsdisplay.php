@@ -159,6 +159,24 @@ function display_post($post_id){
 		
 		}
 		
+		if(in_array('location', $fields)){
+			
+			
+			echo($data['location']);
+			echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
+			
+		
+			
+		}
+		
+		if(in_array('start_time_full', $fields)){
+			
+			$time = $data['start_second'];		
+						
+			echo($today = date("D, M, n g:ia") . '&nbsp;&nbsp;|&nbsp;&nbsp;');
+		
+		}
+		
 		if(in_array('free_food', $fields)){
 		
 			if($data['has_free_food'] == 1){
@@ -193,7 +211,6 @@ function display_post($post_id){
 			
 			}
 					
-			echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
 			
 		}
 		if(in_array('change_duration', $fields)){
@@ -212,20 +229,13 @@ function display_post($post_id){
 			
 			}
 		
-			echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
 		
 		}
 	
 		
 		
 		
-		if(in_array('location', $fields)){
-			
-			
-			echo($data['location']);
-		
-			
-		}
+
 		
 		echo('</span>');
 			
@@ -247,11 +257,11 @@ function display_post($post_id){
 			
 			if($data['isImage'] == 1){
 			
-				echo('<span data-toggle="tooltip" title="Click to unblur"  data-placement="top" class = "hole-post-overlay-image">');
+				echo('<span data-toggle="tooltip" title="Click to unblur"  data-placement="top" class = "hole-post-overlay-image col-xs-12 no-padding">');
 			
 			}else{
 				
-				echo('<span class = "hole-post-overlay-text">');
+				echo('<span class = "col-xs-12 no-padding hole-post-overlay-text">');
 				
 			}
 			

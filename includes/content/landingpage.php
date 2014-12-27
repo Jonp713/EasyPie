@@ -62,7 +62,7 @@
 <form action = "register.php" method = "POST" class="form-horizontal" role="form">
 	
   <div class="form-group">
-    <div data-container="body" data-toggle="popover" data-placement="left" data-content="Your information will never be seen by other users" class="col-sm-10">
+    <div class="col-sm-10">
       <input type="text" class="form-control" id="username" name = 'username' placeholder="Username">
     </div>
   </div>

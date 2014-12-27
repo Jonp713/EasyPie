@@ -20,7 +20,7 @@ include ('includes/widgets/communitydescription.php');
 
 if($has == false){
 
-echo('<hr><h1>Head Moderator: ' . $head_codename . '</h1>');
+	echo('<hr><h1>Head Moderator: ' . $head_codename . '</h1>');
 
 }
 

@@ -1,6 +1,6 @@
 <?php
 
-moderator_protect_page();
+//moderator_protect_page();
 
 ?>
 

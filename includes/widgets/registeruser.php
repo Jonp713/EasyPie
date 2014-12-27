@@ -100,7 +100,6 @@ if (isset($_GET['success']) === true && empty($_GET['success']) === true) {
 <span class = "basic-forms">
 
 
-<span class = "row">
 
 <span class = "col-xs-12 col-sm-4 col-sm-offset-4 text-center">
 
@@ -112,20 +111,15 @@ if (isset($_GET['success']) === true && empty($_GET['success']) === true) {
 
 </span>
 
-</span>
 
-<span class = "row">
 
 <span class = "col-sm-2 col-sm-offset-5 col-xs-6 col-xs-offset-3">
+	<br>
    
 <img src = "images/logonotext.png" class="img-responsive">
 
+<br>
 </span>
-
-
-</span>
-
-<span class = "row">
 
 
 <span class = "col-xs-12 col-sm-4 col-sm-offset-4 text-center">
@@ -192,7 +186,6 @@ if (isset($_GET['success']) === true && empty($_GET['success']) === true) {
 
 </form>
 
-</span>
 
 
 </span>

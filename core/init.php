@@ -39,6 +39,8 @@ require 'functions/ads.php';
 require 'functions/services.php';
 require 'functions/comments.php';
 require 'functions/characters.php';
+require 'functions/mods.php';
+
 
 terminator();
 //ddos();

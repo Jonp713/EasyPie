@@ -47,6 +47,9 @@ function reply_message(message_id){
 	 });
 	 
 	$(".message"+message_id+"-bottom").html('');
+	
+	$(".message"+message_id+"-bottom").css('display', 'none');
+	
  	$(".message"+message_id+"-bottom").hide();
 
 	

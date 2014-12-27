@@ -18,7 +18,7 @@
 		?>
         </li>
 		
-		<li><a href = 'posts.php?c=Hampy'>POSTS</a></li>
+		<li><a href = 'posts.php?c=Hampy'>HOME</a></li>
   				<?php
   				if (logged_in() === true) {
   					include 'includes/navbar/loggedin.php';
@@ -31,50 +31,143 @@
 
 		<hr class = "sidebarhr">
 		
+		<?php if ($current_file == "dashboard.php"){
+		
+		
+			?>
+			
+						<span class = "col-xs-6 subscriptionstitle" style = "color:white; font-size:20px;">DASHBOARD</span><br><br>
+		
         <li>
 			
+
+			<a href = 'dashboard.php?t=notifications'>NOTIFICATIONS</a>
+
+        </li>
+
+        <li>
+
+
+			<a href = 'dashboard.php?t=inbox'>INBOX</a>
+
+        </li>
+
+        <li>
+
+
+
+			<a href = 'dashboard.php?t=sent'>SENT</a>
+
+        </li>
+
+        <li>
+
+
+			<a href = 'dashboard.php?t=submissions'>SUBMISSIONS</a>
+
+        </li>
+
+        <li>
+
+			<a href = 'dashboard.php?t=saved'>SAVED</a>
 			
-		<?php
-		
-		//Moderator PIC THING IN HERE!!
-		
-
-
-		?>
 		
         </li>
+		<br>
+        <li>
+		
+			<a href="logout.php">LOGOUT</a>
+			
+	        </li>
+			
+		
+		<?php } ?>
 		
 		
 		<?php if ($current_file == "feed.php" || $current_file == "index.php"){
 			
 			echo('<span class = "col-xs-6 subscriptionstitle" style = "color:white; font-size:20px;">SUBSCRIPTIONS</span>&nbsp;&nbsp;&nbsp;&nbsp;');
 
-			$communities = get_subscriptions(0, $session_user_id, '');
+			$services = get_subscriptions(0, $session_user_id, '');
+			
+			if(count($services) > 0){
 
-			foreach ($communities as $currentcommunity){
+			foreach ($services as $currentservice){
 	
-				echo('<li><span style = "padding:0px;" class = "subscription col-xs-10">');
+				echo('<span style = "padding:0px;" class = "subscription col-xs-12">');
+	
+				 $color = get_service_color_from_service_name($currentservice['service']);
 
-				echo('<a href = "posts.php?c=' . $currentcommunity['name'] . '">ICU' . $currentcommunity['name'] .'</a>');		
-	
-				echo('&nbsp;&nbsp;&nbsp;&nbsp;');
-	
-				echo('<button class = "btn btn-danger btn-sm" onclick="delete_subscription(\''.$currentcommunity['name'].'\', this, 1)">REMOVE</button>');
-	
-	
-				echo('<span >&nbsp;&nbsp;</span>');
-	
-				if($currentcommunity['hole'] == 1){
-	
-	
-				echo('<a class="hidden-xs pull-right btn btn-custom btn-sm" href = "hole.php?c=' . $currentcommunity['name'] . '">HOLE</a>');
-	
+				 $url =  get_logo_picture_url_from_service_name($currentservice['service']);
+
+				 $desc = get_service_description_from_service_name($currentservice['service']);
+ 
+				 if($currentservice['service'] == "Hole"){
+	 
+						$link = 'hole.php?c='.$currentservice['community_name'].'&service='.$currentservice['service'];
+	 		
+				}else{
+ 	
+				 	$link = 'posts.php?c='.$currentservice['community_name'].'&service='.$currentservice['service'];
 	
 				}
-	
-				echo('<hr class = "subsidehr"></span></li>');
-	
 
+				switch($currentservice['service']){
+					case "ICU":		
+		
+						echo('<span class = "col-xs-12 no-padding aservice-list '.$currentservice['community_name'].'-container">');
+		
+		
+						echo('<a href="'.$link.'" style = "background-color:'.$color.'" class="btn btn-custom2 no-padding btn-sm col-xs-12 servicebutton-feed"><img class = "service-logo col-xs-2 no-padding" src = "'.$url.'">'); 
+	
+						echo('<span class = "service-list-name2"><span class = "service-name-sub">'.strtoupper($currentservice['service']).'</span><span class = "service-name-sub white">'.strtoupper($currentservice['community_name']).'</span></span></a>');
+
+
+
+					break;
+					case "Zombledon":		
+		
+					
+		
+					break;
+					case "Events":		
+		
+						echo('<span class = "col-xs-12 no-padding aservice-list '.$currentservice['community_name'].'-container">');
+			
+						echo('<a href="'.$link.'" style = "background-color:'.$color.'" class="btn btn-custom2 no-padding btn-sm col-xs-12 servicebutton-feed"><img class = "service-logo col-xs-2 no-padding" src = "'.$url.'">'); 
+ 		
+					 	$live_count = count_total_live_events($currentservice['community_name']);
+		
+		
+						echo('<span class = "service-list-name2"><span class = "service-name-sub white">'.strtoupper($currentservice['community_name']).'</span><span class = "service-name-sub">'.strtoupper($currentservice['service']).'</span></span></a>');
+		
+		
+						if($live_count > 0){ 
+				
+							echo('<span class = "badge user-count-badge-feed" style = "color:'.$color.'">'.$live_count.'</span>');
+				
+						}
+		
+					break;
+					default:
+			
+						echo('<span class = "col-xs-12 no-padding aservice-list '.$currentservice['community_name'].'-container">');
+			
+			
+						echo('<a href="'.$link.'" style = "background-color:'.$color.'" class="btn btn-custom2 no-padding btn-sm col-xs-12 servicebutton-feed"><img class = "service-logo col-xs-2 no-padding" src = "'.$url.'">'); 
+		
+		
+						echo('<span class = "service-list-name2"><span class = "service-name-sub white">'.strtoupper($currentservice['community_name']).'</span><span class = "service-name-sub">'.strtoupper($currentservice['service']).'</span></span></a>');
+		
+					}
+
+	
+						echo('<button class = "pull-right btn btn-danger btn-sm col-xs-12" onclick="delete_subscription(\''.$currentservice['community_name'].'\', \''.$currentservice['service'].'\', this, 1)">REMOVE</button>');
+		
+	
+						echo('</span></span>');
+	
+			}
 			}
 
 			

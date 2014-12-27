@@ -137,6 +137,20 @@ function service_name_from_post_id($post_id){
 	
 }
 
+function status_from_post_id($post_id){
+	$post_id = sanitize($post_id);
+	
+	return mysql_result(mysql_query("SELECT `status` FROM `posts` WHERE `id` = '$post_id'"), 0, 'status');
+	
+}
+
+function upvotes_from_post_id($post_id){
+	$post_id = sanitize($post_id);
+	
+	return mysql_result(mysql_query("SELECT `upvotes` FROM `posts` WHERE `id` = '$post_id'"), 0, 'upvotes');
+	
+}
+
 function get_user_saved_posts($user_id){
 	
 	$user_id = sanitize($user_id);
@@ -225,7 +239,7 @@ function get_more_approved_posts($start, $site, $service){
 	
 	if($service === 'all'){
 		
-		$result = mysql_query("SELECT * FROM posts WHERE status = 1 AND service <> 'Hole' AND site = '$site' ORDER BY ID DESC LIMIT $start,30");
+		$result = mysql_query("SELECT * FROM posts WHERE status = 1 AND service <> 'Hole' AND site = '$site' ORDER BY coolness DESC, id DESC LIMIT $start,30");
 		
 	}else{
 		
@@ -233,10 +247,13 @@ function get_more_approved_posts($start, $site, $service){
 			
 			$result = mysql_query("SELECT * FROM posts WHERE status <> 3 AND site = '$site' AND service = '$service' ORDER BY ID DESC LIMIT $start,30");
 			
-		}else{
+		}else if($service === "Events"){
 	
-			$result = mysql_query("SELECT * FROM posts WHERE status = 1 AND site = '$site' AND service = '$service' ORDER BY ID DESC LIMIT $start,30");
+	$result = mysql_query("SELECT * FROM posts WHERE status = 1 AND site = '$site' AND service = '$service' ORDER BY start_second LIMIT $start,30");
 			
+		}else{
+			
+			$result = mysql_query("SELECT * FROM posts WHERE status = 1 AND site = '$site' AND service = '$service' ORDER BY ID DESC LIMIT $start,30");
 		}
 	
 		
@@ -306,7 +323,7 @@ function get_posts($status, $site, $type, $admin_id, $service){
 	
 		if($type == -1){
 	
-			$result = mysql_query("SELECT * FROM posts WHERE status = '$status' AND site = '$site' AND service <> 'Hole' ORDER BY ID DESC LIMIT 0, 30");
+			$result = mysql_query("SELECT * FROM posts WHERE status = '$status' AND site = '$site' AND service <> 'Hole' ORDER BY coolness DESC, id DESC LIMIT 0, 30");
 		
 		}
 	
@@ -477,16 +494,24 @@ function compress_image($source_url, $destination_url, $quality) {
 
 		$info = getimagesize($source_url);
 
-    		if ($info['mime'] == 'image/jpeg')
+    		if ($info['mime'] == 'image/jpeg'){
         			$image = imagecreatefromjpeg($source_url);
+		    		imagejpeg($image, $destination_url, $quality);
+					
+				}
 
-    		elseif ($info['mime'] == 'image/gif')
+    		if ($info['mime'] == 'image/gif'){
         			$image = imagecreatefromgif($source_url);
+		    		imagegif($image, $destination_url);
+					
+				}
 
-   		elseif ($info['mime'] == 'image/png')
-        			$image = imagecreatefrompng($source_url);
-
-    		imagejpeg($image, $destination_url, $quality);
+			if ($info['mime'] == 'image/png'){
+    			$image = imagecreatefrompng($source_url);
+	    		imagepng($image, $destination_url, $quality);
+				
+				
+			}
 			
 			
 		return $destination_url;
@@ -499,7 +524,6 @@ function upload_image_post($type, $file_temp, $file_extn){
 	$type = sanitize($type);
 	
 	
-
 	$file_path = 'images/posts/' . substr(md5(time()), 0, 10) . '.' . $file_extn;
 	
 	
@@ -511,11 +535,8 @@ function upload_image_post($type, $file_temp, $file_extn){
 		compress_image($file_path, $file_path, 30);
 	
 	}
-	
 		
 	$success = mysql_query("INSERT INTO pictures (url, type) VALUES ('$file_path', '$type')") or die(mysql_error());
-	
-	
 	
 	
 	return $file_path;
@@ -616,6 +637,62 @@ function count_total_live_events($community){
 	
 }
 
+function sort_coolness($site){
+	
+	$result = mysql_fetch_assoc(mysql_query("SELECT last_sort_seconds FROM `sort_manager` LIMIT 1"));
+	
+	$result = mysql_query("SELECT * FROM `posts` WHERE site = '$site' AND status = 1 AND coolness > 0");
+	
+	$second_value = 0;
+		
+	$now = time();
+	
+	$allposts = array();
+	
+    while($number = mysql_fetch_assoc($result)) { 
+		$allposts[] = $number;		
+   	}
+	
+	
+	foreach ($allposts as $currentpost) {
+		
+		$coolness = 0;
+	
+		//seconds
+		$seconds = $now - $currentpost['second'];		
+		
+		if($seconds > 518400){
+			
+			$coolness = 0; // :(
+			
+		}else{
+	
+			$second_value = 518400 - $seconds;
+	
+			$second_value = $second_value/51840;
+					
+			//upvotes
+			$upvotes = $currentpost['upvotes'];
+	
+			$upvote_value = $currentpost['upvotes']/2;
+		
+	
+			$coolness = $upvote_value + $second_value;
+			
+		}
+			
+				
+		$id = $currentpost['id'];
+		
+		$result = mysql_query("UPDATE posts SET coolness = '$coolness' WHERE id = $id");
+		
+		
+		
+	}
+		
+	$result = mysql_query("UPDATE sort_manager SET last_sort_seconds = '$now'");
+
+}
 
 
 ?>

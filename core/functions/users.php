@@ -22,6 +22,7 @@ function recover($mode, $email) {
 	
 }
 
+
 function update_user($user_id, $update_data) {
 	$update = array();
 	array_walk($update_data, 'array_sanitize');
@@ -165,6 +166,13 @@ function username_from_user_id($user_id) {
 	$user_id = sanitize($user_id);
 		
 	return mysql_result(mysql_query("SELECT `username` FROM `users` WHERE `user_id` = '$user_id'"), 0, 'username');
+}
+
+
+function get_home_from_user_id($user_id) {
+	$user_id = sanitize($user_id);
+		
+	return mysql_result(mysql_query("SELECT `home` FROM `users` WHERE `user_id` = '$user_id'"), 0, 'home');
 }
 
 function user_id_from_email($email) {

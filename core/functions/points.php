@@ -73,7 +73,7 @@ function give_point($post_id, $from_user_id){
 		
 	$user_id = user_id_from_post_id($post_id);
 	
-	if(check_given_points($post_id, $from_user_id) == false){
+	//if(check_given_points($post_id, $from_user_id) == false){
 	
 		mysql_query("INSERT INTO `points` (post_id, user_id, amount, from_user_id, seconds, community_name) VALUES ('$post_id', '$user_id', 1, '$from_user_id', '$second', '$community_name')");
 
@@ -81,16 +81,27 @@ function give_point($post_id, $from_user_id){
 	
 		create_notification($user_id, "give_points", "Someone one upvoted your post and gave you 1 point", $post_id);
 		
-		$upvotes = mysql_query("SELECT upvotes FROM posts WHERE post_id = '$post_id'");		
+		mysql_query("UPDATE posts SET upvotes = upvotes + 1 WHERE id = '$post_id'");	
 		
-		$upvotes = $upvotes + 1;
+		if(service_name_from_post_id($post_id) == "Hole" || status_from_post_id($post_id) == 2){
+			
+			if(upvotes_from_post_id($post_id) > 20){
+				
+				
+				mysql_query("UPDATE posts SET service = 'Pile' WHERE id = '$post_id'");	
+				mysql_query("UPDATE posts SET status = 1 WHERE id = '$post_id'");	
+								
+				
+			}
+				
+		}
 		
-		mysql_query("UPDATE posts SET upvotes = '$upvotes' WHERE id = '$post_id'");	
 		
-	}else{
+		//}else{
 		
 		return false;
-	}
+		
+		//}
 }
 
 function count_post_points($post_id){

@@ -22,7 +22,7 @@ if(isset($_GET['service']) == false){
 		
 		if($currentpost['service'] == "Events"){
 		
-			display_post($currentpost['id'], 'title', 'location', 'start_time', 'post', 'service', 'share_post', 'comment_count', 'comment_on', 'point_count', 'give_point', 'image_corner', 'free_food', 'save_post', 'duration');
+			display_post($currentpost['id'], 'title', 'location', 'start_time', 'post', 'service', 'share_post', 'comment_count', 'comment_on', 'point_count', 'give_point', 'image_corner', 'free_food', 'save_post', 'duration', 'start_time_full');
 		
 		}
 		
@@ -111,7 +111,7 @@ if(isset($_GET['service']) && $_GET['service'] == "Events"){
 
 	foreach ($posts[0] as $currentpost) {
 		
-		display_post($currentpost['id'], 'title', 'location', 'start_time', 'post', 'share_post', 'comment_count', 'comment_on', 'point_count', 'give_point', "image_corner", 'free_food', 'save_post', 'duration');
+		display_post($currentpost['id'], 'title', 'location', 'start_time', 'post', 'share_post', 'comment_count', 'comment_on', 'point_count', 'give_point', "image_corner", 'free_food', 'save_post', 'duration', 'start_time_full');
 		
 	}
 	

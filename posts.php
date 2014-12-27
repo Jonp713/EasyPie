@@ -8,6 +8,7 @@ include 'includes/overall/header.php';
 
 <?php 
 
+sort_coolness($_GET['c']);
 
 if($_SESSION['seen_ad'] == 0){
 	

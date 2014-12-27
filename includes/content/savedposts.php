@@ -4,7 +4,7 @@ $posts = get_user_saved_posts($session_user_id);
 
 if(count($posts) <= 0){
 	
-	echo('<span class = "col-xs-8 col-sm-offset-2 text-center">');
+	echo('<span class = "text-center">');
 
 	echo("<h1>Dont think anything here is worth saving?</h1><br><h4>Like we care.......</h4>");
 	
@@ -43,7 +43,7 @@ foreach ($posts as $currentpost){
 	
 	if($currentpost['service'] == "Events"){
 	
-		display_post($currentpost['id'], 'title', 'location', 'start_time', 'post', 'service', 'share_post', 'comment_count', 'comment_on', 'point_count', 'give_point', 'image_corner', 'free_food', 'unsave_post', 'save_post', 'duration');
+		display_post($currentpost['id'], 'title', 'location', 'start_time', 'post', 'service', 'share_post', 'comment_count', 'comment_on', 'point_count', 'give_point', 'image_corner', 'free_food', 'unsave_post', 'save_post', 'duration', 'start_time_full');
 	
 	}
 		

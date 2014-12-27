@@ -7,24 +7,42 @@ body{
 	
 	position:fixed;
 	z-index:-1;
+	left:0%;
+	top:0%;
 	width:100%;
 	height:100%;
 	background-color:white;
 }
 
 @media screen and (max-width: 768px) {
+	
+
 
 	.unsorted-posts-button{
 		position:absolute !important;
-		top:50px !important;
-		left:40%;
+		top:-10px !important;
+		left:40% !important;
 		color:white;
 		border-radius:0px 0px 15px 15px;
 		padding:20px;
-		padding-top:3px;
+		padding-top:20px !important;
 		cursor:pointer;
 		margin-bottom:5px !important;
 	
+	}
+	
+	.dashnavbar{
+		
+		display:none;
+	}
+	
+	
+    .dashboard-content{
+		width:100%;
+	
+	}
+	.userinfo{
+		display:none;
 	}
 
 	.sectors{
@@ -58,6 +76,17 @@ body{
     }
     #page-content-wrapper {
         padding: 0px;
+    }
+	
+    .create-service-form{
+
+  	  margin-right:0% !important;
+    }
+  
+
+    .add-service-form{
+  	  margin-left:0% !important;
+
     }
 
  }
@@ -470,7 +499,7 @@ a{
 }
 
 @font-face {
-  font-family: 'verybold';
+  font-family: verybold;
   src: url('../fonts/Titillium/Titiullium-Black.otf') format('otf'), /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
 
@@ -539,18 +568,7 @@ a{
 }
 
 
-.dashlink{
-	font-size:1.5em;
-	padding-right:2em;
-}
 
-.dashlink a{
-		
-	color:#222;
-	font-weight:200;
-	
-	
-}
 
 #topalert{
 	
@@ -563,12 +581,7 @@ a{
 	
 }
 
-.currentlink a{
-   color: #4dc2c9;
-   font-size:1.2em;
-	font-weight:600;
-   
-}
+
 
 .replysendbutton{
 	
@@ -615,7 +628,7 @@ a{
 .feed{
 	
 	position:relative;
-	top:50px;
+	top:60px;
 }
 
 .otherfeedinfo{
@@ -631,11 +644,69 @@ a{
 	top:40px;
 	
 }
+
+.dashlink{
+	font-size:1.5em;
+	padding-right:0em;
+	padding:5px;
+	font-weight:200;
+}
+
+.dashlink a{
+	color:black;
+	font-weight:200;
+	font-size:20px;
+	text-decoration:none !important;
+	
+}
+
+.currentlink a{
+	font-weight:200;
+	color:white;
+	text-decoration:none !important;
+	
+   
+}
+.dashlink a:hover{
+
+font-decoration:none;
+
+}
+
+
+.currentlink a:hover{
+
+font-decoration:none;
+
+}
+.currentlink{
+    background-color: #5bc0de;
+	
+}
+
+.adashlink{
+	
+
+}
+
+.adashlink:hover{
+  background-color:white;
+
+}
 .dashnavbar{
 	
-	position:relative;
-	top:-2.5em;
+	position:fixed;
+	padding-right:0px;
+	right:10px;
+	top:50px;
+	background-color:#dadada;
+	padding-top:15px;
+	height:100%;
+	overflow:hidden;
+	width:17%;
+	
 }
+
 
 .smallmessage{
 	
@@ -724,7 +795,7 @@ a{
 .dashcontentmessages {
 	
 	position:relative;
-	top:-60px;
+	top:-48px;
 
 }
 
@@ -779,6 +850,8 @@ z-index:2;
  .navlogocollapse{
  	
 	 position:relative;
+	 top:-15px;
+	 
  }
  
 .immovingthisfuckingtext li{
@@ -791,6 +864,7 @@ z-index:2;
 
 .apost{
 	padding:5px;
+	margin-bottom:10px;
 	font-weight:300;
 	color:#272727;
 	font-size:14px;
@@ -798,7 +872,7 @@ z-index:2;
 
 .posttop{
 	font-weight:300;
-	padding-top:5px;
+	padding-top:20px;
 	font-size:14px;
 	
 }
@@ -1379,7 +1453,7 @@ overflow-x: hidden;
 	
 	background-color:white;
 	color:#373737;
-	margin-bottom:1px;
+	margin-bottom:8px;
 	padding-top:5px;
 }
 
@@ -1435,7 +1509,7 @@ overflow-x: hidden;
 
 .anotification{
 	
-	margin:10px 0px 0px 0px;
+	margin:0px 0px 10px 0px;
 	background-color:white;
 	padding:5px;
 	
@@ -1443,7 +1517,6 @@ overflow-x: hidden;
 
 .amessage{
 	
-	margin:20px 0px 0px 0px;
 	background-color:white;
 	padding:5px;
 	font-weight:200;
@@ -1457,7 +1530,7 @@ overflow-x: hidden;
 	top:7px;
 	background-color:white;
 	color:red;
-	font-weight:900;
+	font-weight:700;
 }
 
 
@@ -1555,7 +1628,7 @@ overflow-x: hidden;
   
   .posttop{
   	
-	  margin-top:5px;
+	  margin-top:10px;
 	  margin-bottom:10px;
   }
 
@@ -1585,6 +1658,7 @@ overflow-x: hidden;
   }
   
   .messagerow{
+  	  margin:0px 0px 11px 0px;
   	
 
   }
@@ -1675,4 +1749,85 @@ overflow-x: hidden;
 	  display:block;
   }
   
- 
+  .userinfo{
+  	
+	  position:absolute;
+	  left:0px;
+	  padding-left:23px;
+	  padding-top:5px;
+	  top:-5px;
+	  background-color:white;
+	  width:15%;
+	  padding-bottom:15px;
+  }
+
+  .dashboard-content{
+  	
+	  position:absolute;
+	  left:16.5%;
+	  top:80px;
+	  width:66%;
+	  
+  }
+  .admin-stuff{
+	  position:absolute;
+	  top:70px;
+	  left:0px;
+
+
+	 }
+  .admin-section{
+  	
+	  background-color:white;
+	  padding-bottom:20px !important;
+	  margin-bottom:40px;
+	
+  }
+  
+  .service-list-name3{
+  	
+	  position:absolute;
+	  left:50px;
+	  top:7px;
+	  font-size:20px;
+	  font-weight:600;
+  }
+  .section-top{
+  	
+	  background-color:#ddd;
+	  color:black;
+	  font-weight:700;
+	  font-size:20px;
+	  margin-bottom:20px;
+  }
+
+
+  .create-service-form{
+	  
+	  background-color:white;
+	  margin-bottom:20px;
+	  margin-right:5%;
+  }
+  
+
+  .add-service-form{
+	  margin-left:3%;
+
+	  background-color:white;
+	  margin-bottom:20px;
+  }
+
+  .add-service-button{
+	  padding:1%;
+	  margin:1%;
+	  background-color:#eee;
+  }
+  .blackfont{
+  	
+	  color:#272727 !important;
+  }
+  .service-form-container{
+	  position:absolute;
+	  top:70px;
+	
+  }

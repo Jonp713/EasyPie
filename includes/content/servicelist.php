@@ -113,7 +113,26 @@ foreach ($services as $currentservice){
 	}
 
 }
+
+ 
+echo('<hr class = "col-xs-12 no-padding messagehr"><span class = "col-xs-12 no-padding aservice-list new-container">');
+ 
+ 
+$link = 'createservice.php';
+ 
+ 
+ 	echo('<a data-toggle="tooltip" data-container = "body" title="Create your own board!"  data-placement="left" href="'.$link.'" style = "background-color:#aaa" class="btn btn-custom2 btn-lg btn-block servicebutton"><img class = "service-logo col-xs-2 no-padding pull-left" src = ""><span class = "pull-left service-list-name col-xs-10">CREATE</span></a>');
+ 
+ 
+	echo('</span>');
+
+
 echo("</span>");
+
+
+
+
+
 
 	
 ?>

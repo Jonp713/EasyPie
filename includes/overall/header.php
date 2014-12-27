@@ -22,7 +22,7 @@
 		
 		?>
 		
-		<meta name="description" content="Find your secret admirer">
+		<meta name="description" content="Connect with people within your community">
 	
 	 <?php }?>
 	<meta charset="UTF-8">

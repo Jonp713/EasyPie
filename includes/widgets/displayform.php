@@ -1,7 +1,7 @@
 <?php
 	
 //ICU	
-
+/*
 if($service_in == 'ICU'){
 
 	echo('<span id = "sf-ICU" data-active = "active">');
@@ -14,6 +14,8 @@ if($service_in == 'ICU'){
 	
 ?>
 
+		  <form class = "submit_post form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
+			  
 				<div class="form-group">
 				
 			    <input class = "sf-ICU-disable" type="text" id = "sf-ICU-service" value = "ICU" name = "service" hidden>
@@ -55,7 +57,10 @@ Users can anonymously send you messages by clicking reply. They will not see you
 			 		 <input class = "sf-ICU-disable" type="checkbox" id = "sf-ICU-comments" name="comments_on">Allow comments
 			      </label>
 			    </div>	
-		
+				
+				<br>
+		    <button type="submit" class="post-submit-button btn btn-info">SUBMIT</button>
+		</form>
 	</span>
 	
 	
@@ -76,6 +81,9 @@ if($service_in == 'Bone'){
 	
 ?>
 
+
+		  <form class = "submit_post form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
+			  
 			<?php if(logged_in() === true){ ?>
 
 				<div class="form-group">
@@ -106,6 +114,9 @@ if($service_in == 'Bone'){
 										
 					<?php }?>
 			
+			<br>
+			    <button type="submit" class="post-submit-button btn btn-info">SUBMIT</button>
+			</form>
 		
 	</span>		
 	
@@ -128,7 +139,7 @@ if($service_in == 'Bone'){
 	}
 	
 	?>
-
+		  <form class = "submit_post form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
 
 					<div class="form-group">
 				
@@ -156,8 +167,9 @@ if($service_in == 'Bone'){
 	
 					 <input class = "form-control"  type="file" name="pic_Hole">
 	
-				</div></div>
-						
+				</div></div><br>
+					    <button type="submit" class="post-submit-button btn btn-info">SUBMIT</button>
+					</form>	
 			
 		
 		</span>
@@ -166,7 +178,7 @@ if($service_in == 'Bone'){
 	
 	
 	<?php
-
+*/
 	//Events
 	
 	if($service_in == 'Events'){
@@ -180,6 +192,8 @@ if($service_in == 'Bone'){
 	}
 	
 	?>
+	
+			  <form class = "submit_post form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
 	
 	
     <input type="text" id = "sf-Events-service"  class = "sf-Events-disable" value = "Events" name = "service" hidden>
@@ -466,7 +480,34 @@ if($service_in == 'Bone'){
 		 <input class = "form-control" type="file" name="pic_Events">
 
 	</div></div>
+	<br>
+    <button type="submit" class="post-submit-button btn btn-info">SUBMIT</button>
+</form>
 	
 </span>
+
+
+<?php
+	
+	
+$services = get_services($_GET['c'], 0);
+
+foreach ($services as $currentservice){
+	
+	if(get_is_mine_from_service_name($currentservice['name']) != 1){
+		
+	
+		display_form($currentservice['name'], $service_in);
+	
+	}
+	
+}
+
+
+?>
+
+
+
+
 	
 	

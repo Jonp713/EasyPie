@@ -6,7 +6,7 @@ $posts = get_user_posts(1, $session_user_id);
 
 if(count($posts) <= 0){
 	
-	echo('<span class = "col-xs-8 col-sm-offset-2 text-center">');
+	echo('<span class = "text-center">');
 
 	echo("<h1>Haven't submitted anything?</h1><br><h4>Get on it or ill delete ur account you lil fucker</h4>");
 	
@@ -44,7 +44,7 @@ foreach ($posts as $currentpost) {
 	
 	if($currentpost['service'] == "Events"){
 	
-		display_post($currentpost['id'], 'title', 'location', 'start_time', 'post', 'service', 'share_post', 'comment_count', 'comment_on', 'point_count', 'give_point', 'image_corner','save_post', 'free_food',  'delete_post-user', 'duration', 'comment_toggle');
+		display_post($currentpost['id'], 'title', 'location', 'start_time', 'post', 'service', 'share_post', 'comment_count', 'comment_on', 'point_count', 'give_point', 'image_corner','save_post', 'free_food',  'delete_post-user', 'duration', 'comment_toggle', 'start_time_full');
 	
 	}
 	

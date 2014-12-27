@@ -45,6 +45,11 @@ if (empty($_GET) === false) {
 				display_post($currentpost['id'], 'post', 'service', 'display_time', 'share_post', 'reply', 'comment_count', 'comment_on', 'point_count', 'give_point');
 		
 			}
+			if($currentpost['service'] == "Events"){
+		
+				display_post($currentpost['id'], 'title', 'location', 'start_time', 'post', 'service', 'share_post', 'comment_count', 'comment_on', 'point_count', 'give_point', 'image_corner', 'free_food', 'save_post', 'duration', 'start_time_full');
+		
+			}
 		
 		
 			/*

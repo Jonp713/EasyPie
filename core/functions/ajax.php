@@ -274,12 +274,12 @@ if($function == 'get_more_approved_posts' && isset($_POST['start'])){
 			
 			if($_POST['service'] === "Events"){
 			
-				display_post($currentpost['id'], 'title', 'location', 'change_start_time', 'post', 'share_post', 'comment_count', 'comment_on', 'point_count', 'give_point', 'image_corner', 'free_food', 'save_post', 'change_duration'); 
+				display_post($currentpost['id'], 'title', 'location', 'change_start_time', 'post', 'share_post', 'comment_count', 'comment_on', 'point_count', 'give_point', 'image_corner', 'free_food', 'save_post', 'change_duration', 'start_time_full'); 
 			
 			}else{
 				
 				
-				display_post($currentpost['id'], 'title', 'location', 'change_start_time', 'post', 'service', 'share_post', 'comment_count', 'comment_on', 'point_count', 'give_point', 'image_corner', 'free_food', 'save_post', 'change_duration');
+				display_post($currentpost['id'], 'title', 'location', 'change_start_time', 'post', 'service', 'share_post', 'comment_count', 'comment_on', 'point_count', 'give_point', 'image_corner', 'free_food', 'save_post', 'change_duration', 'start_time_full');
 				
 				
 			}
@@ -326,7 +326,7 @@ if($function == 'get_more_feed_posts' && isset($_POST['start']) && isset($sessio
 		
 		if($currentpost['service'] === "Events"){
 		
-			display_post($currentpost['id'], 'title', 'location', 'service', 'change_start_time', 'post', 'share_post', 'comment_count', 'comment_on', 'point_count', 'give_point', 'image_corner', 'free_food', 'save_post', 'change_duration'); 
+			display_post($currentpost['id'], 'title', 'location', 'service', 'change_start_time', 'post', 'share_post', 'comment_count', 'comment_on', 'point_count', 'give_point', 'image_corner', 'free_food', 'save_post', 'change_duration', 'start_time_full'); 
 		
 		}
 	}
@@ -360,6 +360,7 @@ if($function == 'user_leave' && isset($_POST['service'])){
 
 
 }
+
 
 	
 ?>

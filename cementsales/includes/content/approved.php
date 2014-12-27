@@ -24,7 +24,7 @@ if(isset($_GET['codename']) && check_admin_power($session_admin_id) > 0){
 
 if(isset($_GET['community']) === false && isset($_GET['codename']) === false){
 
-	$posts = get_posts(1, $_GET['community'], -1, null, 'all');
+	$posts = get_posts(1, $admin_data['community'], -1, null, 'all');
 	
 	$moretype = 0;
 	
