@@ -36,11 +36,7 @@ body{
 		display:none;
 	}
 	
-	
-    .dashboard-content{
-		width:100%;
-	
-	}
+
 	.userinfo{
 		display:none;
 	}
@@ -230,12 +226,77 @@ color:white;
 	
 	position:absolute;
 	top:3px;
-	height:40px;
-	width:40px;
+	height:40px !important;
+	width:40px !important;
 	left:5px;
 	
 }
 
+.service-logo-text{
+	
+	position:absolute;
+	top:12px;
+	height:40px;
+	width:40px;
+	left:5px;
+	color:white;
+	font-size:40px !important;
+	font-weight:700;
+	
+}
+
+.service-logo-text2{
+	
+	position:absolute;
+	top:-7px;
+	height:40px;
+	width:40px;
+	left:5px;
+	color:white;
+	font-size:40px !important;
+	font-weight:700;
+	
+}
+
+.service-logo-circle{
+	
+	position:absolute;
+	top:3px;
+	height:40px;
+	width:40px;
+	left:5px;
+    -moz-border-radius: 50%; 
+    -webkit-border-radius: 50%; 
+    border-radius: 50%;
+}
+
+.service-form-circle{
+	
+	position:absolute;
+	top:3px;
+	width:40px !important;
+	height:44px !important;
+	left:5px;
+    -moz-border-radius: 50%; 
+    -webkit-border-radius: 50%; 
+    border-radius: 50%;
+}
+
+.service-form-image{
+	position:absolute;
+	top:.5px;
+	left:.5px;
+	
+	
+}
+
+.form-font-service{
+	
+	font-weight:700;
+	font-size:45px;
+	position:relative;
+	top:-9px;
+}
 .service-list-name{
 	
 	position:absolute !important;
@@ -389,6 +450,12 @@ a{
 	width:74%;
 }
 
+.serviceformcontainer{
+	width:50px !important;
+	height:50px !important;
+
+}
+
 .cornlogo{
 	left:2em;
 	width:3.3em;s
@@ -403,7 +470,7 @@ a{
 	font-weight:900;
     letter-spacing:1px;
 	color:#fff;
-	opacity:.5;
+	opacity:.65;
 
 }
 
@@ -629,12 +696,13 @@ a{
 	
 	position:relative;
 	top:60px;
+	margin-bottom:20px;
 }
 
 .otherfeedinfo{
 	
-	position:fixed;
-	top:50px;
+	position:absolute;
+	top:70px;
 	right:0px;
 	
 }
@@ -700,7 +768,7 @@ font-decoration:none;
 	right:10px;
 	top:50px;
 	background-color:#dadada;
-	padding-top:15px;
+	padding-top:21px;
 	height:100%;
 	overflow:hidden;
 	width:17%;
@@ -925,6 +993,13 @@ z-index:2;
 		left:0px;
 		top:50px;
 		width:100%;
+	
+	}
+    .dashboard-content{
+		width:100% !important;
+		left:0px !important;
+		margin-left:0px !important;
+		padding-left:0px !important;
 	
 	}
 	
@@ -1277,9 +1352,10 @@ overflow-x: hidden;
 }
 
 .service-submit-button{
-	height:11%;
-	width:11%;
-	
+
+	width:50px !important;
+	height:50px !important;
+	padding:0px;
 }
 
 .service-submit-button.active{
@@ -1828,6 +1904,39 @@ overflow-x: hidden;
   }
   .service-form-container{
 	  position:absolute;
-	  top:70px;
+	  top:60px;
 	
   }
+  
+  .character-forms{
+	  display:none;
+  }
+
+  .post_video{
+  	
+	  width:100%;
+	  height:400px;
+  }
+  
+  
+
+  .mod-circle {
+	  display:block;
+      width: 100%;
+      height:0;
+      padding-bottom: 100%;
+      -moz-border-radius: 50%; 
+      -webkit-border-radius: 50%; 
+      border-radius: 50%;
+      background: #4679BD; 
+  }
+  .circle-text {
+
+
+  }
+  
+  .initials-form{
+  	
+	  font-size:15px;
+  }
+ 

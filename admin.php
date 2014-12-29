@@ -6,39 +6,86 @@ include 'includes/overall/header.php';
 
 ?>
 
-<span class = "admin-stuff col-xs-12">
 	
 
 <?php
 
 
 //nav
-if(isset($_GET['service']) == false && isset($_GET['community']) == false){
+if(isset($_GET['service']) == false && isset($_GET['c']) == false){
+	
+	echo('<span class = "admin-stuff col-xs-12">');
+	
 
 include 'includes/admin/displaycommunities.php';
 
+echo('</span>');
+
+}else{
+	
+	
+?>
+	
+	<span class = "col-xs-12 no-padding dashboard">
+		
+
+			<span class = "userinfo col-xs-2">
+
+				<h1 class = "usernametitle"><?php echo $user_data['username']; ?></h1>
+				<br><?php
+				
+				if(isset($_GET['service']) && isset($_GET['c'])){
+
+	$points = service_sub_count($_GET['service']);
+	
+	echo('<span class = "pointsline ">');
+	
+	echo('<span class = "pointscount">'.$points.'</span> people have subscribed to your board!&nbsp;');
+	
+	
+	echo('</span>');
+	
+	}
+
+?>
+				
+				<span class = "dashsidelinks text-left">
+				
+				<br><a href = "admin.php">Admin Home</a>
+				
+			</span>
+				
+			
+			</span>
+		
+
+			<span class = "dashnavbar text-left row">
+	
+			<?php include 'includes/admin/admindashnavbar.php'; ?>
+		
+		</span>
+	
+		<span class = "dashboard-content">
+	
+	
+<?php
 }
 
 //moderate service
-if(isset($_GET['service']) == true && isset($_GET['community']) == true){
+if(isset($_GET['service']) == true && isset($_GET['c']) == true){
 		
 	switch($_GET['p']){
-		case 'queue':
+		case 'Queue':
 		
 			include 'includes/admin/queue.php';
 		
 		break;
-		case 'quotes':
+		case 'Announcements':
 		
-			include 'includes/admin/quotes.php';
-		
-		break;
-		case 'stats':
-		
-			include 'includes/admin/stats.php';
+			include 'includes/admin/announcements.php';
 		
 		break;
-		case 'options':
+		case 'Options':
 		
 			include 'includes/admin/s-options.php';
 		
@@ -54,73 +101,74 @@ if(isset($_GET['service']) == true && isset($_GET['community']) == true){
 }
 
 //own service
-if(isset($_GET['service']) == true && isset($_GET['community']) == false){
+if(isset($_GET['service']) == true && isset($_GET['c']) == false){
+	
 	
 	switch($_GET['p']){
-		case 'stats':
+		case 'Logo':
 		
-			include 'includes/admin/stats.php';
-		
-		break;
-		case 'options':
-		
-			include 'includes/admin/o-options.php';
+			include 'includes/admin/logo.php';
 		
 		break;
-		case 'settings':
+		case 'Settings':
 		
 			include 'includes/admin/settings.php';
 		
 		break;
-		case 'character/logo':
+		case 'Information':
 		
-			include 'includes/admin/character.php';
+			include 'includes/admin/information.php';
+		
+		break;
+		case 'Options':
+		
+		//UPDATE `posts` SET is_home = 1 WHERE service = '$service_name';
+		//UPDATE `posts` SET needs_approve = 1 WHERE service = '$service_name';
+		
+			include 'includes/admin/o-options.php';
+		
+		break;
+		case 'Stats':
+		
+			include 'includes/admin/stats.php';
 		
 		break;
 		default:
 		
-		
-			include 'includes/admin/stats.php';
+			include 'includes/admin/logo.php';
 		
 	}
 		
 }
 
-//community overview
-if(isset($_GET['service']) == false && isset($_GET['community']) == true){
+//c overview
+if(isset($_GET['service']) == false && isset($_GET['c']) == true){
 	
 	switch($_GET['p']){
-		case 'info':
+		case 'Services':
+		
+			include 'includes/admin/services.php';
+		
+		break;
+		case 'Info':
 		
 			include 'includes/admin/info.php';
 		
 		break;
-		
-		case 'stats':
-		
-			include 'includes/admin/c-stats.php';
-		
-		break;
-		case 'announcements':
+		case 'Announcements':
 		
 			include 'includes/admin/announcements.php';
 		
 		break;
 		
-		case 'options':
+		case 'Options':
 		
 			include 'includes/admin/c-options.php';
 		
 		break;
-		case 'services':
-		
-			include 'includes/admin/services.php';
-		
-		break;
-
 		default:
 		
-			include 'includes/admin/info.php';
+			include 'includes/admin/services.php';
 		
 	}
 	
@@ -131,6 +179,15 @@ if(isset($_GET['service']) == false && isset($_GET['community']) == true){
 
 ?>
 
-</span>
+
+<?php
+
+if(isset($_GET['service']) == false && isset($_GET['c']) == false){}else{
+
+	echo('</span></span>');
+	
+	}
+	
+	?>
 
 <?php include 'includes/overall/footer.php'; ?>

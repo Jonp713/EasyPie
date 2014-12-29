@@ -23,15 +23,29 @@ foreach ($services as $currentservice){
 	 switch ($currentservice['name']) {
 	     case "Hole":
   			
-		echo('<span class = "col-xs-12 no-padding aservice-list '.$currentservice['name'].'-container">');
-			
-			
+			echo('<span class = "col-xs-12 no-padding aservice-list '.$currentservice['name'].'-container">');
+	 
+	 
 			$link = 'hole.php?c='.$_GET['c'].'&service='.$currentservice['name'];
-			
-			
-			echo('<a data-toggle="tooltip" data-container = "body" title="'.$desc.'"  data-placement="left" href="'.$link.'" style = "background-color:'.$color.'" class="btn btn-custom2 btn-lg btn-block servicebutton"><img class = "service-logo col-xs-2 no-padding pull-left" src = "'.$url.'"><span class = "pull-left service-list-name col-xs-10">'.strtoupper($currentservice['name']).'</span></a>');
-			
-			
+	 
+	 
+		 	echo('<a data-toggle="tooltip" data-container = "body" title="'.$desc.'"  data-placement="left" href="'.$link.'" style = "background-color:'.$color.'" class="btn btn-custom2 btn-lg btn-block servicebutton">');
+		
+			echo('<span style = "background-color:rgba(255,255,255,.3);" class = "service-logo-circle col-xs-2 no-padding pull-left"></span>');
+					
+			if(get_service_char_type($currentservice['name']) == "character_image" && !empty($url)){
+		
+				echo('<img class = "service-logo col-xs-2 no-padding pull-left" src = "'.$url.'">');
+		
+			}else if(get_service_char_type($currentservice['name']) == "character_text"){
+		
+				echo('<span class = "service-logo-text col-xs-2 no-padding pull-left">'. strtoupper($currentservice['name'][0]).'</span>');
+		
+			}
+		
+		
+			echo('<span class = "pull-left service-list-name col-xs-10">'.strtoupper($currentservice['name']).'</span></a>');
+	 
 			echo('</span>');
 			
 			
@@ -93,14 +107,28 @@ foreach ($services as $currentservice){
 		 break;
 	     default:
 		 
-		echo('<span class = "col-xs-12 no-padding aservice-list '.$currentservice['name'].'-container">');
+			echo('<span class = "col-xs-12 no-padding aservice-list '.$currentservice['name'].'-container">');
 		 
 		 
- 		$link = 'posts.php?c='.$_GET['c'].'&service='.$currentservice['name'];
+ 			$link = 'posts.php?c='.$_GET['c'].'&service='.$currentservice['name'];
 		 
 		 
-		 	echo('<a data-toggle="tooltip" data-container = "body" title="'.$desc.'"  data-placement="left" href="'.$link.'" style = "background-color:'.$color.'" class="btn btn-custom2 btn-lg btn-block servicebutton"><img class = "service-logo col-xs-2 no-padding pull-left" src = "'.$url.'"><span class = "pull-left service-list-name col-xs-10">'.strtoupper($currentservice['name']).'</span></a>');
-		 
+		 	echo('<a data-toggle="tooltip" data-container = "body" title="'.$desc.'"  data-placement="left" href="'.$link.'" style = "background-color:'.$color.'" class="btn btn-custom2 btn-lg btn-block servicebutton">');
+			
+			echo('<span style = "background-color:rgba(255,255,255,.3);" class = "service-logo-circle col-xs-2 no-padding pull-left"></span>');
+						
+			if(get_service_char_type($currentservice['name']) == "character_image" && !empty($url)){
+			
+				echo('<img class = "service-logo image-responsive pull-left" src = "'.$url.'">');
+			
+			}else if(get_service_char_type($currentservice['name']) == "character_text"){
+			
+				echo('<span class = "service-logo-text col-xs-2 no-padding pull-left">'. strtoupper($currentservice['name'][0]).'</span>');
+			
+			}
+			
+			
+			echo('<span class = "pull-left service-list-name col-xs-10">'.strtoupper($currentservice['name']).'</span></a>');
 		 
 			echo('</span>');
 		 
@@ -114,18 +142,19 @@ foreach ($services as $currentservice){
 
 }
 
- 
 echo('<hr class = "col-xs-12 no-padding messagehr"><span class = "col-xs-12 no-padding aservice-list new-container">');
- 
- 
+
+
 $link = 'createservice.php';
- 
- 
+
+
  	echo('<a data-toggle="tooltip" data-container = "body" title="Create your own board!"  data-placement="left" href="'.$link.'" style = "background-color:#aaa" class="btn btn-custom2 btn-lg btn-block servicebutton"><img class = "service-logo col-xs-2 no-padding pull-left" src = ""><span class = "pull-left service-list-name col-xs-10">CREATE</span></a>');
- 
+
  
 	echo('</span>');
+ 
 
+ 
 
 echo("</span>");
 

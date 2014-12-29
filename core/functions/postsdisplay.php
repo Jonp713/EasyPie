@@ -1,5 +1,161 @@
 <?php
 
+function create_display_set($post_id, $from, $type){
+	
+	$data1 = mysql_fetch_assoc(mysql_query("SELECT service, status FROM posts WHERE id = '$post_id'"));
+	
+	$service_name = $data1['service'];
+	
+	$data2 = mysql_fetch_assoc(mysql_query("SELECT * FROM services WHERE name = '$service_name'"));
+	
+	$string = [];
+	
+	$string[] = 'post';
+	
+	if($from == 'moderator'){
+		
+		$string[] = "approve";
+		$string[] = "deny";		
+		
+	}
+	
+	if($type == "ajax"){
+		
+		$string[] = 'change_time';
+			
+	}else{
+		
+		$string[] = 'display_time';
+	
+	}
+	
+	$string[] = 'point_count';
+	$string[] =	'give_point';
+	
+	if($from == "feed" || $from == "home" || $from == 'unnaproved_feed' || $from == "unnaproved_home"){
+		
+		$string[] = 'service';
+		
+	}
+	
+	if($from == "saved"){
+		
+		$string[] = 'unsave_post';
+		
+	}
+	if($from == "submissions"){
+		$string[] = 'delete_post_user';
+		
+		if($data2['comments_on']){
+		
+			$string[] = 'comment_toggle';
+		
+		}
+		
+		if($data2['private_on']){
+		
+			$string[] = 'reply_toggle';
+		
+		}
+	
+	
+	}
+	
+
+	if($data1['status'] == 1){
+		
+		$string[] = 'share_post';
+		
+		if($from != "saved"){
+		
+			$string[] = 'save_post';
+		
+		}
+		
+	}
+	
+	
+	if($data2['comments_on']){
+		
+		if($from == "share"){
+		
+			$string[] = 'comment_share';
+		}else{
+		
+			$string[] = 'comment_count';
+			$string[] =	'comment_on';
+		
+		}
+	}
+	
+	if($data2['private_on']){
+		
+		if($from == "share"){
+		
+			$string[] = 'reply_share';
+		
+		
+		}else{
+			
+		
+			$string[] = 'reply';
+		
+		}
+	}
+	
+	if($data2['style'] == "media_after"){
+		if($data2['images_on']){
+			
+			$string[] = "image";
+			
+		}
+		if($data2['videos_on']){
+			
+			$string[] = "video";
+			
+		}
+		
+	}
+	if($data2['websites_on']){
+		
+		$string[] = "website";
+		
+	}
+	
+	if($data2['style'] == "media_corner"){
+		if($data2['images_on']){
+			
+			$string[] = "image_corner";
+			
+		}
+		if($data2['videos_on']){
+			
+			$string[] = "video";
+			
+		}
+		
+	}
+	
+	if($data2['style'] == "media_featured"){
+		if($data2['images_on']){
+			
+			$string[] = "image_feature";
+			
+		}
+		if($data2['videos_on']){
+			
+			$string[] = "video_feature";
+			
+		}
+		
+	}
+	
+	
+	//("'" . implode("', '", $string) . "'")
+	display_post($post_id, $string);
+	
+}
+
 
 function display_post($post_id){
 	$post_id = sanitize($post_id);
@@ -10,11 +166,19 @@ function display_post($post_id){
 	
 	$num_args = func_num_args();
 	$fields = func_get_args();
-	array_walk($fields, 'array_sanitize');
 	
-	if ($num_args > 1) {
-		unset($fields[0]);
+	if($num_args == 2){
+		
+		$fields = $fields[1];
+		
 	}
+	
+	array_walk($fields, 'array_sanitize');	
+	
+	
+	
+	
+	
 	
 	$data = mysql_fetch_assoc(mysql_query("SELECT * FROM posts WHERE id = '$post_id'"));
 	
@@ -100,19 +264,17 @@ function display_post($post_id){
 	
 	echo('</span>');
 	
-	if($data['service'] == "Events"){
-		
-		if(in_array('image_corner', $fields)){
-		
-			if($data['isImage'] == 1){
-		
-				echo('<img class = "pull-right col-sm-1 hidden-xs no-padding" src = "'.$data['img_src'].'">');
-				
-			}
-
+	
+	if(in_array('image_corner', $fields)){
+	
+		if($data['isImage'] == 1){
+	
+			echo('<img class = "pull-right col-sm-1 hidden-xs no-padding" src = "'.$data['img_src'].'">');
+			
 		}
-		
+
 	}
+	
 	
 	
 	
@@ -120,8 +282,6 @@ function display_post($post_id){
 		
 		echo('<span style = "padding:0px;" class = "pull-left text-left col-xs-12 col-sm-11">');
 		
-
-				
 		if(in_array('start_time', $fields)){
 			
 			$time = $data['start_second'];
@@ -267,6 +427,18 @@ function display_post($post_id){
 			
 		}
 		
+		if(in_array('image_feature', $fields) && $data['isImage'] == 1){
+		
+			echo('<img class = "img-responsive" src = "'.$data['img_src'].'">');
+
+		}
+		
+		if(in_array('video_feature', $fields) && $data['isVideo'] == 1){
+		
+			echo('<iframe class = "img-responsive" src="//www.youtube.com/embed/'.$data['vurl'].'" frameborder="0" allowfullscreen></iframe>');
+		
+		}
+		
 		if($data['service'] == "Events"){
 	
 			echo('<span class = "posttext events">');
@@ -283,13 +455,23 @@ function display_post($post_id){
 
 			echo('</span>');
 
-		}	
+		}
 
+		if(in_array('website', $fields) && $data['isWebsite'] == 1){
+		
+			echo('<a href ="'.$data['wurl'].'">'.$data['wurl'].'</a>');
 
-		if(in_array('image', $fields)){
+		}
+
+		if(in_array('image', $fields) && $data['isImage'] == 1){
 		
 			echo('<img class = "img-responsive" src = "'.$data['img_src'].'">');
 
+		}
+		if(in_array('video', $fields) && $data['isVideo'] == 1){
+		
+			echo('<iframe class = "post_video" src="//www.youtube.com/embed/'.$data['vurl'].'" frameborder="0" allowfullscreen></iframe>');
+		
 		}
 		
 		if($data['service'] == "Hole"){
@@ -337,6 +519,7 @@ function display_post($post_id){
 		}
 
 	}
+	
 	if(in_array('comment_count', $fields)){
 		
 		if($data['allow_comments'] == 1 || $data['service'] == "Hole"){
@@ -457,12 +640,7 @@ function display_post($post_id){
 		}
 		
 	}
-	
-	if(in_array('delete_post-user', $fields)){
-	
-		echo('<span class = "hoverer delete_post" onclick="delete_post('.$data['id'].', this)">&nbsp;&nbsp;&nbsp;DELETE</span>');
-		
-	}
+
 	
 	if(in_array('share_post', $fields)){
 		//$link = md5($data['id']);
@@ -481,9 +659,13 @@ function display_post($post_id){
 	echo('</span>');
 	//end of right pull widgetns n buttons
 	
+	
+	
+	
 	echo('</span>');
 	//end of bottom row
 	
+
 	
 	if(empty($_GET['share']) == false && in_array('reply_share', $fields) && $data['reply_on'] == 1 && logged_in() == true){
 
@@ -508,7 +690,33 @@ function display_post($post_id){
 	}
 	
 	echo('</span>');
+	
+	if(in_array('approve', $fields) || in_array('deny', $fields) ){
+	
+	
+		echo('<span style = "padding:0px;" class = "col-xs-12 post-mod-row no-padding text-right">');
+	
+		if(in_array('approve', $fields)){
+	
+			echo('<span style = "background-color:#d3f3f3" class = "hoverer delete_post text-center col-xs-6 no-padding" onclick="judgement('.$data['id'].', 1, this)">&nbsp;&nbsp;&nbsp;APPROVE</span>');
+		
+		}
+	
+		if(in_array('deny', $fields)){
+			
+			echo('<span style = "background-color:#f3d3f3"  class = "hoverer delete_post text-center col-xs-6 no-padding" onclick="judgement('.$data['id'].', 2, this)">&nbsp;&nbsp;&nbsp;DENY</span>');
+		
+		}
+		
+		echo('</span>');
+		
+		
+		
+	}
+	
 	echo('</span>');
+	
+	
 	
 	if(empty($_GET['share']) == false && in_array('comment_share', $fields)){
 		

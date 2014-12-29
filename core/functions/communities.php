@@ -1,5 +1,14 @@
 <?php
 
+function service_sub_count($service_name){
+	$service_name = sanitize($service_name);
+	
+	$count = mysql_fetch_assoc(mysql_query("SELECT COUNT(user_id) AS totalsubs FROM subscriptions WHERE service = '$service_name'"));
+	
+	return ($count['totalsubs']);
+}
+
+
 function community_data($community_name) {
 	$data = array();
 	$community_name = (string)$community_name;

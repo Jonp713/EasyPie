@@ -11,12 +11,6 @@ function view_unsorted_posts(){
 }
 
 
-function toggle_post_picture(service){
-	$('#post-pic-form-'+service).toggleClass( "picture-disabled" );		
-	
-	
-}
-
 function save_post(post_id, span){
 	
     $.post("core/functions/ajax.php",{function: "save_post", post_id: post_id},function(data){
@@ -295,7 +289,7 @@ function getURLParameter(name) {
   return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null
 }
 
-var currentpostnumber = 30;
+var currentpostnumber = 5;
 
 $(window).scroll(function() {
 	
@@ -305,14 +299,14 @@ $(window).scroll(function() {
 		if(location.pathname.substring(location.pathname.lastIndexOf("/") + 1) == 'posts.php'){
 			get_more_approved_posts(currentpostnumber, getURLParameter('c'), getURLParameter('service'));
 
-			currentpostnumber += 30;
+			currentpostnumber += 5;
 			
 		}
 		
 		if(location.pathname.substring(location.pathname.lastIndexOf("/") + 1) == 'feed.php'){
 			get_more_feed_posts(currentpostnumber);
 
-			currentpostnumber += 30;
+			currentpostnumber += 5;
 			
 		}
 

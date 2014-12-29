@@ -4,6 +4,21 @@ require ('../init.php');
 
 $function = $_POST['function'];
 
+if($function == 'judgement' && isset($_POST['post_id']) && isset($_POST['judgement']) && isset($session_user_id)){
+	
+	$success = judgement_user($_POST['post_id'], $_POST['judgement'], $session_user_id);
+		
+	if($success){
+	
+		echo("success");
+	
+	}else{
+		
+		echo($success);
+	}
+	
+}
+
 
 if($function == 'give_point' && isset($_POST['post_id']) && isset($session_user_id)){
 	
@@ -218,6 +233,36 @@ if($function == 'get_more_approved_posts' && isset($_POST['start'])){
 	foreach ($posts[0] as $currentpost) {
 		
 		
+		if($currentpost['service'] == "Events"){
+			
+			if($_POST['service'] === "Events"){
+			
+				display_post($currentpost['id'], 'title', 'location', 'change_start_time', 'post', 'share_post', 'comment_count', 'comment_on', 'point_count', 'give_point', 'image_corner', 'free_food', 'save_post', 'change_duration', 'start_time_full'); 
+			
+			}else{
+				
+				
+				display_post($currentpost['id'], 'title', 'location', 'change_start_time', 'post', 'service', 'share_post', 'comment_count', 'comment_on', 'point_count', 'give_point', 'image_corner', 'free_food', 'save_post', 'change_duration', 'start_time_full');
+				
+				
+			}
+		}
+		
+		if($currentpost['service'] != "Events"){
+		
+			if($_POST['service'] === "all"){
+				
+				create_display_set($currentpost['id'], 'home', 'ajax');
+		
+			}else{
+		
+		
+				create_display_set($currentpost['id'], 'service', 'ajax');
+		
+			}
+		}
+		/*
+		
 		if($currentpost['service'] == "ICU"){
 			
 			if($_POST['service'] === "all"){
@@ -270,20 +315,9 @@ if($function == 'get_more_approved_posts' && isset($_POST['start'])){
 		
 		}
 		
-		if($currentpost['service'] == "Events"){
-			
-			if($_POST['service'] === "Events"){
-			
-				display_post($currentpost['id'], 'title', 'location', 'change_start_time', 'post', 'share_post', 'comment_count', 'comment_on', 'point_count', 'give_point', 'image_corner', 'free_food', 'save_post', 'change_duration', 'start_time_full'); 
-			
-			}else{
-				
-				
-				display_post($currentpost['id'], 'title', 'location', 'change_start_time', 'post', 'service', 'share_post', 'comment_count', 'comment_on', 'point_count', 'give_point', 'image_corner', 'free_food', 'save_post', 'change_duration', 'start_time_full');
-				
-				
-			}
-		}
+		*/
+		
+	
 		
 		
 		
@@ -305,7 +339,7 @@ if($function == 'get_more_feed_posts' && isset($_POST['start']) && isset($sessio
 	$posts = get_user_feed($session_user_id, $_POST['start'], 1);
 			
 	foreach ($posts[0] as $currentpost) {
-		
+		/*
 		if($currentpost['service'] == "ICU"){
 			
 			display_post($currentpost['id'], 'post', 'service', 'change_time', 'share_post', 'save_post', 'reply', 'comment_count', 'comment_on', 'point_count', 'give_point');
@@ -323,11 +357,16 @@ if($function == 'get_more_feed_posts' && isset($_POST['start']) && isset($sessio
 					
 		
 		}
+		*/
 		
 		if($currentpost['service'] === "Events"){
 		
 			display_post($currentpost['id'], 'title', 'location', 'service', 'change_start_time', 'post', 'share_post', 'comment_count', 'comment_on', 'point_count', 'give_point', 'image_corner', 'free_food', 'save_post', 'change_duration', 'start_time_full'); 
 		
+		}
+		if($currentpost['service'] != "Events"){
+		
+			create_display_set($currentpost['id'], 'feed', 'ajax');
 		}
 	}
 	

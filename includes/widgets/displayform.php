@@ -196,6 +196,9 @@ if($service_in == 'Bone'){
 			  <form class = "submit_post form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
 	
 	
+	<strong>Events</strong>
+	
+	
     <input type="text" id = "sf-Events-service"  class = "sf-Events-disable" value = "Events" name = "service" hidden>
 	
 	
@@ -485,7 +488,6 @@ if($service_in == 'Bone'){
 </form>
 	
 </span>
-
 
 <?php
 	

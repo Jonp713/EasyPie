@@ -127,6 +127,11 @@
 			$service_data1['websites_on'] = 1;
 	
 		}
+		if($_POST['ratings_on'] == 'on'){
+	
+			$service_data1['ratings_on'] = 1;
+	
+		}
 		
 		$character_data = array(
 			'name'	 		=> $_POST['character_name'],
@@ -157,7 +162,9 @@
 		);
 	
 	
-		if($_POST['logo'] == "character_image"){
+		$service_data1['char_type'] = $_POST['char_type'];
+	
+		if($_POST['char_type'] == "character_image"){
 								
 			if (empty($_FILES['pic_char']['name']) == true) {
 	
@@ -165,7 +172,7 @@
 	
 			}else{
 
-				$allowed = array('jpg', 'jpeg', 'png');
+				$allowed = array('png');
 	
 				$file_name = $_FILES['pic_char']['name'];
 				$file_extn = strtolower(end(explode('.', $file_name)));
@@ -263,14 +270,45 @@
 			  			<div class="form-group">
 						
 				  		      <div class="col-xs-12">
-								  <label >Board Color:</label> (This should match a color in your character logo!)
+								  <label >Board Color:</label> (This should match a color in your character logo! If you have one...)
 				  				<input type = "text" class = "form-control color" name="board_color" id = "board_color">
 				  			</div>
 						</div>
 						<br>			<hr class = "messagehr"><br>
+						
+						
+					   	<div class = "form-group">
+					        <label for="is_image"   class = "sf-Events-disable col-xs-3 control-label">Don't use a Logo</label>
+	
+					 		 <div class="col-xs-8">
 
+					 		 <input onclick = "toggle_create_service_logo('off')" name = "char_type" id="optionsRadios7" type="radio" value="character_text" checked>&nbsp;&nbsp;&nbsp;&nbsp;(Your logo will be the first letter of your boards name)
+
+					 	  </div>
+						</div>
+			
+							   	<div class = "form-group">
+							        <label for="is_image" class = "col-xs-3 control-label">Use a Logo  </label>
+	
+							   	 <div class="col-xs-8">
+	
+							   		 <input id="optionsRadios8" onclick = "toggle_create_service_logo('on')" type="radio" name = "char_type" value="character_image" >&nbsp;&nbsp;&nbsp;&nbsp;(You can upload a photo for your logo) <a style = "color:blue" href = "https://www.fiverr.com/search/gigs?utf8=%E2%9C%93&search_in=everywhere&query=logo&page=1&layout=auto">Get a $5 Logo</a>
+ 
+							   	 </div></div><br>
+								 
+					 		    <div class="form-group character-forms">
+			
+					 		   		     <label for="pic" class="col-xs-3 logo_pic control-label">Logo:</label>
+					 		   			 <div class="col-xs-8">
+
+					 		   		 <input class = "form-control" type="file" name="pic_char">(Keep the dimensions 1:1, ex 400x400 or 1200x1200, PNG only)
+
+					 		   	</div></div>
+					 			<br>
+								 
+<!--
 		
-		  <div class="form-group">
+		  <div class="form-group character-forms">
 			
 			
 	      <div class="col-xs-12">
@@ -279,42 +317,18 @@
 		</div>
 	</div>
 	
-   	<div class = "form-group">
-        <label for="is_image"   class = "sf-Events-disable col-xs-3 control-label">Don't use a Character Logo</label>
-	
- 		 <div class="col-xs-8">
 
- 		 <input onclick = "toggle_create_service_logo('off')"  name="logo" id="optionsRadios7" type="radio" value="character_text">&nbsp;&nbsp;&nbsp;&nbsp;(Your logo will be the first letter of your board's name)
 
- 	  </div>
-	</div>
-			
-		   	<div class = "form-group">
-		        <label for="is_image"   class = "col-xs-3 control-label">Use a Character Logo</label>
-	
-		   	 <div class="col-xs-8">
-	
-		   		 <input name="logo" id="optionsRadios8" onclick = "toggle_create_service_logo('on')" type="radio" name = "logo_is_image" value="character_image" checked>&nbsp;&nbsp;&nbsp;&nbsp;(Keep the dimensions 1:1)
- 
-		   	 </div></div>
 
-		    <div class="form-group">
-			
-		   		     <label for="pic" class="col-xs-3 logo_pic control-label">Logo:</label>
-		   			 <div class="col-xs-8">
-
-		   		 <input class = "form-control" type="file" name="pic_char">
-
-		   	</div></div>
-			<br>
-			
-  			<div class="form-group">
+  			<div class="form-group character-forms">
 			
 		  		      <div class="col-xs-12">
 						  <label>Character Quote:</label>
 		  				<textarea class = "form-control" placeholder = "This is what will your character will say underneath its logo on the right hand side. You can add more of these later." name="first_quote"></textarea>
 		  				</div>
-		  			</div><br>
+		  			</div>
+					<br>
+								-->
 		 
 			
 			<hr class = "messagehr"><br>
@@ -343,13 +357,13 @@
 <div class="radio">
   <label>
     <input type="radio" name="style" id="optionsRadios1" value="media_after" checked>
-  	 After - Media appears after the text (Hole)
+  	 After - Media appears after the post (Hole)
   </label>
 </div>
 <div class="radio">
   <label>
     <input type="radio" name="style" id="optionsRadios2" value="media_corner">
-  	 Corner - Media appears in the corner of the post (Events)
+  	 Corner - Media appears in the corner of the post (Events) (Only Images)
   </label>
 </div>
 <div class="radio">
@@ -363,19 +377,24 @@
 			<strong>Features:</strong><br>What can other users do with the content submitted?
 
 			  			    <div class="checkbox">
-			  			      <label>  			 		 <input type="checkbox" name="comments_on" checked>Comments
+			  			      <label>  			 		 <input type="checkbox" name="comments_on" checked>Comment on posts
 			  			      </label>
 			  			    </div>
-			  			    <div class="checkbox">
-			  			      <label>  			 		 <input type="checkbox" name="2comments_on">Comments on comments
+			  			    <!--<div class="checkbox">
+			  			      <label>  			 		 <input type="checkbox" name="2comments_on">Comment on comments
 			  			      </label>
-			  			    </div>
+			  			    </div>-->
 			  			    <div class="checkbox">
 			  			      <label>
-			  			 		 <input type="checkbox" name="private_on">Private Messages - Users will need to be logged in to post
+			  			 		 <input type="checkbox" name="private_on">Private Messages
 			  			      </label>
 			  			    </div>
-							
+			  			    <!--<div class="checkbox">
+			  			      <label>
+			  			 		 <input type="checkbox" name="ratings_on">4 - Star Ratings
+			  			      </label>
+			  			    </div>
+							-->
 							
 							
 							

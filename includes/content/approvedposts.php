@@ -17,7 +17,7 @@ if(count($posts) <= 0){
 echo('<span class = "dashcontentposts">');
 
 foreach ($posts as $currentpost) {
-	
+	/*
 	
 	if($currentpost['service'] == "ICU"){
 		
@@ -41,11 +41,17 @@ foreach ($posts as $currentpost) {
 	
 	
 	}
+	*/
 	
 	if($currentpost['service'] == "Events"){
 	
 		display_post($currentpost['id'], 'title', 'location', 'start_time', 'post', 'service', 'share_post', 'comment_count', 'comment_on', 'point_count', 'give_point', 'image_corner','save_post', 'free_food',  'delete_post-user', 'duration', 'comment_toggle', 'start_time_full');
 	
+	}
+	
+	if($currentpost['service'] != "Events"){
+		
+		create_display_set($currentpost['id'], 'submissions', 'load');
 	}
 	
 	

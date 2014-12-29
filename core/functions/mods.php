@@ -1,5 +1,30 @@
 <?php
 
+function judgement_user($post_id, $judgement, $admin_id){
+	$post_id = sanitize($post_id);
+	$judgement = sanitize($judgement);
+	$admin_id = sanitize($admin_id);
+	
+	$time = time();
+			
+	$success = mysql_query("UPDATE `posts` SET `status` = '$judgement', `judged_by` = '$admin_id', `second_judged` = '$time' WHERE `id` = '$post_id'") or die(mysql_error());
+	
+	if($success and $judgement == 1){
+		
+		$user_id = user_id_from_post_id($post_id);
+		
+		if($user_id !== 0 && $user_id !== null){
+		
+			create_notification($user_id, 'post_approved', 'Your post got approved!', $post_id);
+		
+		}
+	
+	}
+	
+	return $success;
+	
+}
+
 function get_mod_services($user_id, $type){
 	
 	$user_id = sanitize($user_id);

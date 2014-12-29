@@ -1,7 +1,7 @@
 <script>
 
 ///set posts
-<?php $services = get_services_ajax($community_in);?>
+<?php if (isset($community_in)){ $services = get_services_ajax($community_in);?>
 
 //display posts
 var services = <?php echo json_encode($services); ?>;
@@ -36,9 +36,9 @@ $( ".service-submit-button" ).click(function() {
 	    
 	var sfnumber = this.getAttribute('data-target');
 	
-	$(this).addClass('active').siblings().removeClass('active');
+	$('.service-submit-button').removeClass('active');
 	
-	
+	$(this).addClass('active');
 	
 	for(i=0; i< sf.length; i++){
 		
@@ -83,16 +83,54 @@ $('#recurring').change(function (){
 	
 });
 
+<?php } ?>
+
+function youtube_parser(url, service){
+    var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+    var match = url.match(regExp);
+    if (match&&match[7].length==11){
+
+        $('#vurl_' + service).val(match[7]);
+ 
+    }else{
+        alert("Url incorrect");
+    }
+}
+
+function toggle_post_video(service){
+	$('#post-vid-form-'+service).toggleClass( "picture-disabled" );		
+	
+	
+}
+
+
+function toggle_post_picture(service){
+	$('#post-pic-form-'+service).toggleClass( "picture-disabled" );		
+	
+	
+}
+
+function toggle_post_web(service){
+	$('#post-web-form-'+service).toggleClass( "picture-disabled" );		
+	
+	
+}
+
 
 function toggle_create_service_logo(switchx){
 		
 
 	if(switchx == "off"){
-	$('.logo_pic').addClass( "picture-disabled" );		
+		
+		$('.logo_pic').addClass( "picture-disabled" );
+	
+		$('.character-forms').hide();		
 	
 	}else{
+		
 		$('.logo_pic').removeClass( "picture-disabled" );		
 	
+		$('.character-forms').show();		
 	
 	}
 	

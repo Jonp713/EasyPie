@@ -13,8 +13,6 @@ if(count($communities) > 0){
 
 echo('<span class = "pull-right otherfeedinfo hidden-xs col-sm-4">');
 
-include 'includes/widgets/submitpost.php';
-
 include 'includes/content/currentsubscriptions.php';
 
 echo('</span>');

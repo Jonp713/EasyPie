@@ -22,7 +22,24 @@ foreach ($services as $currentservice){
 	   	     break;
 	   	     default:
 			 
-	 			echo('<button style = "background-color:'.$color.'" id = "sf-'.$currentservice['name'].'-icon" data-target = "#sf-'.$currentservice['name'].'" class="btn btn-custom2 btn-md service-submit-button "><img class = "img-responsive no-padding" src = "'.$url.'"></button>');
+	 			echo('<span class = "col-xs-1 no-padding serviceformcontainer"><button style = "background-color:'.$color.'" id = "sf-'.$currentservice['name'].'-icon" data-target = "#sf-'.$currentservice['name'].'" class="btn btn-custom2 btn-md service-submit-button">');
+				
+					echo('<span style = "background-color:rgba(255,255,255,.3);" class = "service-form-circle"></span>');
+								
+				if(get_service_char_type($currentservice['name']) == "character_image" && !empty($url)){
+			
+					echo('<img class = "img-responsive service-form-image no-padding" src = "'.$url.'">');
+			
+				}else if(get_service_char_type($currentservice['name']) == "character_text"){
+			
+					echo('<span class = "form-font-service no-padding">'. strtoupper($currentservice['name'][0]).'</span>');
+			
+				}
+				
+				
+			
+				
+				echo('</button></span>');
 	   	
 		
 		 }

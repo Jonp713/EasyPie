@@ -27,7 +27,7 @@
   				}
   				?>
 
-		<li><a href = "search.php">SEARCH</a></li>
+		<!--<li><a href = "search.php">SEARCH</a></li>-->
 
 		<hr class = "sidebarhr">
 		
@@ -37,6 +37,15 @@
 			?>
 			
 						<span class = "col-xs-6 subscriptionstitle" style = "color:white; font-size:20px;">DASHBOARD</span><br><br>
+				        <li>	
+						
+								<?php if (check_mod_power($session_user_id) > 0){ ?>
+				
+									<a href = "admin.php">ADMIN</a>
+				
+				
+									<?php }?>				
+							</li>
 		
         <li>
 			
@@ -44,7 +53,7 @@
 			<a href = 'dashboard.php?t=notifications'>NOTIFICATIONS</a>
 
         </li>
-
+      
         <li>
 
 
@@ -73,9 +82,9 @@
 			
 		
         </li>
-		<br>
-        <li>
 		
+<br>
+			<li>
 			<a href="logout.php">LOGOUT</a>
 			
 	        </li>

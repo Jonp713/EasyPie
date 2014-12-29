@@ -13,17 +13,34 @@ if(isset($_GET['service'])){
 	
 	$url = get_logo_picture_url_from_character_id($result['character_id']);	
 	
-	$name = get_character_name_from_character_id($result['character_id']);
 	
-	$quote = get_random_quote_from_character_id($result['character_id'], $_GET['c'], $_GET['service']);
+	if($result['char_type'] == "character_image" && !empty($url)){
+	
+	
+		$name = get_character_name_from_character_id($result['character_id']);
 		
-	echo '<img class = "col-xs-6 col-sm-12 img-responsive" src="'. $url . '"><br>';
+	
+	
+		
+		echo '<img class = "col-xs-6 col-sm-12 img-responsive" src="'. $url . '"><br>';
 
-	echo('<span class = "modname"><strong>'.$name.'</strong> Says:</span>');
+			/*
+		$quote = get_random_quote_from_character_id($result['character_id'], $_GET['c'], $_GET['service']);
+			
+			echo('<span class = "modname"><strong>'.$name.'</strong> Says:</span>');
 
-	$newcolor = hex2rgb($colortouse);
+		$newcolor = hex2rgb($colortouse);
 
-	echo('<span class = "modquote-wrapper col-xs-12" style = "background-color:rgba('.implode($newcolor, ',').', .8);"><span class = "modquote">'.$quote.'</span></span>');	
+		echo('<span class = "modquote-wrapper col-xs-12" style = "background-color:rgba('.implode($newcolor, ',').', .8);"><span class = "modquote">'.$quote.'</span></span>');	
+		
+		*/
+	
+	}
+	if($result['char_type'] == "character_text"){
+		
+		
+		
+	}
 
 }else{
 	

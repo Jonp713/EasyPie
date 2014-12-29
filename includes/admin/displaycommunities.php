@@ -19,8 +19,25 @@ if(check_mod_power($session_user_id) > 0){
 	  		 		
  			echo('<span class = "col-xs-12 no-padding aservice-list '.$currentservice['name'].'-container">');
 		
- 			echo('<a href="admin.php?service='.$currentservice['name'].'&community='.$currentservice['community'].'" style = "background-color:'.$color.'" class="btn btn-custom2 no-padding btn-sm col-xs-9"><img class = "service-logo col-xs-2 no-padding" src = "'.$url.'">'); 
+ 			echo('<a href="admin.php?service='.$currentservice['name'].'&c='.$currentservice['community'].'" style = "background-color:'.$color.'" class="btn btn-custom2 no-padding btn-sm col-xs-9">'); 
 			
+			$newcolor = hex2rgb($color);
+			
+			
+			echo('<span style = "background-color:rgba('.implode($newcolor,',').', .6);" class = "service-logo-circle col-xs-2 no-padding pull-left"></span>');
+			
+			
+			
+			if(get_service_char_type($currentservice['name']) == "character_image" && !empty($url)){
+	
+				echo('<img class = "service-logo col-xs-2 no-padding pull-left" src = "'.$url.'">');
+	
+			}else if(get_service_char_type($currentservice['name']) == "character_text"){
+	
+				echo('<span class = "service-logo-text2 col-xs-2 no-padding pull-left">'. strtoupper($currentservice['name'][0]).'</span>');
+	
+			}
+						
 			if($currentservice['name'] == "ICU"){
 		echo('<span class = "service-list-name2"><span class = "service-name-sub blackfont">'.strtoupper($currentservice['name']).'</span><span class = "service-name-sub blackfont">'.strtoupper($currentservice['community']).'</span></span></a>');
  			
@@ -60,15 +77,29 @@ if(check_mod_power($session_user_id) > 0){
 	  		 		
  			echo('<span class = "col-xs-12 no-padding aservice-list '.$currentservice['name'].'-container">');
 		
- 			echo('<a href="admin.php?service='.$currentservice['name'].'" style = "background-color:'.$color.'" class="btn btn-custom2 no-padding btn-sm col-xs-9 servicebutton-feed"><img class = "service-logo col-xs-2 no-padding" src = "'.$url.'">'); 
+ 			echo('<a href="admin.php?service='.$currentservice['name'].'" style = "background-color:'.$color.'" class="btn btn-custom2 no-padding btn-sm col-xs-9">');
+			
+			$newcolor = hex2rgb($color);
+			
+			
+			echo('<span style = "background-color:rgba('.implode($newcolor,',').', .6);" class = "service-logo-circle col-xs-2 no-padding pull-left"></span>');
+			
+			
+			if(get_service_char_type($currentservice['name']) == "character_image" && !empty($url)){
 	
- 			echo('<span class = "service-list-name3"><span class = "whitefont">'.strtoupper($currentservice['name']).'</span></span></a>');
+				echo('<img class = "service-logo col-xs-2 no-padding pull-left" src = "'.$url.'">');
+	
+			}else if(get_service_char_type($currentservice['name']) == "character_text"){
+	
+				echo('<span class = "service-logo-text2 col-xs-2 no-padding pull-left">'. strtoupper($currentservice['name'][0]).'</span>');
+	
+			}
+				
+ 			echo('<span class = "service-list-name2"><span class = "service-name-sub blackfont ">'.strtoupper($currentservice['name']).'</span></span></a>');
 						
 			echo('</span>');
 			echo('</span>');
 
-	
-	
 
 	}
 	
@@ -98,7 +129,7 @@ if(check_mod_power($session_user_id) > 0){
 						
 						
 			echo('</span>');
-
+			
 	
 	
 

@@ -55,7 +55,7 @@
 			
 			?>
 		
-		 <h3>Add an existing board</h3>By adding this board, you will be responsible for moderating all of its posts within your home community.<i>You can only add boards to your home community.</i><br>
+		 <h3>Add an existing board</h3>By adding this board, you will be responsible for moderating all of its posts within your home community.<i> You can only add boards to your home community.</i><br>
 		 
 				  
 				  <?php
@@ -67,26 +67,47 @@
 			  	$services = get_services($home, 2);
 
 			  	foreach ($services as $currentservice){
-	
 			
-			  			echo("<span class = 'col-xs-12 col-sm-5 add-service-button'>");
-		
-			  	   		 $color = get_service_color_from_service_name($currentservice['name']);
-			  			 $url =  get_logo_picture_url_from_service_name($currentservice['name']);
-						 
-						 $link = "createservice.php?new=".$currentservice['name']."&c=".$home;
+		  			echo("<span class = 'col-xs-12 col-sm-5 add-service-button'>");
+							
+			   		 $color = get_service_color_from_service_name($currentservice['name']);
+					 $url =  get_logo_picture_url_from_service_name($currentservice['name']);
+					 
+					 $link = "createservice.php?new=".$currentservice['name']."&c=".$home;
+					 
 	  		 		
-			   			echo('<a href = "'.$link.'" class = "col-xs-12 no-padding aservice-list '.$currentservice['name'].'-container">');
+		 			echo('<span class = "col-xs-12 no-padding aservice-list '.$currentservice['name'].'-container">');
 		
-			   			echo('<span style = "background-color:'.$color.'" class="btn btn-custom2 no-padding btn-sm col-xs-12 "><img class = "service-logo col-xs-2 no-padding" src = "'.$url.'">'); 
+		 			echo('<a href="'.$link.'" style = "background-color:'.$color.'" class="btn btn-custom2 no-padding btn-sm col-xs-12">');
+			
+					$newcolor = hex2rgb($color);
+			
+			
+					echo('<span style = "background-color:rgba('.implode($newcolor,',').', .6);" class = "service-logo-circle col-xs-2 no-padding pull-left"></span>');
+			
+			
+					if(get_service_char_type($currentservice['name']) == "character_image" && !empty($url)){
 	
-			   			echo('<span class = "service-list-name3"><span class = "blackfont">'.strtoupper($currentservice['name']).'</span></span></span>');
+						echo('<img class = "service-logo col-xs-2 no-padding pull-left" src = "'.$url.'">');
+	
+					}else if(get_service_char_type($currentservice['name']) == "character_text"){
+	
+						echo('<span class = "service-logo-text2 col-xs-2 no-padding pull-left">'. strtoupper($currentservice['name'][0]).'</span>');
+	
+					}
+				
+		 			echo('<span class = "service-list-name2"><span class = "service-name-sub blackfont ">'.strtoupper($currentservice['name']).'</span></span></a>');
 						
-			  			echo('</a>');
+					
+		  			echo('</span>');
+					
+					echo('<span class = "">'.$currentservice['description'].'</span>');
+					
 						
-						echo(''.$currentservice['description'].'');
-						
-			  			echo('</span>');
+					echo('</span>');
+					
+					
+	
 
 			  	}
 	  			echo('</span>');

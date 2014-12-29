@@ -199,7 +199,9 @@ function get_user_feed($user_id, $start, $status){
 	
     while($number = mysql_fetch_assoc($result_saved)) { 
 		
-		$all_names[] = $number['community_name'];		
+		$all_names[] = $number['community_name'];	
+		$all_services[] = $number['service'];		
+			
 		
    	}
 	
@@ -210,7 +212,11 @@ function get_user_feed($user_id, $start, $status){
 		
 	$all_names2 = "'" . implode("','", $all_names) . "'";
 		
-	$result_posts = mysql_query("SELECT * FROM posts WHERE site IN ($all_names2) AND status = '$status' ORDER BY id DESC LIMIT $start,30");
+	$all_services2 = "'" . implode("','", $all_services) . "'";
+		
+	
+		
+	$result_posts = mysql_query("SELECT * FROM posts WHERE site IN ($all_names2) AND service IN ($all_services2) AND status = '$status' ORDER BY id DESC LIMIT $start,5");
 		
 	$all_posts = array();
 		
@@ -218,7 +224,7 @@ function get_user_feed($user_id, $start, $status){
 		$all_posts[] = $number;	
    	}
 	
-	if(count($all_posts) < 30){
+	if(count($all_posts) < 5){
 		
 		return array($all_posts, false);
 		
@@ -239,21 +245,21 @@ function get_more_approved_posts($start, $site, $service){
 	
 	if($service === 'all'){
 		
-		$result = mysql_query("SELECT * FROM posts WHERE status = 1 AND service <> 'Hole' AND site = '$site' ORDER BY coolness DESC, id DESC LIMIT $start,30");
+		$result = mysql_query("SELECT * FROM posts WHERE status = 1 AND is_home = 1 AND site = '$site' ORDER BY coolness DESC, id DESC LIMIT $start,5");
 		
 	}else{
 		
 		if($service === 'Hole'){
 			
-			$result = mysql_query("SELECT * FROM posts WHERE status <> 3 AND site = '$site' AND service = '$service' ORDER BY ID DESC LIMIT $start,30");
+			$result = mysql_query("SELECT * FROM posts WHERE status <> 3 AND site = '$site' AND service = '$service' ORDER BY ID DESC LIMIT $start,5");
 			
 		}else if($service === "Events"){
 	
-	$result = mysql_query("SELECT * FROM posts WHERE status = 1 AND site = '$site' AND service = '$service' ORDER BY start_second LIMIT $start,30");
+	$result = mysql_query("SELECT * FROM posts WHERE status = 1 AND site = '$site' AND service = '$service' ORDER BY start_second LIMIT $start,5");
 			
 		}else{
 			
-			$result = mysql_query("SELECT * FROM posts WHERE status = 1 AND site = '$site' AND service = '$service' ORDER BY ID DESC LIMIT $start,30");
+			$result = mysql_query("SELECT * FROM posts WHERE status = 1 AND site = '$site' AND service = '$service' ORDER BY ID DESC LIMIT $start,5");
 		}
 	
 		
@@ -267,7 +273,7 @@ function get_more_approved_posts($start, $site, $service){
    	}
 	
 	
-	if(count($newposts) < 30){
+	if(count($newposts) < 5){
 		
 		return array($newposts, false);
 		
@@ -288,9 +294,17 @@ function get_posts($status, $site, $type, $admin_id, $service){
 	if($service != 'all'){
 		//shit with services
 		
+		
+		if($type == -2){
+	
+			$result = mysql_query("SELECT * FROM posts WHERE status = '$status' AND site = '$site' AND service = '$service' ORDER BY ID DESC");
+		
+		}
+		
+		
 		if($type == -1){
 	
-			$result = mysql_query("SELECT * FROM posts WHERE status = '$status' AND site = '$site' AND service = '$service' ORDER BY ID DESC LIMIT 0, 30");
+			$result = mysql_query("SELECT * FROM posts WHERE status = '$status' AND site = '$site' AND service = '$service' ORDER BY ID DESC LIMIT 0, 5");
 		
 		}
 		
@@ -302,28 +316,34 @@ function get_posts($status, $site, $type, $admin_id, $service){
 	
 		if($service == 'Hole'){
 				
-			$result = mysql_query("SELECT * FROM posts WHERE (service = 'Hole' OR status = 2) AND status <> 3 AND site = '$site' ORDER BY ID DESC LIMIT 0,30");
+			$result = mysql_query("SELECT * FROM posts WHERE (service = 'Hole' OR status = 2) AND status <> 3 AND site = '$site' ORDER BY ID DESC LIMIT 0,5");
 			
 		}
 		
 		if($service == "Events"){
 	
-			$result = mysql_query("SELECT * FROM posts WHERE status = '$status' AND service = '$service' AND time_status <> 2 ORDER BY start_second LIMIT 0,30");
+			$result = mysql_query("SELECT * FROM posts WHERE status = '$status' AND service = '$service' AND time_status <> 2 ORDER BY start_second LIMIT 0,5");
 		}
 		
 	}else{
 		
 		//old shit?
+		
+		if($type == -3){
+	
+			$result = mysql_query("SELECT * FROM posts WHERE status = '$status' AND site = '$site' AND is_home = 1 AND needs_approve = 0");
+		
+		}
 	
 		if($type == -2){
 		
-			$result = mysql_query("SELECT * FROM posts WHERE status = '$status' AND judged_by = '$admin_id' ORDER BY ID DESC LIMIT 0, 30");
+			$result = mysql_query("SELECT * FROM posts WHERE status = '$status' AND judged_by = '$admin_id' ORDER BY ID DESC LIMIT 0, 5");
 		
 		}
 	
 		if($type == -1){
 	
-			$result = mysql_query("SELECT * FROM posts WHERE status = '$status' AND site = '$site' AND service <> 'Hole' ORDER BY coolness DESC, id DESC LIMIT 0, 30");
+			$result = mysql_query("SELECT * FROM posts WHERE status = '$status' AND site = '$site' AND is_home = 1 ORDER BY coolness DESC, id DESC LIMIT 0,5");
 		
 		}
 	
@@ -335,7 +355,7 @@ function get_posts($status, $site, $type, $admin_id, $service){
 	
 		if($type == 1){
 	
-			$result = mysql_query("SELECT * FROM posts WHERE status = '$status' AND site = '$site' ORDER BY ID DESC LIMIT 30");
+			$result = mysql_query("SELECT * FROM posts WHERE status = '$status' AND site = '$site' ORDER BY ID DESC LIMIT 10");
 	
 		}
 	
@@ -369,7 +389,7 @@ function get_posts($status, $site, $type, $admin_id, $service){
 		return $allposts;
 	}
 	
-	if(count($allposts) < 30){
+	if(count($allposts) < 5){
 		
 		return array($allposts, false);
 		
@@ -641,55 +661,59 @@ function sort_coolness($site){
 	
 	$result = mysql_fetch_assoc(mysql_query("SELECT last_sort_seconds FROM `sort_manager` LIMIT 1"));
 	
-	$result = mysql_query("SELECT * FROM `posts` WHERE site = '$site' AND status = 1 AND coolness > 0");
-	
-	$second_value = 0;
-		
 	$now = time();
 	
-	$allposts = array();
+	if(time() > $result['last_sort_seconds'] + 10000){
 	
-    while($number = mysql_fetch_assoc($result)) { 
-		$allposts[] = $number;		
-   	}
+		$result = mysql_query("SELECT * FROM `posts` WHERE site = '$site' AND status = 1 AND coolness > 0");
 	
-	
-	foreach ($allposts as $currentpost) {
-		
-		$coolness = 0;
-	
-		//seconds
-		$seconds = $now - $currentpost['second'];		
-		
-		if($seconds > 518400){
+		$second_value = 0;
 			
-			$coolness = 0; // :(
+		$allposts = array();
+	
+	    while($number = mysql_fetch_assoc($result)) { 
+			$allposts[] = $number;		
+	   	}
+	
+	
+		foreach ($allposts as $currentpost) {
+		
+			$coolness = 0;
+	
+			//seconds
+			$seconds = $now - $currentpost['second'];		
+		
+			if($seconds > 518400){
 			
-		}else{
+				$coolness = 0; // :(
+			
+			}else{
 	
-			$second_value = 518400 - $seconds;
+				$second_value = 518400 - $seconds;
 	
-			$second_value = $second_value/51840;
+				$second_value = $second_value/51840;
 					
-			//upvotes
-			$upvotes = $currentpost['upvotes'];
+				//upvotes
+				$upvotes = $currentpost['upvotes'];
 	
-			$upvote_value = $currentpost['upvotes']/2;
+				$upvote_value = $currentpost['upvotes']/2;
 		
 	
-			$coolness = $upvote_value + $second_value;
+				$coolness = $upvote_value + $second_value;
 			
-		}
+			}
 			
 				
-		$id = $currentpost['id'];
+			$id = $currentpost['id'];
 		
-		$result = mysql_query("UPDATE posts SET coolness = '$coolness' WHERE id = $id");
+			$result = mysql_query("UPDATE posts SET coolness = '$coolness' WHERE id = $id");
 		
 		
+		
+		}
 		
 	}
-		
+	
 	$result = mysql_query("UPDATE sort_manager SET last_sort_seconds = '$now'");
 
 }

@@ -6,7 +6,6 @@ include 'includes/overall/header.php';
 
 <span class = "col-xs-12 no-padding dashboard">
 		
-
 		<span class = "userinfo col-xs-2">
 
 			<h1 class = "usernametitle"><?php echo $user_data['username']; ?></h1><br>
@@ -19,15 +18,15 @@ include 'includes/overall/header.php';
 				
 				
 					<?php }?>
-				<br><a href = "information.php">Information & Security</a><br>
+				<br><a href = "identity.php">Identity</a>
+					
+				<br><a href = "information.php">Account</a><br>
 		    	<a href="logout.php">Log Out</a>
 		
 			</span>
 		
 		</span>
 		
-		
-
 		<span class = "dashnavbar text-left row">
 	
 		<?php include 'includes/widgets/dashnavbar.php'; ?>

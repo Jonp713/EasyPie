@@ -2,10 +2,8 @@
 
 if (empty($_POST) === false) {
 			
-			
-	if(!isset($_POST['is_image'])){
-			
-		$required_fields = array('post');
+						
+		//$required_fields = array('post');
 		foreach($_POST as $key=>$value) {
 			if (empty($value) && in_array($key, $required_fields) === true) {
 				$errors[] = 'A post cannot be blank';
@@ -13,7 +11,7 @@ if (empty($_POST) === false) {
 			}
 		}
 	
-	}
+		//}
 	
 	$count = get_request_count($_SERVER['REMOTE_ADDR'], 'submit_post');		
 	
@@ -73,43 +71,99 @@ if (empty($_POST) === false && empty($errors) === true) {
 		);
 		
 	}
+		
 	
-	if($_POST['service'] == "Hole" || $_POST['service'] == "Events"){
-				
-		if(isset($_POST['is_image']) && $_POST['is_image'] == "checked"){
-			
-			$servicename = $_POST['service'];
-			
-			$post_data['isImage'] = 1;
-			
-			if (empty($_FILES['pic_'.$servicename]['name']) == true) {
+	if(isset($_POST['comments_on'])){
+		if($_POST['comments_on'] == 'on'){
 		
-				$errors[] = 'Please choose a file!';
+			$post_data['allow_comments'] = 1;
 		
-			}else{
-	
-				$allowed = array('jpg', 'jpeg', 'gif', 'png');
+		}
 		
-				$file_name = $_FILES['pic_'.$servicename]['name'];
-				$file_extn = strtolower(end(explode('.', $file_name)));
-				$file_temp = $_FILES['pic_'.$servicename]['tmp_name'];
+	}
+	if(isset($_POST['is_video'])){
+		if($_POST['is_video'] == 'checked'){
 		
-				if (in_array($file_extn, $allowed) === true) {} else {
+			$post_data['isVideo'] = 1;
+			$post_data['vurl'] = $_POST['vurl'];
 			
-					$errors[] =  'Incorrect file type. Allowed: ' . implode(', ', $allowed);
-			
-				}
 		
-			}
-			
-			
-			$file_path = upload_image_post($servicename, $file_temp, $file_extn);
-			
-			$post_data['img_src'] = $file_path; 
+		}
+		
+	}
+	if(isset($_POST['is_website'])){
+		if($_POST['is_website'] == 'checked'){
+		
+			$post_data['isWebsite'] = 1;
+		
+			$post_data['wurl'] = $_POST['wurl'];
 			
 		}
 		
 	}
+	
+	if(service_needs_approve($_POST['service']) == "strict_mod"){
+		
+		$post_data['needs_approve'] = 1;
+		
+		
+	}
+	if(service_needs_approve($_POST['service']) == "whatever_mod"){
+	
+		$post_data['needs_approve'] = 0;
+	}
+	
+		
+	$post_data['is_home'] = service_is_home($_POST['service']);
+	
+	
+	if(logged_in() === true){
+	
+		if($_POST['reply_on'] == 'on'){
+	
+			$post_data['reply_on'] = 1;
+		
+		}
+		
+		$post_data['user_id'] = $session_user_id;
+		
+	}
+	
+				
+	if(isset($_POST['is_image']) && $_POST['is_image'] == "checked"){
+		
+		$servicename = $_POST['service'];
+		
+		$post_data['isImage'] = 1;
+		
+		if (empty($_FILES['pic']['name']) == true) {
+	
+			$errors[] = 'Please choose a file!';
+	
+		}else{
+
+			$allowed = array('jpg', 'jpeg', 'gif', 'png');
+	
+			$file_name = $_FILES['pic']['name'];
+			$file_extn = strtolower(end(explode('.', $file_name)));
+			$file_temp = $_FILES['pic']['tmp_name'];
+	
+			if (in_array($file_extn, $allowed) === true) {} else {
+		
+				$errors[] =  'Incorrect file type. Allowed: ' . implode(', ', $allowed);
+		
+			}
+	
+		}
+		
+		$file_path = upload_image_post($servicename, $file_temp, $file_extn);
+		
+		$post_data['img_src'] = $file_path; 
+		
+	}
+	
+	
+		
 	
 	if($_POST['service'] == "Events"){
 	
@@ -159,27 +213,7 @@ if (empty($_POST) === false && empty($errors) === true) {
 	}
 	
 	
-	if(isset($_POST['comments_on'])){
-		if($_POST['comments_on'] == 'on'){
-		
-			$post_data['allow_comments'] = 1;
-		
-		}
-		
-	}
-	
-	
-	if(logged_in() === true){
-	
-		if($_POST['reply_on'] == 'on'){
-	
-			$post_data['reply_on'] = 1;
-		
-		}
-		
-		$post_data['user_id'] = $session_user_id;
-		
-	}
+
 	
 	$success = submit_post($post_data);
 			

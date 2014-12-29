@@ -18,10 +18,11 @@ if(!in_array($_SERVER['REMOTE_ADDR'], $locallist)){
 
 if(!$session_local){
 	
-	//error_reporting(0);
 	require_once('recaptchalib.php');
 	
 }	
+
+error_reporting(0);
 
 date_default_timezone_set('America/New_York');
 
@@ -52,7 +53,7 @@ $current_file = end($current_file);
 //user initialization
 if (logged_in() === true) {
 	$session_user_id = $_SESSION['user_id'];
-	$user_data = user_data($session_user_id, 'user_id', 'username', 'password', 'active','first_name', 'last_name', 'email', 'password_recover', 'type', 'allow_email', 'profile', 'email_code');
+	$user_data = user_data($session_user_id, 'user_id', 'username', 'password', 'active','first_name', 'last_name', 'email', 'password_recover', 'type', 'allow_email', 'profile', 'email_code', 'initials');
 	if (user_active($user_data['username']) === false) {
 		session_destroy();
 		header('Location: index.php');

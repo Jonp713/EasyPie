@@ -126,7 +126,7 @@ if(isset($_GET['service'])){
 				 	 
 				 
 		      <li><a data-toggle="tooltip" title="View all of your communities posts and services"  data-placement="bottom" href = 'posts.php?c=Hampy'>HOME</a></li>
-	  		<li><a href = "search.php" data-toggle="tooltip" title="Pretty self-explanatory..." data-placement="bottom">SEARCH</a></li>
+	  		<!--<li><a href = "search.php" data-toggle="tooltip" title="Pretty self-explanatory..." data-placement="bottom">SEARCH</a></li>-->
 			  
 			   
 				<?php
