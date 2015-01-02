@@ -40,8 +40,10 @@ if(isset($_GET['service']) == false && isset($_GET['c']) == false){
 	
 		}
 		if($currentpost['service'] != "Events"){
-						
-			create_display_set($currentpost['id'], 'unnaproved_feed', 'load');
+			
+					
+				create_display_set($currentpost['id'], 'unnaproved_feed', 'load');
+			
 		}
 	
 

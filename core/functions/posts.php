@@ -206,7 +206,6 @@ function get_user_feed($user_id, $start, $status){
 		
 		$all_names[] = $number['community_name'];	
 		$all_services[] = $number['service'];		
-			
 		
    	}
 	
@@ -218,8 +217,16 @@ function get_user_feed($user_id, $start, $status){
 	$all_names2 = "'" . implode("','", $all_names) . "'";
 		
 	$all_services2 = "'" . implode("','", $all_services) . "'";
+	
+	if($status != 0){
 		
-	$result_posts = mysql_query("SELECT * FROM posts WHERE site IN ($all_names2) AND service IN ($all_services2) AND status = '$status' ORDER BY coolness DESC, id DESC LIMIT $start,5");
+		$result_posts = mysql_query("SELECT * FROM posts WHERE site IN ($all_names2) AND service IN ($all_services2) AND (status = '$status' OR service = 'Hole') ORDER BY coolness DESC, id DESC LIMIT $start,5");
+	
+	}else{
+		
+		$result_posts = mysql_query("SELECT * FROM posts WHERE site IN ($all_names2) AND service IN ($all_services2) AND status = '$status' AND service <> 'Hole') ORDER BY coolness DESC, id DESC LIMIT $start,5");
+		
+	}
 		
 	$all_posts = array();
 		

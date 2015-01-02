@@ -1,5 +1,7 @@
 <?php
 
+protect_owner($_GET['service'], $session_user_id);
+
 if(isset($_POST['transfer_ownership']) ){	
 
 	$service = $_GET['service'];

@@ -1,5 +1,36 @@
 <?php
 
+
+function user_moderates_service($service_name, $community_name, $user_id){
+	
+	$service_name = sanitize($service_name);
+	$community_name = sanitize($community_name);
+	$user_id = sanitize($user_id);
+	
+	
+	return (mysql_result(mysql_query("SELECT COUNT(`user_id`) FROM `admins` WHERE `user_id` = '$user_id' AND service_name = '$service_name' AND community_name = '$community_name' AND type = 'moderator'"), 0) >= 1) ? true : false;
+	
+	
+}
+
+function user_owns_service($service_name, $user_id){
+	$user_id = sanitize($user_id);
+	$service_name = sanitize($service_name);
+	
+	return (mysql_result(mysql_query("SELECT COUNT(`user_id`) FROM `admins` WHERE `user_id` = '$user_id' AND service_name = '$service_name' AND type = 'owner'"), 0) >= 1) ? true : false;
+	
+	
+}
+
+function user_oversees_community($community_name, $user_id){
+	$user_id = sanitize($user_id);
+	$community_name = sanitize($community_name);
+	
+	return (mysql_result(mysql_query("SELECT COUNT(`user_id`) FROM `admins` WHERE `user_id` = '$user_id' AND community_name = '$community_name' AND type = 'overseer'"), 0) >= 1) ? true : false;
+	
+	
+}
+
 function find_moderator_ids_from_service_and_community_name($service_name, $community_name){
 	$service_name = sanitize($service_name);
 	$community_name = sanitize($community_name);
@@ -29,36 +60,39 @@ function find_moderator_ids_from_service_and_community_name($service_name, $comm
 }
 
 function judgement_user($post_id, $judgement, $admin_id){
-	$post_id = sanitize($post_id);
-	$judgement = sanitize($judgement);
-	$admin_id = sanitize($admin_id);
+		
+		$post_id = sanitize($post_id);
+		$judgement = sanitize($judgement);
+		$admin_id = sanitize($admin_id);
 	
-	$time = time();
+		$time = time();
 			
-	if($judgement != 2){
+		if($judgement != 2){
 		
-		$success = mysql_query("UPDATE `posts` SET `status` = '$judgement', `judged_by` = '$admin_id', `second_judged` = '$time' WHERE `id` = '$post_id'") or die(mysql_error());
+			$success = mysql_query("UPDATE `posts` SET `status` = '$judgement', `judged_by` = '$admin_id', `second_judged` = '$time' WHERE `id` = '$post_id'") or die(mysql_error());
 	
 		
-	}else{
+		}else{
 		
-		$success = mysql_query("UPDATE `posts` SET `status` = 2, `judged_by` = '$admin_id', `second_judged` = '$time' AND is_home = 0 AND service = 'Hole' WHERE `id` = '$post_id'") or die(mysql_error());
-		
-	}
-	
-	if($success and $judgement == 1){
-		
-		$user_id = user_id_from_post_id($post_id);
-		
-		if($user_id !== 0 && $user_id !== null){
-		
-			create_notification($user_id, 'post_approved', 'Your post got approved!', $post_id);
+			$success = mysql_query("UPDATE `posts` SET `status` = 2, `judged_by` = '$admin_id', `second_judged` = '$time' AND is_home = 0 AND service = 'Hole' WHERE `id` = '$post_id'") or die(mysql_error());
 		
 		}
 	
-	}
+		if($success and $judgement == 1){
+		
+			$user_id = user_id_from_post_id($post_id);
+		
+			if($user_id !== 0 && $user_id !== null){
+		
+				create_notification($user_id, 'post_approved', 'Your post got approved!', $post_id);
+		
+			}
 	
-	return $success;
+		}
+	
+		return $success;
+	
+
 	
 }
 

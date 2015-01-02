@@ -1,5 +1,8 @@
 <?php
 
+protect_moderator($_GET['service'], $_GET['c'], $session_user_id);
+
+
 if(isset($_GET['service']) && $_GET['service'] != "Events"){
 	
 	echo('<div id = "posts" class = "approved-feed">');

@@ -26,8 +26,9 @@
 		
 		echo("<span class = 'col-xs-3 message-icon text-center'>");
 			
-		if($currentnot['type'] == "saved_post"){
-			echo('<span class="glyphicon glyphicon-star"></span><br>');
+	
+		if($currentnot['type'] == "new_post"){
+			echo('<span class="glyphicon glyphicon-unchecked"></span><br>');
 			
 		}
 		if($currentnot['type'] == "admin_reply"){

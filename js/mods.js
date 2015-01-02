@@ -1,7 +1,7 @@
 
 function judgement(post_id, judgement, span){	
 	
-    $.post("core/functions/ajax.php",{function: "judgement", post_id: post_id, judgement: judgement},function(data){
+    $.post("core/functions/ajax.php",{function: "judgement", post_id: post_id, judgement: judgement, community: getURLParameter('c'), service: getURLParameter('service')},function(data){
                 
     		$(span).closest("#post"+post_id).fadeOut(300);
           
@@ -12,15 +12,11 @@ function judgement(post_id, judgement, span){
 function sendto(post_id, span){
 	
 	towards = $('.send-to'+post_id).val();
-	
-	alert(towards);
-	
-    $.post("core/functions/ajax.php",{function: "send_to", post_id: post_id, towards: towards},function(data){
+		
+    $.post("core/functions/ajax.php",{function: "send_to", post_id: post_id, towards: towards, community: getURLParameter('c'), service: getURLParameter('service')},function(data){
 		
 		$(span).closest("#post"+post_id).fadeOut(300);
-	
-		alert(data);
-		
+			
 	});
 	
 }

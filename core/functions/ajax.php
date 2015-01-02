@@ -6,17 +6,20 @@ $function = $_POST['function'];
 
 if($function == 'judgement' && isset($_POST['post_id']) && isset($_POST['judgement']) && isset($session_user_id)){
 	
-	$success = judgement_user($_POST['post_id'], $_POST['judgement'], $session_user_id);
-		
-	if($success){
+	if(user_moderates_service($_POST['service'], $_POST['community'], $session_user_id)){
 	
-		echo("success");
-	
-	}else{
+		$success = judgement_user($_POST['post_id'], $_POST['judgement'], $session_user_id);
 		
-		echo($success);
+		if($success){
+	
+			echo("success");
+	
+		}else{
+		
+			echo($success);
+		}
+	
 	}
-	
 }
 
 
@@ -384,12 +387,16 @@ if($function == 'get_more_feed_posts' && isset($_POST['start']) && isset($sessio
 
 if($function == 'get_more_admin_posts' && isset($_POST['start'])){
 	
-	$posts = get_more_approved_posts($_POST['start'], $_POST['site'], $_POST['service']);
+	if(user_moderates_service($_POST['service'], $_POST['site'], $session_user_id)){
+	
+		$posts = get_more_approved_posts($_POST['start'], $_POST['site'], $_POST['service']);
 			
-	foreach ($posts[0] as $currentpost) {
+		foreach ($posts[0] as $currentpost) {
 				
-		create_display_set($currentpost['id'], 'moderator', 'ajax');
+			create_display_set($currentpost['id'], 'moderator', 'ajax');
 				
+		}
+	
 	}
 	
 }
@@ -398,18 +405,26 @@ if($function == 'get_more_admin_posts' && isset($_POST['start'])){
 
 if($function == 'send_to' && isset($_POST['towards'])){	
 	
-	$towards = $_POST['towards'];
+	if(user_moderates_service($_POST['service'], $_POST['community'], $session_user_id)){
 	
-	$post_id = $_POST['post_id'];
+		$towards = $_POST['towards'];
 	
-	if($towards == 'Hole'){
+		$towards = sanitize($towards);
+	
+		$post_id = $_POST['post_id'];
+	
+		if($towards == 'Hole'){
 		
-		mysql_query("UPDATE posts SET status = 1, service = '$towards' WHERE id = '$post_id'") or die(mysql_error());
+			mysql_query("UPDATE posts SET status = 1, service = '$towards' WHERE id = '$post_id'") or die(mysql_error());
 				
 		
-	}else{
+		}else{
 	
-		mysql_query("UPDATE posts SET status = 0 , service = '$towards' WHERE id = '$post_id'");
+			mysql_query("UPDATE posts SET status = 0 , service = '$towards' WHERE id = '$post_id'");
+		
+			create_mod_notification($_POST['service'], $_POST['community'], 'new_post', 'A moderator sent a post to your board', $post_id);
+			
+		}
 	
 	}
 			

@@ -244,7 +244,7 @@
 	?>
 		
 
-		 <h3>Create a board</h3>You will create a new board and define what types of content users can post. You will be responsible for moderating this board within your home community. Your board will appear in the "Add an existing board" panel for any other user to add it to their home community.<br><br>
+		 <h3>Create a board</h3>You will create a new board and define what types of content users can post. You will be responsible for moderating this board within your home community. Your board will appear in the "Franchise an existing board" panel for any other user to add it to their home community.<br><br>
 		 
 		  <form class = "submit_post form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
 			  

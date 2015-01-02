@@ -1,5 +1,8 @@
 <?php
 
+protect_moderator($_GET['service'], $_GET['c'], $session_user_id);
+
+
 if(isset($_POST['moderator_quit']) ){	
 
 	$community = $_GET['c'];

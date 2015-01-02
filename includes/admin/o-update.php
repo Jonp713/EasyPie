@@ -4,6 +4,9 @@
 	
 	<?php 
 	
+	protect_owner($_GET['service'], $session_user_id);
+	
+	
 	$service_name = $_GET['service'];
 	
 	$data = mysql_fetch_assoc(mysql_query("SELECT * FROM services WHERE name = '$service_name' AND core = 1"));

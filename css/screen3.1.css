@@ -235,12 +235,12 @@ color:white;
 .service-logo-text{
 	
 	position:absolute;
-	top:12px;
+	top:10px;
 	height:40px;
 	width:40px;
-	left:4px;
+	left:5px;
 	color:white;
-	font-size:40px !important;
+	font-size:42px !important;
 	font-weight:700;
 	
 }
@@ -286,7 +286,8 @@ color:white;
 	position:absolute;
 	top:.5px;
 	left:.5px;
-	
+	width:50px !important;
+	height:50px !important;
 	
 }
 

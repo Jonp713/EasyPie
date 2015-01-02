@@ -1,5 +1,23 @@
 <?php
 
+function protect_moderator($service, $community, $user_id){
+	
+	if(!user_moderates_service($service, $community, $user_id)){
+
+		header("Location: admin.php");
+
+	}
+}
+
+function protect_owner($service, $user_id){
+	
+	if(!user_owns_service($service, $user_id)){
+
+		header("Location: admin.php");
+
+	}
+}
+
 function hex2rgb($hex) {
    $hex = str_replace("#", "", $hex);
 
