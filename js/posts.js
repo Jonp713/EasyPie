@@ -240,10 +240,10 @@ function get_more_feed_posts(start){
 	
     $.post("core/functions/ajax.php",{function: "get_more_feed_posts", start: start}, function(data){
 		
-		$('#clickmore').replaceWith();       
-						
+		$('#clickmore').replaceWith();
+				
 		$('#posts').append(data);    
-		
+				
 		$(".changeme").each(function() {
   
   		  	var seconds = $(this).text();
@@ -252,13 +252,24 @@ function get_more_feed_posts(start){
 			
 			$(this).replaceWith(time.from(moment()));
 						
-		}); 
+		});
+		
+		$(".changeme3").each(function() {
+  
+  		  	var seconds = $(this).text();
+		
+			var time = moment.unix(seconds);
+			
+			
+			$(this).replaceWith('Ends ' + time.from(moment()));
+						
+		});
 		
 		$(".changeme2").each(function() {
   
   		  	var seconds = $(this).text();
 		
-			//var time = moment.unix(seconds);
+			seconds = parseInt(seconds);
 			
 			$(this).replaceWith(moment.duration(seconds, 'seconds').humanize() + ' long');
 						
@@ -289,7 +300,9 @@ function getURLParameter(name) {
   return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null
 }
 
+
 var currentpostnumber = 5;
+
 
 $(window).scroll(function() {
 	
@@ -297,7 +310,9 @@ $(window).scroll(function() {
     {
 		
 		if(location.pathname.substring(location.pathname.lastIndexOf("/") + 1) == 'posts.php'){
+
 			get_more_approved_posts(currentpostnumber, getURLParameter('c'), getURLParameter('service'));
+
 
 			currentpostnumber += 5;
 			
@@ -308,6 +323,15 @@ $(window).scroll(function() {
 
 			currentpostnumber += 5;
 			
+		}
+
+
+		if(location.pathname.substring(location.pathname.lastIndexOf("/") + 1) == 'admin.php'){
+						
+
+			get_more_admin_posts(currentpostnumber, getURLParameter('c'), getURLParameter('service'), getURLParameter('p'));
+			currentpostnumber += 5;
+		
 		}
 
     }

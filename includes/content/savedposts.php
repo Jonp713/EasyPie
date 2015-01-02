@@ -13,9 +13,6 @@ if(count($posts) <= 0){
 }
 	
 
-echo('<span class = "dashcontentposts">');
-
-
 foreach ($posts as $currentpost){
 	
 	/*
@@ -58,8 +55,6 @@ foreach ($posts as $currentpost){
 	
 		
 }
-
-echo('</span>');
 
 
 ?>

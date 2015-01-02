@@ -41,7 +41,8 @@ if (empty($_POST) === false) {
 <?php
 if (isset($_GET['success']) === true && empty($_GET['success']) === true) {
 	echo '<p class = "form_success">Your details have been updated</p>';
-} else {
+} 
+
 	if (empty($_POST) === false && empty($errors) === true) {
 		
 		if(empty($_POST['email']) === false){
@@ -152,6 +153,4 @@ if (isset($_GET['success']) === true && empty($_GET['success']) === true) {
 
 	</form>
 
-<?php
-}
-?>
+

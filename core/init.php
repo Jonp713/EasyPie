@@ -19,10 +19,11 @@ if(!in_array($_SERVER['REMOTE_ADDR'], $locallist)){
 if(!$session_local){
 	
 	require_once('recaptchalib.php');
+	error_reporting(0);
+	
 	
 }	
 
-error_reporting(0);
 
 date_default_timezone_set('America/New_York');
 
@@ -37,7 +38,6 @@ require 'functions/communities.php';
 require 'functions/points.php';
 require 'functions/notifications.php';
 require 'functions/ads.php';
-require 'functions/services.php';
 require 'functions/comments.php';
 require 'functions/characters.php';
 require 'functions/mods.php';
@@ -52,8 +52,9 @@ $current_file = end($current_file);
 
 //user initialization
 if (logged_in() === true) {
+	
 	$session_user_id = $_SESSION['user_id'];
-	$user_data = user_data($session_user_id, 'user_id', 'username', 'password', 'active','first_name', 'last_name', 'email', 'password_recover', 'type', 'allow_email', 'profile', 'email_code', 'initials');
+	$user_data = user_data($session_user_id, 'user_id', 'username', 'password', 'active','first_name', 'last_name', 'email', 'password_recover', 'type', 'allow_email', 'profile', 'email_code', 'img_src', 'has_identity');
 	if (user_active($user_data['username']) === false) {
 		session_destroy();
 		header('Location: index.php');
@@ -63,9 +64,16 @@ if (logged_in() === true) {
 		header('Location: changepassword.php?force');
 		exit();
 	}
+	
+}else{
+	
+	$session_user_id = null;
 }
 
+
 require 'functions/postsdisplay.php';
+require 'functions/services.php';
+
 
 
 $errors = array();

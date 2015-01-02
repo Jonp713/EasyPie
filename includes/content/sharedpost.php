@@ -64,16 +64,17 @@ if(empty($_GET['share']) == false){
 		  		}
 		
 		*/
+			if($currentpost['service'] != "Events"){
+	  			
+				create_display_set($id, 'share', 'load');
+				
+	  		}
 		  		if($currentpost['service'] == "Events"){
 		
 		  			display_post($id, 'title', 'location', 'start_time', 'post', 'service', 'reply_share', 'comment_share', 'point_count', 'give_point', 'image_corner', 'free_food', 'save_post', 'duration', 'start_time_full');
 		
 		  		}
-				if($currentpost['service'] != "Events"){
-		  			
-					create_display_set($id, 'share', 'load');
-					
-		  		}
+			
 				
 			  ?>
 

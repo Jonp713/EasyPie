@@ -2,8 +2,6 @@
 
 if(isset($_GET['service']) && $_GET['service'] != "Events"){
 	
-	echo('<span class = "dashcontentposts">');
-
 	$posts = get_posts(0, $_GET['c'], -2, $session_user_id, $_GET['service']);
 	
 	foreach ($posts[0] as $currentpost) {
@@ -11,10 +9,7 @@ if(isset($_GET['service']) && $_GET['service'] != "Events"){
 		create_display_set($currentpost['id'], 'moderator', 'load');
 	
 	}
-	
-	
-	echo('</span>');
-	
+		
 	
 }
 

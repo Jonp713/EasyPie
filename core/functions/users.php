@@ -22,6 +22,21 @@ function recover($mode, $email) {
 	
 }
 
+function upload_image_user($nickname, $type, $file_temp, $file_extn){
+	$file_temp = sanitize($file_temp);
+	$file_extn = sanitize($file_extn);
+	$nickname = sanitize($nickname);
+	
+	$file_path = 'images/profile/' . substr(md5(time()), 0, 10) . '.' . $file_extn;
+	move_uploaded_file($file_temp, $file_path);
+		
+	$success = mysql_query("INSERT INTO pictures (url, nickname, type) VALUES ('$file_path', '$nickname', '$type')") or die(mysql_error());
+	
+	return($file_path);
+	
+	
+}
+
 
 function update_user($user_id, $update_data) {
 	$update = array();
@@ -152,6 +167,11 @@ function user_active($username) {
 	return mysql_result(mysql_query("SELECT `active` FROM `users` WHERE `username` = '$username'"), 0, 'active');
 }
 
+function user_has_identity($user_id) {
+	$user_id = sanitize($user_id);
+	return mysql_result(mysql_query("SELECT `has_identity` FROM `users` WHERE `user_id` = '$user_id'"), 0, 'has_identity');
+}
+
 function user_id_from_username($username) {
 	$username = sanitize($username);
 	return mysql_result(mysql_query("SELECT `user_id` FROM `users` WHERE `username` = '$username'"), 0, 'user_id');
@@ -178,6 +198,21 @@ function get_home_from_user_id($user_id) {
 function user_id_from_email($email) {
 	$email = sanitize($email);
 	return mysql_result(mysql_query("SELECT `user_id` FROM `users` WHERE `email` = '$email'"), 0, 'user_id');
+}
+
+function check_owns_board($user_id, $service_name){
+	
+	return (mysql_result(mysql_query("SELECT COUNT(`id`) FROM `admins` WHERE `user_id` = '$user_id' AND `service_name` = '$service_name'"), 0) == 1) ? true : false;
+}
+
+function check_moderates_board($user_id, $community_name, $service_name){
+	
+	
+}
+
+function check_oversees_community($user_id, $community_name){
+	
+	
 }
 
 function login($username, $password) {	

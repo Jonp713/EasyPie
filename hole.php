@@ -160,6 +160,7 @@ active_protect($_GET['c']);
 <script src = 'js/posts.js' type = 'text/javascript'></script>
 <script src = 'js/comments.js' type = 'text/javascript'></script>
 <script src = 'js/points.js' type = 'text/javascript'></script>
+	<?php include 'js/servicesjs.php' ?>		
 
 <script src = 'js/hole.js' type = 'text/javascript'></script>
 
@@ -176,7 +177,6 @@ active_protect($_GET['c']);
 </script>
  
 <script src = 'js/bootstrap.js' type = 'text/javascript'></script>
-<script src = 'js/services.js' type = 'text/javascript'></script>
 <script src = 'js/communities.js' type = 'text/javascript'></script>
 
 

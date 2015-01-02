@@ -6,7 +6,7 @@ function create_display_set($post_id, $from, $type){
 	
 	$service_name = $data1['service'];
 	
-	$data2 = mysql_fetch_assoc(mysql_query("SELECT * FROM services WHERE name = '$service_name'"));
+	$data2 = mysql_fetch_assoc(mysql_query("SELECT * FROM services WHERE name = '$service_name' AND CORE = 1"));
 	
 	$string = [];
 	
@@ -14,8 +14,14 @@ function create_display_set($post_id, $from, $type){
 	
 	if($from == 'moderator'){
 		
-		$string[] = "approve";
+		if($data1['status'] != 1){
+		
+			$string[] = "approve";
+		
+		}
 		$string[] = "deny";		
+		$string[] = "hole";		
+		$string[] = "send";		
 		
 	}
 	
@@ -29,12 +35,17 @@ function create_display_set($post_id, $from, $type){
 	
 	}
 	
-	$string[] = 'point_count';
-	$string[] =	'give_point';
+
 	
 	if($from == "feed" || $from == "home" || $from == 'unnaproved_feed' || $from == "unnaproved_home"){
 		
 		$string[] = 'service';
+		
+	}
+	
+	if($from == "feed"){
+		
+		$string[] = 'site';
 		
 	}
 	
@@ -61,48 +72,78 @@ function create_display_set($post_id, $from, $type){
 	
 	}
 	
+	if($data2['identity'] == "identity"){
+	
+		$string[] = "identity";
+	
+	}
+	
 
-	if($data1['status'] == 1){
-		
-		$string[] = 'share_post';
-		
-		if($from != "saved"){
-		
-			$string[] = 'save_post';
-		
-		}
-		
+	
+	
+	if($data2['title_on'] == 1){
+		$string[] = 'title';
+	
+	
 	}
 	
 	
-	if($data2['comments_on']){
-		
-		if($from == "share"){
-		
-			$string[] = 'comment_share';
-		}else{
-		
-			$string[] = 'comment_count';
-			$string[] =	'comment_on';
-		
-		}
-	}
+	if($from != 'moderator'){
 	
-	if($data2['private_on']){
+		$string[] = 'point_count';
+		$string[] =	'give_point';
 		
-		if($from == "share"){
+		if($data1['status'] == 1){
+			
+			if($data1['service'] != "Hole"){
+			
+				$string[] = 'share_post';
+				
+				if($from != "saved"){
 		
-			$string[] = 'reply_share';
+					$string[] = 'save_post';
 		
-		
-		}else{
+				}
+			
+				
+			}
 			
 		
-			$string[] = 'reply';
-		
 		}
+		
+	
+		if($data2['comments_on']){
+		
+			if($from == "share"){
+		
+				$string[] = 'comment_share';
+			}else{
+		
+				$string[] = 'comment_count';
+				$string[] =	'comment_on';
+		
+			}
+		}
+	
+		if($data2['private_on']){
+		
+			if($from == "share"){
+		
+				$string[] = 'reply_share';
+		
+		
+			}else{
+			
+		
+				$string[] = 'reply';
+		
+			}
+		}
+	
+		
 	}
 	
+
 	if($data2['style'] == "media_after"){
 		if($data2['images_on']){
 			
@@ -115,14 +156,17 @@ function create_display_set($post_id, $from, $type){
 			
 		}
 		
-	}
-	if($data2['websites_on']){
+		if($data2['websites_on']){
 		
-		$string[] = "website";
+			$string[] = "website";
+		
+		}
 		
 	}
 	
+	
 	if($data2['style'] == "media_corner"){
+		
 		if($data2['images_on']){
 			
 			$string[] = "image_corner";
@@ -132,6 +176,12 @@ function create_display_set($post_id, $from, $type){
 			
 			$string[] = "video";
 			
+		}
+		
+		if($data2['websites_on']){
+		
+			$string[] = "website";
+		
 		}
 		
 	}
@@ -146,6 +196,12 @@ function create_display_set($post_id, $from, $type){
 			
 			$string[] = "video_feature";
 			
+		}
+		
+		if($data2['websites_on']){
+		
+			$string[] = "website_feature";
+		
 		}
 		
 	}
@@ -175,11 +231,6 @@ function display_post($post_id){
 	
 	array_walk($fields, 'array_sanitize');	
 	
-	
-	
-	
-	
-	
 	$data = mysql_fetch_assoc(mysql_query("SELECT * FROM posts WHERE id = '$post_id'"));
 	
 	echo('<span class = "col-xs-12 no-padding" id = "post'.$post_id.'">');
@@ -192,8 +243,10 @@ function display_post($post_id){
 	if(in_array('image_corner', $fields)){
 		
 		if($data['isImage'] == 1){
+					
 			
 			echo('<span style = "padding:0px;" class = "pull-left text-left col-xs-12 col-sm-11">');
+			
 			
 			
 		}else{	
@@ -204,45 +257,75 @@ function display_post($post_id){
 	
 	}else{
 		
-		echo('<span style = "padding:0px;" class = "pull-left text-left col-xs-12 col-sm-4">');
+		echo('<span style = "padding:0px;" class = "pull-left text-left col-xs-12 col-sm-12">');
 	
 	}	
 	
+	if(in_array('identity', $fields)){
 	
+		echo('<span class = "identity no-padding">');
+	
+		$data2 = user_data($data['user_id'], 'img_src', 'has_identity', 'first_name', 'last_name');
+		
+		if(!empty($data2['img_src'])){
+			
+			echo('<img src = "'.$data2['img_src'].'" class = "identity-image col-xs-1 no-padding">&nbsp;&nbsp;');
+		}
+		echo('<strong>'.$data2['first_name'].' </strong>');
+		
+		echo('<strong>'.$data2['last_name'].' </strong>');
+		
+		echo('</span>');
+		
+	
+	}
+	
+	
+
 	if(in_array('display_time', $fields)){
+		
+		if(in_array('identity', $fields) && !empty($data2['img_src'])){
+			
+				echo('&nbsp;&nbsp;');
+		}
 				
 		$time = $data['second'];
 		
 		echo("<script>	var time = moment.unix(".$time.");"); 
 		echo("document.write(time.from(moment()));</script>");
 		
-		echo('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
+		echo('&nbsp;&nbsp;');
+		
 	}
 	
 	if(in_array('change_time', $fields)){
+		
+		if(in_array('identity', $fields) && !empty($data2['img_src'])){
+			
+				echo('&nbsp;&nbsp;');
+		}
 			
 		$time = $data['second'];		
 		
 		echo('<span class = "changeme">'.$time.'</span>');
 		
-		echo('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
+		echo('&nbsp;&nbsp;');
+		
 		
 	}
 	
-	if(in_array('title', $fields)){
-		echo('<span class = "atitle">'.$data['title'].'</span>&nbsp;&nbsp;&nbsp;');
 
-	
-	}
 	
 	
 	if(in_array('site', $fields)){
 		
 		echo('<span class = "postsite communityonpost">');
 		
-		$color = get_community_color_from_community_name($data['site']);
-				
-		echo('<a style = "color:'.$color.';" href = "posts.php?c='.$data['site'].'">'.$data['site'].'</a>');
+		$color = get_service_color_from_service_name($data['service']);
+
+		$newcolor = hex2rgb($color);
+	
+		echo('<a style = "color:rgba('.implode($newcolor,',').', .6);" href = "posts.php?c='.$data['site'].'">'.$data['site'].'</a>&nbsp;');
 				
 		echo('</span>');
 		
@@ -250,16 +333,50 @@ function display_post($post_id){
 	
 	if(in_array('service', $fields)){
 		
+		if(in_array('identity', $fields) && !empty($data2['img_src'])){
+			
+				echo('&nbsp;&nbsp;');
+		}
+		
 		echo('<span class = "postservice serviceonpost">');
 		
 		$color = get_service_color_from_service_name($data['service']);
+		
+		if($data['service'] == "Hole"){
 				
-		echo('<a style = "color:'.$color.';" href = "posts.php?c='.$data['site'].'&service='.$data['service'].'">'.$data['service'].'</a>&nbsp;&nbsp;&nbsp;');
+		echo('<a style = "color:'.$color.';" href = "hole.php?c='.$data['site'].'&service='.$data['service'].'">'.$data['service'].'</a>&nbsp;&nbsp;&nbsp;');
+		
+		}else{
+			
+			echo('<a style = "color:'.$color.';" href = "posts.php?c='.$data['site'].'&service='.$data['service'].'">'.$data['service'].'</a>&nbsp;&nbsp;&nbsp;');
+		
+			
+		}
 				
 		echo('</span>');
 		
-		
 	}
+	
+	if(in_array('title', $fields)){
+	
+		
+		if(in_array('identity', $fields) && !empty($data2['img_src'])){
+			
+				echo('<span class = "halfbr col-xs-12">    </span>');
+		}
+		
+		if(in_array('identity', $fields)){
+			
+		}
+		
+		echo('<span class = "atitle col-xs-12 no-padding">');
+	
+	
+		echo($data['title'].'</span>&nbsp;&nbsp;&nbsp;');
+		
+	
+	}
+	
 
 	
 	echo('</span>');
@@ -435,12 +552,21 @@ function display_post($post_id){
 		
 		if(in_array('video_feature', $fields) && $data['isVideo'] == 1){
 		
-			echo('<iframe class = "img-responsive" src="//www.youtube.com/embed/'.$data['vurl'].'" frameborder="0" allowfullscreen></iframe>');
+			//echo('<iframe class = "img-responsive" src="//www.youtube.com/embed/'.$data['vurl'].'" frameborder="0" allowfullscreen></iframe>');
+			
+			//echo('<div class="lite post_video" id="'.$data['vurl'].'"></div>');
+			//echo('<div class="youtube post_video" id="'.$data['vurl'].'"></div>');
 		
 		}
 		
-		if($data['service'] == "Events"){
-	
+		if(in_array('website_feature', $fields) && $data['isWebsite'] == 1){
+		
+			echo('<a href ="'.$data['wurl'].'">'.$data['wurl'].'</a><br>');
+
+		}
+		
+		if(in_array('title', $fields)){
+		
 			echo('<span class = "posttext events">');
 
 				echo($data['post'] . '<br>');
@@ -456,7 +582,7 @@ function display_post($post_id){
 			echo('</span>');
 
 		}
-
+		
 		if(in_array('website', $fields) && $data['isWebsite'] == 1){
 		
 			echo('<a href ="'.$data['wurl'].'">'.$data['wurl'].'</a>');
@@ -468,9 +594,19 @@ function display_post($post_id){
 			echo('<img class = "img-responsive" src = "'.$data['img_src'].'">');
 
 		}
+		
+		if($data['service'] == "Hole" && $data['isImage'] == 1){
+		
+			echo('<img class = "img-responsive" src = "'.$data['img_src'].'">');
+		
+		}	
+		
+		
 		if(in_array('video', $fields) && $data['isVideo'] == 1){
 		
-			echo('<iframe class = "post_video" src="//www.youtube.com/embed/'.$data['vurl'].'" frameborder="0" allowfullscreen></iframe>');
+			//echo('<iframe class = "post_video" src="//www.youtube.com/embed/'.$data['vurl'].'" frameborder="0" allowfullscreen></iframe>');
+			
+			//echo('<div class="youtube post_video" id="'.$data['vurl'].'"></div>');
 		
 		}
 		
@@ -532,10 +668,6 @@ function display_post($post_id){
 
 	}
 	
-	
-	
-	
-	
 	if(logged_in() == true){
 	
 		if(in_array('give_point', $fields)){
@@ -567,7 +699,6 @@ function display_post($post_id){
 	}
 
 
-	
 		if(logged_in() == false){
 		
 			//echo("If you want to reply or save a post, you need to log in<br>");
@@ -662,6 +793,7 @@ function display_post($post_id){
 	
 	
 	
+	
 	echo('</span>');
 	//end of bottom row
 	
@@ -691,20 +823,49 @@ function display_post($post_id){
 	
 	echo('</span>');
 	
+	
 	if(in_array('approve', $fields) || in_array('deny', $fields) ){
 	
 	
-		echo('<span style = "padding:0px;" class = "col-xs-12 post-mod-row no-padding text-right">');
+		echo('<span class = "col-xs-12 post-mod-row no-padding text-right">');
+				
 	
 		if(in_array('approve', $fields)){
 	
-			echo('<span style = "background-color:#d3f3f3" class = "hoverer delete_post text-center col-xs-6 no-padding" onclick="judgement('.$data['id'].', 1, this)">&nbsp;&nbsp;&nbsp;APPROVE</span>');
+			echo('<span class = "hoverer-mod delete_post text-center no-padding mod-button" onclick="judgement('.$data['id'].', 1, this)">&nbsp;&nbsp;APPROVE&nbsp;&nbsp;</span>');
 		
 		}
 	
 		if(in_array('deny', $fields)){
 			
-			echo('<span style = "background-color:#f3d3f3"  class = "hoverer delete_post text-center col-xs-6 no-padding" onclick="judgement('.$data['id'].', 2, this)">&nbsp;&nbsp;&nbsp;DENY</span>');
+			echo('<span class = "hoverer-mod delete_post text-center no-padding mod-button" onclick="judgement('.$data['id'].', 3, this)">&nbsp;&nbspDELETE&nbsp;&nbsp;</span>');
+		
+		}
+		
+		if(in_array('send', $fields)){
+			
+			echo('<span class = "hoverer-mod delete_post text-center no-padding mod-button"><span onclick="sendto('.$data['id'].', this)">&nbsp;&nbspSEND TO</span>&nbsp;<select class = "send-to'.$data['id'].'">');
+			
+			
+			
+			
+			echo('<option value = "Hole">HOLE</option>');
+			
+			$services = get_services($data['site'], 0);
+			
+			foreach ($services as $currentservice) {
+				
+				if($currentservice['name'] != 'Hole' && $currentservice['name'] != "Zombledon"){
+				
+					echo('<option value = "'.$currentservice['name'].'">'.strtoupper($currentservice['name']).'</option>');
+				
+				}
+				
+				
+			}
+			
+			echo('</select>&nbsp;</span>');
+			
 		
 		}
 		
@@ -713,8 +874,9 @@ function display_post($post_id){
 		
 		
 	}
-	
+
 	echo('</span>');
+	
 	
 	
 	

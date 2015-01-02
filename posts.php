@@ -29,9 +29,10 @@ include 'includes/content/servicedescription.php';
 
 include 'includes/widgets/submitpost.php';
 
+include 'includes/content/displaymoderator.php';
+
 include 'includes/widgets/subscribe.php';
 
-include 'includes/content/displaymoderator.php';
 
 if($_GET['c'] == "TrapCity"){
 	

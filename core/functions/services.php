@@ -11,6 +11,19 @@ function create_service($service_data){
 	
 }
 
+function update_service_id($service_id, $update_data) {
+	$update = array();
+	array_walk($update_data, 'array_sanitize');
+	
+	$service_id = sanitize($service_id);
+		
+	foreach($update_data as $field=>$data) {
+		$update[] = '`' . $field . '` = \'' . $data . '\'';
+	}
+	
+	mysql_query("UPDATE `services` SET " . implode(', ', $update) . " WHERE `id` = $service_id");
+}
+
 function add_service($service_data){
 		
 	array_walk($service_data, 'array_sanitize');
@@ -208,8 +221,16 @@ function service_needs_approve($service_name){
 }
 
 
-function display_form($service_name, $service_in){
+function count_franchises($service_name){
+		
+	$result = mysql_fetch_assoc(mysql_query("SELECT COUNT(`id`) AS total FROM `services` WHERE `name` = '$service_name' AND core = 0"));
 	
+	return $result['total'];
+	
+}
+
+function display_form($service_name, $service_in){
+	$service_name = sanitize($service_name);
 	
 	$data = mysql_fetch_assoc(mysql_query("SELECT * FROM services WHERE name = '$service_name' AND core = 1"));
 	
@@ -224,75 +245,103 @@ function display_form($service_name, $service_in){
    
 	}
 	
+	
 	echo('<form class = "submit_post form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">');
 	
-	echo('<strong>'.$service_name.'</strong>');
+	echo('<strong class = "col-xs-12 no-padding">'.$service_name.'<br></strong>');
 	
-	//textarea and service
-	echo('<div class="form-group"><input value = "'.$data['name'].'" name = "service" hidden><div class="col-xs-12"><textarea placeholder = "'.$data['prompt'].'" name="post" class ="form-control" ></textarea></div></div>');
-	
-	
-	if($data['images_on']){
+	if($data['identity'] == "identity" && user_has_identity($_SESSION['user_id']) == 0){
 		
-		echo('<div class = "form-group"><label for="is_image"   class="col-xs-3 control-label">Use a picture:</label><div class="col-xs-8">');
+		if(logged_in() == false){
 			
-	echo('<input onclick = "toggle_post_picture(\''.$service_name.'\')" type="checkbox" name = "is_image" value="checked"></div></div>');
-		
-	 echo('<div id = "post-pic-form-'.$service_name.'" class="form-group picture-disabled"><label for="pic" class="col-xs-3 control-label">Picture:</label><div class="col-xs-8"><input class = "form-control"  type="file" name="pic"></div></div>');
-	 
-		
-	}
-	
-	if($data['videos_on']){
-		
-		echo('<div class = "form-group"><label for="is_video"   class="col-xs-3 control-label">Use a video:</label><div class="col-xs-8">');
+			echo('This board requires that you display your identity. You need to <a href = "login.php">login</a> or <a href = "register.php">sign up</a> in order to get one.');
 			
-	echo('<input onclick = "toggle_post_video(\''.$service_name.'\')" type="checkbox" name = "is_video" value="checked"></div></div>');
+		}else{
 		
-	 echo('<div id = "post-vid-form-'.$service_name.'" class="form-group picture-disabled"><label for="vurl" class="col-xs-3 control-label">Video URL (Youtube Only)</label><div class="col-xs-8"><input class = "form-control"  type="text" onchange="youtube_parser(this.value,\''.$service_name.'\')" id = "vurl_'.$service_name.'" name="vurl"></div></div>');
+			echo('This board requires that you display your identity. You do not currently have a an identity registered. You can do that <a href = "identity.php">here</a>');
+		
+		}
+		
+	}else{
+	
+		if($data['identity'] == "identity" && user_has_identity($_SESSION['user_id']) == 1){
+			echo('<span class = "form-note col-xs-12">This board uses your <a href = "identity.php">identity</a>. Your first and last name as well as your picture if you uploaded one will appear at the top of the post</span>');
+		
+		}
+	
+	
+		if($data['title_on']){
+	
+			 echo('<div class = "form-group"><div class="col-xs-12"><input class = "form-control" id = "title" type="text" name="title" placeholder = "Post Title"></div></div>');
+	
+		}
+	
+		//textarea and service
+		echo('<div class="form-group"><input value = "'.$data['name'].'" name = "service" hidden><div class="col-xs-12"><textarea placeholder = "'.$data['prompt'].'" name="post" class ="form-control" ></textarea></div></div>');
+	
+	
+		if($data['images_on']){
+		
+			echo('<div class = "form-group"><label for="is_image"   class="col-xs-3 control-label">Use a picture:</label><div class="col-xs-8">');
+			
+		echo('<input onclick = "toggle_post_picture(\''.$service_name.'\')" type="checkbox" name = "is_image" value="checked"></div></div>');
+		
+		 echo('<div id = "post-pic-form-'.$service_name.'" class="form-group picture-disabled"><label for="pic" class="col-xs-3 control-label">Picture:</label><div class="col-xs-8"><input class = "form-control"  type="file" name="pic"></div></div>');
+	 	
+		}
+	
+		if($data['videos_on']){
+		
+			echo('<div class = "form-group"><label for="is_video"   class="col-xs-3 control-label">Use a video:</label><div class="col-xs-8">');
+			
+		echo('<input onclick = "toggle_post_video(\''.$service_name.'\')" type="checkbox" name = "is_video" value="checked"></div></div>');
+		
+		 echo('<div id = "post-vid-form-'.$service_name.'" class="form-group picture-disabled"><label for="vurl" class="col-xs-3 control-label">Video URL (Youtube Only)</label><div class="col-xs-8"><input class = "form-control"  type="text" onchange="youtube_parser(this.value,\''.$service_name.'\')" id = "vurl_'.$service_name.'" name="vurl"></div></div>');
 
-	 
-	}
+		}
 	
-	if($data['websites_on']){
+		if($data['websites_on']){
 		
-		echo('<div class = "form-group"><label for="is_website"   class="col-xs-3 control-label">Use a website:</label><div class="col-xs-8">');
+			echo('<div class = "form-group"><label for="is_website"   class="col-xs-3 control-label">Use a website:</label><div class="col-xs-8">');
 			
-	echo('<input onclick = "toggle_post_web(\''.$service_name.'\')" type="checkbox" name = "is_website" value="checked"></div></div>');
+		echo('<input onclick = "toggle_post_web(\''.$service_name.'\')" type="checkbox" name = "is_website" value="checked"></div></div>');
 		
-	 echo('<div id = "post-web-form-'.$service_name.'" class="form-group picture-disabled"><label for="web" class="col-xs-3 control-label">Website URL</label><div class="col-xs-8"><input class = "form-control" id = "web" type="text" name="wurl" value = "http://"></div></div>');
+		 echo('<div id = "post-web-form-'.$service_name.'" class="form-group picture-disabled"><label for="web" class="col-xs-3 control-label">Website URL</label><div class="col-xs-8"><input class = "form-control" id = "web" type="text" name="wurl" value = "http://"></div></div>');
 		
-	}
+		}
 	
 	
+		if($data['comments_on']){
+		
+		   echo('<div class="checkbox"><label><input type="checkbox" name="comments_on" checked = "checked">Allow comments</label></div>');
+		
+		}
 	
-	if($data['comments_on']){
+		if($data['private_on']){
 		
-	   echo('<div class="checkbox"><label><input type="checkbox" name="comments_on" checked = "checked">Allow comments</label></div>');
-		
-	}
-	
-	if($data['private_on']){
-		
-		if(logged_in() === true){ 
+			if(logged_in() === true){ 
 								
-			echo('<div class="checkbox"><label data-container="body" data-toggle="popover" data-placement="left" data-content="Users can anonymously send you messages by clicking reply. They will not see your username in a message.">');
+				echo('<div class="checkbox"><label data-container="body" data-toggle="popover" data-placement="left" data-content="Users can anonymously send you messages by clicking reply. They will not see your username in a message.">');
 		 		
-			echo('<input type="checkbox" name="reply_on" checked = "checked">I want replies </label></div>');
+				echo('<input type="checkbox" name="reply_on" checked = "checked">I want replies </label></div>');
 					
 		
-		}else{
+			}else{
 			
-			echo('<div class="checkbox disabled"><label><input type="checkbox" value="" disabled>I want replies</label></div>You must <a href = "login.php">login</a> or <a href = "register.php">register</a> to recieve private replies');
+				echo('<div class="checkbox disabled"><label><input type="checkbox" value="" disabled>I want replies</label></div>You must <a href = "login.php">login</a> or <a href = "register.php">sign up</a> to recieve private replies');
 		
-		} 
+			} 
 		
+		
+		}
+	
+	
+	
+		echo('<br><button type="submit" class="post-submit-button btn btn-info">SUBMIT</button>');
 		
 	}
 	
-	
-	
-	echo('<br><button type="submit" class="post-submit-button btn btn-info">SUBMIT</button></form></span>');
+	echo('</form></span>');
 	
 }
 

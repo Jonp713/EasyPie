@@ -94,6 +94,12 @@
 			$service_data1['inappropriate'] = 1;
 	
 		}
+		
+		if($_POST['title_on'] == 'on'){
+	
+			$service_data1['title_on'] = 1;
+	
+		}
 
 		if($_POST['comments_on'] == 'on'){
 	
@@ -164,7 +170,7 @@
 	
 		$service_data1['char_type'] = $_POST['char_type'];
 	
-		if($_POST['char_type'] == "character_image"){
+		if($_POST['char_type'] == "character_image" && !empty($_FILES['pic_char']['name'])){
 								
 			if (empty($_FILES['pic_char']['name']) == true) {
 	
@@ -172,8 +178,8 @@
 	
 			}else{
 
-				$allowed = array('png');
-	
+				$allowed = array('png', 'jpg', 'jpeg');
+		
 				$file_name = $_FILES['pic_char']['name'];
 				$file_extn = strtolower(end(explode('.', $file_name)));
 				$file_temp = $_FILES['pic_char']['tmp_name'];
@@ -224,7 +230,7 @@
 			
 			mysql_query("UPDATE `users` SET `admin` = 1 WHERE `user_id` = '$session_user_id'");
 			
-			header('Location: admin.php?c');
+			header('Location: admin.php?s='.$_POST['board_name']);
 		
 			exit();
 
@@ -238,7 +244,7 @@
 	?>
 		
 
-		 <h3>Create a board</h3>You will create a new board with a new character and logo and define what types of content users can post. You will be responsible for moderating this board within your home community. When it is approved, your board will appear in the "Add an existing board" panel for any other user to add it to their home community. <i>You can only create boards for your home community.</i><br><br>
+		 <h3>Create a board</h3>You will create a new board and define what types of content users can post. You will be responsible for moderating this board within your home community. Your board will appear in the "Add an existing board" panel for any other user to add it to their home community.<br><br>
 		 
 		  <form class = "submit_post form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
 			  
@@ -278,7 +284,7 @@
 						
 						
 					   	<div class = "form-group">
-					        <label for="is_image"   class = "sf-Events-disable col-xs-3 control-label">Don't use a Logo</label>
+					        <label for="is_image"   class = "sf-Events-disable col-xs-3 control-label">Don't use an Icon</label>
 	
 					 		 <div class="col-xs-8">
 
@@ -288,11 +294,11 @@
 						</div>
 			
 							   	<div class = "form-group">
-							        <label for="is_image" class = "col-xs-3 control-label">Use a Logo  </label>
+							        <label for="is_image" class = "col-xs-3 control-label">Use an Icon  </label>
 	
 							   	 <div class="col-xs-8">
 	
-							   		 <input id="optionsRadios8" onclick = "toggle_create_service_logo('on')" type="radio" name = "char_type" value="character_image" >&nbsp;&nbsp;&nbsp;&nbsp;(You can upload a photo for your logo) <a style = "color:blue" href = "https://www.fiverr.com/search/gigs?utf8=%E2%9C%93&search_in=everywhere&query=logo&page=1&layout=auto">Get a $5 Logo</a>
+							   		 <input id="optionsRadios8" onclick = "toggle_create_service_logo('on')" type="radio" name = "char_type" value="character_image" >&nbsp;&nbsp;&nbsp;&nbsp;(You can upload a photo for your logo) <a style = "color:blue"  target = "_blank" href = "https://www.fiverr.com/search/gigs?utf8=%E2%9C%93&search_in=everywhere&query=logo&page=1&layout=auto">Get a $5 Logo</a>
  
 							   	 </div></div><br>
 								 
@@ -332,23 +338,28 @@
 		 
 			
 			<hr class = "messagehr"><br>
-				
+			
+			<strong>Title:</strong> 
+			<div class="checkbox">
+		  	  	<label> <input type="checkbox" name="title_on">Posts have a title (Appears above the timestamp)</label>
+		  	</div><br>
+						
 		<strong>Content:</strong><br>What type of content do you want to allow your users to submit? Text is always included
 
-		  			    <div class="checkbox">
-		  			      <label>  	<input type="checkbox" name="images_on">Images
-		  			      </label>
-		  			    </div>
-		  			    <div class="checkbox">
-		  			      <label>
-		  			 		 <input type="checkbox" name="websites_on">Website Links
-		  			      </label>
-		  			    </div>
-		  			    <div class="checkbox">
-		  			      <label>
-		  			 		 <input type="checkbox" name="videos_on">Video Links
-		  			      </label>
-		  			    </div>
+  			    <div class="checkbox">
+  			      <label>  	<input type="checkbox" name="images_on">Images
+  			      </label>
+  			    </div>
+  			    <div class="checkbox">
+  			      <label>
+  			 		 <input type="checkbox" name="websites_on">Website Links
+  			      </label>
+  			    </div>
+  			    <div class="checkbox">
+  			      <label>
+  			 		 <input type="checkbox" name="videos_on">Video Links
+  			      </label>
+  			    </div>
 									
 <br>
 
@@ -386,7 +397,7 @@
 			  			    </div>-->
 			  			    <div class="checkbox">
 			  			      <label>
-			  			 		 <input type="checkbox" name="private_on">Private Messages
+			  			 		 <input type="checkbox" name="private_on">Send Private Messages
 			  			      </label>
 			  			    </div>
 			  			    <!--<div class="checkbox">

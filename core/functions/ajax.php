@@ -256,8 +256,19 @@ if($function == 'get_more_approved_posts' && isset($_POST['start'])){
 		
 			}else{
 		
+				if($currentpost['service'] == "Hole" || $_POST['service'] === "Hole"){
+						
+						echo('<span class = "hole-post col-xs-12 no-padding">');
 		
-				create_display_set($currentpost['id'], 'service', 'ajax');
+						display_hole_post($currentpost['id'], 'post', 'comment_count', 'comment_on', 'point_count', 'give_point', 'change_time', 'image');
+							
+						echo('</span>');
+						
+				}else{
+					
+					create_display_set($currentpost['id'], 'service', 'ajax');
+				
+				}
 		
 			}
 		}
@@ -291,31 +302,10 @@ if($function == 'get_more_approved_posts' && isset($_POST['start'])){
 		
 		}
 		
-		if($currentpost['service'] == "Hole"){
-			
-			
-			
-			if($_POST['service'] === "Hole"){
-												
-				echo('<span class = "hole-post col-xs-12 no-padding">');
-		
-				display_hole_post($currentpost['id'], 'post', 'comment_count', 'comment_on', 'point_count', 'give_point', 'change_time', 'image');
-		
-				echo('</span>');
-				
-			}else{
-				
-		
-				display_post($currentpost['id'], 'post', 'service', 'comment_count', 'comment_on', 'point_count', 'give_point', 'change_time', 'image');
-			
-				
-			}
-		
-		
-		
-		}
-		
 		*/
+		
+
+		
 		
 	
 		
@@ -325,9 +315,19 @@ if($function == 'get_more_approved_posts' && isset($_POST['start'])){
 	
 	if($posts[1]){
 		
-		$newstart = $_POST['start'] + 30;
+		$newstart = $_POST['start'] + 5;
+		
+		
+		if($_POST['service'] == "Hole"){
+		
+				echo('<span class = "btn btn-hole btn-lg" id = "clickmore" onclick = "get_more_approved_posts('.$newstart.', \''.$_POST['site'].'\', \''.$_POST['service'].'\')">Go Deeper</button>');
+				
+		}else{
+		
 	
-		echo('<button class = "btn btn-default" id = "clickmore" onclick = "get_more_approved_posts('.$newstart.', \''.$_POST['site'].'\', \''.$_POST['service'].'\')">More Posts</button>');
+			echo('<button class = "btn btn-default" id = "clickmore" onclick = "get_more_approved_posts('.$newstart.', \''.$_POST['site'].'\', \''.$_POST['service'].'\')">More Posts</button>');
+		
+		}
 	
 	}
 
@@ -361,7 +361,7 @@ if($function == 'get_more_feed_posts' && isset($_POST['start']) && isset($sessio
 		
 		if($currentpost['service'] === "Events"){
 		
-			display_post($currentpost['id'], 'title', 'location', 'service', 'change_start_time', 'post', 'share_post', 'comment_count', 'comment_on', 'point_count', 'give_point', 'image_corner', 'free_food', 'save_post', 'change_duration', 'start_time_full'); 
+			display_post($currentpost['id'], 'title', 'site', 'location', 'service', 'change_start_time', 'post', 'share_post', 'comment_count', 'comment_on', 'point_count', 'give_point', 'image_corner', 'free_food', 'save_post', 'change_duration', 'start_time_full'); 
 		
 		}
 		if($currentpost['service'] != "Events"){
@@ -372,7 +372,7 @@ if($function == 'get_more_feed_posts' && isset($_POST['start']) && isset($sessio
 	
 	if($posts[1]){
 		
-		$newstart = $_POST['start'] + 30;
+		$newstart = $_POST['start'] + 5;
 	
 		echo('<button class = "btn btn-default" id = "clickmore" onclick = "get_more_feed_posts('.$newstart.')">More Posts</button>');
 	
@@ -380,7 +380,41 @@ if($function == 'get_more_feed_posts' && isset($_POST['start']) && isset($sessio
 	
 }
 
+//check!!
 
+if($function == 'get_more_admin_posts' && isset($_POST['start'])){
+	
+	$posts = get_more_approved_posts($_POST['start'], $_POST['site'], $_POST['service']);
+			
+	foreach ($posts[0] as $currentpost) {
+				
+		create_display_set($currentpost['id'], 'moderator', 'ajax');
+				
+	}
+	
+}
+
+
+
+if($function == 'send_to' && isset($_POST['towards'])){	
+	
+	$towards = $_POST['towards'];
+	
+	$post_id = $_POST['post_id'];
+	
+	if($towards == 'Hole'){
+		
+		mysql_query("UPDATE posts SET status = 1, service = '$towards' WHERE id = '$post_id'") or die(mysql_error());
+				
+		
+	}else{
+	
+		mysql_query("UPDATE posts SET status = 0 , service = '$towards' WHERE id = '$post_id'");
+	
+	}
+			
+	
+}
 
 
 

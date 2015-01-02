@@ -55,7 +55,7 @@
 			
 			?>
 		
-		 <h3>Add an existing board</h3>By adding this board, you will be responsible for moderating all of its posts within your home community.<i> You can only add boards to your home community.</i><br>
+		 <h3>Franchise an existing board</h3>By adding this board, you will be responsible for moderating all of its posts within your home community.<i> You can only add boards to your home community.</i><br>
 		 
 				  
 				  <?php

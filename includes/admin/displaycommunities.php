@@ -1,6 +1,5 @@
 <?php
 
-if(check_mod_power($session_user_id) > 0){
 	
 	echo('<span class = "admin-section col-xs-12 no-padding">');
 	
@@ -55,10 +54,7 @@ if(check_mod_power($session_user_id) > 0){
 	echo('</span>');
 	
 
-}
 
-
-if(check_mod_power($session_user_id) > 0){
 	
 	
 	echo('<span class = "admin-section col-xs-12 no-padding">');
@@ -107,10 +103,7 @@ if(check_mod_power($session_user_id) > 0){
 	
 	
 
-}
 
-
-if(check_mod_power($session_user_id) > 0){
 	
 	echo('<span class = "admin-section col-xs-12 no-padding">');
 	
@@ -139,6 +132,5 @@ if(check_mod_power($session_user_id) > 0){
 	
 	echo('</span>');
 
-}
 	
 ?>

@@ -53,6 +53,32 @@ function create_notification($user_id, $type, $textin, $ref_id){
 	return $success;
 	
 }
+
+
+function create_mod_notification($service, $community, $type, $textin, $ref_id){
+	$type = sanitize($type);
+	$textin = sanitize($textin);
+	$ref_id = sanitize($ref_id);
+	$service = sanitize($service);
+	$community = sanitize($community);
+	
+	if($community == null){
+		
+		$community = get_site_from_post_id($post_id);
+	}
+	
+	$mod_ids = find_moderator_ids_from_service_and_community_name($service, $community);
+	
+	$time = time();
+	
+	foreach ($mod_ids as $current_id) {
+	
+		$success = mysql_query("INSERT INTO notifications (user_id, type, textin, ref_id, second) VALUES ('$current_id', '$type', '$textin', '$ref_id', '$time')");
+		
+		
+	}	
+	
+}
 	
 	
 ?>

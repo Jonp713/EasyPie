@@ -26,21 +26,7 @@ function change_profile_image($admin_id, $file_temp, $file_extn) {
 	echo($success);
 }
 
-function upload_image($admin_id, $nickname, $type, $file_temp, $file_extn){
-	$admin_id = sanitize($admin_id);
-	$file_temp = sanitize($file_temp);
-	$file_extn = sanitize($file_extn);
-	$nickname = sanitize($nickname);
-	
-	$file_path = 'images/profile/' . substr(md5(time()), 0, 10) . '.' . $file_extn;
-	move_uploaded_file($file_temp, '../'.$file_path);
-		
-	$success = mysql_query("INSERT INTO pictures (url, nickname, type, admin_id) VALUES ('$file_path', '$nickname', '$type', '$admin_id')") or die(mysql_error());
-	
-	echo($success);
-	
-	
-}
+
 
 function remove_pic($pic_id, $admin_id){
 	$pic_id = sanitize($pic_id);
@@ -295,8 +281,6 @@ function update_admin($admin_id, $update_data) {
 	
 	mysql_query("UPDATE `cementsalesmen` SET " . implode(', ', $update) . " WHERE `id` = $admin_id");
 }
-
-
 
 
 

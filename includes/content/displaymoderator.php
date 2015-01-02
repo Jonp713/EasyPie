@@ -9,22 +9,17 @@ if(isset($_GET['service'])){
 
 	$service = sanitize($service);
 
-	$result = mysql_fetch_assoc(mysql_query("SELECT * FROM services WHERE name = '$service'"));
+	$result = mysql_fetch_assoc(mysql_query("SELECT * FROM services WHERE name = '$service' AND core = 1"));
 	
 	$url = get_logo_picture_url_from_character_id($result['character_id']);	
 	
-	
 	if($result['char_type'] == "character_image" && !empty($url)){
-	
 	
 		$name = get_character_name_from_character_id($result['character_id']);
 		
-	
-	
-		
 		echo '<img class = "col-xs-6 col-sm-12 img-responsive" src="'. $url . '"><br>';
 
-			/*
+		/*
 		$quote = get_random_quote_from_character_id($result['character_id'], $_GET['c'], $_GET['service']);
 			
 			echo('<span class = "modname"><strong>'.$name.'</strong> Says:</span>');

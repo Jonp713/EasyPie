@@ -37,17 +37,22 @@ function random_post($community_name){
 	return $id['id'];
 }
 
-function submit_post($post_data){
+function submit_post($post_data, $post_text){
 
 	array_walk($post_data, 'array_sanitize');
+		
+	//$post_text = nl2br($post_text);
+	
+	$post_text = mysql_real_escape_string(nl2br(htmlentities($post_text)));
+			
+	$post_data['post'] = $post_text;
 	
 	$fields = '`' . implode('`, `', array_keys($post_data)) . '`';
 	$data = '\'' . implode('\', \'', $post_data) . '\'';
 	
 	save_suspicious_request('submit_post');
 	
-	return mysql_query("INSERT INTO `posts` ($fields) VALUES ($data)");
-	
+	return mysql_query("INSERT INTO `posts` ($fields) VALUES ($data)") or die(mysql_error());
 	
 }
 
@@ -209,14 +214,12 @@ function get_user_feed($user_id, $start, $status){
 		
 		return array();
 	}
-		
+			
 	$all_names2 = "'" . implode("','", $all_names) . "'";
 		
 	$all_services2 = "'" . implode("','", $all_services) . "'";
 		
-	
-		
-	$result_posts = mysql_query("SELECT * FROM posts WHERE site IN ($all_names2) AND service IN ($all_services2) AND status = '$status' ORDER BY id DESC LIMIT $start,5");
+	$result_posts = mysql_query("SELECT * FROM posts WHERE site IN ($all_names2) AND service IN ($all_services2) AND status = '$status' ORDER BY coolness DESC, id DESC LIMIT $start,5");
 		
 	$all_posts = array();
 		
@@ -284,6 +287,7 @@ function get_more_approved_posts($start, $site, $service){
 	}
 }
 
+
 function get_posts($status, $site, $type, $admin_id, $service){
 	
 	$admin_id = sanitize($admin_id);
@@ -318,6 +322,8 @@ function get_posts($status, $site, $type, $admin_id, $service){
 				
 			$result = mysql_query("SELECT * FROM posts WHERE (service = 'Hole' OR status = 2) AND status <> 3 AND site = '$site' ORDER BY ID DESC LIMIT 0,5");
 			
+			
+			
 		}
 		
 		if($service == "Events"){
@@ -328,6 +334,8 @@ function get_posts($status, $site, $type, $admin_id, $service){
 	}else{
 		
 		//old shit?
+		
+
 		
 		if($type == -3){
 	
@@ -538,6 +546,8 @@ function compress_image($source_url, $destination_url, $quality) {
 }
 
 
+
+
 function upload_image_post($type, $file_temp, $file_extn){
 	$file_temp = sanitize($file_temp);
 	$file_extn = sanitize($file_extn);
@@ -567,7 +577,7 @@ function upload_image_post($type, $file_temp, $file_extn){
 function time_check($community){
 	$community = sanitize($community);
 	
-	$results = mysql_query("SELECT * FROM `posts` WHERE status = 1 AND time_status <> 2 AND site = '$community'");
+	$results = mysql_query("SELECT * FROM `posts` WHERE status = 1 AND time_status <> 2 AND site = '$community' AND is_event = 1");
     
 	while($number = mysql_fetch_assoc($results)) { 
 	
@@ -665,7 +675,7 @@ function sort_coolness($site){
 	
 	if(time() > $result['last_sort_seconds'] + 10000){
 	
-		$result = mysql_query("SELECT * FROM `posts` WHERE site = '$site' AND status = 1 AND coolness > 0");
+		$result = mysql_query("SELECT * FROM `posts` WHERE site = '$site' AND coolness > 0");
 	
 		$second_value = 0;
 			

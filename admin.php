@@ -4,6 +4,7 @@ protect_page();
 
 include 'includes/overall/header.php';
 
+
 ?>
 
 	
@@ -15,6 +16,7 @@ include 'includes/overall/header.php';
 if(isset($_GET['service']) == false && isset($_GET['c']) == false){
 	
 	echo('<span class = "admin-stuff col-xs-12">');
+		
 	
 
 include 'includes/admin/displaycommunities.php';
@@ -46,6 +48,20 @@ echo('</span>');
 	echo('</span>');
 	
 	}
+	
+	if(isset($_GET['service']) && isset($_GET['c']) == false){
+
+		$points = count_franchises($_GET['service']);
+
+		echo('<span class = "pointsline ">');
+
+		echo('Your service has <span class = "pointscount">'.$points.'</span>&nbsp; franchises');
+
+		echo('</span>');
+
+}
+	
+	
 
 ?>
 				
@@ -80,6 +96,11 @@ if(isset($_GET['service']) == true && isset($_GET['c']) == true){
 			include 'includes/admin/queue.php';
 		
 		break;
+		case 'Approved':
+		
+			include 'includes/admin/approved.php';
+		
+		break;
 		case 'Announcements':
 		
 			include 'includes/admin/announcements.php';
@@ -105,14 +126,19 @@ if(isset($_GET['service']) == true && isset($_GET['c']) == false){
 	
 	
 	switch($_GET['p']){
+		case 'Update':
+		
+			include 'includes/admin/o-update.php';
+		
+		break;
 		case 'Logo':
 		
 			include 'includes/admin/logo.php';
 		
 		break;
-		case 'Settings':
+		case 'Content':
 		
-			include 'includes/admin/settings.php';
+			include 'includes/admin/content.php';
 		
 		break;
 		case 'Information':
@@ -135,7 +161,7 @@ if(isset($_GET['service']) == true && isset($_GET['c']) == false){
 		break;
 		default:
 		
-			include 'includes/admin/logo.php';
+			include 'includes/admin/o-update.php';
 		
 	}
 		

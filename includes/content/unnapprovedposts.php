@@ -36,7 +36,7 @@ if(isset($_GET['service']) == false && isset($_GET['c']) == false){
 		*/
 		if($currentpost['service'] == "Events"){
 	
-			display_post($currentpost['id'], 'title', 'location', 'start_time', 'post', 'service', 'comment_count', 'comment_on', 'point_count', 'give_point', 'image_corner', 'free_food', 'duration', 'start_time_full');
+			display_post($currentpost['id'], 'title', 'site', 'location', 'start_time', 'post', 'service', 'comment_count', 'comment_on', 'point_count', 'give_point', 'image_corner', 'free_food', 'duration', 'start_time_full');
 	
 		}
 		if($currentpost['service'] != "Events"){
@@ -187,13 +187,13 @@ if(count($posts[0]) > 0){
 	
 	if(isset($_GET['service']) == false){
 	
-		echo('<span class = "unsorted-posts-button" style = "background-color:#444;" onclick = "view_unsorted_posts()">'.count($posts[0]) . " unsorted posts</span>");
+		echo('<span class = "unsorted-posts-button" style = "background-color:rgba(0,0,0,0.6);" onclick = "view_unsorted_posts()">'.count($posts[0]) . " unapproved posts</span>");
 	
 	}else{
 	
 		$newcolor = hex2rgb($colortouse);
 	
-		echo('<span class = "unsorted-posts-button" style = "background-color:rgba('.implode($newcolor,',').', .6);" onclick = "view_unsorted_posts()">'.count($posts[0]) . " unsorted posts</span>");
+		echo('<span class = "unsorted-posts-button" style = "background-color:rgba('.implode($newcolor,',').', .6);" onclick = "view_unsorted_posts()">'.count($posts[0]) . " unapproved posts</span>");
 	
 	}
 		

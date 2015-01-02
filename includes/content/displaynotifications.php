@@ -1,4 +1,4 @@
-<span class = "dashcontentnot">
+<span class = "dashcontentmessages">
 
 
 <?php
@@ -79,6 +79,25 @@
 		echo('<span class = "notificationtext">'.$currentnot['textin'].'</span>');
 		
 		echo('<span class = "extranottext">');
+		
+		if($currentnot['type'] == "new_post"){
+			
+			$service_name = service_name_from_post_id($currentnot['ref_id']);
+			$community_name = community_name_from_post_id($currentnot['ref_id']);
+			
+			echo('<a class = "plzgoup" target = "_blank" href = "admin.php?c='.$community_name.'&service='.$service_name.'">');
+			
+			$post = post_text_from_post_id($currentnot['ref_id']);
+			
+			if(isset($post)){
+
+				echo($post);
+				
+			}
+			
+			echo('</a>');
+						
+		}	
 		
 		if($currentnot['type'] == "saved_post"){
 

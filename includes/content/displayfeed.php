@@ -33,7 +33,7 @@ foreach ($posts[0] as $currentpost) {
 	
 	if($currentpost['service'] == "Events"){
 	
-		display_post($currentpost['id'], 'title', 'location', 'start_time', 'post', 'service', 'share_post', 'comment_count', 'comment_on', 'point_count', 'give_point', 'image_corner', 'free_food', 'save_post', 'duration', 'start_time_full');
+		display_post($currentpost['id'], 'title', 'site','location', 'start_time', 'post', 'service', 'share_post', 'comment_count', 'comment_on', 'point_count', 'give_point', 'image_corner', 'free_food', 'save_post', 'duration', 'start_time_full');
 	
 	}
 	if($currentpost['service'] != "Events"){
@@ -46,7 +46,7 @@ foreach ($posts[0] as $currentpost) {
 
 if($posts[1]){
 
-	echo('<span class = "btn btn-default" id = "clickmore" onclick = "get_more_feed_posts(10)">More Posts</span>');
+	echo('<span class = "btn btn-default" id = "clickmore" onclick = "get_more_feed_posts(5)">More Posts</span>');
 
 }
 

@@ -20,7 +20,9 @@ if($_GET['service'] == "Hole"){
 	
 	if($posts[1]){
 		
-		echo('<span class = "btn btn-default" id = "clickmore" onclick = "get_more_approved_posts(30,\''.$community_in.'\',\''.$service_in.'\')">More Posts</span>');
+		$start = 5;
+		
+		echo('<span class = "btn btn-hole btn-lg" id = "clickmore" onclick = "get_more_approved_posts('.$start.',\''.$community_in.'\',\''.$service_in.'\')">Go Deeper</span>');
 	
 	
 	}

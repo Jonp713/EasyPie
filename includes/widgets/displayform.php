@@ -201,7 +201,6 @@ if($service_in == 'Bone'){
 	
     <input type="text" id = "sf-Events-service"  class = "sf-Events-disable" value = "Events" name = "service" hidden>
 	
-	
       <div class="form-group">
         <div class="col-sm-12">
           <input type="text" class="form-control sf-Events-disable" id="title" name = "title" placeholder="Event Title">
@@ -480,7 +479,7 @@ if($service_in == 'Bone'){
 		     <label for="pic" class="col-xs-3 control-label">Icon:</label>
 			 <div class="col-xs-8">
 
-		 <input class = "form-control" type="file" name="pic_Events">
+		 <input class = "form-control" type="file" name="pic">
 
 	</div></div>
 	<br>

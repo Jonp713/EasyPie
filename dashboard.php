@@ -12,12 +12,10 @@ include 'includes/overall/header.php';
 			<?php include 'includes/content/displaypoints.php'; ?>
 			
 			<span class = "dashsidelinks text-left">
-				<?php if (check_mod_power($session_user_id) > 0){ ?>
 				
 					<br><a href = "admin.php">Admin</a>
 				
 				
-					<?php }?>
 				<br><a href = "identity.php">Identity</a>
 					
 				<br><a href = "information.php">Account</a><br>

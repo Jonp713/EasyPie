@@ -2,7 +2,7 @@
 
 if(isset($_GET['service']) == true && isset($_GET['c']) == true){
 	
-	$p_links = ['Queue', 'Options', 'Announcements'];
+	$p_links = ['Queue', 'Approved', 'Options'];
 
 	foreach ($p_links as $currentlink) {
 		
@@ -33,11 +33,11 @@ if(isset($_GET['service']) == true && isset($_GET['c']) == true){
 
 if(isset($_GET['service']) == true && isset($_GET['c']) == false){
 	
-	$p_links = ['Logo', 'Settings', 'Information', 'Stats', 'Options'];
+	$p_links = ['Update', 'Options'];
 	
 	foreach ($p_links as $currentlink) {
 		
-		if((isset($_GET['p']) && $_GET['p'] == $currentlink) || (isset($_GET['p']) == false && $currentlink == "Logo")){
+		if((isset($_GET['p']) && $_GET['p'] == $currentlink) || (isset($_GET['p']) == false && $currentlink == "Update")){
 	
 			echo('<span class = "col-sm-12 no-padding currentlink">');
 	

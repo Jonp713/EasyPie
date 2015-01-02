@@ -19,7 +19,7 @@
     <script src = "js/points.js" type = 'text/javascript'></script>	
     <script src = "js/users.js" type = 'text/javascript'></script>		
     <script src = "js/mods.js" type = 'text/javascript'></script>	
-	
+
 	
 	<script>
 	

@@ -67,7 +67,7 @@ function display_comment($comment_id){
 		
 		echo('<span class = "atext col-xs-12 no-padding">');
 	
-		echo($data['text'] . '<br><br>');
+		echo('<br>'.$data['text'] . '');
 	
 		echo('</span>');
 	}
@@ -87,8 +87,17 @@ function display_comment($comment_id){
 			
 				echo('<span class = "">'.$username.'&nbsp;&nbsp;</span>');
 			
+			}else{
+				
+				//$username = username_from_user_id($data['user_id']);
+			
+				echo('<span class = "">-&nbsp;&nbsp;</span>');
 			}
 		
+		}else{
+			
+			echo('<span class = "">_____&nbsp;&nbsp;</span>');
+			
 		}
 
 
@@ -176,8 +185,6 @@ function display_comment($comment_id){
 	//echo('</span>');
 	
 	
-	
-	
 	//echo('<span style = "padding:0px;" class = "pull-right col-xs-8 text-right">');
 
 	
@@ -205,7 +212,6 @@ function display_comment($comment_id){
 		echo('<span class = "hoverer delete_post" onclick="delete_post('.$data['id'].', this)">DELETE&nbsp;&nbsp;&nbsp;</span>');
 		
 	}
-
 	
 	//end of right pull
 	//echo('</span>');

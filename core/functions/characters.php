@@ -90,6 +90,24 @@ function update_character($update_data, $character_name){
 
 }
 
+
+function update_character_id($character_id, $update_data){
+	$character_id = sanitize($character_id);
+	
+	$update = array();
+	array_walk($update_data, 'array_sanitize');
+
+	foreach($update_data as $field=>$data) {
+		$update[] = '`' . $field . '` = \'' . $data . '\'';
+	
+	}
+
+	return mysql_query("UPDATE `characters` SET " . implode(', ', $update) . " WHERE `id` = '$character_id'") or die(mysql_error());
+		
+
+}
+
+
 function add_quote($quote_data){
 		
 	array_walk($quote_data, 'array_sanitize');

@@ -1,5 +1,33 @@
 <?php
 
+function find_moderator_ids_from_service_and_community_name($service_name, $community_name){
+	$service_name = sanitize($service_name);
+	$community_name = sanitize($community_name);
+	
+	$result = mysql_query("SELECT * FROM admins WHERE community_name = '$community_name' AND service_name = '$service_name' AND type = 'moderator'");
+	
+	$all_ids = array();
+	
+    while($number = mysql_fetch_assoc($result)) { 
+		
+		if(!in_array($number['user_id'], $all_ids)){
+			
+			$all_ids[] = $number['user_id'];	
+			
+		}
+		
+			
+   	}
+	
+	if(count($all_ids) < 1){
+		
+		return array();
+	}
+	
+	return $all_ids;
+	
+}
+
 function judgement_user($post_id, $judgement, $admin_id){
 	$post_id = sanitize($post_id);
 	$judgement = sanitize($judgement);
@@ -7,7 +35,16 @@ function judgement_user($post_id, $judgement, $admin_id){
 	
 	$time = time();
 			
-	$success = mysql_query("UPDATE `posts` SET `status` = '$judgement', `judged_by` = '$admin_id', `second_judged` = '$time' WHERE `id` = '$post_id'") or die(mysql_error());
+	if($judgement != 2){
+		
+		$success = mysql_query("UPDATE `posts` SET `status` = '$judgement', `judged_by` = '$admin_id', `second_judged` = '$time' WHERE `id` = '$post_id'") or die(mysql_error());
+	
+		
+	}else{
+		
+		$success = mysql_query("UPDATE `posts` SET `status` = 2, `judged_by` = '$admin_id', `second_judged` = '$time' AND is_home = 0 AND service = 'Hole' WHERE `id` = '$post_id'") or die(mysql_error());
+		
+	}
 	
 	if($success and $judgement == 1){
 		

@@ -3,7 +3,7 @@
 if (empty($_POST) === false) {
 			
 						
-		//$required_fields = array('post');
+		/*$required_fields = array('post');
 		foreach($_POST as $key=>$value) {
 			if (empty($value) && in_array($key, $required_fields) === true) {
 				$errors[] = 'A post cannot be blank';
@@ -11,7 +11,7 @@ if (empty($_POST) === false) {
 			}
 		}
 	
-		//}
+		/}*/
 	
 	$count = get_request_count($_SERVER['REMOTE_ADDR'], 'submit_post');		
 	
@@ -47,11 +47,12 @@ if (isset($_GET['s']) === true && empty($_GET['s']) === true && (empty($errors) 
 if (empty($_POST) === false && empty($errors) === true) {
 
     $timestamp = date('g:i A \ \ D, M d, Y' , time());
+		
+	$post = $_POST["post"];
 				
 	if(!empty($_GET['c'])){			
-	
+		
 		$post_data = array(
-			'post'	 		=> $_POST['post'],
 			'site'			=> $community_in,
 			'display_time'	=> $timestamp,
 			'second'		=> time(),
@@ -62,13 +63,20 @@ if (empty($_POST) === false && empty($errors) === true) {
 	}else{
 		
 		$post_data = array(
-			'post'	 		=> $_POST['post'],
 			'site'			=> $_POST['community'],
 			'display_time'	=> $timestamp,
 			'second'		=> time(),
 			'service'		=> $_POST['service'],
 				
 		);
+		
+	}
+	
+	if(empty($_POST['title'])){
+		
+		$post_data['title'] = "Untitled";
+	}else{
+		$post_data['title'] = $_POST['title'];
 		
 	}
 		
@@ -117,19 +125,24 @@ if (empty($_POST) === false && empty($errors) === true) {
 	$post_data['is_home'] = service_is_home($_POST['service']);
 	
 	
-	if(logged_in() === true){
+	if(isset($_POST['reply_on'])){
 	
-		if($_POST['reply_on'] == 'on'){
+		if(logged_in() === true){
 	
-			$post_data['reply_on'] = 1;
+			if($_POST['reply_on'] == 'on'){
+	
+				$post_data['reply_on'] = 1;
+		
+			}
+		
 		
 		}
-		
-		$post_data['user_id'] = $session_user_id;
-		
+	
 	}
 	
-				
+	$post_data['user_id'] = $session_user_id;
+	
+	
 	if(isset($_POST['is_image']) && $_POST['is_image'] == "checked"){
 		
 		$servicename = $_POST['service'];
@@ -163,8 +176,7 @@ if (empty($_POST) === false && empty($errors) === true) {
 	}
 	
 	
-		
-	
+
 	if($_POST['service'] == "Events"){
 	
 		if(isset($_POST['free_food']) && $_POST['freefood_on'] == 'on'){
@@ -213,9 +225,17 @@ if (empty($_POST) === false && empty($errors) === true) {
 	}
 	
 	
-
 	
-	$success = submit_post($post_data);
+	$success = submit_post($post_data, $post);
+	
+	$service = $_POST['service'];
+	$post = $_POST['post'];
+	
+	$post_id = mysql_fetch_assoc(mysql_query("SELECT LAST_INSERT_ID() AS id FROM posts WHERE service = '$service' AND user_id = '$session_user_id'"));
+	
+	create_mod_notification($_POST['service'], $_GET['c'], "new_post", "A new post awaits your moderation", $post_id['id']);
+	
+	
 			
 	if($success){
 		
@@ -227,7 +247,7 @@ if (empty($_POST) === false && empty($errors) === true) {
 					
 					if($_POST['service'] == "Hole"){
 						
-						header('Location: hole.php?c='.$community_in.'&service='.$service_in.'&s');
+						header('Location: hole.php?c='.$community_in.'&service=Hole');
 						
 					}else{
 						header('Location: posts.php?c='.$community_in.'&service='.$service_in.'&s');

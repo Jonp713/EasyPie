@@ -132,7 +132,7 @@ function submit_comment(post_id, span, type){
 		
 				$('#commenttoget').val('');
 			
-				$('#comments').prepend('<span class = "col-xs-12 a-comment"><span class = "atext no-padding col-xs-12">' + comment + '<br><br></span><span class = "comment-username">Me</span></span>');
+				$('#comments').prepend('<span class = "col-xs-12 a-comment"><span class = "atext no-padding col-xs-12"><br>' + comment + '</span><span class = "comment-widgets">Me</span></span>');
 		
 			}
 			if(type == 2){
@@ -140,7 +140,7 @@ function submit_comment(post_id, span, type){
 		
 				$('#commenttoget' + post_id).val('');
 			
-				$('#comments' + post_id).prepend('<span class = "col-xs-12 a-comment"><span class = "atext no-padding col-xs-12">' + comment + '<br><br></span><span class = "comment-username">Me</span></span>');
+				$('#comments' + post_id).prepend('<span class = "col-xs-12 a-comment"><span class = "atext no-padding col-xs-12"><br>' + comment + '</span><span class = "comment-widgets">Me</span></span>');
 	
 			
 			}
