@@ -1,25 +1,25 @@
 var namespace = '/chatroulette';
 
-function searchPartner(socket) {
+function searchPartner(socket, com) {
 	//socket.randomClient = '';
 
-	if ( io.of(namespace).clients('hell').length == 0 ) {
-		socket.join('hell');
+	if ( io.of(namespace).clients(com).length == 0 ) {
+		socket.join(com);
 		socket.emit('onWait',{data: 'suca'});
 	} else {
 
-		var amigo = io.of(namespace).clients('hell')[0];
+		var amigo = io.of(namespace).clients(com)[0];
 		if (amigo.id == socket.randomClient){
-			socket.join('hell');
+			socket.join(com);
 			socket.emit('onWait',{data: 'suca'});			
 			return;
 		}
-		amigo.leave('hell');
+		amigo.leave(com);
 
 		socket.randomClient = amigo.id;
 		amigo.randomClient = socket.id;
 		if (amigo.id == socket.id){
-				socket.join('hell');
+				socket.join(com);
 				socket.emit('onWait',{data: 'suca'});
 				return;
 		} 
@@ -41,20 +41,20 @@ io.of(namespace).on('connection', function (socket) {
 		socket.canrulet = 1;
 		socket.on('joinRulette', function (data) {
 			socket.nickname = data.nickname.length == 0 ? 'Spippottato' : data.nickname;
-			searchPartner(socket);
+			searchPartner(socket, data.com);
 		
 		});
 	
-	socket.on('ruletta', function() {
+	socket.on('ruletta', function(data) {
 
-		var rom = io.of(namespace).manager.roomClients[socket.id][namespace+'/hell'];
+		var rom = io.of(namespace).manager.roomClients[socket.id][namespace+'/'+data.com];
 		if (typeof rom != 'undefined' || !socket.canrulet || rom){
 			return;
 		}
 		if (socket.randomClient.length > 0){
-			searchPartner(io.of(namespace).socket(socket.randomClient));
+			searchPartner(io.of(namespace).socket(socket.randomClient), data.com);
 		}
-		searchPartner(socket);
+		searchPartner(socket, data.com);
 	});	
 
 	socket.on('onAnswer',function(data){
@@ -72,7 +72,7 @@ io.of(namespace).on('connection', function (socket) {
 		amigofrogio.json.emit('recIce',data);
 	});
 	
-	socket.on('disconnect',function(){
+	socket.on('disconnect',function(data){
 		if (socket.randomClient.length > 0){
 
 			searchPartner(io.of(namespace).socket(socket.randomClient));

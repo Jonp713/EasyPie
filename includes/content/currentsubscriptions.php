@@ -45,25 +45,6 @@ foreach ($services as $currentservice){
 			}
 		
 		break;
-		case "Events":		
-		
-			echo('<span class = "col-xs-12 no-padding aservice-list '.$currentservice['community_name'].'-container">');
-			
-			echo('<a href="'.$link.'" style = "background-color:'.$color.'" class="btn btn-custom2 no-padding btn-sm col-xs-9 servicebutton-feed"><img class = "service-logo col-xs-2 no-padding" src = "'.$url.'">'); 
- 		
-		 	$live_count = count_total_live_events($currentservice['community_name']);
-		
-		
-			echo('<span class = "service-list-name2"><span class = "service-name-sub white">'.strtoupper($currentservice['community_name']).'</span><span class = "service-name-sub">'.strtoupper($currentservice['service']).'</span></span></a>');
-		
-		
-			if($live_count > 0){ 
-				
-				echo('<span class = "badge user-count-badge-feed" style = "color:'.$color.'">'.$live_count.'</span>');
-				
-			}
-		
-		break;
 		default:
 			
 			echo('<span class = "col-xs-12 no-padding aservice-list '.$currentservice['community_name'].'-container">');
@@ -86,6 +67,18 @@ foreach ($services as $currentservice){
 		
 		
 			echo('<span class = "service-list-name2"><span class = "service-name-sub white">'.strtoupper($currentservice['community_name']).'</span><span class = "service-name-sub">'.strtoupper($currentservice['service']).'</span></span></a>');
+			
+	 		if(is_event($currentservice['service']) == 1){
+	 		
+			 	$live_count = count_total_live_events($currentservice['community_name'], $currentservice['service']);
+			
+				if($live_count > 0){ 
+				
+					echo('<span class = "badge user-count-badge-feed" style = "color:'.$color.'">'.$live_count.'</span>');
+				
+				}
+			
+			}
 		
 		}
 

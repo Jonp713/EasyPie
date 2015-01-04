@@ -18,7 +18,8 @@
 		?>
         </li>
 		
-		<li><a href = 'posts.php?c=Hampy'>HOME</a></li>
+		
+		
   				<?php
   				if (logged_in() === true) {
   					include 'includes/navbar/loggedin.php';

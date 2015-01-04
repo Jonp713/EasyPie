@@ -1,12 +1,39 @@
 <?php
+if($_GET['service'] == "Hole"){
+	
+	header("Location: index.php");
+}
+
+
 include 'core/init.php';
 active_protect($_GET['c']);
 
 include 'includes/overall/header.php';
 
+
+
+//if(isset($_GET['service']) && is_geo_locked($_GET['service']) == 1){
+	
 ?>
 
+
+	<script>
+	window.navigator.geolocation.getCurrentPosition(function(pos){
+	  //console.log(pos);
+	  
+	  //pos.coords.latitude
+	  //pos.coords.longitude
+	 
+	})
+
+	</script>
+
+
+
 <?php 
+
+//}
+
 
 sort_coolness($_GET['c']);
 
@@ -28,6 +55,22 @@ echo('<span class = "lowerandscroll">');
 include 'includes/content/servicedescription.php';
 
 include 'includes/widgets/submitpost.php';
+
+if(isset($session_user_id)){
+
+	$home = get_home_from_user_id($session_user_id);
+
+	if(!empty($home) && $home == $_GET['c'] && !isset($_GET['service'])){
+
+
+		$link = 'createservice.php';
+
+	 	echo('<a href="'.$link.'" style = "background-color:#aaa" class="btn btn-custom2 btn-lg btn-block">CREATE A BOARD</a>');
+ 
+
+	}
+
+}
 
 include 'includes/content/displaymoderator.php';
 

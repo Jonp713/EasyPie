@@ -114,7 +114,7 @@ function get_mod_services($user_id, $type){
 
     while($number = mysql_fetch_assoc($result_moderated)) { 
 		
-		$all_names[] = $number['service_name'];		
+		$all_names[] = $number['service_name'];	
 	
    	}
 
@@ -132,7 +132,9 @@ function get_mod_services($user_id, $type){
 	}
 	if($type == "moderator"){
 		
-		$result_services = mysql_query("SELECT * FROM `services` WHERE name IN ($all_names) AND core = 0");
+		$home = get_home_from_user_id($user_id);
+		
+		$result_services = mysql_query("SELECT * FROM `services` WHERE name IN ($all_names) AND core = 0 AND community = '$home'");
 		
 	}
 

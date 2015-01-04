@@ -1,6 +1,6 @@
 <?php
 
-$services = get_services('Hampy', 0);
+$services = get_services($_GET['c'], 0);
 
 echo("<span class = 'submit-services col-xs-12 no-padding'>");
 

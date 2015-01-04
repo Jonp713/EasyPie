@@ -39,11 +39,12 @@ Rulette.prototype.validateInput = function (str){
 Rulette.prototype.onConnect = function () {
 	
 	//set nickname
-	client.socket.emit('joinRulette',{nickname: client.nickname});
+	client.socket.emit('joinRulette',{nickname: client.nickname, com: getURLParameter('c')});
 	//client.showNickbox();	
 }
 
 Rulette.prototype.onDisconnect = function () {
+	
 }
 
 Rulette.prototype.showbutton = function (){
@@ -340,7 +341,7 @@ Rulette.prototype.joinRulette = function () {
 Rulette.prototype.ruletta = function () {
 	document.querySelector('input#toSend').disabled = true;
 
-	client.socket.emit('ruletta');
+	client.socket.emit('ruletta', {com: getURLParameter('c')});
 }
 
 Rulette.prototype.fsendMsg = function () {

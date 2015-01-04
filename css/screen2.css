@@ -848,6 +848,7 @@ overflow-x: hidden;
 	color:black;
 	margin:5px;
 	margin-bottom:30px;
+	z-index:2;
 	
 }
 

@@ -25,7 +25,6 @@
 	
 	}
 	
-	
 		
 	if (empty($_POST) === false && empty($errors) === true) {
 		
@@ -95,6 +94,12 @@
 	
 		}
 		
+		if($_POST['time_oriented'] == 'yes'){
+	
+			$service_data1['is_event'] = 1;
+	
+		}
+		
 		if($_POST['title_on'] == 'on'){
 	
 			$service_data1['title_on'] = 1;
@@ -139,6 +144,8 @@
 	
 		}
 		
+		
+		
 		$character_data = array(
 			'name'	 		=> $_POST['character_name'],
 			
@@ -158,6 +165,7 @@
 			'community_name'=> $home,
 
 		);
+		
 		$admin_data2 = array(
 			'user_id'	 	=> $session_user_id,
 			'type'			=> 'moderator',
@@ -166,7 +174,6 @@
 			'community_name'=> $home,
 		
 		);
-	
 	
 		$service_data1['char_type'] = $_POST['char_type'];
 	
@@ -300,17 +307,17 @@
 	
 							   		 <input id="optionsRadios8" onclick = "toggle_create_service_logo('on')" type="radio" name = "char_type" value="character_image" >&nbsp;&nbsp;&nbsp;&nbsp;(You can upload a photo for your logo) <a style = "color:blue"  target = "_blank" href = "https://www.fiverr.com/search/gigs?utf8=%E2%9C%93&search_in=everywhere&query=logo&page=1&layout=auto">Get a $5 Logo</a>
  
-							   	 </div></div><br>
-								 
-					 		    <div class="form-group character-forms">
-			
-					 		   		     <label for="pic" class="col-xs-3 logo_pic control-label">Logo:</label>
-					 		   			 <div class="col-xs-8">
+					   	 </div></div><br>
+						 
+			 		    <div class="form-group character-forms">
+	
+			 		   		     <label for="pic" class="col-xs-3 logo_pic control-label">Logo:</label>
+			 		   			 <div class="col-xs-8">
 
-					 		   		 <input class = "form-control" type="file" name="pic_char">(Keep the dimensions 1:1, ex 400x400 or 1200x1200, PNG only)
+			 		   		 <input class = "form-control" type="file" name="pic_char">(Keep the dimensions 1:1, ex 400x400 or 1200x1200, PNG only)
 
-					 		   	</div></div>
-					 			<br>
+			 		   	</div></div>
+			 			<br>
 								 
 <!--
 		
@@ -335,13 +342,29 @@
 		  			</div>
 					<br>
 								-->
-		 
-			
-			<hr class = "messagehr"><br>
-			
+						
+						<hr class = "messagehr"><br>
+						<strong>Type:</strong><br>Is your board time oriented? Does it regard events or things that happen at certain times?
+
+						<div class="radio">
+						  <label class = "radio-inline">
+						    <input type="radio" name="time_oriented" id="optionsRadios13" value="yes">
+						  	 Yes (Your boards form will include start time/date, end time/date, recurring options and a location field. The posts will be sorted by start time on your boards page)
+						  </label>
+						  
+						</div>
+						<div class="radio">
+						  <label class = "radio-inline">
+						    <input type="radio" name="time_oriented" id="optionsRadios15" value="no" checked>
+						  	 No 
+						  </label>
+						</div>
+						<br>
+						
+		 			
 			<strong>Title:</strong> 
 			<div class="checkbox">
-		  	  	<label> <input type="checkbox" name="title_on">Posts have a title (Appears above the timestamp)</label>
+		  	  	<label> <input type="checkbox" name="title_on">Posts have a title</label>
 		  	</div><br>
 						
 		<strong>Content:</strong><br>What type of content do you want to allow your users to submit? Text is always included
@@ -446,12 +469,35 @@
 			   </label>
 			 </div><br>
 			 
-		    <div class="checkbox">
-		      <label>
-		 		 <input type="checkbox" name="inappropriate">The content of my board could be considered inappropriate.
-		      </label>
-		    </div>
-			 <br>
-
 			 
+			 <hr class = "messagehr"><br>
+			 <strong>Security:</strong><br>
+
+ 		    <div class="checkbox">
+ 		      <label>
+ 		 		 <input type="checkbox" name="geo_lock">Geo-lock my board (Prevents users from accessing unless within a certain mile radius of your community)
+ 		      </label>
+ 		    </div>
+			 
+  		    <div class="checkbox">
+  		      <label>
+  		 		 <input type="checkbox" name="blur_on">Prevent saving/screenshotting of images (Will add a removeable blur over your images)
+  		      </label>
+  		    </div>
+			
+  		    <div class="checkbox">
+  		      <label>
+  		 		 <input type="checkbox" name="share_on" checked>Allow users to share posts from this board
+  		      </label>
+  		    </div>
+  			 
+  			 <br><br>
+			 
+ 		    <div class="checkbox">
+ 		      <label>
+ 		 		 <input type="checkbox" name="inappropriate">The content of my board could be considered inappropriate.
+ 		      </label>
+ 		    </div>
+			 
+			 <br>
 			 <button type="submit" class=" btn btn-info">SUBMIT</button></form><br></span>

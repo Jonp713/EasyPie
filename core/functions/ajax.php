@@ -235,24 +235,6 @@ if($function == 'get_more_approved_posts' && isset($_POST['start'])){
 			
 	foreach ($posts[0] as $currentpost) {
 		
-		
-		if($currentpost['service'] == "Events"){
-			
-			if($_POST['service'] === "Events"){
-			
-				display_post($currentpost['id'], 'title', 'location', 'change_start_time', 'post', 'share_post', 'comment_count', 'comment_on', 'point_count', 'give_point', 'image_corner', 'free_food', 'save_post', 'change_duration', 'start_time_full'); 
-			
-			}else{
-				
-				
-				display_post($currentpost['id'], 'title', 'location', 'change_start_time', 'post', 'service', 'share_post', 'comment_count', 'comment_on', 'point_count', 'give_point', 'image_corner', 'free_food', 'save_post', 'change_duration', 'start_time_full');
-				
-				
-			}
-		}
-		
-		if($currentpost['service'] != "Events"){
-		
 			if($_POST['service'] === "all"){
 				
 				create_display_set($currentpost['id'], 'home', 'ajax');
@@ -273,46 +255,7 @@ if($function == 'get_more_approved_posts' && isset($_POST['start'])){
 				
 				}
 		
-			}
-		}
-		/*
-		
-		if($currentpost['service'] == "ICU"){
-			
-			if($_POST['service'] === "all"){
-			
-				display_post($currentpost['id'], 'post', 'service', 'change_time', 'share_post', 'save_post', 'reply','comment_count', 'comment_on', 'point_count', 'give_point');
-			
-			}else{
-				
-				display_post($currentpost['id'], 'post', 'change_time', 'share_post', 'save_post', 'reply','comment_count', 'comment_on', 'point_count', 'give_point');
-				
-			}
-			
-		}
-		if($currentpost['service'] == "Bone"){
-			
-			if($_POST['service'] === "all"){
-		
-				display_post($currentpost['id'], 'post', 'service', 'change_time', 'share_post', 'reply', 'comment_count', 'comment_on', 'point_count', 'give_point');
-			
-			}else{
-			
-				display_post($currentpost['id'], 'post', 'change_time', 'share_post', 'reply', 'comment_count', 'comment_on', 'point_count', 'give_point');
-			
-			
-			}
-		
-		}
-		
-		*/
-		
-
-		
-		
-	
-		
-		
+			}		
 		
 	}
 	
@@ -342,35 +285,10 @@ if($function == 'get_more_feed_posts' && isset($_POST['start']) && isset($sessio
 	$posts = get_user_feed($session_user_id, $_POST['start'], 1);
 			
 	foreach ($posts[0] as $currentpost) {
-		/*
-		if($currentpost['service'] == "ICU"){
-			
-			display_post($currentpost['id'], 'post', 'service', 'change_time', 'share_post', 'save_post', 'reply', 'comment_count', 'comment_on', 'point_count', 'give_point');
-			
-		}
-		if($currentpost['service'] == "Bone"){
 		
-			display_post($currentpost['id'], 'post', 'service', 'change_time', 'share_post', 'reply', 'comment_count', 'comment_on', 'point_count', 'give_point');
-		
-		}
-		
-		if($currentpost['service'] == "Hole"){
-		
-			display_post($currentpost['id'], 'post', 'service', 'comment_count', 'comment_on', 'point_count', 'give_point', 'change_time', 'image');
-					
-		
-		}
-		*/
-		
-		if($currentpost['service'] === "Events"){
-		
-			display_post($currentpost['id'], 'title', 'site', 'location', 'service', 'change_start_time', 'post', 'share_post', 'comment_count', 'comment_on', 'point_count', 'give_point', 'image_corner', 'free_food', 'save_post', 'change_duration', 'start_time_full'); 
-		
-		}
-		if($currentpost['service'] != "Events"){
 		
 			create_display_set($currentpost['id'], 'feed', 'ajax');
-		}
+		
 	}
 	
 	if($posts[1]){

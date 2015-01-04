@@ -61,29 +61,9 @@ $( ".service-submit-button" ).click(function() {
 });
 
 
-$('#recurring').change(function (){
-	
-	
-	value = $('#recurring').val();
-	
-	if(value == "Not"){
-		
-		$('#recurring_end').hide();
-	
-		$('#recurring_end').fadeOut();
-	
-		
-	}else{		
-		
-		$('#recurring_end').show();
-		
-		$('#recurring_end').fadeIn();
-		
-	}
-	
-});
 
 <?php } ?>
+
 
 function youtube_parser(url, service){
     var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
@@ -136,6 +116,62 @@ function toggle_create_service_logo(switchx){
 	
 		
 }
+
+
+
+
+function validate_date(nameIn) {
+	
+	ysel = document.getElementById(nameIn+"_year");
+    msel = document.getElementById(nameIn+"_month");
+    dsel = document.getElementById(nameIn+"_day");
+	
+    var y = +ysel.value, m = msel.value, d = dsel.value;
+    if (m === "2")
+        var mlength = 28 + (!(y & 3) && ((y % 100)!==0 || !(y & 15)));
+    else var mlength = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][m - 1];
+    dsel.length = 0;
+    for (var i = 1; i <= mlength; i++) {
+        var opt = new Option();
+		if(i < 10){
+	
+			opt.value = opt.text = ("0" + i);
+	
+	
+		}else{
+
+        	opt.value = opt.text = i;
+
+		}
+        if (i == d) opt.selected = true;
+        dsel.add(opt);
+    }
+}
+
+
+function recurring(nameIn){
+		
+	value = $('#recurring_'+nameIn).val();
+	
+	if(value == "Not"){
+		
+		$('#recurring_end_'+nameIn).hide();
+	
+		$('#recurring_end_'+nameIn).fadeOut();
+	
+		
+	}else{		
+		
+		$('#recurring_end_'+nameIn).show();
+		
+		$('#recurring_end_'+nameIn).fadeIn();
+		
+	}
+}
+
+
+//hidenshowrecurring('LICK');
+
 
 </script>
 

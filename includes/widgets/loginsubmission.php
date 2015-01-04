@@ -34,7 +34,18 @@ if (empty($_POST) === false) {
 			if(empty($errors) === true){
 			
 				$_SESSION['user_id'] = $login;
-				header('Location: posts.php?c=Hampy');
+
+$home = get_home_from_username($username);
+
+				if(!empty($home)){
+
+					header('Location: posts.php?c='. $home);
+
+				}else{
+
+					header('Location: feed.php');
+
+				}
 				exit();
 			
 			}

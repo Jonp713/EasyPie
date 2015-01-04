@@ -77,34 +77,6 @@ foreach ($services as $currentservice){
 				echo('</span>');
 			
 	     break;
-		 case "Events":
-		 
-		 
-			 	$live_count = count_total_live_events($community_in);
-					 
- 				$link = 'posts.php?c='.$_GET['c'].'&service='.$currentservice['name'];
-				
-				echo('<span class = "col-xs-12 no-padding aservice-list '.$currentservice['name'].'-container">');
-		
-				echo('<a data-toggle="tooltip" data-container = "body" title="'.$desc.'"  data-placement="left" href="'.$link.'" style = "background-color:'.$color.'" class="btn btn-custom2 btn-lg btn-block servicebutton">'); 
-		
-		
-				echo('<img class = "service-logo pull-left col-xs-2 no-padding" src = "'.$url.'">');
-			
-				echo('<span class = "pull-left service-list-name col-xs-10">'.strtoupper($currentservice['name']).'</span>');
-		
-								
-				echo('</a>');
-				
-				if($live_count > 0){ 
-					
-					echo('<span class = "pull-left badge user-count-badge" style = "color:'.$color.'">'.$live_count.'</span>');
-					
-				}
-				
-				echo('</span>');
-		 
-		 break;
 	     default:
 		 
 			echo('<span class = "col-xs-12 no-padding aservice-list '.$currentservice['name'].'-container">');
@@ -129,6 +101,19 @@ foreach ($services as $currentservice){
 			
 			
 			echo('<span class = "pull-left service-list-name col-xs-10">'.strtoupper($currentservice['name']).'</span></a>');
+			
+			
+	 		if(is_event($currentservice['name']) == 1){
+	 		
+			 	$live_count = count_total_live_events($community_in, $currentservice['name']);
+			
+				if($live_count > 0){ 
+				
+					echo('<span class = "pull-left badge user-count-badge" style = "color:'.$color.'">'.$live_count.'</span>');
+				
+				}
+			
+			}
 		 
 			echo('</span>');
 		 
@@ -142,19 +127,26 @@ foreach ($services as $currentservice){
 
 }
 
-echo('<hr class = "col-xs-12 no-padding messagehr"><span class = "col-xs-12 no-padding aservice-list new-container">');
+if(isset($session_user_id)){
 
+	$home = get_home_from_user_id($session_user_id);
 
-$link = 'createservice.php';
+	if(!empty($home) && $home == $_GET['c']){
 
+		echo('<hr class = "col-xs-12 no-padding messagehr"><span class = "col-xs-12 no-padding aservice-list new-container">');
 
- 	echo('<a data-toggle="tooltip" data-container = "body" title="Create your own board!"  data-placement="left" href="'.$link.'" style = "background-color:#aaa" class="btn btn-custom2 btn-lg btn-block servicebutton"><img class = "service-logo col-xs-2 no-padding pull-left" src = ""><span class = "pull-left service-list-name col-xs-10">CREATE</span></a>');
+		$link = 'createservice.php';
 
+	 	echo('<a data-toggle="tooltip" data-container = "body" title="Create your own board!"  data-placement="left" href="'.$link.'" style = "background-color:#aaa" class="btn btn-custom2 btn-lg btn-block servicebutton"><img class = "service-logo col-xs-2 no-padding pull-left" src = ""><span class = "pull-left service-list-name col-xs-10">CREATE</span></a>');
+
+		echo('</span>');
+		
  
-	echo('</span>');
- 
 
- 
+	}
+
+
+}
 
 echo("</span>");
 

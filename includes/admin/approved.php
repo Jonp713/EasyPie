@@ -20,7 +20,6 @@ if(isset($_GET['service']) && $_GET['service'] != "Events"){
 		
 		echo('<span class = "btn btn-default" id = "clickmore" onclick = "get_more_approved_posts(10,\''.$community_in.'\',\''.$service_in.'\')">More Posts</span>');
 	
-	
 	}
 	
 	echo('</div>');

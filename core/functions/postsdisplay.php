@@ -25,25 +25,65 @@ function create_display_set($post_id, $from, $type){
 		
 	}
 	
-	if($type == "ajax"){
+	if($data2['blur_on'] == 1){
+	
+		$string[] = "blur";
+	
+	}
+	
+	if($data2['is_event'] != 1){
+	
+		if($type == "ajax"){
 		
-		$string[] = 'change_time';
+			$string[] = 'change_time';
 			
-	}else{
+		}else{
 		
-		$string[] = 'display_time';
+			$string[] = 'display_time';
+	
+		}
+	
+	}
+	
+	if($data2['is_event'] == 1){
+		
+		if($type == "ajax"){
+			
+			$string[] = "change_start_time";
+			
+			$string[] = 'change_duration';
+						
+		}else{
+			
+			$string[] = "start_time";
+			
+			$string[] = 'duration';
+			
+		}
+		
+		$string[] = 'start_time_full';
+		$string[] = 'location';
+		
+		
+		if($data2['name'] == "Events"){
+		
+			$string[] = "free_food";
+		
+		}
+		
+		
 	
 	}
 	
 
 	
-	if($from == "feed" || $from == "home" || $from == 'unnaproved_feed' || $from == "unnaproved_home"){
+	if($from == "feed" || $from == "home" || $from == 'unnaproved_feed' || $from == "unnaproved_home" || $from == "saved" || $from == "submissions"){
 		
 		$string[] = 'service';
 		
 	}
 	
-	if($from == "feed"){
+	if($from == "feed" || $from == "saved" || $from == "submissions"){
 		
 		$string[] = 'site';
 		
@@ -95,19 +135,19 @@ function create_display_set($post_id, $from, $type){
 		
 		if($data1['status'] == 1){
 			
-			if($data1['service'] != "Hole"){
+			if($data2['share_on'] == 1){
 			
 				$string[] = 'share_post';
 				
-				if($from != "saved"){
-		
-					$string[] = 'save_post';
-		
-				}
 			
 				
 			}
 			
+			if($from != "saved" && $data1['service'] != "Hole"){
+	
+				$string[] = 'save_post';
+	
+			}
 		
 		}
 		
@@ -364,10 +404,7 @@ function display_post($post_id){
 			
 				echo('<span class = "halfbr col-xs-12">    </span>');
 		}
-		
-		if(in_array('identity', $fields)){
-			
-		}
+	
 		
 		echo('<span class = "atitle col-xs-12 no-padding">');
 	
@@ -394,8 +431,7 @@ function display_post($post_id){
 	
 	
 	
-	
-	if($data['service'] == "Events"){
+	if($data['is_event'] == 1){
 		
 		echo('<span style = "padding:0px;" class = "pull-left text-left col-xs-12 col-sm-11">');
 		
@@ -450,7 +486,7 @@ function display_post($post_id){
 			
 			$time = $data['start_second'];		
 						
-			echo($today = date("D, M, n g:ia") . '&nbsp;&nbsp;|&nbsp;&nbsp;');
+			echo(date("D, M d, g:ia", $time) . '&nbsp;&nbsp;|&nbsp;&nbsp;');
 		
 		}
 		
@@ -530,11 +566,12 @@ function display_post($post_id){
 	
 	if(in_array('post', $fields)){
 		
-		if($data['service'] == "Hole"){
+		if(in_array('blur', $fields)){
 			
 			if($data['isImage'] == 1){
 			
 				echo('<span data-toggle="tooltip" title="Click to unblur"  data-placement="top" class = "hole-post-overlay-image col-xs-12 no-padding">');
+				
 			
 			}else{
 				
@@ -546,13 +583,13 @@ function display_post($post_id){
 		
 		if(in_array('image_feature', $fields) && $data['isImage'] == 1){
 		
-			echo('<img class = "img-responsive" src = "'.$data['img_src'].'">');
+			echo('<img class = "post-image img-responsive" src = "'.$data['img_src'].'">');
 
 		}
 		
 		if(in_array('video_feature', $fields) && $data['isVideo'] == 1){
 		
-			//echo('<iframe class = "img-responsive" src="//www.youtube.com/embed/'.$data['vurl'].'" frameborder="0" allowfullscreen></iframe>');
+			echo('<iframe class = "img-responsive" src="//www.youtube.com/embed/'.$data['vurl'].'" frameborder="0" allowfullscreen></iframe>');
 			
 			//echo('<div class="lite post_video" id="'.$data['vurl'].'"></div>');
 			//echo('<div class="youtube post_video" id="'.$data['vurl'].'"></div>');
@@ -591,26 +628,26 @@ function display_post($post_id){
 
 		if(in_array('image', $fields) && $data['isImage'] == 1){
 		
-			echo('<img class = "img-responsive" src = "'.$data['img_src'].'">');
+			echo('<img class = "post-image col-xs-12 img-responsive" src = "'.$data['img_src'].'">');
 
 		}
 		
 		if($data['service'] == "Hole" && $data['isImage'] == 1){
 		
-			echo('<img class = "img-responsive" src = "'.$data['img_src'].'">');
+			echo('<img class = "post-image col-xs-12 img-responsive" src = "'.$data['img_src'].'">');
 		
 		}	
 		
 		
 		if(in_array('video', $fields) && $data['isVideo'] == 1){
 		
-			//echo('<iframe class = "post_video" src="//www.youtube.com/embed/'.$data['vurl'].'" frameborder="0" allowfullscreen></iframe>');
+			echo('<iframe class = "post_video" src="//www.youtube.com/embed/'.$data['vurl'].'" frameborder="0" allowfullscreen></iframe>');
 			
 			//echo('<div class="youtube post_video" id="'.$data['vurl'].'"></div>');
 		
 		}
 		
-		if($data['service'] == "Hole"){
+		if(in_array('blur', $fields)){
 	
 			echo('</span>');
 
@@ -742,6 +779,12 @@ function display_post($post_id){
 		
 	}
 	
+	if(in_array('delete_post_user', $fields)){
+	
+		echo('<span class = "hoverer delete_post" onclick="delete_post('.$data['id'].', this)">&nbsp;&nbsp;&nbsp;DELETE</span>');
+		
+	}
+	
 	if(in_array('reply_toggle', $fields)){
 		
 		if($data['reply_on'] == 1){
@@ -845,8 +888,6 @@ function display_post($post_id){
 		if(in_array('send', $fields)){
 			
 			echo('<span class = "hoverer-mod delete_post text-center no-padding mod-button"><span onclick="sendto('.$data['id'].', this)">&nbsp;&nbspSEND TO</span>&nbsp;<select class = "send-to'.$data['id'].'">');
-			
-			
 			
 			
 			echo('<option value = "Hole">HOLE</option>');

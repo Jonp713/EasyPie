@@ -5,7 +5,7 @@ if(isset($_GET['service'])){
 
 }else{
 	
-	echo('black;');
+	echo('#303030;');
 
 }
 
@@ -37,52 +37,54 @@ if(isset($_GET['service'])){
 	
   <?php 
   
-  if((isset($_GET['service']) && $_GET['service'] == "ICU") || ( (isset($_GET['service']) == false) && isset($_GET['c']) && ($_GET['c'] == "Hampy")  ) || ((isset($_GET['service']) == false) && (isset($_GET['c']) == false))){
-	  
-  	if(isset($_GET['service'])){
-  	
-	echo('<span class = "pull-left corntext">'.strtoupper($_GET['service']).'</span>');
-	echo('<span class = "pull-left corntext white">HAMPY</span>');
+	//echo('<span class = "pull-left corntext">'.strtoupper($_GET['service']).'</span>');
+	//echo('<span class = "pull-left corntext">'.strtoupper($_GET['c']).'</span>');
+  
 	
-	}else if(isset($_GET['service'])){
+  if(!isset($_GET['c'])){
+	    	
+	  	if(isset($session_user_id)){
+			
+			echo('<span class = "pull-left corntext">'.strtoupper(get_home_from_user_id($session_user_id)).'</span>');
 		
-		echo('<span class = "pull-left corntext white">ICU</span>');
-		echo('<span class = "pull-left corntext">'.strtoupper($_GET['c']).'</span>');
+		}
 		
-	}else{
-		echo('<span class = "pull-left corntext">ICU</span>');
-		echo('<span class = "pull-left corntext white">HAMPY</span>');
+		if(!isset($_GET['service'])){
+			
 		
+			echo('<span class = "pull-left corntext white">HABITAT</span>');
+			
 		
-	}
-	
-	
+		}else{
+		
+
+			echo('<span class = "pull-left corntext white">'.strtoupper($_GET['service']).'</span>');
+		
+		}
+			
+
   }else{
 	
-		if(isset($_GET['c'])){
-		
-			echo('<span class = "pull-left corntext white">'.strtoupper($_GET['c']).'</span>');
-		
-		
+		if(!isset($_GET['service'])){
+			
+		  	echo('<span class = "pull-left corntext">'.strtoupper($_GET['c']).'</span>');
+			
+			echo('<span class = "pull-left corntext white">HABITAT</span>');
+	
+	  	
+	
 		}else{
 		
-			echo('<span class = "pull-left corntext white">HAMPY</span>');
+	  		echo('<span class = "pull-left corntext">'.strtoupper($_GET['c']).'</span>');
 		
+	  		echo('<span class = "pull-left corntext white">'.strtoupper($_GET['service']).'</span>');
 		
 		}
 		
-	  	if(isset($_GET['service'])){
-		
-			echo('<span class = "pull-left corntext">'.strtoupper($_GET['service']).'</span>');
+	}
 
 	
-		}else{
-		
-			echo('<span class = "pull-left corntext">ICU</span>');
-		
-		}
 	
-	}
 	
 	?>
 		
@@ -125,7 +127,6 @@ if(isset($_GET['service'])){
 				 
 				 	 
 				 
-		      <li><a data-toggle="tooltip" title="View all of your communities posts and services"  data-placement="bottom" href = 'posts.php?c=Hampy'>HOME</a></li>
 	  		<!--<li><a href = "search.php" data-toggle="tooltip" title="Pretty self-explanatory..." data-placement="bottom">SEARCH</a></li>-->
 			  
 			   

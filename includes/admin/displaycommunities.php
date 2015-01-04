@@ -26,7 +26,6 @@
 			echo('<span style = "background-color:rgba('.implode($newcolor,',').', .6);" class = "service-logo-circle col-xs-2 no-padding pull-left"></span>');
 			
 			
-			
 			if(get_service_char_type($currentservice['name']) == "character_image" && !empty($url)){
 	
 				echo('<img class = "service-logo col-xs-2 no-padding pull-left" src = "'.$url.'">');

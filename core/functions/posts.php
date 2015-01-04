@@ -333,7 +333,7 @@ function get_posts($status, $site, $type, $admin_id, $service){
 			
 		}
 		
-		if($service == "Events"){
+		if($type == "time-oriented"){
 	
 			$result = mysql_query("SELECT * FROM posts WHERE status = '$status' AND service = '$service' AND time_status <> 2 ORDER BY start_second LIMIT 0,5");
 		}
@@ -590,7 +590,6 @@ function time_check($community){
 	
 		if(time() > ($number['end_second'])){
 			
-			
 			if($number['recurring_type'] != "Not" && time() < $number['recurring_end']){
 				
 				$new_start_seconds = time();
@@ -615,9 +614,14 @@ function time_check($community){
 				
 				$new_end_seconds = $new_start_seconds + $duration;
 				
+				
+			    //$timestamp = date('g:i A \ \ D, M d, Y' , time());
+				
 				mysql_query("UPDATE `posts` SET start_second = '$new_start_seconds' WHERE id = '$id'");
 				mysql_query("UPDATE `posts` SET end_second = '$new_end_seconds' WHERE id = '$id'");
 				mysql_query("UPDATE `posts` SET time_status = 0 WHERE id = '$id'");
+				//mysql_query("UPDATE `posts` SET display_time = '$timestamp' WHERE id = '$id'");
+				
 				
 				create_notification($number['user_id'], "post_approved", "Your event " . $number['title'] . " has been renewed!", $id);
 				
@@ -665,10 +669,11 @@ function time_check($community){
 	
 }
 
-function count_total_live_events($community){
+function count_total_live_events($community, $service){
 	$community = sanitize($community);
+	$service = sanitize($service);
 	
-	$count = mysql_fetch_assoc(mysql_query("SELECT COUNT(id) AS total FROM posts WHERE site = '$community' AND time_status = 1"));
+	$count = mysql_fetch_assoc(mysql_query("SELECT COUNT(id) AS total FROM posts WHERE site = '$community' AND service = '$service' AND time_status = 1"));
 	
 	return ($count['total']);
 	

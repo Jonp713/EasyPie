@@ -11,6 +11,19 @@ function create_service($service_data){
 	
 }
 
+function is_geo_locked($service_name){
+	
+	return mysql_result(mysql_query("SELECT `geo_locked` FROM `services` WHERE `name` = '$service_name' AND core = 1"), 0, 'geo_locked');
+	
+}
+
+function is_event($service_name){
+	
+	return mysql_result(mysql_query("SELECT `is_event` FROM `services` WHERE `name` = '$service_name' AND core = 1"), 0, 'is_event');
+	
+	
+}
+
 function update_service_id($service_id, $update_data) {
 	$update = array();
 	array_walk($update_data, 'array_sanitize');
@@ -99,6 +112,14 @@ function get_is_mine_from_service_name($service_name){
 	
 }
 
+function is_share_on($service_name){
+	
+	$service_name = sanitize($service_name);
+		
+	return mysql_result(mysql_query("SELECT `share_on` FROM `services` WHERE `name` = '$service_name' AND core = 1"), 0, 'share_on');
+	
+}
+
 function get_service_char_type($service_name){
 	
 	$service_name = sanitize($service_name);
@@ -152,22 +173,29 @@ function get_services($community, $type){
 	
 	$allservices = array();
 	
-	
     while($number = mysql_fetch_assoc($result)) { 
 		$continue = true;
 		
+		
 		if($type == 2){
-		    while($number_community = mysql_fetch_assoc($result2)) { 
+			
+			if(count($result2) != 0){
+			
+			    while($number_community = mysql_fetch_assoc($result2)) { 
 								
 				
-				if($number['name'] == $number_community['name']){
+					if($number['name'] == $number_community['name']){
 					
-					$continue = false;
-				}
+						$continue = false;
+					}
 				
 			
+				}
+			
+			
+				mysql_data_seek($result2, 0);
+			
 			}
-			mysql_data_seek($result2, 0);
 			
 			if($continue && $type == 2){
 			
@@ -246,22 +274,22 @@ function display_form($service_name, $service_in){
 	}
 	
 	
-	echo('<form class = "submit_post form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">');
+	echo('<form class = "submit_post form-horizontal col-xs-12 no-padding" role="form" action="" method="post" enctype="multipart/form-data">');
 	
-	echo('<strong class = "col-xs-12 no-padding">'.$service_name.'<br></strong>');
+	echo('<strong class = "col-xs-12 no-padding service-title">'.$service_name.'</strong>');
 	
 	if($data['identity'] == "identity" && user_has_identity($_SESSION['user_id']) == 0){
 		
 		if(logged_in() == false){
 			
-			echo('This board requires that you display your identity. You need to <a href = "login.php">login</a> or <a href = "register.php">sign up</a> in order to get one.');
+			echo('<span class = "form-note col-xs-12">This board requires that you display your identity. You need to <a href = "login.php">login</a> or <a href = "register.php">sign up</a> in order to get one.</span>');
 			
 		}else{
 		
-			echo('This board requires that you display your identity. You do not currently have a an identity registered. You can do that <a href = "identity.php">here</a>');
+			echo('<span class = "form-note col-xs-12">This board requires that you display your identity. You do not currently have a an identity registered. You can do that <a href = "identity.php">here</a></span>');
 		
 		}
-		
+				
 	}else{
 	
 		if($data['identity'] == "identity" && user_has_identity($_SESSION['user_id']) == 1){
@@ -272,21 +300,233 @@ function display_form($service_name, $service_in){
 	
 		if($data['title_on']){
 	
-			 echo('<div class = "form-group"><div class="col-xs-12"><input class = "form-control" id = "title" type="text" name="title" placeholder = "Post Title"></div></div>');
+			 echo('<div class = "form-group"><div class="col-xs-12"><input class = "form-control" id = "title" type="text" name="title" placeholder = "Title"></div></div>');
 	
 		}
 	
 		//textarea and service
 		echo('<div class="form-group"><input value = "'.$data['name'].'" name = "service" hidden><div class="col-xs-12"><textarea placeholder = "'.$data['prompt'].'" name="post" class ="form-control" ></textarea></div></div>');
+		
+		if($data['is_event']){
+			
+			echo('
+				
+        <div class="form-group">
+          <div class="col-sm-12">
+            <input type="text" class="form-control" id="location" name = "location" placeholder="Location">
+          </div>
+        </div>
+			
+		    <div class="form-group">
+		  	<div class = "col-sm-12"><label>Start Time:</label></div>
+		  	    <div class="col-sm-4">
+		
+		        <select class="form-control" id= "hour" class = "sf-Events-disable" name = "hour">
+		  		  <option value = "1">1</option>
+		  		  <option value = "2">2</option>
+		  		  <option value = "3">3</option>
+		  		  <option value = "4">4</option>
+		  		  <option value = "5">5</option>
+		  		  <option value = "6">6</option>
+		  		  <option value = "7">7</option>
+		  		  <option value = "8">8</option>
+		  		  <option value = "9">9</option>
+		  		  <option value = "10">10</option>
+		  		  <option value = "11">11</option>
+		  		  <option value = "12">12</option>
+		  	  </select>
+		  		</div>
+
+				<div class="col-sm-4">
+  
+
+		        <select class = "sf-Events-disable form-control" id="minute" name = "minute">
+		  		  <option value = "00">00</option>
+		  		  <option value = "15">15</option>
+		  		  <option value = "30">30</option>
+		  		  <option value = "45">45</option>
+		  	  </select>
+	  
+		  	  </div>
+	  
+		     <div class="col-sm-4">
+	 
+		        <select class = "sf-Events-disable form-control" id="apm" name = "apm">
+		  		  <option value = "am">AM</option>
+		  		  <option value = "pm">PM</option>
+		  	  </select>
+		      </div>
+		</div>
+
+		    <div class="form-group">
+		  	 <div class = "col-sm-12"><labeL>Date:</label></div>
+		
+		  	    <div class="col-sm-4">
+		
+		  		<select class = "form-control" name = "month" id = "'.$data['name'].'_month">
+		  		<option value = ""> </option>
+		  		<option value = "01">January</option>
+		  		<option value = "02">February</option>
+		  		<option value = "03">March</option>
+		  		<option value = "04">April</option>
+		  		<option value = "05">May</option>
+		  		<option value = "06">June</option>
+		  		<option value = "07">July</option>
+		  		<option value = "08">August</option>
+		  		<option value = "09">September</option>
+		  		<option value = "10">October</option>
+		  		<option value = "11">November</option>
+		  		<option value = "12">December</option>
+		  		</select>
+		
+		  	    </div>
+		
+		  	    <div class="col-sm-4">
+		
+		
+		  		<select class = "form-control" name = "day" id = "'.$data['name'].'_day">
+		  			<option value = "1">1</option>
+		  		</select>
+		
+		  	    </div>
+		
+		  	    <div class="col-sm-4">
+
+		  		<select class = "form-control" name = "year" id = "'.$data['name'].'_year">
+		  		<option value = ""> </option>
+		  		</select>
+
+				<script type = "text/javascript">
+				
+				var '.$data['name'].'_ysel = document.getElementById("'.$data['name'].'_year"),
+				    '.$data['name'].'_msel = document.getElementById("'.$data['name'].'_month"),
+				    '.$data['name'].'_dsel = document.getElementById("'.$data['name'].'_day");
+				for (var i = 2015; i <= 2019; i++) {
+				    var opt = new Option();
+				    opt.value = opt.text = i;
+				    '.$data['name'].'_ysel.add(opt);
+				}
+				'.$data['name'].'_ysel.addEventListener("change", function(){ validate_date(\''.$data['name'].'\')});
+				'.$data['name'].'_msel.addEventListener("change", function(){ validate_date(\''.$data['name'].'\')});
+				
+				</script>
+				
+		  	    </div>
+		
+		    </div>
+  
+  
+		      <div class="form-group">
+		        <div class="col-sm-6">
+		    	<label>Duration:</label>
+		    	<select class = "form-control" value = "3600" name = "duration">
+		    	<option value = "3600">1 Hour</option>
+		    	<option value = "7200">2 Hours</option>
+		    	<option value = "10800">3 Hours</option>
+		    	<option value = "14400">4 Hours</option>
+		    	<option value = "18000">5 Hours</option>
+		    	<option value = "21600">6 Hours</option>
+		    	<option value = "25200">7 Hours</option>
+		    	<option value = "28800">8 Hours</option>
+		    	<option value = "32400">9 Hours</option>
+		    	<option value = "36000">10 Hours</option>
+
+		    	</select>
+		      </div>
+	
+		        <div class="col-sm-6">
+		    	<label>Recurring:</label>
+		    	<select class = "form-control" value = "Not" id = "recurring_'.$data['name'].'" name = "recurring_type">
+		    	<option value = "Not">Not Recurring</option>
+		    	<option value = "Weekly">Weekly</option>
+		    	<option value = "Bi-Weekly">Bi-Weekly</option>
+
+		    	</select>
+		      </div>
+		    </div>
+			
+			<script type = "text/javascript">
+			
+			var recurring_'.$data['name'].' = document.getElementById("recurring_'.$data['name'].'");
+		
+			recurring_'.$data['name'].'.addEventListener("change", function(){ recurring(\''.$data['name'].'\')});
+			
+			</script>
+		
+				
+		    <div id = "recurring_end_'.$data['name'].'" class="not-visible form-group">
+		  	 <div class = "col-sm-12"><labeL>Recurring End Date:</label></div>
+		
+		  	    <div class="col-sm-4">
+		
+		  		<select class = "form-control" name = "r_month" id = "r_'.$data['name'].'_month">
+		  		<option value = ""> </option>
+		  		<option value = "01">January</option>
+		  		<option value = "02">February</option>
+		  		<option value = "03">March</option>
+		  		<option value = "04">April</option>
+		  		<option value = "05">May</option>
+		  		<option value = "06">June</option>
+		  		<option value = "07">July</option>
+		  		<option value = "08">August</option>
+		  		<option value = "09">September</option>
+		  		<option value = "10">October</option>
+		  		<option value = "11">November</option>
+		  		<option value = "12">December</option>
+		  		</select>
+		
+		  	    </div>
+		
+		  	    <div class="col-sm-4">
+		
+		
+		  		<select class = "form-control" name = "r_day" id = "r_'.$data['name'].'_day">
+		  			<option value = "1">1</option>
+		  		</select>
+		
+		  	    </div>
+		
+		  	    <div class="col-sm-4">
+
+		  		<select class = "form-control" name = "r_year" id = "r_'.$data['name'].'_year">
+		  		<option value = ""> </option>
+		  		</select>
+	
+				<script type = "text/javascript">
+				
+				var r_'.$data['name'].'_ysel = document.getElementById("r_'.$data['name'].'_year"),
+				    r_'.$data['name'].'_msel = document.getElementById("r_'.$data['name'].'_month"),
+				    r_'.$data['name'].'_dsel = document.getElementById("r_'.$data['name'].'_day");
+				
+				for (var i = 2015; i <= 2019; i++) {
+				    var opt = new Option();
+				    opt.value = opt.text = i;
+				    r_'.$data['name'].'_ysel.add(opt);
+				}
+				
+				r_'.$data['name'].'_ysel.addEventListener("change", function(){ validate_date(\'r_'.$data['name'].'\')});
+				r_'.$data['name'].'_msel.addEventListener("change", function(){ validate_date(\'r_'.$data['name'].'\')});
+				
+				
+						
+				
+				</script>
+		  		
+		  	    </div>
+		    </div>
+			
+			');
+			
+		}
 	
 	
 		if($data['images_on']){
 		
 			echo('<div class = "form-group"><label for="is_image"   class="col-xs-3 control-label">Use a picture:</label><div class="col-xs-8">');
 			
-		echo('<input onclick = "toggle_post_picture(\''.$service_name.'\')" type="checkbox" name = "is_image" value="checked"></div></div>');
+			echo('<input onclick = "toggle_post_picture(\''.$service_name.'\')" type="checkbox" name = "is_image" value="checked"></div></div>');
 		
-		 echo('<div id = "post-pic-form-'.$service_name.'" class="form-group picture-disabled"><label for="pic" class="col-xs-3 control-label">Picture:</label><div class="col-xs-8"><input class = "form-control"  type="file" name="pic"></div></div>');
+		 	echo('<div id = "post-pic-form-'.$service_name.'" class="form-group picture-disabled"><label for="pic" class="col-xs-3 control-label">Picture:</label><div class="col-xs-8"><input class = "form-control"  type="file" name="pic"></div></div>');
 	 	
 		}
 	
@@ -328,7 +568,7 @@ function display_form($service_name, $service_in){
 		
 			}else{
 			
-				echo('<div class="checkbox disabled"><label><input type="checkbox" value="" disabled>I want replies</label></div>You must <a href = "login.php">login</a> or <a href = "register.php">sign up</a> to recieve private replies');
+				echo('<div class="checkbox disabled"><label><input type="checkbox" value="" disabled>I want replies</label></div><span class = "form-note col-xs-12">You must <a href = "login.php">login</a> or <a href = "register.php">sign up</a> to recieve private replies</span>');
 		
 			} 
 		

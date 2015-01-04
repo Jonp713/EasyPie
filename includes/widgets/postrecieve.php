@@ -177,8 +177,10 @@ if (empty($_POST) === false && empty($errors) === true) {
 	
 	
 
-	if($_POST['service'] == "Events"){
-	
+	if(is_event($_POST['service'])){
+		
+		$post_data['is_event'] = 1;
+			
 		if(isset($_POST['free_food']) && $_POST['freefood_on'] == 'on'){
 			
 			$post_data['has_free_food'] = 1;
@@ -208,7 +210,15 @@ if (empty($_POST) === false && empty($errors) === true) {
 		
 		$post_data['title'] = $_POST['title'];
 		
-		$post_data['location'] = $_POST['location'];
+		if(!empty($_POST['location'])){
+		
+			$post_data['location'] = $_POST['location'];
+		
+		}else{
+			
+			$post_data['location'] = "Somewhere";
+			
+		}
 		
 		if($_POST['recurring_type'] != "Not"){
 						

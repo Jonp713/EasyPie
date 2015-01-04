@@ -14,7 +14,8 @@
     <script src = 'js/messages.js' type = 'text/javascript'></script>
     <script src = "js/bootstrap.js" type = 'text/javascript'></script>
     <script src = "js/sidebar.js" type = 'text/javascript'></script>
-	<?php include 'js/servicesjs.php' ?>		
+	<?php include 'js/servicesjs.php' ?>	
+	<?php include 'js/coordinatesjs.php' ?>		
     <script src = "js/comments.js" type = 'text/javascript'></script>	
     <script src = "js/points.js" type = 'text/javascript'></script>	
     <script src = "js/users.js" type = 'text/javascript'></script>		
@@ -93,6 +94,7 @@
 	
 		<?php
 	}?>
+	
 	
 
 </body>

@@ -66,7 +66,7 @@ if (isset($_GET['success']) === true && empty($_GET['success']) === true) {
 				'active' 		=> 2,
 				'allow_email' 	=> 1,
 				'email' 		=> $_POST['email'],
-				'email_code'	=> md5($_POST['username'] + microtime())
+				'email_code'	=> md5($_POST['username'] + microtime()),
 			);
 		
 			register_user_with_email($register_data);
@@ -85,7 +85,7 @@ if (isset($_GET['success']) === true && empty($_GET['success']) === true) {
 	
 			register_user($register_data);
 			$_SESSION['user_id'] = login($_POST['username'], $_POST['password']);
-			header('Location: posts.php?c=Hampy');
+			header('Location: explore.php');
 			exit();
 			
 		}

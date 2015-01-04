@@ -26,6 +26,8 @@
 	
 	 <?php }?>
 	<meta charset="UTF-8">
+	
+	
 	 
 	<meta name="keywords" content="<?php if(!empty($community_in)){echo($community_in.',');} ?> <?php if(!empty($service_in)){echo($service_in.',');} ?>, college, community, life, tickling, personals, missed connections, compliments, icuhampy">	
 	

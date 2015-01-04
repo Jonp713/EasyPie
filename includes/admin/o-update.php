@@ -84,16 +84,18 @@
 			$service_data1['title_on'] = 0;
 			
 		}
-			
-		if($_POST['inappropriate'] == 'on'){
+		
+		/*
+		if($_POST['time_oriented'] == 'yes'){
 	
-			$service_data1['inappropriate'] = 1;
+			$service_data1['is_event'] = 1;
 	
 		}else{
 			
-			$service_data1['inappropriate'] = 0;
+			$service_data1['is_event'] = 0;
 			
 		}
+		*/
 
 		if($_POST['comments_on'] == 'on'){
 	
@@ -104,12 +106,38 @@
 			$service_data1['comments_on'] = 0;
 			
 		}
+		
+		if($_POST['geo_lock'] == 'on'){
 	
-		//if($_POST['2comments_on'] == 'on'){
+			$service_data1['geo_locked'] = 1;
 	
-		//	$service_data1['2comments_on'] = 1;
+		}else{
+			
+			$service_data1['geo_locked'] = 0;
+			
+		}
+		
+		if($_POST['blur_on'] == 'on'){
 	
-			//}
+			$service_data1['blur_on'] = 1;
+	
+		}else{
+			
+			$service_data1['blur_on'] = 0;
+			
+		}
+		
+		if($_POST['share_on'] == 'on'){
+	
+			$service_data1['share_on'] = 1;
+	
+		}else{
+			
+			$service_data1['share_on'] = 0;
+		
+		}
+		
+
 		
 		if($_POST['private_on'] == 'on'){
 	
@@ -339,6 +367,25 @@
 		 
 			
 			<hr class = "messagehr"><br>
+			
+			<!--
+			<strong>Type:</strong><br>Is your board time oriented? Does it regard events or things that happen at certain times?
+			<div class="radio">
+			  <label class = "radio-inline">
+			    <input type="radio" name="time_oriented" id="optionsRadios13" value="yes" <?php //if($data['is_event'] == 1){ echo('checked'); }?>>
+			  	 Yes (Your boards form will include start time/date, end time/date, recurring and location. The posts will be sorted by start time on your boards pages)
+			  </label>
+			  
+			</div>
+			<div class="radio">
+			  <label class = "radio-inline">
+			    <input type="radio" name="time_oriented" id="optionsRadios15" value="no" <?php //if($data['is_event'] == 0){ echo('checked'); }?>>
+			  	 No
+			  </label>
+			</div>
+			<br>
+				-->
+			
 			<strong>Title:</strong> 
 			<div class="checkbox">
 		  	  	<label> <input type="checkbox" name="title_on" <?php if($data['title_on'] == 1){ echo('checked'); }?>>Posts have a title (Appears above the timestamp)</label>
@@ -448,12 +495,29 @@
 			   </label>
 			 </div><br>
 			 
-		    <div class="checkbox">
-		      <label>
-		 		 <input type="checkbox" name="inappropriate" <?php if($data['inappropriate'] == 1){ echo('checked'); }?>>The content of my board could be considered inappropriate.
-		      </label>
-		    </div>
-			 <br>
+		 <hr class = "messagehr"><br>
+		 <strong>Security:</strong><br>
+
+	    <div class="checkbox">
+	      <label>
+	 		 <input type="checkbox" name="geo_lock" <?php if($data['geo_locked'] == 1){ echo('checked'); }?>>Geo-lock my board (Prevents users from accessing unless within a certain mile radius of your community)
+	      </label>
+	    </div>
+		 
+	    <div class="checkbox">
+	      <label>
+	 		 <input type="checkbox" name="blur_on" <?php if($data['blur_on'] == 1){ echo('checked'); }?>>Prevent saving/screenshotting of images (Will add a removeable blur over your images)
+	      </label>
+	    </div>
+		
+	    <div class="checkbox">
+	      <label>
+	 		 <input type="checkbox" name="share_on" <?php if($data['share_on'] == 1){ echo('checked'); }?>>Allow users to share posts from this board
+	      </label>
+	    </div>
+		 
+		 <br><br>
+			 
 
 			 
 			 <button type="submit" class=" btn btn-info">UPDATE</button></form><br></span>

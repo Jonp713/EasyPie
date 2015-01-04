@@ -195,6 +195,13 @@ function get_home_from_user_id($user_id) {
 	return mysql_result(mysql_query("SELECT `home` FROM `users` WHERE `user_id` = '$user_id'"), 0, 'home');
 }
 
+function get_home_from_username($username) {
+	$username = sanitize($username);
+		
+	return mysql_result(mysql_query("SELECT `home` FROM `users` WHERE `username` = '$username'"), 0, 'home');
+}
+
+
 function user_id_from_email($email) {
 	$email = sanitize($email);
 	return mysql_result(mysql_query("SELECT `user_id` FROM `users` WHERE `email` = '$email'"), 0, 'user_id');
