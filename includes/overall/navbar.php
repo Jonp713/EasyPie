@@ -39,8 +39,56 @@ if(isset($_GET['service'])){
   
 	//echo('<span class = "pull-left corntext">'.strtoupper($_GET['service']).'</span>');
 	//echo('<span class = "pull-left corntext">'.strtoupper($_GET['c']).'</span>');
+	echo('<span class = "hidden-xs">');
   
+  
+	if(isset($_GET['service']) && display_name_type($_GET['service']) == "sercom"){
 	
+	
+		if(!empty($service_in)){
+		
+			echo('<span class = "pull-left corntext white">'.strtoupper($_GET['service']).'</span>');
+	
+		}else{
+		
+			echo('<span class = "pull-left corntext white">MATROPOLIX</span>');
+	
+		}  
+		
+		
+		if(!empty($community_in)){
+		
+		  	echo('<span class = "pull-left corntext">'.strtoupper($_GET['c']).'</span>');
+	
+		}  
+
+
+	}else{
+		
+		
+		if(!empty($community_in)){
+		
+		  	echo('<span class = "pull-left corntext">'.strtoupper($_GET['c']).'</span>');
+	
+		}  
+	
+	
+		if(!empty($service_in)){
+		
+			echo('<span class = "pull-left corntext white">'.strtoupper($service_in).'</span>');
+	
+		}else{
+		
+			echo('<span class = "pull-left corntext white">MATROPOLIX</span>');
+	
+		}  
+	
+	
+	}
+	
+	echo('</span>');
+	
+	/*
   if(!isset($_GET['c'])){
 	    	
 	  	if(isset($session_user_id)){
@@ -52,7 +100,7 @@ if(isset($_GET['service'])){
 		if(!isset($_GET['service'])){
 			
 		
-			echo('<span class = "pull-left corntext white">HABITAT</span>');
+			echo('<span class = "pull-left corntext white">MATROPOLIX</span>');
 			
 		
 		}else{
@@ -69,7 +117,7 @@ if(isset($_GET['service'])){
 			
 		  	echo('<span class = "pull-left corntext">'.strtoupper($_GET['c']).'</span>');
 			
-			echo('<span class = "pull-left corntext white">HABITAT</span>');
+			echo('<span class = "pull-left corntext white">MATROPOLIX</span>');
 	
 	  	
 	
@@ -83,7 +131,7 @@ if(isset($_GET['service'])){
 		
 	}
 
-	
+	*/
 	
 	
 	?>
@@ -100,7 +148,21 @@ if(isset($_GET['service'])){
 			
 	    		$url = get_logo_picture_url_from_service_name($_GET['service']);
 		   		   
-	  	  			 echo('<img class = "menu-toggle btn btn-lg btn-default sm-navlogo pull-right navlogocollapse" src = "'.$url.'">');
+				   
+					if(empty($url)){
+					
+	 echo('<span class = "menu-toggle btn btn-lg btn-default sm-navlogo pull-right navlogocollapse"><span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span></span>');	
+	 				
+					}else{
+				   
+	  	  			 echo('<img class = "menu-toggle img-responsive no-padding btn btn-lg btn-default sm-navlogo pull-right navlogocollapse" src = "'.$url.'">');
+					 
+					 }
+					 
+					 
+					 
 
 			  	
 	   		  }else{
@@ -108,9 +170,9 @@ if(isset($_GET['service'])){
 			  
 	   			  ?>
 		   
-		   
-	  	<img class = 'menu-toggle btn btn-md btn-default sm-navlogo pull-right navlogocollapse' src = "images/logonotext.png" >
-	
+<span class = "menu-toggle btn btn-lg btn-default sm-navlogo pull-right navlogocollapse"> <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span></span>	
    
 	  			  <?php
    	   
@@ -125,7 +187,6 @@ if(isset($_GET['service'])){
 	      <div class="collapse navbar-collapse pull-right" id="bs-example-navbar-collapse-2">
 	         <ul class="nav navbar-nav immovingthisfuckingtext">	
 				 
-				 	 
 				 
 	  		<!--<li><a href = "search.php" data-toggle="tooltip" title="Pretty self-explanatory..." data-placement="bottom">SEARCH</a></li>-->
 			  

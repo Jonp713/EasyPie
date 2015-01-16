@@ -6,6 +6,8 @@ function protect_moderator($service, $community, $user_id){
 
 		header("Location: admin.php");
 
+		exit();
+
 	}
 }
 
@@ -14,6 +16,9 @@ function protect_owner($service, $user_id){
 	if(!user_owns_service($service, $user_id)){
 
 		header("Location: admin.php");
+		
+		exit();
+		
 
 	}
 }

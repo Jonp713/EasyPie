@@ -1,6 +1,6 @@
 <h1>Recover Username</h1>
 <?php
-if (isset($_GET['success']) === true && empty($_GET['success']) === true) {
+if (isset($_GET['s']) === true && empty($_GET['s']) === true) {
 ?>
 	<p>An email has been sent to that address</p>
 <?php
@@ -10,7 +10,7 @@ if (isset($_GET['success']) === true && empty($_GET['success']) === true) {
 		if (isset($_POST['email']) === true && empty($_POST['email']) === false) {
 			if (email_exists($_POST['email']) === true) {
 				recover($_GET['mode'], $_POST['email']);
-				header('Location: recover.php?success');
+				header('Location: recover.php?s');
 				exit();
 			} else {
 				echo '<p>An email has been sent to that address</p>';

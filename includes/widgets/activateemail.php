@@ -1,10 +1,6 @@
 <?php
 	
-if (isset($_GET['success']) === true && empty($_GET['success']) === true) {
-?>
-	<h2>We've confirmed your email</h2>
-<?php
-} else if (isset($_GET['email'], $_GET['email_code']) === true) {
+if (isset($_GET['email'], $_GET['email_code']) === true) {
 
 	$email 		= trim($_GET['email']);
 	$email_code = trim($_GET['email_code']);
@@ -24,7 +20,7 @@ if (isset($_GET['success']) === true && empty($_GET['success']) === true) {
 	<?php
 		echo output_errors($errors);
 	} else {
-		header('Location: activate.php?success');
+		header('Location: activate.php?success=confirmed_email');
 		exit();
 	}
 

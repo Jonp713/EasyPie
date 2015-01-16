@@ -9,6 +9,8 @@
 	
 	$service_name = $_GET['service'];
 	
+	sanitize($_GET['service']);
+	
 	$data = mysql_fetch_assoc(mysql_query("SELECT * FROM services WHERE name = '$service_name' AND core = 1"));
 	
 	if (empty($_POST) === false) {
@@ -68,10 +70,12 @@
 		$service_data1 = array(
 			'color'			=> '#' . $_POST['board_color'],
 			'prompt'		=> $_POST['prompt'],
+			'name_display'	=> $_POST['name_display'],
 			'description'	=> $_POST['description'],
 			'identity'		=> $_POST['identity'],
 			'style'			=> $_POST['style'],
 			'moderation'	=> $_POST['moderation'],
+			
 					
 		);
 		
@@ -115,6 +119,12 @@
 			
 			$service_data1['geo_locked'] = 0;
 			
+			$service = sanitize($_GET['service']);
+			
+			mysql_query("UPDATE services SET is_home = 0 WHERE name = '$service'");	
+			
+			mysql_query("UPDATE posts SET is_home = 0 WHERE service = '$service' AND (status = 1 OR status = 0) AND is_home = 1");			
+						
 		}
 		
 		if($_POST['blur_on'] == 'on'){
@@ -124,6 +134,14 @@
 		}else{
 			
 			$service_data1['blur_on'] = 0;
+			
+			$service = sanitize($_GET['service']);
+			
+			mysql_query("UPDATE services SET is_home = 0 WHERE name = '$service'");
+			
+			mysql_query("UPDATE posts SET is_home = 0 WHERE service = '$service' AND (status = 1 OR status = 0) AND is_home = 1");			
+			
+			
 			
 		}
 		
@@ -210,30 +228,38 @@
 	
 			}
 			
-			$name = $data['name'];
+			if (empty($errors)) {
+
+				$name = $data['name'];
+				
+				$name = sanitize($name);
 		
-			$file_path = upload_image_characters($data['name'], $file_temp, $file_extn, $session_user_id);
+				$file_path = upload_image_characters($data['name'], $file_temp, $file_extn, $session_user_id);
 			
-			$theid = mysql_fetch_assoc(mysql_query("SELECT LAST_INSERT_ID() AS id FROM pictures WHERE nickname = '$name'"));
+				$theid = mysql_fetch_assoc(mysql_query("SELECT LAST_INSERT_ID() AS id FROM pictures WHERE nickname = '$name'"));
 			
-			$character_data['pic_id'] = $theid['id'];
+				$character_data['pic_id'] = $theid['id'];
 			
-			update_character_id($data['character_id'], $character_data);
+				update_character_id($data['character_id'], $character_data);
+			
+			}
 		
 		}
 					
-		update_service_id($data['id'], $service_data1);
 		
 		if(empty($errors) === true){
-						
-			//header('Location: admin.php?service='.$data['name']);
-		
-			//exit();
 			
-			echo('Service Updated!');
-
-		}
+			update_service_id($data['id'], $service_data1);
+						
+			header('Location: admin.php?service='.$data['name'].'&p=Update&success=update_board');
 		
+			exit();
+
+
+		}else if (empty($errors) === false) {
+
+			echo('<br>'. output_errors($errors));
+		}		
 		
 	
 	}else if (empty($errors) === false) {
@@ -241,10 +267,6 @@
 		echo('<br>'. output_errors($errors));
 	}
 	
-	$service_name = $_GET['service'];
-	
-	$data = mysql_fetch_assoc(mysql_query("SELECT * FROM services WHERE name = '$service_name' AND core = 1"));
-
 	
 	?>
 		
@@ -254,12 +276,34 @@
 		  <form class = "submit_post form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
 				
 	  			<div class="form-group">
+					
+	  		      <div class="col-xs-12">
+					
+					
+					<strong>Name Display:</strong><br>
+
+					<div class="radio">
+					  <label>
+					    <input type="radio" name="name_display" id="optionsRadios4" value="comser" <?php if($data['name_display'] == 'comser'){ echo('checked'); }?>>
+					  	Community first - ex. COMMUNITY<strong>BOARDNAME</strong>
+					  </label>
+					</div>
+					<div class="radio">
+					  <label>
+					    <input type="radio" name="name_display" id="optionsRadios5" value="sercom" <?php if($data['name_display'] == 'sercom'){ echo('checked'); }?>>
+					  	Board First - ex. <strong>BOARDNAME</strong>COMMUNITY
+					  </label>
+					</div><br>
+					
+					</div>
 				
 			  		      <div class="col-xs-12">
 							  <label>Board Description:</label>
 			  				<textarea class = "form-control" placeholder = "This will pop-up in the navigation to give a user a description of your board before they decide to click on it. It should describe what they about to see." name="description" id = "description" ><?php echo($data['description']);?></textarea>
 			  				</div>
 			  			</div>
+						
+						
 				
 	  			<div class="form-group">
 				
@@ -280,7 +324,7 @@
 						
 						
 					   	<div class = "form-group">
-					        <label for="is_image"   class = "sf-Events-disable col-xs-3 control-label">Don't use an Icon</label>
+					        <label for="is_image"   class = "col-xs-3 control-label">Don't use an Icon</label>
 	
 					 		 <div class="col-xs-8">
 
@@ -410,7 +454,7 @@
 									
 <br>
 
-<strong>Style:</strong><br>How is your media positioned on the post? (Only for Videos and Images)
+<strong>Style:</strong><br>How is your media positioned on the post? (Only for Videos and Images) (Does not affect Memes, which are automatically After)
 
 <div class="radio">
   <label>
@@ -500,13 +544,13 @@
 
 	    <div class="checkbox">
 	      <label>
-	 		 <input type="checkbox" name="geo_lock" <?php if($data['geo_locked'] == 1){ echo('checked'); }?>>Geo-lock my board (Prevents users from accessing unless within a certain mile radius of your community)
+	 		 <input type="checkbox" name="geo_lock" <?php if($data['geo_locked'] == 1){ echo('checked'); }?>>Geo-lock my board (Prevents users from accessing unless within a certain mile radius of your community)  <i class = "form-note"> Your posts will not be allowed on the community home page </i>
 	      </label>
 	    </div>
 		 
 	    <div class="checkbox">
 	      <label>
-	 		 <input type="checkbox" name="blur_on" <?php if($data['blur_on'] == 1){ echo('checked'); }?>>Prevent saving/screenshotting of images (Will add a removeable blur over your images)
+	 		 <input type="checkbox" name="blur_on" <?php if($data['blur_on'] == 1){ echo('checked'); }?>>Prevent saving/screenshotting (Will add a removeable blur over your images and text)  <i class = "form-note"> Your posts will not be allowed on the community home page </i>
 	      </label>
 	    </div>
 		
@@ -517,7 +561,6 @@
 	    </div>
 		 
 		 <br><br>
-			 
 
 			 
 			 <button type="submit" class=" btn btn-info">UPDATE</button></form><br></span>

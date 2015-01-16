@@ -39,9 +39,6 @@ if (empty($_POST) === false) {
 <h1>My information</h1>
 
 <?php
-if (isset($_GET['success']) === true && empty($_GET['success']) === true) {
-	echo '<p class = "form_success">Your details have been updated</p>';
-} 
 
 	if (empty($_POST) === false && empty($errors) === true) {
 		
@@ -77,7 +74,7 @@ if (isset($_GET['success']) === true && empty($_GET['success']) === true) {
 		
 		}
 		
-		header('Location: information.php?success');
+		header('Location: information.php?success=info_updated');
 		exit();
 		
 	} else if (empty($errors) === false) {

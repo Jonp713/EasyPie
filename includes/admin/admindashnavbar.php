@@ -2,7 +2,23 @@
 
 if(isset($_GET['service']) == true && isset($_GET['c']) == true){
 	
-	$p_links = ['Queue', 'Approved', 'Options'];
+	if($_GET['service'] == "Hole"){
+	
+		$p_links = ['Approved', 'Options'];
+	
+	
+	}else{
+		
+		$p_links = ['Queue', 'Approved', 'Options'];
+		
+		
+	}
+	
+	if(is_meme($_GET['service'])){
+		
+		$p_links[] = 'Memebase';
+	}
+	
 
 	foreach ($p_links as $currentlink) {
 		

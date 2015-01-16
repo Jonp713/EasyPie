@@ -14,44 +14,42 @@ function start_messagereply(message_id, span){
 function reply_message(message_id){
 	
 	var spannumber = "#messagereply_submit" + message_id;
-		
+	
 	var message = $(spannumber).val();  
 		
 	if(message == ""){
 		
-			$('#topalert').html('<span class="alert alert-danger" role="alert"><span class = "glyphicon"></span> &nbsp;&nbsp;You cannot send a blank message</span>');
+		$('#topalert').html('<span class="alert alert-danger" role="alert"><span class = "glyphicon"></span>You cannot send a blank message..are you high or something?</span>');
    
-			$('#topalert').fadeIn("slow", function() { $(this).delay(2000).fadeOut("slow");
- 		
+		$('#topalert').fadeIn("slow", function() { $(this).delay(3000).fadeOut("slow");
+ 		});
 		
-		});
 		
 		exit();
 		
-	}
-		
-    $.post("core/functions/ajax.php",{function: "reply_message", message_id: message_id, message: message},function(data){
+	}else{
+	
+	    $.post("core/functions/ajax.php",{function: "reply_message", message_id: message_id, message: message},function(data){
                 		
-
-		$('#topalert').html('<span class="alert alert-success" role="alert"><span class = "glyphicon"></span> &nbsp;&nbsp;Your Message Has Been Sent</span>');
+			$('#topalert').html('<span class="alert alert-success" role="alert"><span class = "glyphicon"></span>Thanks, we handed it off to the mailman</span>');
    
-		$('#topalert').fadeIn("slow", function() { $(this).delay(2000).fadeOut("slow");
+			$('#topalert').fadeIn("slow", function() { $(this).delay(3000).fadeOut("slow");
 		
 
 	
-		 });
+			 });
 		 
-	
-
     
-	 });
+		 });
 	 
-	$(".message"+message_id+"-bottom").html('');
+		$(".message"+message_id+"-bottom").html('');
 	
-	$(".message"+message_id+"-bottom").css('display', 'none');
+		$(".message"+message_id+"-bottom").css('display', 'none');
 	
- 	$(".message"+message_id+"-bottom").hide();
+	 	$(".message"+message_id+"-bottom").hide();
 
+
+	}
 	
 }
 
@@ -60,7 +58,8 @@ function delete_message(message_id, type, span){
 			
     $.post("core/functions/ajax.php",{function: "delete_message", message_id: message_id, type: type},function(data){
                 
-    	$(span).parent('.messagefunctions').parent('.messagerow').fadeOut(300);
+    	$(span).parent('.messagefunctions').parent('.amessage').parent('.messagerow').fadeOut(300);
+		
 	
     }); 
 }

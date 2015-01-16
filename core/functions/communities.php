@@ -1,12 +1,5 @@
 <?php
 
-function service_sub_count($service_name){
-	$service_name = sanitize($service_name);
-	
-	$count = mysql_fetch_assoc(mysql_query("SELECT COUNT(user_id) AS totalsubs FROM subscriptions WHERE service = '$service_name'"));
-	
-	return ($count['totalsubs']);
-}
 
 
 function community_data($community_name) {
@@ -36,6 +29,15 @@ function community_exists($name) {
 	return (mysql_result(mysql_query("SELECT COUNT(`id`) FROM `communities` WHERE `name` = '$name'"), 0) == 1) ? true : false;
 }
 	
+	
+function community_available($name) {
+	
+	$name = sanitize($name);
+	
+	return (mysql_result(mysql_query("SELECT COUNT(`id`) FROM `communities` WHERE `name` = '$name' AND (status = 1 OR status = 0)"), 0) == 1) ? true : false;
+	
+}	
+
 	
 function get_communities($type, $state){
 	
@@ -197,6 +199,23 @@ function admin_posts($community_name){
 	return $all_posts;
 }
 
+
+
+function get_latitude($community_name){
+	$community_name = sanitize($community_name);
+	
+	
+ 	return mysql_result(mysql_query("SELECT `lati` FROM `communities` WHERE `name` = '$community_name'"), 0, 'lati');
+	
+}
+
+function get_longitude($community_name){
+	
+	$community_name = sanitize($community_name);
+	
+	return mysql_result(mysql_query("SELECT `longi` FROM `communities` WHERE `name` = '$community_name'"), 0, 'longi');
+	
+}
 /*
 
 function get_mods_picurl($admin_id){

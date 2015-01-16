@@ -26,6 +26,22 @@
 		
 		echo("<span class = 'col-xs-3 message-icon text-center'>");
 			
+			
+		if($currentnot['type'] == "saved_post"){
+		
+			echo('<span class="glyphicon glyphicon-star"></span><br>');
+		
+		}
+		
+		if($currentnot['type'] == "got_defranchised"){
+			echo('<span class="glyphicon glyphicon-remove-sign"></span><br>');
+			
+		}	
+	
+		if($currentnot['type'] == "home_change"){
+			echo('<span class="glyphicon glyphicon-home"></span><br>');
+			
+		}	
 	
 		if($currentnot['type'] == "new_post"){
 			echo('<span class="glyphicon glyphicon-unchecked"></span><br>');
@@ -55,7 +71,7 @@
 			
 		}	
 		if($currentnot['type'] == "give_points"){
-			echo('<span class="glyphicon glyphicon-gift"></span><br>');
+			echo('<span class="glyphicon glyphicon-chevron-up"></span><br>');
 			
 			
 		}
@@ -73,10 +89,8 @@
 			
 		echo('</span>');
 		
-		
 		echo("<span class = 'col-xs-6'>");
 		
-			
 		echo('<span class = "notificationtext">'.$currentnot['textin'].'</span>');
 		
 		echo('<span class = "extranottext">');
@@ -90,9 +104,13 @@
 			
 			$post = post_text_from_post_id($currentnot['ref_id']);
 			
-			if(isset($post)){
+			if(!empty($post)){
 
 				echo($post);
+				
+			}else{
+				
+				echo('view');
 				
 			}
 			
@@ -100,60 +118,26 @@
 						
 		}	
 		
+		
+		
 		if($currentnot['type'] == "saved_post"){
 
-			$service_name = service_name_from_post_id($currentnot['ref_id']);
-			$community_name = community_name_from_post_id($currentnot['ref_id']);
-			
-			echo('<a class = "plzgoup" target = "_blank" href = "posts.php?c='.$community_name.'&service='.$service_name.'&share='.$currentnot['ref_id'].'">');
-			
-			$post = post_text_from_post_id($currentnot['ref_id']);
-			
-			if(isset($post)){
-
-				echo($post);
-				
-			}
-			
-			echo('</a>');
 						
 		}
 		if($currentnot['type'] == "admin_reply"){
 			
-			$service_name = service_name_from_post_id($currentnot['ref_id']);
-			$community_name = community_name_from_post_id($currentnot['ref_id']);
-			
-			echo('<a class = "plzgoup" target = "_blank" href = "posts.php?c='.$community_name.'&service='.$service_name.'&share='.$currentnot['ref_id'].'">');
-			
-			$post = post_text_from_post_id($currentnot['ref_id']);
-			
-			if(isset($post)){
-
-				echo($post);
-				
-			}
-			
-			echo('</a>');
+		
 						
 		}
+		
+		
 		if($currentnot['type'] == "post_approved"){
 			
-			$service_name = service_name_from_post_id($currentnot['ref_id']);
-			$community_name = community_name_from_post_id($currentnot['ref_id']);
-			
-			echo('<a class = "plzgoup" target = "_blank" href = "posts.php?c='.$community_name.'&service='.$service_name.'&share='.$currentnot['ref_id'].'">');
-			
-			$post = post_text_from_post_id($currentnot['ref_id']);
-			
-			if(isset($post)){
-
-				echo($post);
-				
-			}
-			
-			echo('</a>');
+		
 						
 		}	
+		
+		
 		if($currentnot['type'] == "reply_message"){
 			
 			
@@ -161,62 +145,61 @@
 		}	
 		if($currentnot['type'] == "reply_post"){
 			
-			$service_name = service_name_from_post_id($currentnot['ref_id']);
-			$community_name = community_name_from_post_id($currentnot['ref_id']);
-			
-			echo('<a class = "plzgoup" target = "_blank" href = "posts.php?c='.$community_name.'&service='.$service_name.'&share='.$currentnot['ref_id'].'">');
-						
-			$post = post_text_from_post_id($currentnot['ref_id']);
-			
-			if(isset($post)){
-
-				echo($post);
-				
-			}
-			
-			echo('</a>');
 						
 		}	
+		
+		
 		if($currentnot['type'] == "give_points"){
-			
-			$service_name = service_name_from_post_id($currentnot['ref_id']);
-			$community_name = community_name_from_post_id($currentnot['ref_id']);
-			
-			echo('<a class = "plzgoup" target = "_blank" href = "posts.php?c='.$community_name.'&service='.$service_name.'&share='.$currentnot['ref_id'].'">');
-			
-			$post = post_text_from_post_id($currentnot['ref_id']);
-			
-			if(isset($post)){
-
-				echo($post);
-				
-			}
-			
-			echo('</a>');
+		
 			
 		}
+		
+		
 		if($currentnot['type'] == "comment"){
 			
-			$service_name = service_name_from_post_id($currentnot['ref_id']);
-			$community_name = community_name_from_post_id($currentnot['ref_id']);
-			
-			echo('<a class = "plzgoup" target = "_blank" href = "posts.php?c='.$community_name.'&service='.$service_name.'&share='.$currentnot['ref_id'].'">');
-			
-			$post = post_text_from_post_id($currentnot['ref_id']);
-			
-			if(isset($post)){
 
-				echo($post);
-				
-			}
-			
-			echo('</a>');
 			
 		}
+		
+
 		if($currentnot['type'] == "admin_message"){
 			
 			
-		}		
+		}	
+		
+		if($currentnot['type'] == "saved_post" || $currentnot['type'] == "admin_reply" || $currentnot['type'] == "post_approved" || $currentnot['type'] == "reply_post" || $currentnot['type'] == "give_points" || $currentnot['type'] == "comment"){
+		
+		
+			$service_name = service_name_from_post_id($currentnot['ref_id']);
+			$community_name = community_name_from_post_id($currentnot['ref_id']);
+			
+			if($service_name == "Hole"){
+				
+				echo('<a class = "plzgoup" target = "_blank" href = "hole.php?c='.$community_name.'&service='.$service_name.'&comment='.$currentnot['ref_id'].'">');
+				
+			}else{
+				
+			
+			echo('<a class = "plzgoup" target = "_blank" href = "posts.php?c='.$community_name.'&service='.$service_name.'&share='.$currentnot['ref_id'].'">');
+			
+			}
+			
+			$post = post_text_from_post_id($currentnot['ref_id']);
+			
+			
+			if(!empty($post)){
+
+				echo($post);
+				
+			}else{
+				
+				echo('view');
+				
+			}
+			
+			echo('</a>');
+		
+		}	
 		
 		echo('</span>');
 		

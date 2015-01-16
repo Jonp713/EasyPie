@@ -116,7 +116,7 @@ function reply_post(post_id){
 	
 	if(message == ""){
 		
-		$('#topalert').html('<span class="alert alert-danger" role="alert"><span class = "glyphicon"></span> &nbsp;&nbsp;You cannot send a blank message</span>');
+		$('#topalert').html('<span class="alert alert-danger" role="alert"><span class = "glyphicon"></span>You cannot send a blank message</span>');
    
 		$('#topalert').fadeIn("slow", function() { $(this).delay(2000).fadeOut("slow");
  		});
@@ -124,20 +124,20 @@ function reply_post(post_id){
 		
 		exit();
 		
-	}
+	}else{
 	
-    $.post("core/functions/ajax.php",{function: "reply_post", post_id: post_id, message: message},function(data){
+	    $.post("core/functions/ajax.php",{function: "reply_post", post_id: post_id, message: message},function(data){
                 
-		$('#replygroup'+post_id).replaceWith('');
+			$('#replygroup'+post_id).replaceWith('');
 		
-		$('#topalert').html('<span class="alert alert-success" role="alert"><span class = "glyphicon"></span> &nbsp;&nbsp;Your Message Has Been Sent</span>');
+			$('#topalert').html('<span class="alert alert-success" role="alert"><span class = "glyphicon"></span>Your Message Has Been Sent</span>');
    
    
-		$('#topalert').fadeIn("slow", function() { $(this).delay(2000).fadeOut("slow"); });
+			$('#topalert').fadeIn("slow", function() { $(this).delay(2000).fadeOut("slow"); });
     
-	   });
+		   });
 	
-	
+   	}
 }
 
 
@@ -205,6 +205,21 @@ function get_more_approved_posts(start, site, service){
 						
 						
 		}); 
+		
+		$('.hole-post-overlay-image').mousedown(function(e){ 
+  
+			 $('.blur-post').css('z-index', '-1');
+	 	 
+  
+		});
+
+
+		$(document).mouseup(function(e){ 
+
+			$('.blur-post').css('z-index', '2');
+	
+		});
+		
 		
 	});
 			
@@ -275,6 +290,22 @@ function get_more_feed_posts(start){
 						
 						
 		}); 
+		
+
+		$('.hole-post-overlay-image').mousedown(function(e){ 
+  
+			 $('.blur-post').css('z-index', '-1');
+	 	 
+  
+		});
+
+
+		$(document).mouseup(function(e){ 
+
+			$('.blur-post').css('z-index', '2');
+	
+		});
+		
 				    
     }); 
 	
@@ -282,15 +313,16 @@ function get_more_feed_posts(start){
 
 $('.hole-post-overlay-image').mousedown(function(e){ 
   
-	 $('.Hole-post').css('z-index', '-1');
+	 $('.blur-post').css('z-index', '-1');
+	 	 
   
 });
 
 
 $(document).mouseup(function(e){ 
 
-	$('.Hole-post').css('z-index', '2');
-
+	$('.blur-post').css('z-index', '2');
+	
 });
 
 

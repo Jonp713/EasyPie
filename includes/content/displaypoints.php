@@ -21,7 +21,7 @@
         <h4 class="modal-title" id="myModalLabel">About Points</h4>
       </div>
       <div class="modal-body">
-		  Points are dished out by the Moderator when you submit a post that they like. They can dish out anywhere between 1-100 points. We will be adding lots of bonus features and special treatment for users with high point counts. Right now, the only reward is that the users with the top 3 point counts will be considered to be brought onto the ICU team as a Moderator. Start posting!
+		  Points..yes...points. The mysterious value. Points are given when a post of yours is upvoted. Posts with high points will be sorted higher on its communities home feed. So thats what points do for your posts, but what do they do for YOU? Good question, we are still working on that. I have an answer for you, actually, but its not complete yet and I want to keep it a secret until its ready ... :)
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

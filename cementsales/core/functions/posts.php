@@ -161,7 +161,7 @@ function display_post_admin($post_id){
 	echo('<strong style = "color:'.get_service_color_from_service_name($data['service']).'">'.$data['service'] . '</strong><br>');
 	
 	
-	if($data['service'] == "Events"){
+	if(!empty($data['title'])){
 
 		echo('<strong>'.$data['title'] . '</strong><br>');
 	}
@@ -177,22 +177,50 @@ function display_post_admin($post_id){
 		echo('</span>');
 
 		if(in_array('image', $fields)){
-			if($data['isImage'] == 1){
+			
+			if($data['isMeme'] == 1){
+			
+				echo('<span class = "memewrapper col-xs-12 no-padding">');
+			
+				echo('<span class = "meme top">'.$data['top_line'].'</span>');
+		
+				echo('<img class = "img-responsive no-padding meme-image" src = "../'.$data['img_src'].'">');
+						
+				echo('<span class = "meme bottom">'.$data['bottom_line'].'</span>');
 
-				echo('<img class = "slight-circle img-responsive no-padding col-xs-8 col-sm-4" src = "../'.$data['img_src'].'">');
+				echo('</span>');
+			
+			}else{
+				if($data['isImage'] == 1){
+
+					echo('<img class = "slight-circle img-responsive no-padding col-xs-8 col-sm-4" src = "../'.$data['img_src'].'">');
+				}
+			
 			}
+		}
+		
+		if($data['isVideo'] == 1){
+
+				echo('<iframe class = "post_video" src="//www.youtube.com/embed/'.$data['vurl'].'" frameborder="0" allowfullscreen></iframe>');
+		}
+	
+	
+		if($data['isWebsite'] == 1){
+		
+			echo('<a href ="'.$data['wurl'].'">'.$data['wurl'].'</a>');
+
 		}
 				
 	}
 	
-	if($data['service'] == "Events"){
+	if($data['is_event'] == 1){
 
 		echo('On '. date("F j, Y, g:i a", $data['start_second']).  '<br>');
 	}
 	
-	if($data['service'] == "Events"){
+	if($data['is_event'] == 1){
 
-		if($data['recurring_type'] != "Not"){
+		if($data['recurring_type'] != "Not" && !empty($data['recurring_type'])){
 			
 			echo($data['recurring_type'] . " recurring ending on: ".  date("F j, Y, g:i a", $data['recurring_end']) . "<br>");
 			
@@ -254,6 +282,7 @@ function display_post_admin($post_id){
 			
 		}
 		
+		
 		echo('<span class = "form-inline">');
 		
 		if(in_array('admin_reply', $fields)){
@@ -273,6 +302,7 @@ function display_post_admin($post_id){
 			}
 	
 		}
+		
 		
 		if(in_array('give_points', $fields)){
 		

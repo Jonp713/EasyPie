@@ -22,6 +22,38 @@ if($function == 'judgement' && isset($_POST['post_id']) && isset($_POST['judgeme
 	}
 }
 
+if($function == 'delete_meme' && isset($_POST['pic_id']) && isset($session_user_id)){
+		
+	$success = delete_meme($_POST['pic_id'], $session_user_id);
+		
+	if($success){
+	
+		echo("success");
+	
+	}else{
+		
+		echo($success);
+	}
+	
+	
+}
+
+
+
+if($function == 'addtodb' && isset($_POST['service']) && isset($_POST['community']) && isset($_POST['post_id'])){
+
+	
+	$success = add_to_memebase($_POST['community'], $_POST['service'], $_POST['post_id']);
+		
+	if($success){
+	
+		echo('added to memedb');
+	
+	}	
+	
+	echo($success);
+}
+
 
 if($function == 'give_point' && isset($_POST['post_id']) && isset($session_user_id)){
 	
@@ -44,6 +76,7 @@ if($function == 'get_comments' && isset($_POST['post_id'])){
 	foreach ($comments as $currentcomment) {
 	
 		display_comment($currentcomment['id'], 'text', 'username', 'give_point', 'point_count', 'take_point');
+	
 	
 	}
 	
@@ -361,8 +394,7 @@ if($function == 'user_leave' && isset($_POST['service'])){
 
 
 	return user_leave($_POST['service'], $_POST['community']);
-	
-	
+
 
 
 }

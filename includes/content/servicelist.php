@@ -2,7 +2,7 @@
 
 $services = get_services($_GET['c'], 0);
 
-echo("<span class = 'services col-xs-12 nopadding'>");
+echo("<span class = 'col-xs-12 nopadding services'>");
 
 foreach ($services as $currentservice){
 	
@@ -16,8 +16,6 @@ foreach ($services as $currentservice){
 	 $url =  get_logo_picture_url_from_service_name($currentservice['name']);
  
 	 $desc = get_service_description_from_service_name($currentservice['name']);
-	 
-	 
 	 
 	 
 	 switch ($currentservice['name']) {
@@ -137,7 +135,7 @@ if(isset($session_user_id)){
 
 		$link = 'createservice.php';
 
-	 	echo('<a data-toggle="tooltip" data-container = "body" title="Create your own board!"  data-placement="left" href="'.$link.'" style = "background-color:#aaa" class="btn btn-custom2 btn-lg btn-block servicebutton"><img class = "service-logo col-xs-2 no-padding pull-left" src = ""><span class = "pull-left service-list-name col-xs-10">CREATE</span></a>');
+	 	echo('<a data-toggle="tooltip" data-container = "body" title="Create your own board!"  data-placement="left" href="'.$link.'" style = "background-color:#aaa" class="btn btn-custom2 btn-lg btn-block">CREATE</a>');
 
 		echo('</span>');
 		
@@ -147,6 +145,8 @@ if(isset($session_user_id)){
 
 
 }
+/*
+echo('<span class = "greyzone"><a class = "greylink" href = "about.php">About</a> | <a class = "greylink" href = "conditions.php">Terms & Conditons</a> | <a class = "greylink" href = "privacy.php">Privacy Policy</a> | <a class = "greylink" href = "copyright.php">Copyright</a> </span>');*/
 
 echo("</span>");
 

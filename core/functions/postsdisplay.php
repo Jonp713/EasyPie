@@ -2,7 +2,7 @@
 
 function create_display_set($post_id, $from, $type){
 	
-	$data1 = mysql_fetch_assoc(mysql_query("SELECT service, status FROM posts WHERE id = '$post_id'"));
+	$data1 = mysql_fetch_assoc(mysql_query("SELECT service, status, isMeme, has_identity FROM posts WHERE id = '$post_id'"));
 	
 	$service_name = $data1['service'];
 	
@@ -14,22 +14,44 @@ function create_display_set($post_id, $from, $type){
 	
 	if($from == 'moderator'){
 		
-		if($data1['status'] != 1){
+		if($data1['status'] != 1 && $data2['name'] != "Hole" ){
 		
 			$string[] = "approve";
 		
 		}
 		$string[] = "deny";		
-		$string[] = "hole";		
-		$string[] = "send";		
+		$string[] = "hole";	
 		
+		if($data2['name'] != "Hole"){
+			
+			$string[] = "send";		
+		
+		}
+		if($data2['for_memes'] == 1){
+			$string[] = "addtodb";	
+			
+			
+		}
 	}
 	
-	if($data2['blur_on'] == 1){
+	if($data2['blur_on'] == 1 && $from != "moderator"){
 	
 		$string[] = "blur";
 	
 	}
+	
+	if($data1['isMeme'] == 1){
+		
+		$string[] = "meme";
+		
+	}
+	
+	if($data1['has_identity'] == 1 && $data2['identity'] == "identity"){
+		
+		$string[] = "identity";
+		
+	}
+	
 	
 	if($data2['is_event'] != 1){
 	
@@ -97,13 +119,13 @@ function create_display_set($post_id, $from, $type){
 	if($from == "submissions"){
 		$string[] = 'delete_post_user';
 		
-		if($data2['comments_on']){
+		if($data2['comments_on'] == 1){
 		
 			$string[] = 'comment_toggle';
 		
 		}
 		
-		if($data2['private_on']){
+		if($data2['private_on'] == 1){
 		
 			$string[] = 'reply_toggle';
 		
@@ -111,12 +133,7 @@ function create_display_set($post_id, $from, $type){
 	
 	
 	}
-	
-	if($data2['identity'] == "identity"){
-	
-		$string[] = "identity";
-	
-	}
+		
 	
 
 	
@@ -152,7 +169,7 @@ function create_display_set($post_id, $from, $type){
 		}
 		
 	
-		if($data2['comments_on']){
+		if($data2['comments_on'] == 1){
 		
 			if($from == "share"){
 		
@@ -165,7 +182,7 @@ function create_display_set($post_id, $from, $type){
 			}
 		}
 	
-		if($data2['private_on']){
+		if($data2['private_on'] == 1){
 		
 			if($from == "share"){
 		
@@ -185,18 +202,20 @@ function create_display_set($post_id, $from, $type){
 	
 
 	if($data2['style'] == "media_after"){
-		if($data2['images_on']){
+		if($data2['images_on'] == 1 && $data1['isMeme'] != 1){
+
+				$string[] = "image";
 			
-			$string[] = "image";
+			
 			
 		}
-		if($data2['videos_on']){
+		if($data2['videos_on'] == 1){
 			
 			$string[] = "video";
 			
 		}
 		
-		if($data2['websites_on']){
+		if($data2['websites_on'] == 1){
 		
 			$string[] = "website";
 		
@@ -207,18 +226,18 @@ function create_display_set($post_id, $from, $type){
 	
 	if($data2['style'] == "media_corner"){
 		
-		if($data2['images_on']){
+		if($data2['images_on'] == 1 && $data1['isMeme'] != 1){
 			
 			$string[] = "image_corner";
 			
 		}
-		if($data2['videos_on']){
+		if($data2['videos_on'] == 1){
 			
 			$string[] = "video";
 			
 		}
 		
-		if($data2['websites_on']){
+		if($data2['websites_on'] == 1){
 		
 			$string[] = "website";
 		
@@ -227,18 +246,18 @@ function create_display_set($post_id, $from, $type){
 	}
 	
 	if($data2['style'] == "media_featured"){
-		if($data2['images_on']){
+		if($data2['images_on'] == 1 && $data1['isMeme'] != 1){
 			
 			$string[] = "image_feature";
 			
 		}
-		if($data2['videos_on']){
+		if($data2['videos_on'] == 1){
 			
 			$string[] = "video_feature";
 			
 		}
 		
-		if($data2['websites_on']){
+		if($data2['websites_on'] == 1){
 		
 			$string[] = "website_feature";
 		
@@ -274,7 +293,16 @@ function display_post($post_id){
 	$data = mysql_fetch_assoc(mysql_query("SELECT * FROM posts WHERE id = '$post_id'"));
 	
 	echo('<span class = "col-xs-12 no-padding" id = "post'.$post_id.'">');
-	echo('<span class = "col-xs-12 anypost '.$data['service'].'-post">');
+	
+	echo('<span class = "col-xs-12 anypost '.$data['service'].'-post');
+		
+	if(in_array('blur', $fields)){
+	
+		echo(' blur-post');
+	
+	}
+		
+	echo('">');
 	
 	//functions
 	echo('<span class = "posttop col-xs-12 no-padding">');
@@ -397,7 +425,7 @@ function display_post($post_id){
 		
 	}
 	
-	if(in_array('title', $fields)){
+	if(in_array('title', $fields) && !empty($data['title'])){
 	
 		
 		if(in_array('identity', $fields) && !empty($data2['img_src'])){
@@ -570,7 +598,7 @@ function display_post($post_id){
 			
 			if($data['isImage'] == 1){
 			
-				echo('<span data-toggle="tooltip" title="Click to unblur"  data-placement="top" class = "hole-post-overlay-image col-xs-12 no-padding">');
+				echo('<span data-toggle="tooltip" title="Click to unblur" data-placement="top" class = "hole-post-overlay-image col-xs-12 no-padding">');
 				
 			
 			}else{
@@ -602,8 +630,9 @@ function display_post($post_id){
 
 		}
 		
+			
 		if(in_array('title', $fields)){
-		
+	
 			echo('<span class = "posttext events">');
 
 				echo($data['post'] . '<br>');
@@ -620,6 +649,20 @@ function display_post($post_id){
 
 		}
 		
+		
+		if(in_array('meme', $fields) && $data['isMeme'] == 1 && $data['isImage'] == 1){
+			
+			echo('<span class = "memewrapper col-xs-12 no-padding">');
+			
+			echo('<span class = "meme top">'.$data['top_line'].'</span>');
+		
+			echo('<img class = "img-responsive meme-image" src = "'.$data['img_src'].'">');
+						
+			echo('<span class = "meme bottom">'.$data['bottom_line'].'</span>');
+
+			echo('</span>');
+		}
+		
 		if(in_array('website', $fields) && $data['isWebsite'] == 1){
 		
 			echo('<a href ="'.$data['wurl'].'">'.$data['wurl'].'</a>');
@@ -628,15 +671,9 @@ function display_post($post_id){
 
 		if(in_array('image', $fields) && $data['isImage'] == 1){
 		
-			echo('<img class = "post-image col-xs-12 img-responsive" src = "'.$data['img_src'].'">');
-
+			echo('<img class = "post-image img-responsive" src = "'.$data['img_src'].'">');
+						
 		}
-		
-		if($data['service'] == "Hole" && $data['isImage'] == 1){
-		
-			echo('<img class = "post-image col-xs-12 img-responsive" src = "'.$data['img_src'].'">');
-		
-		}	
 		
 		
 		if(in_array('video', $fields) && $data['isVideo'] == 1){
@@ -885,6 +922,7 @@ function display_post($post_id){
 		
 		}
 		
+		
 		if(in_array('send', $fields)){
 			
 			echo('<span class = "hoverer-mod delete_post text-center no-padding mod-button"><span onclick="sendto('.$data['id'].', this)">&nbsp;&nbspSEND TO</span>&nbsp;<select class = "send-to'.$data['id'].'">');
@@ -907,6 +945,12 @@ function display_post($post_id){
 			
 			echo('</select>&nbsp;</span>');
 			
+		
+		}
+		
+		if(in_array('addtodb', $fields)){
+			
+			echo('<span class = "hoverer-mod delete_post text-center no-padding mod-button" onclick="addtodb(\''.$data['site'].'\', \''.$data['service'].'\', '.$data['id'].', this)">&nbsp;&nbspADD TO MEMEBASE&nbsp;&nbsp;</span>');
 		
 		}
 		
@@ -1087,6 +1131,13 @@ function display_hole_post($post_id){
 	//begin post row
 	echo('<span class = "row">');
 	
+	
+	if($data['isWebsite'] == 1){
+		
+		echo('<a href ="'.$data['wurl'].'">'.$data['wurl'].'</a>');
+
+	}
+	
 	if(in_array('post', $fields)){
 		
 		if($data['post'] != ""){
@@ -1102,18 +1153,44 @@ function display_hole_post($post_id){
 	
 	
 	if(in_array('image', $fields)){
-		if($data['isImage'] == 1){
-			
-			echo('<img class = "img-responsive no-padding col-xs-12" src = "'.$data['img_src'].'">');
-			
-		}
 		
+		if($data['isMeme'] == 1){
+			
+			echo('<span class = "memewrapper col-xs-12 no-padding">');
+			
+			echo('<span class = "meme top">'.$data['top_line'].'</span>');
+		
+			echo('<img class = "img-responsive no-padding meme-image" src = "'.$data['img_src'].'">');
+						
+			echo('<span class = "meme bottom">'.$data['bottom_line'].'</span>');
+
+			echo('</span>');
+			
+		}else{
+		
+			if($data['isImage'] == 1){
+			
+				echo('<img class = "img-responsive no-padding col-xs-12" src = "'.$data['img_src'].'">');
+			
+			}
+		
+		}
 		
 	}
 	
 	
+	if($data['isVideo'] == 1){
+		
+		echo('<iframe class = "img-responsive" src="//www.youtube.com/embed/'.$data['vurl'].'" frameborder="0" allowfullscreen></iframe>');
+				
+	}
+	
+	
+	
 	echo('</span>');
 	//end of post row
+	
+	
 	
 	
 	if(empty($_GET['share']) == false && in_array('reply_share', $fields) && $data['reply_on'] == 1 && logged_in() == true){

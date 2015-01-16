@@ -17,11 +17,7 @@ if(check_admin_power($session_admin_id) == 1){
 <li><a href="admins.php">Admins</a></li>
 <li><a href="creation.php">Creation</a></li>
 <li><a href="server.php">Server</a></li>
-<li><a href="pics.php">Pics</a></li>
-<li><a href="submit.php">Submit</a></li>
 <li><a href="service.php">Services</a></li>
-<li><a href="logos.php">Logos</a></li>
-<li><a href="characters.php">Characters</a></li>
 
 <?php
 	
@@ -33,8 +29,8 @@ if(check_admin_power($session_admin_id) == 1){
 <li><a href="queue.php">Queue</a></li>
 <li><a href="denied.php">Denied Posts</a></li>
 <li><a href="approved.php">Approved Posts</a></li>
+<li><a href="services.php">Services</a></li>
 <li><a href="community.php">Community</a></li>
-<li><a href="me.php">Me</a></li>
 <li><a href="points.php">High Scores</a></li>
 
 <?php

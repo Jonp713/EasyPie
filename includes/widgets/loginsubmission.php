@@ -82,6 +82,9 @@ $home = get_home_from_username($username);
 
 </span>
 
+
+<!--
+
 <span class = "row">
 
 
@@ -92,6 +95,8 @@ $home = get_home_from_username($username);
 
 
 </span>
+
+-->
 
 <span class = "row">
 

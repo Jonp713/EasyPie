@@ -79,6 +79,25 @@ function create_mod_notification($service, $community, $type, $textin, $ref_id){
 	}	
 	
 }
+
+function create_owner_notification($service, $type, $textin, $ref_id){
+	$type = sanitize($type);
+	$textin = sanitize($textin);
+	$ref_id = sanitize($ref_id);
+	$service = sanitize($service);
+
+	$mod_ids = find_moderator_ids_from_service_name($service);
+	
+	$time = time();
+	
+	foreach ($mod_ids as $current_id) {
+	
+		$success = mysql_query("INSERT INTO notifications (user_id, type, textin, ref_id, second) VALUES ('$current_id', '$type', '$textin', '$ref_id', '$time')");
+		
+		
+	}	
+	
+}
 	
 	
 ?>

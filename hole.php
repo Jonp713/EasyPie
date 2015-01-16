@@ -15,7 +15,7 @@ active_protect($_GET['c']);
 	<link rel="stylesheet" href="css/bootstrap.css">
 	<link rel="shortcut icon" type="image/png" href="https://www.icu.university/images/blackhole.png"/>
 	<meta name="description" content="Never come here again">
-	<meta name="keywords" content="<?php if(!empty($community_in)){echo($community_in.',');} ?> <?php if(!empty($service_in)){echo($service_in.',');} ?>, college, community, events, in the area, life, tickling, personals, missed connections, compliments, icuhampy">	
+	<meta name="keywords" content="<?php if(!empty($community_in)){echo($community_in.',');} ?> <?php if(!empty($service_in)){echo($service_in.',');} ?>, college, community, events, in the area, life, tickling, personals, compliments, icuhampy">	
 	<meta name="author" content="The Devil">
 	<meta name="viewport" content="width=device-width" />
 	
@@ -34,7 +34,7 @@ active_protect($_GET['c']);
 	
 	<?php include 'includes/widgets/modals.php'; ?>
 	
-	<div id = "topalert" class="topalert col-md-4 col-md-offset-4"><?php include('includes/widgets/postrecieve.php'); ?>
+	<div id = "topalert" class="topalert"><?php include('includes/widgets/postrecieve.php'); ?>
 </div>
 	
 <header>
@@ -164,6 +164,8 @@ active_protect($_GET['c']);
 
 <script src = 'js/hole.js' type = 'text/javascript'></script>
 
+<?php include 'includes/widgets/getcomments.php'; ?>
+
 
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -180,7 +182,6 @@ active_protect($_GET['c']);
 <script src = 'js/communities.js' type = 'text/javascript'></script>
 
 
-<?php include 'includes/widgets/getcomments.php'; ?>
 
 
 

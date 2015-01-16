@@ -37,8 +37,22 @@ function show_comments(post_id, span){
 	}
 
     $.post("core/functions/ajax.php",{function: "get_comments", post_id: post_id},function(data){
+		
+		htmlIn = '<div class = "col-xs-12" id = "actual-comments"><span class = "no-padding"><span onclick = "close_comments(2, '+post_id+')" class = "glyphicon pull-left glyphicon-remove comment-x"></span></span>';
+		
+		if(logged_in == true){
+		
+			htmlIn += '<textarea rows = "2" placeholder = "Write a comment..." class = "form-control" name ="comment" id = "commenttoget'+post_id+'"></textarea><button  '+tooltip+' class = "btn btn-info pull-right comment_submit" onclick = "submit_comment(' + post_id + ', this, 2)">COMMENT</button><br><br>';
+		
+		}else{
 			
-		$("#post"+post_id+"-bottom").html('<div class = "col-xs-12" id = "actual-comments"><span class = "no-padding"><span onclick = "close_comments(2, '+post_id+')" class = "glyphicon pull-left glyphicon-remove comment-x"></span></span><textarea rows = "2" placeholder = "Write a comment..." class = "form-control" name ="comment" id = "commenttoget'+post_id+'"></textarea><button  '+tooltip+' class = "btn btn-info pull-right comment_submit" onclick = "submit_comment(' + post_id + ', this, 2)">COMMENT</button><br><br><span id = "comments'+post_id+'">' + data + '</span></div>');
+			htmlIn += "<br><p style = 'color:#888; padding:5px;'>You need to be <a href = 'login.php'>logged in</a> to comment</p>"
+			
+		}
+		
+		htmlIn += '<span id = "comments'+post_id+'">' + data + '</span></div>';
+		
+		$("#post"+post_id+"-bottom").html(htmlIn);
 		
 		$('[data-toggle="tooltip"]').tooltip();
 		
@@ -82,6 +96,8 @@ function close_comments(type, post_id){
 	if(type == 1){
 		
 		$("#hole-comments-section").fadeOut();
+		$(".commenting-on").fadeOut();
+		
 		
 	}
 	if(type == 2){
@@ -114,18 +130,18 @@ function submit_comment(post_id, span, type){
 	
 	if(comment == ""){
 		
-		$('#topalert').html('<span class="alert alert-danger" role="alert"><span class = "glyphicon"></span> &nbsp;&nbsp;Your comment cannot be blank</span>');
+		$('#topalert').html('<span class="alert alert-danger" role="alert"><span class = "glyphicon"></span>Your comment cannot be blank...lets pull it together here</span>');
    
-		$('#topalert').fadeIn("slow", function() { $(this).delay(2000).fadeOut("slow"); });
+		$('#topalert').fadeIn("slow", function() { $(this).delay(3000).fadeOut("slow"); });
 				
 	}else{
 	
 	
     $.post("core/functions/ajax.php",{function: "submit_comment", post_id: post_id, comment: comment},function(data){
                 				
-		$('#topalert').html('<span class="alert alert-success" role="alert"><span class = "glyphicon"></span> &nbsp;&nbsp;Commented</span>');
+		$('#topalert').html('<span class="alert alert-success" role="alert"><span class = "glyphicon"></span>Commented! I hope you said something nice</span>');
    
-		$('#topalert').fadeIn("slow", function() { $(this).delay(2000).fadeOut("slow");
+		$('#topalert').fadeIn("slow", function() { $(this).delay(3000).fadeOut("slow");
 		
 		
 			if(type == 1){
@@ -155,24 +171,3 @@ function submit_comment(post_id, span, type){
 	
 }
 
-function reply_message(message_id){
-	
-	var spannumber = "#messagereply_submit" + message_id;
-		
-	var message = $(spannumber).val();  
-		
-	
-		
-    $.post("core/functions/ajax.php",{function: "reply_message", message_id: message_id, message: message},function(data){
-                		
-		$('#messagebutton'+message_id).replaceWith('');
-		
-		$('#topalert').html('<span class="alert alert-success" role="alert"><span class = "glyphicon"></span> &nbsp;&nbsp;Your Message Has Been Sent</span>');
-   
-		$('#topalert').fadeIn("slow", function() { $(this).delay(2000).fadeOut("slow");
-	
-		 });
-    
-	 });
-	
-}

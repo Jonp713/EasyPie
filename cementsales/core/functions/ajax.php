@@ -4,6 +4,87 @@ require ('../init.php');
 
 $function = $_POST['function'];
 
+
+if($function == 'message_mods' && isset($_POST['service']) && isset($_POST['message']) && isset($_POST['type']) && isset($session_admin_id)){
+	
+	echo('FUYCK');
+	
+	
+	if($_POST['type'] == "mod"){
+	
+		$success = message_moderators($_POST['service'], $_POST['message'], $session_admin_id);
+	
+	}
+	if($_POST['type'] == "owner"){
+	
+		$success = message_owners($_POST['service'], $_POST['message'], $session_admin_id);
+	
+	}
+		
+	if($success){
+	
+		echo("success");
+	
+	}else{
+		
+		echo($success);
+	}
+	
+	
+}
+
+if($function == 'homeing' && isset($_POST['service_id']) && isset($_POST['judgement']) && isset($session_admin_id)){
+	
+	$success = change_home($_POST['service_id'], $session_admin_id, $_POST['judgement']);
+		
+	if($success){
+	
+		echo("success");
+	
+	}else{
+		
+		echo($success);
+	}
+	
+	
+}
+
+if($function == 'defranchise' && isset($_POST['service_id']) && isset($session_admin_id)){
+		
+	$success = defranchise_service($_POST['service_id'], $session_admin_id);
+		
+	if($success){
+	
+		echo("success");
+	
+	}else{
+		
+		echo($success);
+	}
+	
+	
+}
+
+
+
+if($function == 'delete_service' && isset($_POST['service_id']) && isset($session_admin_id)){
+		
+	$success = delete_service($_POST['service_id'], $session_admin_id);
+		
+	if($success){
+	
+		echo("success");
+	
+	}else{
+		
+		echo($success);
+	}
+	
+	
+}
+
+
+
 if($function == 'judgement' && isset($_POST['post_id']) && isset($_POST['judgement']) && isset($session_admin_id)){
 	
 	$success = judgement($_POST['post_id'], $_POST['judgement'], $session_admin_id);
@@ -217,7 +298,7 @@ if($function == 'get_more_approved_posts_admin' && isset($_POST['start'])){
 			display_post_admin($currentpost['id'], 'post', 'site', 'display_time', 'saved_count', 'username', 'direct_replies', 'sustained_replies', 'admin_reply', 'give_points', 'deny', 'delete', 'image', 'service');
 		
 	
-		}	
+		}
 		
 		if($_POST['type'] == 1){
 
@@ -233,7 +314,7 @@ if($function == 'get_more_approved_posts_admin' && isset($_POST['start'])){
 	
 	if($posts[1]){
 	
-		$newstart = $_POST['start'] + 30;
+		$newstart = $_POST['start'] + 5;
 
 		echo('<span id = "clickmore" onclick = "get_more_approved_posts_admin('.$newstart.', '.$_POST['site'].', '.$_POST['type'].')">More Posts</span>');
 
@@ -262,7 +343,7 @@ if($function == 'get_more_denied_posts_admin' && isset($_POST['start'])){
 	
 		if($posts[1]){
 		
-			$newstart = $_POST['start'] + 30;
+			$newstart = $_POST['start'] + 5;
 	
 			echo('<span id = "clickmore" onclick = "get_more_denied_posts_admin('.$newstart.', '.$_POST['site'].', '.$_POST['type'].')">More Posts</span>');
 	

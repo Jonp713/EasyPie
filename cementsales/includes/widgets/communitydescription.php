@@ -63,7 +63,7 @@ if(isset($_GET['community']) && check_admin_power($session_admin_id) > 0){
 	
 }else{
 	
-	$community = sanitize($_GET['community']);
+	$community = sanitize($admin_data['community']);
 	
 }
 	

@@ -16,7 +16,7 @@ function give_point_comment($comment_id, $from_user_id){
 
 		$user_id = user_id_from_comment_id($comment_id);
 	
-		create_notification($user_id, "give_points", "Someone one upvoted your comment and gave you 1 point", $comment_id);
+		create_notification($user_id, "give_points", "Someone upvoted your comment and gave you 1 point", $comment_id);
 		
 		$upvotes = mysql_query("SELECT upvotes FROM comments WHERE comment_id = '$comment_id'");		
 		
@@ -83,7 +83,7 @@ function give_point($post_id, $from_user_id){
 		
 		mysql_query("UPDATE posts SET upvotes = upvotes + 1 WHERE id = '$post_id'");	
 		
-		if(service_name_from_post_id($post_id) == "Hole" || status_from_post_id($post_id) == 2){
+		/*if(service_name_from_post_id($post_id) == "Hole" || status_from_post_id($post_id) == 2){
 			
 			if(upvotes_from_post_id($post_id) > 20){
 				
@@ -96,7 +96,7 @@ function give_point($post_id, $from_user_id){
 			}
 				
 		}
-		
+		*/
 		
 	}else{
 		

@@ -1,3 +1,75 @@
+function message_mod(service, type){
+	
+	var spannumber = "." + service + "message"
+	
+	var messageIn = $(spannumber).children('input').val();  	
+	
+    $.post("../cementsales/core/functions/ajax.php",{function: "message_mods", service: service, message: messageIn, type: type},function(data){
+              
+			var newhtml = '<div class="alert alert-success" role="alert"><span class="alert-link">Message Sent</span></div>';
+    
+			$(spannumber).replaceWith(newhtml);
+						
+		
+	});     
+}
+
+
+function homeing(service_id, judgement){
+	
+    $.post("../cementsales/core/functions/ajax.php",{function: "homeing", service_id: service_id, judgement: judgement}, function(data){
+              			  
+						  
+						  
+		if(judgement == 0){
+			
+			var spannumber = "." + service_id + "dehome";
+			
+			var newhtml = '<div class="alert alert-danger" role="alert"><span class="alert-link">Removed from Home Feed</span></div>';
+			
+		}  
+		if(judgement == 1){
+			
+			var spannumber = "." + service_id + "addhome";
+			
+			var newhtml = '<div class="alert alert-success" role="alert"><span class="alert-link">Added to Home Feed</span></div>';
+			
+			
+		}
+		$(spannumber).replaceWith(newhtml);       
+    			
+    }); 
+}
+
+function defranchise(service_id){
+    $.post("../cementsales/core/functions/ajax.php",{function: "defranchise", service_id: service_id}, function(data){
+		
+		var spannumber = "." + service_id + "defranchise";
+		
+		var newhtml = '<div class="alert alert-danger" role="alert"><span class="alert-link">Board Defranchised</span></div>';
+		
+		$(spannumber).replaceWith(newhtml);      
+				
+	});
+
+
+}
+
+function delete_service(service_id){
+    $.post("../cementsales/core/functions/ajax.php",{function: "delete_service", service_id: service_id}, function(data){
+		
+		var spannumber = "." + service_id + "delete";
+		
+		var newhtml = '<div class="alert alert-danger" role="alert"><span class="alert-link">Board deleted</span></div>';
+		
+		$(spannumber).replaceWith(newhtml);      
+				
+	});
+
+
+}
+
+
 function judgement(post_id, judgement){
 	
     $.post("../cementsales/core/functions/ajax.php",{function: "judgement", post_id: post_id, judgement: judgement},function(data){

@@ -19,6 +19,10 @@ if (empty($_POST) === false) {
  
  	}
 	
+	if (preg_match("/\\s/", $_POST['first_name']) == true || preg_match("/\\s/", $_POST['last_name']) == true) {
+		$errors[] = 'Your names must not contain any spaces.';
+	}
+	
 	
 }
 
@@ -27,9 +31,6 @@ if (empty($_POST) === false) {
 <h1>My Identity</h1>
 
 <?php
-if (isset($_GET['success']) === true && empty($_GET['success']) === true) {
-	echo '<p class = "form_success">Your Identity has been updated</p>';
-} 
 
 if (empty($_POST) === false && empty($errors) === true) {
 	
@@ -86,7 +87,7 @@ if (empty($_POST) === false && empty($errors) === true) {
 		update_user($session_user_id, $update_data);
 		
 	
-	header('Location: identity.php?success');
+	header('Location: identity.php?success=identity_updated');
 	exit();
 	
 } else if (empty($errors) === false) {

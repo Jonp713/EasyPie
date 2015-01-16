@@ -36,7 +36,7 @@ if (isset($_GET['success']) === true && empty($_GET['success']) === true) {
 	
 	if (empty($_POST) === false && empty($errors) === true) {
 		change_password($session_user_id, $_POST['password']);
-		header('Location: changepassword.php?success');
+		header('Location: changepassword.php?success=change_password');
 	} else if (empty($errors) === false) {
 		echo output_errors($errors);
 	}

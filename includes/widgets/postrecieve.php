@@ -39,10 +39,6 @@ if (empty($_POST) === false) {
 ?>
 
 <?php
-if (isset($_GET['s']) === true && empty($_GET['s']) === true && (empty($errors) === false)) {
-	
-	echo('<span class="alert alert-success" role="alert"><span class = "glyphicon"></span>Your post has been submitted</span>');
-}
 		
 if (empty($_POST) === false && empty($errors) === true) {
 
@@ -74,7 +70,7 @@ if (empty($_POST) === false && empty($errors) === true) {
 	
 	if(empty($_POST['title'])){
 		
-		$post_data['title'] = "Untitled";
+		$post_data['title'] = "";
 	}else{
 		$post_data['title'] = $_POST['title'];
 		
@@ -122,7 +118,7 @@ if (empty($_POST) === false && empty($errors) === true) {
 	}
 	
 		
-	$post_data['is_home'] = service_is_home($_POST['service']);
+	$post_data['is_home'] = service_is_home($_POST['service'], $_GET['c']);
 	
 	
 	if(isset($_POST['reply_on'])){
@@ -143,7 +139,7 @@ if (empty($_POST) === false && empty($errors) === true) {
 	$post_data['user_id'] = $session_user_id;
 	
 	
-	if(isset($_POST['is_image']) && $_POST['is_image'] == "checked"){
+	if(isset($_POST['is_image']) && $_POST['is_image'] == "checked" || (is_meme($_POST['service']) == 1 && $_POST['meme_type'] == "upload")){
 		
 		$servicename = $_POST['service'];
 		
@@ -169,10 +165,41 @@ if (empty($_POST) === false && empty($errors) === true) {
 	
 		}
 		
-		$file_path = upload_image_post($servicename, $file_temp, $file_extn);
+		if(empty($errors)){
 		
-		$post_data['img_src'] = $file_path; 
+			$file_path = upload_image_post($servicename, $file_temp, $file_extn);
 		
+			$post_data['img_src'] = $file_path; 
+		
+		}
+		
+	}
+	
+	if(has_identity($_POST['service'])){
+		
+		$post_data['has_identity'] = 1;
+		
+	}
+	
+	if(is_meme($_POST['service']) == 1){
+		
+		$post_data['isMeme'] = 1;
+		
+		$post_data['top_line'] = $_POST['top_line'];
+		
+		$post_data['bottom_line'] = $_POST['bottom_line'];
+	
+		if($_POST['meme_type'] == "base"){
+			
+			$post_data['isImage'] = 1;
+			
+						
+			$post_data['img_src'] = $_POST['meme_img_src']; 
+			
+		}
+	
+	
+	
 	}
 	
 	
@@ -238,16 +265,17 @@ if (empty($_POST) === false && empty($errors) === true) {
 	
 	$success = submit_post($post_data, $post);
 	
-	$service = $_POST['service'];
-	$post = $_POST['post'];
 	
-	$post_id = mysql_fetch_assoc(mysql_query("SELECT LAST_INSERT_ID() AS id FROM posts WHERE service = '$service' AND user_id = '$session_user_id'"));
-	
-	create_mod_notification($_POST['service'], $_GET['c'], "new_post", "A new post awaits your moderation", $post_id['id']);
-	
-	
-			
 	if($success){
+		
+		$service = $_POST['service'];
+		$post = $_POST['post'];
+	
+		$session_user_id = sanitize($session_user_id);
+	
+		$post_id = mysql_fetch_assoc(mysql_query("SELECT LAST_INSERT_ID() AS id FROM posts WHERE service = '$service' AND user_id = '$session_user_id'"));
+	
+		create_mod_notification($_POST['service'], $_GET['c'], "new_post", "A new post awaits your moderation", $post_id['id']);
 		
 		if(empty($errors) === true){
 				
@@ -257,10 +285,10 @@ if (empty($_POST) === false && empty($errors) === true) {
 					
 					if($_POST['service'] == "Hole"){
 						
-						header('Location: hole.php?c='.$community_in.'&service=Hole');
+						header('Location: hole.php?c='.$community_in.'&service=Hole&success=post');
 						
 					}else{
-						header('Location: posts.php?c='.$community_in.'&service='.$service_in.'&s');
+						header('Location: posts.php?c='.$community_in.'&service='.$service_in.'&success=post');
 						
 						
 					}
@@ -268,23 +296,26 @@ if (empty($_POST) === false && empty($errors) === true) {
 				
 				}else{
 					
-					header('Location: posts.php?c='.$community_in.'&s');
+					header('Location: posts.php?c='.$community_in.'&success=post');
 					
 				}
 		
 			}else{
 			
-				header('Location: feed.php?s');
+				header('Location: feed.php?success=post');
 			
 			}
 			exit();
 	
 	
+		}else if (empty($errors) === false) {
+
+			echo output_errors($errors);
+		
 		}
-	}else{
 		
-		//echo($success);
-		
+
+	
 	}
 	
 }else if (empty($errors) === false) {

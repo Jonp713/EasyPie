@@ -22,6 +22,17 @@ function user_owns_service($service_name, $user_id){
 	
 }
 
+function has_moderator($service_name, $community_name){
+	
+	$service_name = sanitize($service_name);
+	$community_name = sanitize($community_name);
+	
+	
+	return (mysql_result(mysql_query("SELECT COUNT(`user_id`) FROM `admins` WHERE service_name = '$service_name' AND community_name = '$community_name' AND type = 'moderator'"), 0) > 0) ? true : false;
+	
+	
+}
+
 function user_oversees_community($community_name, $user_id){
 	$user_id = sanitize($user_id);
 	$community_name = sanitize($community_name);
@@ -58,6 +69,34 @@ function find_moderator_ids_from_service_and_community_name($service_name, $comm
 	return $all_ids;
 	
 }
+
+function find_moderator_ids_from_service_name($service_name){
+	$service_name = sanitize($service_name);
+	
+	$result = mysql_query("SELECT * FROM admins WHERE service_name = '$service_name'");
+	
+	$all_ids = array();
+	
+    while($number = mysql_fetch_assoc($result)) { 
+		
+		if(!in_array($number['user_id'], $all_ids)){
+			
+			$all_ids[] = $number['user_id'];	
+			
+		}
+		
+			
+   	}
+	
+	if(count($all_ids) < 1){
+		
+		return array();
+	}
+	
+	return $all_ids;
+	
+}
+
 
 function judgement_user($post_id, $judgement, $admin_id){
 		
@@ -186,14 +225,12 @@ function get_mod_communities($user_id, $type){
 }
 
 
-
 function check_mod_power($user_id){
 	$user_id = sanitize($user_id);
 	
 	$result = mysql_fetch_assoc(mysql_query("SELECT admin FROM users WHERE user_id = '$user_id' LIMIT 1"));
 	
 	return $result['admin'];
-	
 	
 }
 

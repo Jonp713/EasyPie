@@ -2,7 +2,7 @@
 <html>
 <head>
 
-	<title><?php if(!empty($service_in)){echo($service_in);}else{echo('ICU');} ?> <?php if(!empty($community_in)){echo($community_in);}else{echo('Hampy');}  ?></title>
+	<title><?php include 'displaytitle.php'; ?></title>
 	
 	<?php if(isset($_GET['share'])){
 		
@@ -10,7 +10,7 @@
 		
 		$id = sanitize($id);
 	  
-	  $data = mysql_fetch_assoc(mysql_query("SELECT * FROM posts WHERE id = '$id' LIMIT 1"));
+	  $data = mysql_fetch_assoc(mysql_query("SELECT post FROM posts WHERE id = '$id' LIMIT 1"));
 	  
 	  $post = $data['post'];
 
@@ -22,22 +22,19 @@
 		
 		?>
 		
-		<meta name="description" content="Connect with people within your community">
+		<meta name="description" content="Community - Oriented Anon Social Network AKA Gesellschaft in Gemeinschaft">
 	
 	 <?php }?>
 	<meta charset="UTF-8">
-	
-	
 	 
-	<meta name="keywords" content="<?php if(!empty($community_in)){echo($community_in.',');} ?> <?php if(!empty($service_in)){echo($service_in.',');} ?>, college, community, life, tickling, personals, missed connections, compliments, icuhampy">	
+	<meta name="keywords" content="<?php if(!empty($community_in)){echo($community_in.',');} ?> <?php if(!empty($service_in)){echo($service_in.',');} ?>, matropolix, reddit, local, social, college, board, franchise, community, life, tickling, icuhampy">	
 	
 	<link href="css/bootstrap.css" rel="stylesheet">
 	<link href="css/reset.css" rel="stylesheet">
 	
-	
 	<link href="css/screen3.1.css" rel="stylesheet">
 	
-	<?php if(!empty($service_in)){	$url =  get_logo_picture_url_from_service_name($service_in); }else{  $url = "https://icu.university/images/logonotext.png"; } ?>
+	<?php if(!empty($service_in)){	$url =  get_logo_picture_url_from_service_name($service_in); }else{  $url = "bsh"; } ?>
 	
 	<link rel="shortcut icon" type="image/png" href="<?php echo($url); ?>"/>
 	
@@ -46,10 +43,9 @@
 	<script src="js/html5shiv.js"></script>
 	<![endif]-->
 </head>
+	
 
-
-
-<body>
+<body <?php if(isset($_GET['service']) && is_geo_locked($_GET['service']) && ($current_file == "posts.php" || $current_file == "zombledon.php")){ echo('class = "not-visible "'); }else { echo('class = "eeebg"'); }?>>
 	
 	
 <header>
@@ -60,7 +56,6 @@
 
 		<script>
 		    moment().format();
-			
 			
 		</script>
 		<div id="fb-root"></div>
@@ -73,7 +68,6 @@
 		}(document, 'script', 'facebook-jssdk'));</script>
 		<div class="clear"></div>
 		
-		<div id = "topalert" class="topalert col-xs-12 col-sm-6 col-sm-offset-3"></div>
 		
 		
 		<?php
@@ -117,10 +111,12 @@
 	
 
 <div id = "page-content-wrapper">
-	<?php include 'includes/widgets/modals.php'; ?>
+<?php include 'includes/widgets/modals.php'; ?>
 	
+<div class="container-fluid">
 	
-<div class="container-fluid" >
+<div id = "topalert" class="topalert"></div>
+	
 	
 	
 	

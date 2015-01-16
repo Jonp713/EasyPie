@@ -11,15 +11,71 @@ function create_service($service_data){
 	
 }
 
+
+function display_name_type($service_name){
+	$service_name = sanitize($service_name);
+	
+	
+	return mysql_result(mysql_query("SELECT `name_display` FROM `services` WHERE `name` = '$service_name' AND core = 1"), 0, 'name_display');
+	
+}
+
+
+function service_available($community_name, $service_name){
+	$service_name = sanitize($service_name);
+	$community_name = sanitize($community_name);
+	
+	return (mysql_result(mysql_query("SELECT COUNT(`id`) FROM `services` WHERE `community` = '$community_name' AND name = '$service_name' AND core = 0"), 0) >= 1) ? true : false;
+	
+}
+
+
+
 function is_geo_locked($service_name){
+	$service_name = sanitize($service_name);
+	
 	
 	return mysql_result(mysql_query("SELECT `geo_locked` FROM `services` WHERE `name` = '$service_name' AND core = 1"), 0, 'geo_locked');
 	
 }
 
+function has_blur($service_name){
+	$service_name = sanitize($service_name);
+	
+	
+	return mysql_result(mysql_query("SELECT `blur_on` FROM `services` WHERE `name` = '$service_name' AND core = 1"), 0, 'blur_on');
+	
+}
+
+function has_identity($service_name){
+	$service_name = sanitize($service_name);
+	
+	
+	$result = mysql_result(mysql_query("SELECT `identity` FROM `services` WHERE `name` = '$service_name' AND core = 1"), 0, 'identity');
+	
+	if($result == "identity"){
+		
+		return true;
+		
+	}else{
+		
+		return false;
+	}
+	
+}
+
 function is_event($service_name){
+	$service_name = sanitize($service_name);
 	
 	return mysql_result(mysql_query("SELECT `is_event` FROM `services` WHERE `name` = '$service_name' AND core = 1"), 0, 'is_event');
+	
+	
+}
+
+function is_meme($service_name){
+	$service_name = sanitize($service_name);
+	
+	return mysql_result(mysql_query("SELECT `for_memes` FROM `services` WHERE `name` = '$service_name' AND core = 1"), 0, 'for_memes');
 	
 	
 }
@@ -100,6 +156,14 @@ function get_service_id_from_service_name($service_name){
 	$service_name = sanitize($service_name);
 		
 	return mysql_result(mysql_query("SELECT `id` FROM `services` WHERE `name` = '$service_name' AND core = 1"), 0, 'id');
+	
+}
+
+function get_service_name_from_service_id($service_id){
+	
+	$service_id = sanitize($service_id);
+		
+	return mysql_result(mysql_query("SELECT `name` FROM `services` WHERE `id` = '$service_id'"), 0, 'name');
 	
 }
 
@@ -218,6 +282,48 @@ function get_services($community, $type){
 	
 }
 
+function add_to_memebase($community, $service, $post_id){
+	$community = sanitize($community);
+	$service = sanitize($service);
+	$post_id = sanitize($post_id);
+	
+	$src = mysql_fetch_assoc(mysql_query("SELECT img_src FROM posts WHERE id = '$post_id'"));
+	
+	$src = $src['img_src'];
+	
+	$type = 'memebase';
+	
+	mysql_query("INSERT INTO pictures (url, community, service, type) VALUES ('$src', '$community', '$service', '$type')") or die(mysql_error());
+	
+	
+}
+
+function get_memes($community, $service){
+	$community = sanitize($community);
+	$service = sanitize($service);
+	
+	$result = mysql_query("SELECT url, id FROM `pictures` WHERE community = '$community' AND service = '$service' AND type = 'memebase'") or die(mysql_error());
+	
+	$allmemes = array();
+	
+    while($number = mysql_fetch_assoc($result)) { 
+		
+		$allmemes[] = $number;	
+	
+	}
+	
+	return $allmemes;
+	
+}
+
+function delete_meme($pic_id){
+	
+	$pic_id = sanitize($pic_id);
+	
+	mysql_query("DELETE FROM `pictures` WHERE id = '$pic_id'") or die(mysql_error());
+	
+}
+
 function update_service($update_data, $service_name){
 	$service_name = sanitize($service_name);
 	
@@ -234,10 +340,12 @@ function update_service($update_data, $service_name){
 
 }
 
-function service_is_home($service_name){
+function service_is_home($service_name, $community){
 	$service_name = sanitize($service_name);
+	$community = sanitize($community);
+	
 		
-	return mysql_result(mysql_query("SELECT `is_home` FROM `services` WHERE `name` = '$service_name' AND core = 1"), 0, 'is_home');
+	return mysql_result(mysql_query("SELECT `is_home` FROM `services` WHERE `name` = '$service_name' AND community = '$community' AND core = 0"), 0, 'is_home');
 	
 }
 
@@ -246,6 +354,23 @@ function service_needs_approve($service_name){
 		
 	return mysql_result(mysql_query("SELECT `moderation` FROM `services` WHERE `name` = '$service_name' AND core = 1"), 0, 'moderation');
 	
+}
+
+function service_is_inappropriate($service_name){
+	$service_name = sanitize($service_name);
+		
+	return mysql_result(mysql_query("SELECT `inappropriate` FROM `services` WHERE `name` = '$service_name' AND core = 1"), 0, 'inappropriate');
+	
+}
+
+function service_sub_count($service_name, $community_name){
+	$service_name = sanitize($service_name);
+	$community_name = sanitize($community_name);
+	
+	
+	$count = mysql_fetch_assoc(mysql_query("SELECT COUNT(user_id) AS totalsubs FROM subscriptions WHERE service = '$service_name' AND community_name = '$community_name'"));
+	
+	return ($count['totalsubs']);
 }
 
 
@@ -262,6 +387,7 @@ function display_form($service_name, $service_in){
 	
 	$data = mysql_fetch_assoc(mysql_query("SELECT * FROM services WHERE name = '$service_name' AND core = 1"));
 	
+
 	
 	if($service_in == $service_name){
 
@@ -272,7 +398,7 @@ function display_form($service_name, $service_in){
 	   echo('<span id = "sf-'.$service_name.'" data-active = "notactive">');
    
 	}
-	
+
 	
 	echo('<form class = "submit_post form-horizontal col-xs-12 no-padding" role="form" action="" method="post" enctype="multipart/form-data">');
 	
@@ -297,17 +423,29 @@ function display_form($service_name, $service_in){
 		
 		}
 	
+		echo('<input value = "'.$data['name'].'" name = "service" hidden>');
 	
-		if($data['title_on']){
+	
+		if($data['title_on'] == 1){
 	
 			 echo('<div class = "form-group"><div class="col-xs-12"><input class = "form-control" id = "title" type="text" name="title" placeholder = "Title"></div></div>');
 	
 		}
-	
-		//textarea and service
-		echo('<div class="form-group"><input value = "'.$data['name'].'" name = "service" hidden><div class="col-xs-12"><textarea placeholder = "'.$data['prompt'].'" name="post" class ="form-control" ></textarea></div></div>');
 		
-		if($data['is_event']){
+	
+		if($data['for_memes'] == 1){
+	
+			echo('<span class = "form-note col-xs-12">This board is for memes! You know what a meme is, right?...well <a href = "http://knowyourmeme.com">here\'s</a> a link anyways</span>');
+			
+		
+		}
+		
+		//textarea 4posts
+		echo('<div class="form-group"><div class="col-xs-12"><textarea placeholder = "'.$data['prompt'].'" name="post" class ="form-control" ></textarea></div></div>');
+		
+	
+				
+		if($data['is_event'] == 1){
 			
 			echo('
 				
@@ -364,7 +502,6 @@ function display_form($service_name, $service_in){
 		  	    <div class="col-sm-4">
 		
 		  		<select class = "form-control" name = "month" id = "'.$data['name'].'_month">
-		  		<option value = ""> </option>
 		  		<option value = "01">January</option>
 		  		<option value = "02">February</option>
 		  		<option value = "03">March</option>
@@ -460,7 +597,6 @@ function display_form($service_name, $service_in){
 		  	    <div class="col-sm-4">
 		
 		  		<select class = "form-control" name = "r_month" id = "r_'.$data['name'].'_month">
-		  		<option value = ""> </option>
 		  		<option value = "01">January</option>
 		  		<option value = "02">February</option>
 		  		<option value = "03">March</option>
@@ -520,17 +656,30 @@ function display_form($service_name, $service_in){
 		}
 	
 	
-		if($data['images_on']){
+		if($data['images_on'] == 1 || $data['for_memes'] == 1){
+			
+			if($data['for_memes'] == 1){
+				
+			
+					
+					
+				
+			}else{
 		
-			echo('<div class = "form-group"><label for="is_image"   class="col-xs-3 control-label">Use a picture:</label><div class="col-xs-8">');
+			echo('<div class = "form-group"><label for="is_image" class="col-xs-3 control-label">Use a picture:</label><div class="col-xs-8">');
 			
 			echo('<input onclick = "toggle_post_picture(\''.$service_name.'\')" type="checkbox" name = "is_image" value="checked"></div></div>');
+			
 		
-		 	echo('<div id = "post-pic-form-'.$service_name.'" class="form-group picture-disabled"><label for="pic" class="col-xs-3 control-label">Picture:</label><div class="col-xs-8"><input class = "form-control"  type="file" name="pic"></div></div>');
+		 	echo('<div id = "post-pic-form-'.$service_name.'" class="form-group picture-disabled"><label for="pic" class="col-xs-3 control-label">Picture:</label><div class="col-xs-8"><input class = "form-control"  type="file" name="pic">JPG, PNG, and GIFs are allowed!</div></div>');
+			
+			}
+		
+			
 	 	
 		}
 	
-		if($data['videos_on']){
+		if($data['videos_on'] == 1){
 		
 			echo('<div class = "form-group"><label for="is_video"   class="col-xs-3 control-label">Use a video:</label><div class="col-xs-8">');
 			
@@ -540,7 +689,7 @@ function display_form($service_name, $service_in){
 
 		}
 	
-		if($data['websites_on']){
+		if($data['websites_on'] == 1){
 		
 			echo('<div class = "form-group"><label for="is_website"   class="col-xs-3 control-label">Use a website:</label><div class="col-xs-8">');
 			
@@ -549,15 +698,58 @@ function display_form($service_name, $service_in){
 		 echo('<div id = "post-web-form-'.$service_name.'" class="form-group picture-disabled"><label for="web" class="col-xs-3 control-label">Website URL</label><div class="col-xs-8"><input class = "form-control" id = "web" type="text" name="wurl" value = "http://"></div></div>');
 		
 		}
+		
+		
+		if($data['for_memes'] == 1){
+		
+			echo('<span class = "col-xs-12 memeforms">');
+		
+			echo('<strong>Meme:</strong>');
+		
+			echo('<div class = "form-group"><div class="col-xs-12"><input class = "form-control" id = "top_line" type="text" name="top_line" placeholder = "Top Line"></div></div>');
+	 
+		 	echo('<div class = "form-group"><div class="col-xs-12"><input class = "form-control" id = "bottom_line" type="text" name="bottom_line" placeholder = "Bottom Line"></div></div>');
+			 
+			echo('<div class = "form-group"><label for="is_image" class="col-xs-3 control-label">Use picture from memebase:</label><div class="col-xs-8">');
 	
+			echo('<input onchange = "toggle_post_picture(\''.$service_name.'\')" type="radio" name = "meme_type" value="base" checked></div></div>');
+
+			$memes = get_memes($_GET['c'], $service_name);
+		
+			echo('<span class = "row no-padding">');
+
+			foreach ($memes as $currentmeme) {
+			
+				echo('<span class = "col-xs-2 light-padding"><img src = "'.$currentmeme['url'].'" class = "img-responsive"><center><input type = "radio" name = "meme_img_src" value = "'.$currentmeme['url'].'"></center></span>');
+			
+			}
+		
+			if(count($memes) < 1){
+			
+				echo('No memes in the memebase, yet! What a shame...');
+			}
+		
+			echo('</span><hr class = "messagehr">');
+		
+
+	 			echo('<div class = "form-group"><label for="is_image" class="col-xs-3 control-label">Or upload your own picture:</label><div class="col-xs-8">');
+
+	 			echo('<input onchange = "toggle_post_picture(\''.$service_name.'\')" type="radio" name = "meme_type" value="upload"></div></div>');
+
+	 		 	echo('<div id = "post-pic-form-'.$service_name.'" class="form-group picture-disabled"><label for="pic" class="col-xs-3 control-label">Picture:</label><div class="col-xs-8"><input class = "form-control"  type="file" name="pic">JPG, PNG, and GIFs are allowed!</div></div>');
+				
+				echo('</span>');
+			
 	
-		if($data['comments_on']){
+		}
+	
+		if($data['comments_on'] == 1){
 		
 		   echo('<div class="checkbox"><label><input type="checkbox" name="comments_on" checked = "checked">Allow comments</label></div>');
 		
 		}
 	
-		if($data['private_on']){
+		if($data['private_on'] == 1){
 		
 			if(logged_in() === true){ 
 								
@@ -574,7 +766,6 @@ function display_form($service_name, $service_in){
 		
 		
 		}
-	
 	
 	
 		echo('<br><button type="submit" class="post-submit-button btn btn-info">SUBMIT</button>');

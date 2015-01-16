@@ -12,8 +12,9 @@ $sentmessages = true;
 	}
 		
 	foreach ($messages as $currentmessage) {
+		echo('<span class = "messagerow">');
 				
-		echo('<span class = "messagerow amessage col-xs-12">');
+		echo('<span class = "amessage col-xs-12">');
 				
 		echo("<span class = 'col-xs-4 message-icon text-center'>");
 		
@@ -62,6 +63,9 @@ $sentmessages = true;
 		
 		echo('</span>');
 		echo('</span>');
+		
+		echo('</span>');
+		
 		
 		echo('<span class = "col-xs-12 anymessage-bottom message'.$currentmessage['id'].'-bottom"></span>');
 		

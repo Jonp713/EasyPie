@@ -112,7 +112,7 @@ echo('</span>');
 
 </span>
 
-<div id="chat" class="form-control" disabled="disabled"></div>			
+<div id="chat" class="form-control notbg-color"></div>			
 <br><br><br>
 
 

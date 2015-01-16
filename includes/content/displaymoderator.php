@@ -17,7 +17,7 @@ if(isset($_GET['service'])){
 	
 		$name = get_character_name_from_character_id($result['character_id']);
 		
-		echo '<img class = "col-xs-6 col-sm-12 img-responsive" src="'. $url . '"><br>';
+		echo '<img class = "mod-image col-xs-6 col-sm-12 img-responsive" src="'. $url . '"><br>';
 
 		/*
 		$quote = get_random_quote_from_character_id($result['character_id'], $_GET['c'], $_GET['service']);

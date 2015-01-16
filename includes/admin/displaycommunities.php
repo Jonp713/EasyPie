@@ -1,9 +1,10 @@
 <?php
 
+
 	
 	echo('<span class = "admin-section col-xs-12 no-padding">');
 	
-	echo('<span class = "col-xs-12 section-top"><strong>Boards you moderate:</strong></span><br>');
+	echo('<span class = "col-xs-12 section-top"><strong>Franchises you moderate:</strong></span><br>');
 	
 	
 	$services = get_mod_services($session_user_id, 'moderator');

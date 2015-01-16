@@ -11,7 +11,6 @@ include 'includes/overall/header.php';
 
 include ('includes/widgets/adminpost.php');
 include("includes/content/displayadminposts.php");
-include ('includes/widgets/selectpic.php');
 
 echo("<h3><a href = 'quit.php'>Quit</a></h3>");
 

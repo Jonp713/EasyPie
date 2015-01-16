@@ -2,6 +2,7 @@
 include 'core/init.php';
 protect_page();
 
+
 include 'includes/overall/header.php';
 
 
@@ -9,19 +10,20 @@ include 'includes/overall/header.php';
 
 	
 
+
 <?php
+
+
 
 
 //nav
 if(isset($_GET['service']) == false && isset($_GET['c']) == false){
 	
 	echo('<span class = "admin-stuff col-xs-12">');
-		
-	
 
-include 'includes/admin/displaycommunities.php';
+	include 'includes/admin/displaycommunities.php';
 
-echo('</span>');
+	echo('</span>');
 
 }else{
 	
@@ -38,12 +40,22 @@ echo('</span>');
 				
 				if(isset($_GET['service']) && isset($_GET['c'])){
 
-	$points = service_sub_count($_GET['service']);
+	$points = service_sub_count($_GET['service'], $_GET['c']);
 	
 	echo('<span class = "pointsline ">');
 	
 	echo('<span class = "pointscount">'.$points.'</span> people have subscribed to your board!&nbsp;');
 	
+	
+	if(service_is_home($_GET['service'], $_GET['c']) == 1){
+		
+		echo('<br><br>Your franchise is part of the home feed!&nbsp;');
+		
+	}else{
+		
+		echo('<br><br>Your franchise has not been added to the home feed&nbsp;');
+		
+	}
 	
 	echo('</span>');
 	
@@ -93,6 +105,12 @@ if(isset($_GET['service']) == true && isset($_GET['c']) == true){
 	switch($_GET['p']){
 		case 'Queue':
 		
+			if($_GET['service'] == "Hole"){
+			
+				header('location: admin.php?service='.$_GET["service"].'&c='.$_GET["c"].'&p=Approved');
+				exit();
+			
+			}
 			include 'includes/admin/queue.php';
 		
 		break;
@@ -106,13 +124,23 @@ if(isset($_GET['service']) == true && isset($_GET['c']) == true){
 			include 'includes/admin/announcements.php';
 		
 		break;
+		case 'Memebase':
+			include 'includes/admin/memebase.php';
+		
+		break;
 		case 'Options':
 		
 			include 'includes/admin/s-options.php';
 		
 		break;
 		default:
+	
+			if($_GET['service'] == "Hole"){
 		
+				header('location: admin.php?service='.$_GET["service"].'&c='.$_GET["c"].'&p=Approved');
+				exit();
+		
+			}
 			include 'includes/admin/queue.php';
 		
 	}

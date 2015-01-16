@@ -142,6 +142,22 @@ function service_name_from_post_id($post_id){
 	
 }
 
+function user_owns_post($post_id){
+	$post_id = sanitize($post_id);
+	
+	$user_id = mysql_result(mysql_query("SELECT `user_id` FROM `posts` WHERE `id` = '$post_id'"), 0, 'user_id');
+	
+	if($user_id == $_SESSION['user_id'] && $user_id != null){
+		
+		return true;
+		
+	}else{
+		
+		return false;
+	}
+	
+}
+
 function status_from_post_id($post_id){
 	$post_id = sanitize($post_id);
 	
@@ -343,7 +359,11 @@ function get_posts($status, $site, $type, $admin_id, $service){
 		//old shit?
 		
 
+		if($type == -4){
+	
+			$result = mysql_query("SELECT * FROM posts WHERE status = '$status' AND site = '$site' ORDER BY id DESC LIMIT 0,5");
 		
+		}
 		if($type == -3){
 	
 			$result = mysql_query("SELECT * FROM posts WHERE status = '$status' AND site = '$site' AND is_home = 1 AND needs_approve = 0");
@@ -560,16 +580,13 @@ function upload_image_post($type, $file_temp, $file_extn){
 	$file_extn = sanitize($file_extn);
 	$type = sanitize($type);
 	
-	
 	$file_path = 'images/posts/' . substr(md5(time()), 0, 10) . '.' . $file_extn;
-	
 	
 	move_uploaded_file($file_temp, $file_path);
 	
-	
-	if(filesize($file_path) > 3000000){
+	if(filesize($file_path) > 500000){
 													
-		compress_image($file_path, $file_path, 30);
+		compress_image($file_path, $file_path, 1);
 	
 	}
 		

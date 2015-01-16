@@ -6,6 +6,13 @@
 		padding-bottom:1em !important;
 	}
 	
+	.topalert{
+
+		left:10% !important;
+		width:80% !important;
+
+
+	}
 	
 
  }
@@ -847,7 +854,8 @@ overflow-x: hidden;
 	font-size:2em;
 	color:black;
 	margin:5px;
-	margin-bottom:30px;
+	padding-bottom:10px !important;
+	margin-bottom:40px;
 	z-index:2;
 	
 }
@@ -882,16 +890,6 @@ overflow-x: hidden;
 }
 
 
-.low-padding{
-
-	padding-left:2px !important;
-	
-}
-
-.no-padding{
-	
-	padding:0px !important;
-}
 
 
 .acount{
@@ -1106,3 +1104,65 @@ img{
 	color:#979797;
 	
 }
+
+#topalert{
+	
+	z-index:100000;
+	
+}
+.topalert{
+	position:fixed;
+	top:-1%;
+	left:40%;
+	width:20%;
+	text-align:center;
+	padding:10px;
+	font-weight:700;
+
+}
+
+.commenting-on{
+	
+	position:fixed !important;
+	left:2%;
+	top:10% !important;
+	color:white;
+	cursor:pointer;
+}
+
+ .meme{
+  font-size:30px;
+  color:white;
+  font-family:Impact, Charcoal, sans-serif;
+  margin-left:5px;
+  margin-right:5px;
+ }
+.meme-image{
+  width:100% !important;
+ }
+ .bottom{
+ 	
+  position:absolute;
+  bottom:0px;
+ }
+ .top{
+  position:absolute;
+  top:0px;
+ }
+ .navlogocollapse{
+  max-height:40px;
+  width:auto;
+ }
+ 
+ .memeforms{
+  padding-top:5px;
+  z-index:3;
+  background-color:#f5f5f5;
+  margin-bottom:10px;
+ 
+
+ }
+ .no-padding{
+	 padding:0px !important;
+ }
+

@@ -20,6 +20,7 @@
     <script src = "js/points.js" type = 'text/javascript'></script>	
     <script src = "js/users.js" type = 'text/javascript'></script>		
     <script src = "js/mods.js" type = 'text/javascript'></script>	
+	<?php include 'js/geolockjs.php' ?>		
 
 	
 	<script>
@@ -27,10 +28,14 @@
 		$('[data-toggle="tooltip"]').tooltip();
 		$('[data-toggle="popover"]').popover();
 		$('[data-toggle="tooltip"]').tooltip({ container: 'body' });
+			
 
 	</script>
 	
-	<?php if(empty($_GET['share']) == false){?>
+	<?php
+	//share stuff
+	
+	if(empty($_GET['share']) == false){?>
 	
 	<script type = "text/javascript">
 
@@ -41,7 +46,10 @@
 	<?php }?>
 	
 	
-	<?php if(!$session_local){?>
+	<?php
+	
+	//analytics stuff
+	if(!$session_local){?>
 	
 	<script>
 	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -56,18 +64,135 @@
 	
 	<?php }?>
 	
-	<?php if(isset($_GET['s'])){ ?>
+	<?php 
 	
-		<script type = "text/javascript">
+	
+	if(isset($_GET['success'])){ ?>
 		
-				$("#topalert").html('<span class="alert alert-success" role="alert"><span class = ""></span> &nbsp;&nbsp;Your Post Has Been Submitted For Approval</span>');
-   
-				$("#topalert").fadeIn("slow", function() { $(this).delay(2000).fadeOut("slow");
-				 });
+		
+		<script type = "text/javascript">
+				
+		
+			if(getURLParameter('success') == "post"){
+				 
+				 html = '<span class="alert alert-success" role="alert">Post submitted! Party later?</span>';
+				 				 
+			 }
+			 
+ 			if(getURLParameter('success') == "board"){
+			 
+				html = '<span class="alert alert-success" role="alert">Board created! SNNYYEAHHH</span>';
+				 
+			 }
+  			if(getURLParameter('success') == "franchise"){
+			 
+	
+				 html = '<span class="alert alert-success" role="alert">Franchise added! The posts are coming...</span>';
+				 
+				 
+			 }
+   			if(getURLParameter('success') == "update_board"){
+			 
+	
+ 				 html = '<span class="alert alert-success" role="alert">Board updated! Will anyone care?</span>';
+				 
+				 
+ 			 }
+		
+    		if(getURLParameter('success') == "defranchise_board"){
+			 
+	
+  				 html = '<span class="alert alert-success" role="alert">Aaaaaaaaand... it\'s gone!</span>';
+				 
+				 
+  			 }
+     		if(getURLParameter('success') == "deactivate_board"){
+			 
+	
+   				 html = '<span class="alert alert-success" role="alert">There comes a time when everyone must say goodbye</span>';
+				 
+				 
+   			 }
+			 
+ 			if(getURLParameter('success') == "mod_quit"){
+		 
+
+			 	html = '<span class="alert alert-success" role="alert">You\'re free! Get nude</span>';
+			 
+			 
+			 }
+			if(getURLParameter('success') == "add_mod"){
+	 
+
+		 	   html = '<span class="alert alert-success" role="alert">Help will always come for those who ask</span>';
+		 
+		 
+	 		}
+			if(getURLParameter('success') == "already_mod"){
+	 
+
+		 	   html = '<span class="alert alert-danger" role="alert">That user is already a moderator c\'mon now</span>';
+		 
+		 
+	 		}
+			if(getURLParameter('success') == "transfer_owner"){
+	 
+
+		 	   html = '<span class="alert alert-success" role="alert">Hehe...sucker</span>';
+		 
+		 
+	 		}
+			if(getURLParameter('success') == "confirmed_email"){
+	 
+
+		 	   html = '<span class="alert alert-success" role="alert">Roger that email confirmed, Over</span>';
+		 
+		 
+	 		}
+			if(getURLParameter('success') == "change_password"){
+	 
+
+		 	   html = '<span class="alert alert-success" role="alert">Password changed...write it down</span>';
+		 
+		 
+	 		}
+			if(getURLParameter('success') == "identity_updated"){
+	 
+
+		 	   html = '<span class="alert alert-success" role="alert">Your secret identity is safe with us</span>';
+		 
+		 
+	 		}
+			if(getURLParameter('success') == "info_updated"){
+	 
+
+		 	   html = '<span class="alert alert-success" role="alert">Your info has been updated, it is still just as boring as it was before</span>';
+		 
+		 
+	 		}
+		
+		
+			if(getURLParameter('success') == "newbie"){
+	 
+
+		 	   html = '<span class="alert alert-success" role="alert">Hi :) </span>';
+		 
+		 
+	 		}
+		
+			$("#topalert").html(html);
 			
+
+			$("#topalert").fadeIn("slow", function() { $(this).delay(7000).fadeOut("slow");
+			 
+			 });
+				 
+	
 		</script>
 	
 	<?php }
+	
+	
 	
 	
 	if (logged_in() === true) {

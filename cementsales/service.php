@@ -9,8 +9,7 @@ include 'includes/overall/header.php';
 
 <?php
 		
-include("includes/widgets/addservice.php");
-include("includes/widgets/createservice.php");
+include("includes/content/displaycoreservices.php");
 
 
 ?>

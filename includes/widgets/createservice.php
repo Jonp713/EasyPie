@@ -6,18 +6,16 @@
 	
 	if (empty($_POST) === false) {
 		
-
+		if(empty($_POST['description']) || empty($_POST['board_name']) || empty($_POST['prompt'])){
 			
-		$required_fields = array('description, board_name, prompt, character_name');
-		foreach($_POST as $key=>$value) {
-			if (empty($value) && in_array($key, $required_fields) === true) {
-				$errors[] = 'You gotta fill out at least some of the fields dude...';
-				break 1;
-			}
+			$errors[] = 'You gotta fill out at least some of the fields dude...';
+			
 		}
 
+
+		$name = preg_replace('/\s+/', '', $_POST['board_name']);
 	
-		if(service_exists($_POST['board_name'])){
+		if(service_exists($name)){
 		
 			$errors[] = 'A board with that name already exists.';
 			
@@ -66,12 +64,13 @@
 		*/
 	
 		$home = get_home_from_user_id($session_user_id);
-	
-							
+			
+
 		$service_data1 = array(
-			'name'			=> $_POST['board_name'],
+			'name'			=> $name,
 			'color'			=> '#' . $_POST['board_color'],
 			'prompt'		=> $_POST['prompt'],
+			'name_display'	=> $_POST['name_display'],
 			'description'	=> $_POST['description'],
 			'identity'		=> $_POST['identity'],
 			'style'			=> $_POST['style'],
@@ -82,7 +81,7 @@
 		);
 		$service_data2 = array(
 			'community'	=> $home,
-			'name'				=> $_POST['board_name'],
+			'name'				=> $name,
 			'seconds'			=> time(),
 			'core'				=> 0,
 					
@@ -100,6 +99,12 @@
 	
 		}
 		
+		if($_POST['for_memes'] == 'yes'){
+	
+			$service_data1['for_memes'] = 1;
+	
+		}
+		
 		if($_POST['title_on'] == 'on'){
 	
 			$service_data1['title_on'] = 1;
@@ -112,11 +117,6 @@
 	
 		}
 	
-		if($_POST['2comments_on'] == 'on'){
-	
-			$service_data1['2comments_on'] = 1;
-	
-		}
 		
 		if($_POST['private_on'] == 'on'){
 	
@@ -144,6 +144,31 @@
 	
 		}
 		
+		if($_POST['share_on'] == 'on'){
+	
+			$service_data1['share_on'] = 1;
+	
+		}
+		
+		if($_POST['geo_lock'] == 'on'){
+	
+			$service_data1['geo_locked'] = 1;
+	
+		}else{
+			
+			$service_data1['geo_locked'] = 0;
+			
+		}
+		
+		if($_POST['blur_on'] == 'on'){
+	
+			$service_data1['blur_on'] = 1;
+	
+		}else{
+			
+			$service_data1['blur_on'] = 0;
+			
+		}
 		
 		
 		$character_data = array(
@@ -161,7 +186,7 @@
 			'user_id'	 	=> $session_user_id,
 			'type'			=> 'owner',
 			'seconds'		=> time(),
-			'service_name'	=> $_POST['board_name'],
+			'service_name'	=> $name,
 			'community_name'=> $home,
 
 		);
@@ -170,7 +195,7 @@
 			'user_id'	 	=> $session_user_id,
 			'type'			=> 'moderator',
 			'seconds'		=> time(),
-			'service_name'	=> $_POST['board_name'],
+			'service_name'	=> $name,
 			'community_name'=> $home,
 		
 		);
@@ -185,7 +210,7 @@
 	
 			}else{
 
-				$allowed = array('png', 'jpg', 'jpeg');
+				$allowed = array('jpg', 'jpeg', 'png');
 		
 				$file_name = $_FILES['pic_char']['name'];
 				$file_extn = strtolower(end(explode('.', $file_name)));
@@ -193,54 +218,68 @@
 	
 				if (in_array($file_extn, $allowed) === true) {} else {
 		
-					$errors[] =  'Incorrect file type for character picture. Allowed: ' . implode(', ', $allowed);
+					$errors[] =  'Incorrect file type for logo. Allowed: ' . implode(', ', $allowed);
 		
 				}
 	
 			}
 			
-			$name = $_POST['board_name'];
-		
-			$file_path = upload_image_characters($_POST['board_name'], $file_temp, $file_extn, $session_user_id);
+			if(empty($errors)){
+					
+				$file_path = upload_image_characters($name, $file_temp, $file_extn, $session_user_id);
 			
-			$theid = mysql_fetch_assoc(mysql_query("SELECT LAST_INSERT_ID() AS id FROM pictures WHERE nickname = '$name'"));
+				$name = sanitize($name);
 			
-			$character_data['pic_id'] = $theid['id'];
+				$theid = mysql_fetch_assoc(mysql_query("SELECT LAST_INSERT_ID() AS id FROM pictures WHERE nickname = '$name'"));
+			
+				$character_data['pic_id'] = $theid['id'];
+			
+			}
 		
 		}
 		
-		create_character($character_data);
+		if(empty($errors)){
+		
+			create_character($character_data);
 			
-		$charname = $_POST['character_name'];
+			$charname = $_POST['character_name'];
 			
-		$character_id = mysql_fetch_assoc(mysql_query("SELECT LAST_INSERT_ID() AS id FROM characters WHERE name = '$charname'"));
+			$charname = sanitize($charname);
+			
+			$character_id = mysql_fetch_assoc(mysql_query("SELECT LAST_INSERT_ID() AS id FROM characters WHERE name = '$charname'"));
 				
-		$quote_data['character_id'] = $character_id['id'];
-		$service_data1['character_id'] = $character_id['id'];
+			$quote_data['character_id'] = $character_id['id'];
+			$service_data1['character_id'] = $character_id['id'];
 		
-		create_mod($admin_data1);
-		create_mod($admin_data2);
+			create_mod($admin_data1);
+			create_mod($admin_data2);
 		
-		create_service($service_data1);
+			create_service($service_data1);
 		
-		$servename = $_POST['board_name'];
+			$name = sanitize($name);
+		
+			$servename = $name;
 			
-		$service_id = mysql_fetch_assoc(mysql_query("SELECT LAST_INSERT_ID() AS id FROM services WHERE name = '$servename' AND core = 1"));
+			$service_id = mysql_fetch_assoc(mysql_query("SELECT LAST_INSERT_ID() AS id FROM services WHERE name = '$servename' AND core = 1"));
 		
-		$quote_data['service_id'] = $service_id['id'];
+			$quote_data['service_id'] = $service_id['id'];
 		
-		add_service($service_data2);
+			add_service($service_data2);
 		
-		add_quote($quote_data);
-		
-		if(empty($errors) === true){
+			add_quote($quote_data);
+			
+			$session_user_id = sanitize($session_user_id);
 			
 			mysql_query("UPDATE `users` SET `admin` = 1 WHERE `user_id` = '$session_user_id'");
-			
-			header('Location: admin.php?s='.$_POST['board_name']);
 		
+			header('Location: admin.php?success=board');
+	
 			exit();
-
+	
+		}else if (empty($errors) === false) {
+			
+			echo('<br>'. output_errors($errors));
+			
 		}
 	
 	}else if (empty($errors) === false) {
@@ -253,7 +292,49 @@
 
 		 <h3>Create a board</h3>You will create a new board and define what types of content users can post. You will be responsible for moderating this board within your home community. Your board will appear in the "Franchise an existing board" panel for any other user to add it to their home community.<br><br>
 		 
+		 <span class = "form-note col-xs-12">
+		 	<strong>Board ideas you should use!</strong><br>
+			Satire news -  
+			Compliments - 
+			Crushes - 
+			Missed Connections -  
+			Confessions - 
+			Personals - 
+			Humans Of - 
+			Work Showcase - 
+			News - 
+			Nudes - 
+			Things to do in the area - 
+			Overheard - 
+			Ideas/Wishes - 
+			Lost and Found - 
+			Free Food - 
+			Discussion/Arguments - 
+			Announcements - 
+			Jokes - 
+			Poems - 
+			Job postings - 
+			Memes - 
+			Events -
+			Recipes -
+			Fashion - 
+			Historical Photos - 
+			Photos of whats happening on the weekend! - 
+			Ride sharing - 
+			Couch sharing - 
+			Stories/Lore - 
+			Milkshake Reviews - 
+			Questions -
+			College Bucket list -
+			And think of your own!
+			<br>
+		 </span>
+		 		 
+ 		<hr class = "messagehr col-xs-11"><br>
+		 
+		 
 		  <form class = "submit_post form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
+			  
 			  
 			  <div class="form-group">
 				
@@ -263,6 +344,21 @@
 	  				<input type = "text" class = "form-control" placeholder = "What is the name of your board?" name="board_name" id = "board_name">
 	  			</div>
 			</div>
+			
+			<strong>Name Display:</strong><br>
+
+			<div class="radio">
+			  <label>
+			    <input type="radio" name="name_display" id="optionsRadios4" value="comser" checked>
+			  	Community first - ex. COMMUNITY<strong>BOARDNAME</strong>
+			  </label>
+			</div>
+			<div class="radio">
+			  <label>
+			    <input type="radio" name="name_display" id="optionsRadios5" value="sercom">
+			  	Board First - ex. <strong>BOARDNAME</strong>COMMUNITY
+			  </label>
+			</div><br>
 				
 	  			<div class="form-group">
 				
@@ -305,7 +401,7 @@
 	
 							   	 <div class="col-xs-8">
 	
-							   		 <input id="optionsRadios8" onclick = "toggle_create_service_logo('on')" type="radio" name = "char_type" value="character_image" >&nbsp;&nbsp;&nbsp;&nbsp;(You can upload a photo for your logo) <a style = "color:blue"  target = "_blank" href = "https://www.fiverr.com/search/gigs?utf8=%E2%9C%93&search_in=everywhere&query=logo&page=1&layout=auto">Get a $5 Logo</a>
+							   		 <input id="optionsRadios8" onclick = "toggle_create_service_logo('on')" type="radio" name = "char_type" value="character_image" >&nbsp;&nbsp;&nbsp;&nbsp;(You can upload a photo for your logo) <a style = "color:blue"  target = "_blank" href = "https://www.fiverr.com/search/gigs?utf8=%E2%9C%93&search_in=everywhere&query=logo&page=1&layout=auto">Get a $5 Logo</a> - <a href = "https://www.fiverr.com/foxsquare" style = "color:blue"  target = "_blank">I recommend this guy</a>
  
 					   	 </div></div><br>
 						 
@@ -344,7 +440,7 @@
 								-->
 						
 						<hr class = "messagehr"><br>
-						<strong>Type:</strong><br>Is your board time oriented? Does it regard events or things that happen at certain times?
+						<strong>Type:</strong><br>Is your board time oriented? Does it regard events or things that happen at certain times? Does it involve clocks, or jack in the boxes?
 
 						<div class="radio">
 						  <label class = "radio-inline">
@@ -359,7 +455,22 @@
 						  	 No 
 						  </label>
 						</div>
-						<br>
+						<br>Is your board for Memes? You know...those pictures things?
+												<div class="radio">
+												  <label class = "radio-inline">
+												    <input type="radio" name="for_memes" id="optionsRadios13" value="yes">
+												  	 Yes (A top line field and a bottom line field will be added. Images will be allowed for upload whether or not you check it below. You will be responsible for curating a memebase, a collection of meme templates for others to use)
+												  </label>
+						  
+												</div>
+												<div class="radio">
+												  <label class = "radio-inline">
+												    <input type="radio" name="for_memes" id="optionsRadios15" value="no" checked>
+												  	 No 
+												  </label>
+												</div>
+												<br>
+						<hr class = "messagehr"><br>
 						
 		 			
 			<strong>Title:</strong> 
@@ -367,7 +478,7 @@
 		  	  	<label> <input type="checkbox" name="title_on">Posts have a title</label>
 		  	</div><br>
 						
-		<strong>Content:</strong><br>What type of content do you want to allow your users to submit? Text is always included
+		<strong>Content:</strong><br>What type of content do you want to allow your users to submit? A text field is always included
 
   			    <div class="checkbox">
   			      <label>  	<input type="checkbox" name="images_on">Images
@@ -386,24 +497,24 @@
 									
 <br>
 
-<strong>Style:</strong><br>How is your media positioned on the post? (Only for Videos and Images)
+<strong>Style:</strong><br>How is your media positioned on the post? (Only for Videos and Images) (Does not affect Memes, which are automatically After)
 
 <div class="radio">
   <label>
     <input type="radio" name="style" id="optionsRadios1" value="media_after" checked>
-  	 After - Media appears after the post (Hole)
+  	 After - Media appears after the post
   </label>
 </div>
 <div class="radio">
   <label>
     <input type="radio" name="style" id="optionsRadios2" value="media_corner">
-  	 Corner - Media appears in the corner of the post (Events) (Only Images)
+  	 Corner - Media appears in the corner of the post (Only Images)
   </label>
 </div>
 <div class="radio">
   <label>
     <input type="radio" name="style" id="optionsRadios3" value="media_featured">
-   	Featured - Media appears at the top of the post (Shaman)
+   	Featured - Media appears at the top of the post
   </label>
 </div><br>
 
@@ -475,13 +586,15 @@
 
  		    <div class="checkbox">
  		      <label>
- 		 		 <input type="checkbox" name="geo_lock">Geo-lock my board (Prevents users from accessing unless within a certain mile radius of your community)
+ 		 		 <input type="checkbox" name="geo_lock">Geo-lock my board (Prevents users from accessing unless within a certain mile radius of your community, affects load time)  <i class = "form-note"> Your posts will not be allowed on the community home page </i>
+	      </label>
  		      </label>
  		    </div>
 			 
   		    <div class="checkbox">
   		      <label>
-  		 		 <input type="checkbox" name="blur_on">Prevent saving/screenshotting of images (Will add a removeable blur over your images)
+  		 		 <input type="checkbox" name="blur_on">Prevent saving/screenshotting (Will add a removeable blur over your images and text)  <i class = "form-note"> Your posts will not be allowed on the community home page </i>
+	      </label>
   		      </label>
   		    </div>
 			

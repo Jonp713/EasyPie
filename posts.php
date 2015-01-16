@@ -1,7 +1,8 @@
 <?php
-if($_GET['service'] == "Hole"){
-	
+if(isset($_GET['service']) && $_GET['service'] == "Hole"){
+
 	header("Location: index.php");
+
 }
 
 
@@ -10,29 +11,26 @@ active_protect($_GET['c']);
 
 include 'includes/overall/header.php';
 
-
-
-//if(isset($_GET['service']) && is_geo_locked($_GET['service']) == 1){
+if(isset($_GET['service']) && is_event($_GET['service'])){
 	
-?>
+	time_check($community_in);
+	
+}
 
-
-	<script>
-	window.navigator.geolocation.getCurrentPosition(function(pos){
-	  //console.log(pos);
-	  
-	  //pos.coords.latitude
-	  //pos.coords.longitude
-	 
-	})
-
-	</script>
-
-
-
-<?php 
-
-//}
+if(isset($_GET['service'])){
+	
+	if(!service_available($_GET['c'], $_GET['service'])){
+		
+		header("Location: index.php");
+	}
+}else{
+	
+	if(!community_available($_GET['c'])){
+		
+		header("Location: index.php");
+		
+	}
+}
 
 
 sort_coolness($_GET['c']);
@@ -104,11 +102,6 @@ echo('</span></span>');
 
 echo('<span class = "postfeed">');
 
-if(isset($_GET['service']) && $_GET['service'] == "Events"){
-	
-	time_check($community_in);
-	
-}
 
 include 'includes/content/unnapprovedposts.php';
 

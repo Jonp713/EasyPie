@@ -7,18 +7,18 @@ include 'core/init.php';
 <html>
 <head>
 
-	<title>ICU <?php if(!empty($community_in)){echo($community_in);} ?></title>
+	<title>Matropolix</title>
 	
-		<meta name="description" content="Find your secret admirer">
+		
+		<meta name="description" content="Community - Oriented Anon Social Network AKA Gesellschaft in Gemeinschaft">
 	
 	<meta charset="UTF-8">
 	 
-	<meta name="keywords" content="<?php if(!empty($community_in)){echo($community_in.',');} ?> ICU, I see you, compliments, crushes, confessions, missed connections, college, university, icu.university, icu.com, school, hookups, dating, Ucrush, Tinder, FML, MLIA">	
+	<meta name="keywords" content="<?php if(!empty($community_in)){echo($community_in.',');} ?> <?php if(!empty($service_in)){echo($service_in.',');} ?>, matropolix, reddit, local, social, college, board, franchise, community, life, tickling, icuhampy">		
 	
 	<link href="css/bootstrap.css" rel="stylesheet">
 	<link href="css/screen3.1.css" rel="stylesheet">
 	
-	<link rel="shortcut icon" type="image/png" href="https://icu.university/images/logonotext.png"/>
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!--[if lt IE 9]>
@@ -61,12 +61,15 @@ include 'core/init.php';
 	
 	
 <div class="container-fluid landingdiv no-padding">
+    <div class="thinblacklayer">
 
 <?php
 
 include 'includes/content/landingpage.php';
 
 ?>
+
+</div>
 
 </div></div></div>
 <footer>

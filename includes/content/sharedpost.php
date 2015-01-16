@@ -24,6 +24,8 @@ if(empty($_GET['share']) == false){
 			  //from header
 			  $link = $data['id']; 
 			  
+		    if(is_share_on($_GET['service'])){
+			  
 			  ?>
 			  
 			  <span class = "col-xs-12">
@@ -39,20 +41,20 @@ if(empty($_GET['share']) == false){
 <a href="https://twitter.com/share" class="pull-right twitter-share-button">Tweet</a>
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
 
-
-
-
-
 <br>
 
 
 </span>
 <br>
 			  <?php
+			  
+		  }
 				
-			    if(is_share_on($_GET['service'])){
+			    if(is_share_on($_GET['service']) || user_owns_post($id)){
 	  			
 					create_display_set($id, 'share', 'load');
+					
+					
 				
 				}else{
 				
@@ -61,7 +63,6 @@ if(empty($_GET['share']) == false){
 					
 				
 			  ?>
-
 
 	      </div>
 	      <div class="modal-footer">

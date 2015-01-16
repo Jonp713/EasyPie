@@ -36,11 +36,10 @@
 					$success = create_mod($post_data);
 					$success2 = add_service($post_data2);
 					
-					mysql_query("UPDATE `users` SET `admin` = 1 WHERE `user_id` = '$session_user_id'");
-					
-		
-						header('Location: admin.php?a');
-						exit();
+					mysql_query("UPDATE `users` SET `admin` = 1 WHERE `user_id` = '$session_user_id'");	
+	
+					header('Location: admin.php?success=franchise');
+					exit();
 					
 				}else{
 					

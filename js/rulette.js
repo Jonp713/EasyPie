@@ -18,6 +18,7 @@ try {
 	SessionDescription = mozRTCSessionDescription;
 }
 
+
 function Rulette(){
 	this.namespace = '/chatroulette';
 	this.socket;this.iceReady = 0;
@@ -28,7 +29,7 @@ function Rulette(){
 	this.idNickBox = 'nickbox';
 	this.idWarnBox = 'warnbox';
 	this.idRuletteBox = 'ruletteBox';
-	this.pc_config = {"iceServers":[{"url":"stun:23.21.150.121"}]};
+	//this.pc_config = {"iceServers":[{"url":"stun:23.21.150.121"}]};
 	this.localstream;this.pc;this.remotestream;this.sendChannel;
 }
 
@@ -297,7 +298,7 @@ Rulette.prototype.connect = function(){
 }
 
 Rulette.prototype.showBrowserIncompatibleMessage = function () {
-	document.getElementsByTagName('body').innerHTML = '  ';	
+	alert('You browser is not supported for Zombledon , please use Chrome.');
 }
 
 Rulette.prototype.checkBrowser = function (){
@@ -356,19 +357,21 @@ function debug(arg) {
 	console.log(arg);
 }
 
-window.onload = function(){
+function startZomble(){
 
 	try {
 		client = new Rulette();
-		debug('- Play browser check )');
+		//debug('- Play browser check )');
 		if (!client.checkBrowser()) {
 			client.showBrowserIncompatibleMessage();
-		}	
+		}else{
+			
+			client.getUserMedia();
+			
+		}
 	}catch(e){ 
-		document.getElementsByTagName('body').innerHTML = ' You browser is not supported , please use FireFox or Chrome. ';
+		alert('You browser is not supported for Zombledon, please use Chrome.');
 	}
-	//get user media 
-	client.getUserMedia();
 
 	
 }

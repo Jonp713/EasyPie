@@ -3051,7 +3051,6 @@ fieldset[disabled] .btn-link:focus {
   border-radius: 3px;
 }
 .btn-block {
-  display: block;
   width: 100%;
 }
 .btn-block + .btn-block {
@@ -4594,10 +4593,9 @@ a.thumbnail.active {
   color: #333;
 }
 .alert {
-  padding: 15px;
-  margin-bottom: 20px;
-  border: 1px solid transparent;
-  border-radius: 4px;
+  padding: 10px;
+  margin-bottom: 10px;
+  
 }
 .alert h4 {
   margin-top: 0;
@@ -4625,9 +4623,10 @@ a.thumbnail.active {
   color: inherit;
 }
 .alert-success {
-  color: #3c763d;
-  background-color: #dff0d8;
+  color: white;
+  background-color:#5bc0de;
   border-color: #d6e9c6;
+  display:block;
 }
 .alert-success hr {
   border-top-color: #c9e2b3;
@@ -4639,6 +4638,8 @@ a.thumbnail.active {
   color: #31708f;
   background-color: #d9edf7;
   border-color: #bce8f1;
+  display:block;
+  
 }
 .alert-info hr {
   border-top-color: #a6e1ec;
@@ -4650,6 +4651,8 @@ a.thumbnail.active {
   color: #8a6d3b;
   background-color: #fcf8e3;
   border-color: #faebcc;
+  display:block;
+  
 }
 .alert-warning hr {
   border-top-color: #f7e1b5;
@@ -4661,6 +4664,8 @@ a.thumbnail.active {
   color: #a94442;
   background-color: #f2dede;
   border-color: #ebccd1;
+  display:block;
+  
 }
 .alert-danger hr {
   border-top-color: #e4b9c0;

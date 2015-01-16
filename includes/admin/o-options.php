@@ -5,6 +5,9 @@ protect_owner($_GET['service'], $session_user_id);
 if(isset($_POST['transfer_ownership']) ){	
 
 	$service = $_GET['service'];
+	
+	$service = sanitize($service);	
+	
 		
 	mysql_query("DELETE FROM admins WHERE user_id = '$session_user_id' AND service_name = '$service' AND type = 'owner'");
 	
@@ -23,7 +26,7 @@ if(isset($_POST['transfer_ownership']) ){
 
 	$success = create_mod($post_data);	
 	
-	header('Location: admin.php');
+	header('Location: admin.php?success=transfer_owner');
 	
 }
 
@@ -32,9 +35,17 @@ if(isset($_POST['deactivate_service']) ){
 
 	$service = $_GET['service'];
 		
+	$service = sanitize($service);	
+	
+	mysql_query("DELETE FROM admins WHERE service_name = '$service'");
+	
 	mysql_query("DELETE FROM services WHERE name = '$service'") or die(mysql_error());
 	
-	header('Location: admin.php');
+	mysql_query("DELETE FROM subscriptions WHERE service = '$service'");
+	
+	mysql_query("UPDATE posts SET is_home = 0, status = 3 WHERE service = '$service' AND status <> 2 AND status <> 3");
+		
+	header('Location: admin.php?success=deactivate_board');
 	
 	
 }

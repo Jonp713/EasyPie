@@ -10,13 +10,14 @@
 		
         <li>
 			
+			<button data-toggle="modal" data-target="#myModal" class="btn btn-info btn-lg">SUBMIT POST</button>
 			
 		<?php
 		
 		//This is where youd put the other services
 		
 		?>
-        </li>
+        </li><br>
 		
 		
 		
@@ -31,11 +32,7 @@
 		<!--<li><a href = "search.php">SEARCH</a></li>-->
 
 		<hr class = "sidebarhr">
-		
-		<?php if ($current_file == "dashboard.php"){
-		
-		
-			?>
+
 			
 						<span class = "col-xs-6 subscriptionstitle" style = "color:white; font-size:20px;">DASHBOARD</span><br><br>
 				        <li>	
@@ -91,10 +88,10 @@
 	        </li>
 			
 		
-		<?php } ?>
+
 		
 		
-		<?php if ($current_file == "feed.php" || $current_file == "index.php"){
+		<?php if ($current_file == "feed.php"){
 			
 			echo('<span class = "col-xs-6 subscriptionstitle" style = "color:white; font-size:20px;">SUBSCRIPTIONS</span>&nbsp;&nbsp;&nbsp;&nbsp;');
 

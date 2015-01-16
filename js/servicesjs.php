@@ -169,8 +169,16 @@ function recurring(nameIn){
 	}
 }
 
+$("#board_name").keydown(function (e) {
+            if (e.keyCode == 32) {
+                $(this).val($(this).val() + ""); // append '-' t d do input
+                return false; // return false to prevent space from being added
+            }
+        }).change(function (e) {
+            $(this).val(function (i, v) { return v.replace(/ /g, ""); }); 
+    	});
+		
 
-//hidenshowrecurring('LICK');
 
 
 </script>

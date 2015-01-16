@@ -85,7 +85,7 @@ if (isset($_GET['success']) === true && empty($_GET['success']) === true) {
 	
 			register_user($register_data);
 			$_SESSION['user_id'] = login($_POST['username'], $_POST['password']);
-			header('Location: explore.php');
+			header('Location: explore.php?success=newbie');
 			exit();
 			
 		}
@@ -107,11 +107,12 @@ if (isset($_GET['success']) === true && empty($_GET['success']) === true) {
 
 <hr class = "whitehr">
 
-<span class = "bump-up"><a href="recover.php?mode=username">Forgotten your username</a>?</span>
+<span class = "bump-up"><a href="recover.php?mode=username">Forgotten your username</a>?<br></span>
 
+<br>
 </span>
 
-
+<!--
 
 <span class = "col-sm-2 col-sm-offset-5 col-xs-6 col-xs-offset-3">
 	<br>
@@ -121,6 +122,7 @@ if (isset($_GET['success']) === true && empty($_GET['success']) === true) {
 <br>
 </span>
 
+-->
 
 <span class = "col-xs-12 col-sm-4 col-sm-offset-4 text-center">
 	

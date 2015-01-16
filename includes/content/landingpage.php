@@ -2,15 +2,14 @@
 	<div class = "logoandlogin col-xs-12">
 		<br>
 		
-		<img src = "images/landinglogo.png" class = "landinglogo col-xs-1">
-	
-	<form class="form-inline lower pull-right" method = "POST" action = "login.php" role="form"><strong>
+<span class = "servicetitle col-xs-12 col-sm-6">MATROPOLIX</span>
+	<form class="form-inline login-landing lower pull-right" method = "POST" action = "login.php" role="form"><strong>
 	  <div class="form-group">
 		  Username:<br>
 	    <div class="input-group">
 	      <input type="text" name = "username" id = "username" class="form-control" id="exampleInputEmail2" placeholder="Username">
 	    </div><br>
-  	    <label class = "notblue">
+  	    <label>
 			Forgotten your <a href="recover.php?mode=username">username</a>?
 			
   	    </label>
@@ -28,7 +27,7 @@
 		  
 	  </div>
 	  
-	  <button type="submit" class="btn btn-default">Login</button></strong>
+	  <button type="submit" class="btn btn-info">Login</button></strong>
 	</form>
 	
 </div>
@@ -36,27 +35,39 @@
 	
 	<div class = "col-xs-12 no-padding loginplease">
 	
-	<div class = "col-xs-6 landcopy"><br>
+	<div class = "section-1-landing"><br>
 		
- 		<span class = "landdescription">Find them and tell them how you feel.</span>
+ 		<span class = "landdescription">Share and do fun things with the people at your school.</span>
 
 <span class = "landitems">
 <br><br>
-			
-		<strong>Submit anonymous posts</strong> to safely let someone in your area know you like them.<br><br>
 		
-		<strong>Send and receive messages</strong> anonymously to your crushes, only reveal the information you want to.<br><br>
+		<strong>Random video chat</strong> with only your peers.<br><br>
+		
+ 		<strong>Hear about events</strong> happening at your school and advertise your own.<br><br>		
+		
+		<strong>Open your own board</strong> where you approve and deny what people submit.<br><br>
+		
+		<strong>Make memes</strong> about your friends and inside jokes at your school.<br><br>
+		
+		
+		
+		
+		
+		
+		
 
- 		<strong>Subscribe to communities</strong> if you want hear their drama, and create your own personal feed of posts.<br><br>
+	
+		
 	
 </span>
 		
 		 </div>
 		 
-		 <div class = "col-xs-5 landcopy"><br>
+		 <div class = "section-2-landing"><br>
 			 
 			 <span class = "landdescription">Sign Up Now</span><br>
-			 It's free! Someone may have already posted about you!<br>
+			 It only costs $5 to sign up! ....lol jk its free<br>
 			 <span class = "row">
 
 <form action = "register.php" method = "POST" class="form-horizontal" role="form">

@@ -29,14 +29,14 @@ if (empty($_POST) === false) {
 <h1>Confirm Email</h1>
 
 <?php
-if (isset($_GET['success']) === true && empty($_GET['success']) === true) {
+if (isset($_GET['s']) === true && empty($_GET['s']) === true) {
 	echo 'Awesome, an email will be there shortly. Check your email and click the link to finish the process';
 } else {
 	
 	if (empty($_POST) === false && empty($errors) === true) {
 				
 		register_email_only($_POST['email'], $session_user_id);
-		header('Location: confirmemail.php?success');
+		header('Location: confirmemail.php?s');
 		exit();
 					
 	}else if (empty($errors) === false) {
