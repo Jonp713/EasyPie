@@ -97,20 +97,19 @@ if (isset($_GET['success']) === true && empty($_GET['success']) === true) {
 <span class = "whitebg"></span>
 
 
-<span class = "basic-forms">
+<span class = "basic-forms col-xs-12">
 
 
 
 <span class = "col-xs-12 col-sm-4 col-sm-offset-4 text-center">
 
 <h1>SIGNUP</h1>
+ Forgotten your <a href="recover.php?mode=username">username</a>?
+<br><br>
 
-<hr class = "whitehr">
-
-<span class = "bump-up"><a href="recover.php?mode=username">Forgotten your username</a>?<br></span>
-
-<br>
 </span>
+
+
 
 <!--
 

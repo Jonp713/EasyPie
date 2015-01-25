@@ -363,19 +363,13 @@ if($function == 'send_to' && isset($_POST['towards'])){
 		$towards = sanitize($towards);
 	
 		$post_id = $_POST['post_id'];
+		
+		$home = service_is_home($towards);	
+
+		mysql_query("UPDATE posts SET status = 0, service = '$towards', is_home = '$home' WHERE id = '$post_id'") or die(mysql_error());	
 	
-		if($towards == 'Hole'){
+		create_mod_notification($_POST['service'], $_POST['community'], 'new_post', 'A moderator sent a post to your board', $post_id);
 		
-			mysql_query("UPDATE posts SET status = 1, service = '$towards' WHERE id = '$post_id'") or die(mysql_error());
-				
-		
-		}else{
-	
-			mysql_query("UPDATE posts SET status = 0 , service = '$towards' WHERE id = '$post_id'");
-		
-			create_mod_notification($_POST['service'], $_POST['community'], 'new_post', 'A moderator sent a post to your board', $post_id);
-			
-		}
 	
 	}
 			

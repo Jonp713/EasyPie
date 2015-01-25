@@ -153,7 +153,6 @@ if (empty($_POST) === false && empty($errors) === true) {
 		
 		
 		
-  	  <div class="form-group">
 		  
 		  		<?php
 			
@@ -161,7 +160,7 @@ if (empty($_POST) === false && empty($errors) === true) {
 				
 	if(!$session_local && $count >= 3){
 	  	 
-		echo('<div class="form-group">');
+		echo('<div class="form-group col-xs-12">');
 		
 		echo("<br><strong>Captcha:</strong><br>");
 		
@@ -178,7 +177,12 @@ if (empty($_POST) === false && empty($errors) === true) {
 
 	?>
 
-	  <button type="submit" class="btn btn-default">Update</button>
+  	  <div class="form-group col-xs-12">
+
+
+	  <button type="submit" class="btn btn-info">Update</button>
+	  
+  	</div>
 
 	</form>
 

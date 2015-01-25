@@ -28,9 +28,10 @@ echo('</span>');
 echo('</span>');
 
 }else{
-	echo('<span class = "text-center col-xs-12 col-sm-6 col-sm-offset-3">');
 	
-	echo("<br><br><br><h1>This page will fill up with posts when you add services to your feed</h1><br><h4>Check out your communities <a class = 'exploreonfeed' href ='posts.php?c=Hampy'>home</a> page to get started</h4>");
+	echo('<br><br><br><span class = "col-xs-12 col-sm-6 col-sm-offset-3 speaking">');
+	
+	echo("<h1>This page will fill up with content when you subscribe to some boards</h1><br><h4>Check out your habbitats <a class = 'exploreonfeed' href ='posts.php?c=".$user_data['home']."'>home</a> page to get started</h4>");
 	
 	echo('</span>');
 	

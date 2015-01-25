@@ -17,6 +17,18 @@ if(isset($_GET['service'])){
 	
 		$name = get_character_name_from_character_id($result['character_id']);
 		
+		if($_GET['service'] ==  "Bone" && (date('G') < 7)) {
+			
+			$url = 'images/angrybone.png';
+			
+			echo('<audio autoplay>
+  <source src="audio/metal.mp3" type="audio/mpeg">
+</audio>');
+		}
+			
+			
+		
+		
 		echo '<img class = "mod-image col-xs-6 col-sm-12 img-responsive" src="'. $url . '"><br>';
 
 		/*

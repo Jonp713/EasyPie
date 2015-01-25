@@ -9,9 +9,8 @@ if($session_local){
 }else{
 	
 	$connect_error = 'Sorry, we\'re experiencing connection problems.';
-	mysql_connect('localhost', 'icu', 'vxP38zBwPFXNTJZ6');
-	mysql_select_db('lr');
+	mysql_connect('localhost', 'www-data', 'vxP38zBwPFXNTJZ6');
+	mysql_select_db('habbitat_www');
 	
 }
-
 ?>

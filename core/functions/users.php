@@ -38,6 +38,21 @@ function upload_image_user($nickname, $type, $file_temp, $file_extn){
 }
 
 
+function select_home($user_id, $community_name){
+	
+	$user_id = sanitize($user_id);
+	$community_name = sanitize($community_name);
+	
+	$current_home = get_home_from_user_id($user_id);
+	
+	if(empty($current_home)){
+	
+		mysql_query("UPDATE users SET home = '$community_name' WHERE user_id = '$user_id'");
+	
+	}
+	
+}
+
 function update_user($user_id, $update_data) {
 	$update = array();
 	array_walk($update_data, 'array_sanitize');
@@ -57,7 +72,7 @@ function activate($email, $email_code) {
 	$email 		= sanitize($email);
 	$email_code = sanitize($email_code);
 	
-	if (mysql_result(mysql_query("SELECT COUNT(`user_id`) FROM `users` WHERE `email` = '$email' AND `email_code` = '$email_code' AND `active` = 2"), 0) == 1) {
+	if (mysql_result(mysql_query("SELECT COUNT(`user_id`) FROM `users` WHERE `email` = '$email' AND `email_code` = '$email_code' AND `active` = 2"), 0) >= 1) {
 		mysql_query("UPDATE `users` SET `active` = 3 WHERE `email` = '$email'");
 		return true;
 	} else {
@@ -100,7 +115,7 @@ function register_user_with_email($register_data) {
 		
 	mysql_query("INSERT INTO `users` ($fields) VALUES ($data)");
 	
-	email($register_data['email'], 'Activate your account', "Hello " . $register_data['username'] . ",\n\nTo confirm your email, use the link below:\n\nhttps://icu.university/activate.php?email=" . $register_data['email'] . "&email_code=" . $register_data['email_code'] . "\n\n");
+	email($register_data['email'], 'Activate your account', "Hello " . $register_data['username'] . ",\n\nTo confirm your email, use the link below:\n\nhttps://habbit.at/activate.php?email=" . $register_data['email'] . "&email_code=" . $register_data['email_code'] . "\n\n");
 }
 
 function register_email_only($email, $user_id) {
@@ -111,7 +126,7 @@ function register_email_only($email, $user_id) {
 	
 	mysql_query("UPDATE `users` SET `email` = '$email', `active` = 2  WHERE `user_id` = '$user_id'");
 	
-	email($email, 'Confirm Your Email', "Hello " . $emailer_data['username'] . ",\n\nTo confirm your email, use the link below:\n\nhttps://icu.university/activate.php?email=" . $email . "&email_code=" . $emailer_data['email_code'] . "\n\n");
+	email($email, 'Confirm Your Email', "Hello " . $emailer_data['username'] . ",\n\nTo confirm your email, use the link below:\n\nhttps://habbit.at/activate.php?email=" . $email . "&email_code=" . $emailer_data['email_code'] . "\n\n");
 	
 }
 
@@ -152,14 +167,20 @@ function user_exists_outside($username, $user_id ) {
 
 function email_exists($email) {
 	$email = sanitize($email);
-	return (mysql_result(mysql_query("SELECT COUNT(`user_id`) FROM `users` WHERE `email` = '$email'"), 0) == 1) ? true : false;
+	return (mysql_result(mysql_query("SELECT COUNT(`user_id`) FROM `users` WHERE `email` = '$email' AND `active` >= 3"), 0) >= 1) ? true : false;
 }
+
+function email_ready($email) {
+	$email = sanitize($email);
+	return (mysql_result(mysql_query("SELECT COUNT(`user_id`) FROM `users` WHERE `email` = '$email' AND `active` = 2"), 0) >= 1) ? true : false;
+}
+
 
 function email_exists_outside($email, $user_id) {
 	$email = sanitize($email);
 	$user_id = sanitize($user_id);
 	
-	return (mysql_result(mysql_query("SELECT COUNT(`user_id`) FROM `users` WHERE `email` = '$email' AND `user_id` <> '$user_id'"), 0) == 1) ? true : false;
+	return (mysql_result(mysql_query("SELECT COUNT(`user_id`) FROM `users` WHERE `email` = '$email' AND `user_id` <> '$user_id' AND `active` >= 3"), 0) >= 1) ? true : false;
 }
 
 function user_active($username) {

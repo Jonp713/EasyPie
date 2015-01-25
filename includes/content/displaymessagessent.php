@@ -75,9 +75,9 @@ $sentmessages = true;
 	
 	if($sentmessages == false){
 		
-		echo('<span class = "text-center">');
+		echo('<span class = "speaking">');
 	
-		echo("<h1>Are you anti-social or something?</h1><br><h4>Send some messages to keep this world moving...</h4>");
+		echo("<h1>Dont trust the mail?</h1><br><h4>We don't either....</h4>");
 		
 		echo('</span>');
 		

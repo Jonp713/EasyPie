@@ -1,3 +1,6 @@
+<?php protect_page(); ?>
+
+
 	<script type="text/javascript" src="jscolor/jscolor.js"></script>
 	
 	 <span class = "col-xs-12 col-sm-6 pull-right create-service-form">
@@ -12,6 +15,13 @@
 			
 		}
 
+
+
+		if (preg_match('/[^a-zA-Z]+/', $_POST['board_name']))
+		{
+			$errors[] = "What kind of name is that? You can't have wierd characters in your board name";
+		}
+	
 
 		$name = preg_replace('/\s+/', '', $_POST['board_name']);
 	
@@ -290,7 +300,7 @@
 	?>
 		
 
-		 <h3>Create a board</h3>You will create a new board and define what types of content users can post. You will be responsible for moderating this board within your home community. Your board will appear in the "Franchise an existing board" panel for any other user to add it to their home community.<br><br>
+		 <h3>Create a board</h3>You will create a new board and define what types of content users can post. You will be responsible for moderating this board within your home habbitat. Your board will appear in the "Open a pre-existing board" panel for any other user to add it to their home habbitat.<br><br>
 		 
 		 <span class = "form-note col-xs-12">
 		 	<strong>Board ideas you should use!</strong><br>
@@ -326,6 +336,7 @@
 			Milkshake Reviews - 
 			Questions -
 			College Bucket list -
+			Freshman tips -
 			And think of your own!
 			<br>
 		 </span>
@@ -333,7 +344,7 @@
  		<hr class = "messagehr col-xs-11"><br>
 		 
 		 
-		  <form class = "submit_post form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
+		  <form class = "form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
 			  
 			  
 			  <div class="form-group">
@@ -345,18 +356,18 @@
 	  			</div>
 			</div>
 			
-			<strong>Name Display:</strong><br>
+			<strong>Name Display: (In the top left corner)</strong><br>
 
 			<div class="radio">
 			  <label>
 			    <input type="radio" name="name_display" id="optionsRadios4" value="comser" checked>
-			  	Community first - ex. COMMUNITY<strong>BOARDNAME</strong>
+			  	Community first - ex. HAMPY<strong>BONE</strong>
 			  </label>
 			</div>
 			<div class="radio">
 			  <label>
 			    <input type="radio" name="name_display" id="optionsRadios5" value="sercom">
-			  	Board First - ex. <strong>BOARDNAME</strong>COMMUNITY
+			  	Board First - ex. <strong>ICU</strong>HAMPY
 			  </label>
 			</div><br>
 				
@@ -611,6 +622,8 @@
  		 		 <input type="checkbox" name="inappropriate">The content of my board could be considered inappropriate.
  		      </label>
  		    </div>
+			 <br>
+			 <span class = "alert-warning alert">Hey! Just so you know, we reserve the right to delete your board for any reason at any time. Also, make sure to remember you are responsible for everything that gets posted onto your board! ALSO, we reserve the right to use your boards logo anywhere on the website or on an advertisement.</span>
 			 
 			 <br>
 			 <button type="submit" class=" btn btn-info">SUBMIT</button></form><br></span>

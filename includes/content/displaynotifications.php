@@ -9,9 +9,9 @@
 	
 	if(count($notifications) <= 0){
 		
-		echo('<span class = "col-xs-12 text-center">');
+		echo('<span class = "col-xs-12 text-center speaking">');
 	
-		echo("<br><br><h1>No notifications</h1><br><h4>Its okay, you'll get some soon....loser</h4>");
+		echo("<h1>No notifications</h1><br><h5></h5>");
 		
 		echo('</span>');
 		

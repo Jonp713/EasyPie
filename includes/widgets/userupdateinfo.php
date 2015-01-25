@@ -36,7 +36,7 @@ if (empty($_POST) === false) {
 }
 
 ?>
-<h1>My information</h1>
+<h1>My Account</h1>
 
 <?php
 
@@ -82,12 +82,12 @@ if (empty($_POST) === false) {
 	}
 	?>
 
-	<form class = "form-horizontal update_user_info" role = "form" action="" method="post">
-  	  <div class="form-group">
+	<form class = "form-horizontal" role = "form" action="" method="post">
+  	  <div class="form-group col-xs-12">
   	    <label for="username">Username:</label>
 			<input id = "username" class = "form-control" type="text" name="username" value="<?php echo $user_data['username']; ?>">
   	  </div>
-  	  <div class="form-group">
+  	  <div class="form-group col-xs-12">
   	    <label for="password">Password:</label>
 				<a class = "form-control" id = "password" href="changepassword.php">Change Password</a>
   	  </div>
@@ -95,7 +95,7 @@ if (empty($_POST) === false) {
 							
 		<?php if ($user_data['active'] <= 2){ ?>
 			
-	    	  <div class="form-group">
+	    	  <div class="form-group col-xs-12">
 	    	    <label for="confirmemail">Email:</label>
 					<a id = "confirmemail "class = "form-control" href="confirmemail.php">Confirm an email</a>
 	    	  </div>
@@ -103,33 +103,36 @@ if (empty($_POST) === false) {
 		<?php   }else{ ?>
 			
 			
-    	  <div class="form-group">
+    	  <div class="form-group col-xs-12">
     	    <label for="emailvalue">Email:</label>
 			<input id = "emailvalue" class = "form-control" type="text" name="email" value="<?php echo $user_data['email']; ?>" disabled>
     	  </div>		
 		
-	  	  <div class="form-group">
+	  	  <div class="form-group col-xs-12">
 	  	    <label for="recieveemail">Recieve Emails:</label>
 			<input id = "recieveemail" class = "form-control" type="checkbox" name="allow_email" <?php if ($user_data['allow_email'] == 1) { echo 'checked="checked"'; } ?>>
 	  	  </div>
 
-	    	  <div class="form-group">
+	    	  <div class="form-group col-xs-12">
 	    	    <label for="confirmemail">Change Email:</label>
 					<a id = "confirmemail "class = "form-control" href="confirmemail.php">Confirm a different email</a>
 	    	  </div>
 		
 		
-  	  <div class="form-group">
 		  		
 	<?php 
 }
-	
+?>
+
+
+
+<?php
 			
 	$count = get_request_count($_SERVER['REMOTE_ADDR'], 'user_update');		
 				
 	if(!$session_local && $count >= 1){
 	  	 
-		echo('<div class="form-group">');
+		echo('<div class="form-group col-xs-12">');
 		
 		echo("<br><strong>Captcha:</strong><br>");
 		
@@ -146,7 +149,12 @@ if (empty($_POST) === false) {
 
 	?>
 
-	  <button type="submit" class="btn btn-default">Update</button>
+
+  	  <div class="form-group col-xs-12">
+
+	  <button type="submit" class="btn btn-info">Update</button>
+	  
+  </div>
 
 	</form>
 

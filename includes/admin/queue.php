@@ -60,7 +60,7 @@ if(isset($_GET['service'])){
 	
 	if(count($posts[0]) < 1){
 		
-		echo("<br><center><h1>Wooow...no posts?</12> <h4>Looks like your board isnt as popular as you thought it was gonna be</h4></center>");
+		echo("<br><span class = 'speaking'><h1>Wooow...no posts?</12> <h4>Looks like your board isnt as popular as you thought it was gonna be</h4></span>");
 	}
 		
 	

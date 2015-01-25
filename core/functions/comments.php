@@ -29,7 +29,7 @@ function comment_count($post_id){
 
 function get_comments($post_id){
 		
-	$result = mysql_query("SELECT * FROM comments WHERE post_id = '$post_id' AND status = 0 ORDER BY id DESC");
+	$result = mysql_query("SELECT * FROM comments WHERE post_id = '$post_id' AND status = 0 ORDER BY id ASC");
 	
 	$allcomments = array();
 	

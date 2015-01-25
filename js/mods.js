@@ -16,7 +16,7 @@ function sendto(post_id, span){
     $.post("core/functions/ajax.php",{function: "send_to", post_id: post_id, towards: towards, community: getURLParameter('c'), service: getURLParameter('service')},function(data){
 		
 		$(span).closest("#post"+post_id).fadeOut(300);
-			
+					
 	});
 	
 }

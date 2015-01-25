@@ -32,10 +32,10 @@ if(empty($_GET['share']) == false){
 				  				  
 				  Share link:
 				  			  
-			  <input size="6" type = "text"  value = "<?php echo('https://icu.university/posts.php?c='.$data['site'].'&service='.$data['service'].'&share='.$link); ?>">
+			  <input size="6" type = "text"  value = "<?php echo('https://habbit.at/posts.php?c='.$data['site'].'&service='.$data['service'].'&share='.$link); ?>">
 			   
 
-<div class="pull-right fb-share-button" data-href="<?php echo('https://icu.university/posts.php?c='.$data['site'].'&service='.$data['service'].'&share='.$link); ?>">
+<div class="pull-right fb-share-button" data-href="<?php echo('https://habbit.at/posts.php?c='.$data['site'].'&service='.$data['service'].'&share='.$link); ?>">
 </div>
 
 <a href="https://twitter.com/share" class="pull-right twitter-share-button">Tweet</a>

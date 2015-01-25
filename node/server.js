@@ -30,8 +30,26 @@ function searchPartner(socket, com) {
 }
 
 try {
-	var io = require('socket.io').listen(1240);
+	//var io = require('socket.io').listen(1240);
+	
+	var fs = require('fs');
+
+	var options = {
+	  cert: fs.readFileSync('/etc/ssl/certs/habbitat.pem'),
+	  key: fs.readFileSync('/etc/ssl/private/habbitat.key'),
+	 // ca: fs.readFileSync('/etc/ssl/certs/ca-certificate.crt'),
+	};
+
+	var app = require('https').createServer(options)
+	  , io = require('socket.io').listen(app);
+
+	app.listen(1240);
+	
+	
 }catch(e){
+	
+	console.log(e);
+	
 }
 
 io.of(namespace).on('connection', function (socket) {

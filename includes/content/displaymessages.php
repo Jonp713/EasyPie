@@ -143,9 +143,9 @@
 	
 	if($gotmessages == false){
 		
-		echo('<span class = "text-center">');
+		echo('<span class = "speaking">');
 	
-		echo("<h1>You must be lonely...</h1><br><h4>You don't have any messages, you should submit some posts or send some messages yourself</h4>");
+		echo("<h1>You must be lonely...</h1><br><h4>Me too...</h4>");
 		
 		echo('</span>');
 		

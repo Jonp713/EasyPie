@@ -3,8 +3,7 @@ body{
 }
 
 .eeebg{
-	
-	background-color:#eee !important;
+	background-color:#eee;
  	
 }
 
@@ -121,16 +120,16 @@ body{
 
  }
  .section-1-landing{
-	 margin-left:5%;
+	 margin-left:4%;
 	 width:40%;
 	 float:left;
 	 padding-top:3%;
 	
  }
  .section-2-landing{
-	 width:30%;
+	 width:25%;
 	 float:left;
-	 margin-left:10%;
+	 margin-left:3%;
 	 padding-top:3%;
 	 
  }
@@ -181,17 +180,23 @@ body{
 	  top:-10px;
   }
   .logoandlogin{
-	  height:80px;
+	  max-height:80px;
+	  height:80px !important;
 	  font-size:12px;
  	 background-color:#333 !important;
 	
+  }
+  .applanding{
+  	
+	  color:black;
+	  margin-top:20px;
   }
  
   .servicetitle{
 	  font-weight:900;
 	  font-size:70px;
 	  position:relative;
-	  top:-13px;
+	  top:-30px;
 	  letter-spacing:1px;
   }
  
@@ -258,8 +263,7 @@ body{
 }
 
 .aservice-list{
-    word-break: break-all;
-	
+	overflow:hidden;
 	height:48px;
 	margin-bottom:1px;
 	
@@ -452,6 +456,14 @@ a{
 	z-index:1;
 
 }
+
+.cominfo{
+	
+	background-color:white;
+	padding-bottom:10px;
+	
+	
+}
 .communitymoderator{
 	
 	
@@ -461,11 +473,27 @@ a{
 	margin-left:2%;
 	padding-left:1%;
 	padding-right:1%;
-	padding-bottom:10px;
 	
 	width:19%;
 	z-index:2;
+	
+}
+
+.addlink{
+	
+	margin-top:5px;
+}
+.addlink a{
+	
+	color:#999;
+}
+
+.links{
+	color:#999;
 	background-color:white;
+	margin-top:10px;
+	padding-bottom:10px;
+	padding-top:5px;
 	
 }
 
@@ -514,6 +542,21 @@ a{
 	padding:3px;
 }
 
+.key{
+	margin-top:5px;
+	color:#999;
+	font-size:12px;
+}
+
+.home-badge{
+	
+	position:absolute;
+	opacity:.5;
+	top:2px;
+	right:3px;
+	color:white;
+}
+
 .corntext{
 	position:relative;
 	top:3px;
@@ -533,14 +576,23 @@ a{
 	font-weight:100;
 	border-size:.01em;
 	border-color:#eee;
+	
+}
+
+.new-container{
+	
+	margin-top:10px;
+}
+
+.post-container{
+	
 	margin-top:11px;
-	
-	
+	margin-bottom:0px;
 }
 
 
 #unapprovedposts .row .anypost{
-	background-color:#979797 !important;
+opacity:.6;
 	
 }
 
@@ -727,6 +779,11 @@ a{
 	border-color:#ccc;
 	border-width:1px;
 
+}
+
+.prompt{
+	
+	margin-bottom:8px;
 }
 
 .bottomhr{
@@ -1108,6 +1165,7 @@ z-index:2;
 }
 
 .homecat{
+	
 	font-weight:600;
 	
 }
@@ -1155,7 +1213,7 @@ z-index:2;
 .communities{
 	
 	position:relative;
-	top:-1.5em;
+	top:70px;
 }
 
 .postcompage{
@@ -1168,7 +1226,8 @@ z-index:2;
 
 .communitynamecom:hover{
     text-decoration: none;
-	
+	color:#333;
+	opacity:0.6;
 	
 }
 
@@ -1412,6 +1471,7 @@ overflow-x: hidden;
 	margin-bottom:10px;
 	padding:3%;
 	font-size:20px;
+	
 }
 
 
@@ -1539,8 +1599,39 @@ overflow-x: hidden;
 	 
 }
 
+.community-block{
+	
+	background-color:white;
+	padding:0 1px 12px 1px !important;
+	margin:0 0px 5% 0px;
+	border-left-style:solid;
+	border-size:1px;
+	border-color:#888;
+	border-top-style:solid;
+}
+
+.community-loc{
+	color:#888;
+	padding-top:9px;
+	
+}
+
+.gen-login{
+	
+	position:relative;
+	top:5px;
+}
 
 
+.communitynamecom{
+	color:black;
+	font-weight:900;
+	letter-spacing:1px;
+	font-size:40px;
+    word-break: break-all;
+	
+	
+}
 
 .hole-post-overlay-text{
 	
@@ -1607,7 +1698,7 @@ overflow-x: hidden;
 }
 
 #unapproved-posts .anypost{
-	background-color:#f7f7f7 !important;
+	opacity:.6;
 
 }
 
@@ -1630,6 +1721,13 @@ overflow-x: hidden;
 	display:none;
 }
 
+
+.brandbackground{
+	width:50%;
+	position:fixed;
+	right:-5%;
+	bottom:0px;
+}
 
 .post-image{
 	
@@ -1783,6 +1881,8 @@ overflow-x: hidden;
 	color:#fff;
 	opacity:.7;
 	font-size:1.5em;
+    word-break: break-all;
+	
 }
 
 
@@ -1818,6 +1918,7 @@ overflow-x: hidden;
 	  background-color:#fbfbfb;
 	  display:none;
 	  margin-bottom:20px;
+	  
 	
   }
   
@@ -1865,11 +1966,36 @@ overflow-x: hidden;
   	
 
   }
+  .speaking{
+  	
+	  color:black;
+	  border-color: #5bc0de;
+	  display:block;
+	  margin-bottom:20px;
+	  text-align:center;
+	
+  }
+  .speaking h1{
+  	
+	  font-weight:500;
+  }
+  .speaking h4{
+  	
+	  font-weight:100;
+  }
+  .speaking h5{
+  	
+	  font-weight:100;
+  }
   
   .security{
   	
 	  position:relative;
 	  top:50px;
+	  background-color:white;
+	  padding-left:2%;
+	  padding-right:2%;
+	  
   }
   
   .basic-forms{
@@ -2180,4 +2306,34 @@ overflow-x: hidden;
   }
   
   
+  
+  .spinner {
+    width: 40px;
+    height: 40px;
+    margin: 100px auto;
+    background-color: #333;
+
+    border-radius: 100%;  
+    -webkit-animation: scaleout 1.0s infinite ease-in-out;
+    animation: scaleout 1.0s infinite ease-in-out;
+  }
+
+  @-webkit-keyframes scaleout {
+    0% { -webkit-transform: scale(0.0) }
+    100% {
+      -webkit-transform: scale(1.0);
+      opacity: 0;
+    }
+  }
+
+  @keyframes scaleout {
+    0% { 
+      transform: scale(0.0);
+      -webkit-transform: scale(0.0);
+    } 100% {
+      transform: scale(1.0);
+      -webkit-transform: scale(1.0);
+      opacity: 0;
+    }
+  }
   

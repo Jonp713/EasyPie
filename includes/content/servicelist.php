@@ -4,12 +4,10 @@ $services = get_services($_GET['c'], 0);
 
 echo("<span class = 'col-xs-12 nopadding services'>");
 
+echo('<font color = "#999">'.$_GET['c'].'\'s Boards</font>');
+
 foreach ($services as $currentservice){
 	
-	if(isset($_GET['service']) && $_GET['service'] == $currentservice['name']){
-		
-		
-	}else{
 	
 	 $color = get_service_color_from_service_name($currentservice['name']);
 	  
@@ -43,6 +41,13 @@ foreach ($services as $currentservice){
 		
 		
 			echo('<span class = "pull-left service-list-name col-xs-10">'.strtoupper($currentservice['name']).'</span></a>');
+			
+			if(is_geo_locked($currentservice['name']) == 1){
+				
+					echo('<span class = "pull-right home-badge glyphicon glyphicon-globe"></span>');
+			
+				
+				}
 	 
 			echo('</span>');
 			
@@ -71,6 +76,13 @@ foreach ($services as $currentservice){
 					echo('<span class = "pull-left badge user-count-badge" style = "color:'.$color.'">'.$user_count.'</span>');
 					
 				}
+				
+				if(is_geo_locked($currentservice['name']) == 1){
+				
+						echo('<span class = "pull-right home-badge glyphicon glyphicon-globe"></span>');
+			
+				
+					}
 				
 				echo('</span>');
 			
@@ -112,6 +124,19 @@ foreach ($services as $currentservice){
 				}
 			
 			}
+			
+			if(service_is_home($currentservice['name'], $_GET['c'])){
+				
+				echo('<span class = "pull-right home-badge glyphicon glyphicon-home"></span>');
+			
+				
+			}	
+			if(is_geo_locked($currentservice['name']) == 1){
+				
+					echo('<span class = "pull-right home-badge glyphicon glyphicon-globe"></span>');
+			
+				
+				}
 		 
 			echo('</span>');
 		 
@@ -119,11 +144,10 @@ foreach ($services as $currentservice){
 	 
 
 	
-	
-	
-	}
+
 
 }
+
 
 if(isset($session_user_id)){
 
@@ -131,7 +155,7 @@ if(isset($session_user_id)){
 
 	if(!empty($home) && $home == $_GET['c']){
 
-		echo('<hr class = "col-xs-12 no-padding messagehr"><span class = "col-xs-12 no-padding aservice-list new-container">');
+		echo('<br><br><span class = "col-xs-12 no-padding aservice-list new-container">');
 
 		$link = 'createservice.php';
 
@@ -143,16 +167,15 @@ if(isset($session_user_id)){
 
 	}
 
-
 }
+
+
 /*
 echo('<span class = "greyzone"><a class = "greylink" href = "about.php">About</a> | <a class = "greylink" href = "conditions.php">Terms & Conditons</a> | <a class = "greylink" href = "privacy.php">Privacy Policy</a> | <a class = "greylink" href = "copyright.php">Copyright</a> </span>');*/
 
 echo("</span>");
 
-
-
-
+echo('<br><span class = "key col-xs-12"><span class = "glyphicon-home glyphicon"></span> = Posts from this board appear on the home feed. <br><span class = "glyphicon-globe glyphicon"></span> = This board is geo-locked so you will only be able to view it if you are in the radius of this Habbitat</span>');
 
 
 	

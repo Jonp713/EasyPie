@@ -19,7 +19,7 @@ include 'includes/overall/header.php';
 //nav
 if(isset($_GET['service']) == false && isset($_GET['c']) == false){
 	
-	echo('<span class = "admin-stuff col-xs-12">');
+	echo('<span class = "admin-stuff col-sm-8 col-sm-offset-2 col-xs-12">');
 
 	include 'includes/admin/displaycommunities.php';
 

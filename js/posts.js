@@ -153,6 +153,8 @@ function set_hole_posts(statusIn, siteIn){
 }
 
 
+var end = false;
+
 function get_more_approved_posts(start, site, service){
 	
 	var isHole = false;
@@ -167,6 +169,7 @@ function get_more_approved_posts(start, site, service){
 		
 		service = "all";
 	}
+	
 	
     $.post("core/functions/ajax.php",{function: "get_more_approved_posts", start: start, site: site, service: service, isHole: isHole}, function(data){
 		
@@ -219,6 +222,12 @@ function get_more_approved_posts(start, site, service){
 			$('.blur-post').css('z-index', '2');
 	
 		});
+		
+		if((jQuery.trim( data )).length==0){
+
+			end = true;
+
+		}
 		
 		
 	});
@@ -306,6 +315,13 @@ function get_more_feed_posts(start){
 	
 		});
 		
+
+		if((jQuery.trim( data )).length==0){
+
+			end = true;
+
+		}
+		
 				    
     }); 
 	
@@ -326,8 +342,6 @@ $(document).mouseup(function(e){
 });
 
 
-
-
 function getURLParameter(name) {
   return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null
 }
@@ -338,35 +352,39 @@ var currentpostnumber = 5;
 
 $(window).scroll(function() {
 	
-    if ($(window).scrollTop() > $(document).height() - 800)
-    {
+	if(end == false){
+	
+	    if ($(window).scrollTop() > $(document).height() - 800)
+	    {
 		
-		if(location.pathname.substring(location.pathname.lastIndexOf("/") + 1) == 'posts.php'){
+			if(location.pathname.substring(location.pathname.lastIndexOf("/") + 1) == 'posts.php'){
 
-			get_more_approved_posts(currentpostnumber, getURLParameter('c'), getURLParameter('service'));
+				get_more_approved_posts(currentpostnumber, getURLParameter('c'), getURLParameter('service'));
 
 
-			currentpostnumber += 5;
+				currentpostnumber += 5;
 			
-		}
+			}
 		
-		if(location.pathname.substring(location.pathname.lastIndexOf("/") + 1) == 'feed.php'){
-			get_more_feed_posts(currentpostnumber);
+			if(location.pathname.substring(location.pathname.lastIndexOf("/") + 1) == 'feed.php'){
+				get_more_feed_posts(currentpostnumber);
 
-			currentpostnumber += 5;
+				currentpostnumber += 5;
 			
-		}
+			}
 
 
-		if(location.pathname.substring(location.pathname.lastIndexOf("/") + 1) == 'admin.php'){
+			if(location.pathname.substring(location.pathname.lastIndexOf("/") + 1) == 'admin.php'){
 						
 
-			get_more_admin_posts(currentpostnumber, getURLParameter('c'), getURLParameter('service'), getURLParameter('p'));
-			currentpostnumber += 5;
+				get_more_admin_posts(currentpostnumber, getURLParameter('c'), getURLParameter('service'), getURLParameter('p'));
+				currentpostnumber += 5;
 		
-		}
+			}
 
-    }
+	    }
+	
+	}
 });
 
 

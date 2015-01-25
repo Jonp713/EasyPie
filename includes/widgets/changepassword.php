@@ -43,20 +43,24 @@ if (isset($_GET['success']) === true && empty($_GET['success']) === true) {
 	?>
 
 	<form class = "form-horizontal"  role = "form" action="" method="post">
-		<div class = "form-group">
+		<div class = "form-group col-xs-12">
 			<label for = "current">Current Password:</label>
 			<input class = "form-control" id = "current" type="password" name="current_password">
 		</div>
-		<div class = "form-group">
+		<div class = "form-group col-xs-12">
 			<label for = "password1">New Password:</label>
 			<input class = "form-control" id = "password" type="password" name="password">
 		</div>
-		<div class = "form-group">
+		<div class = "form-group col-xs-12">
 			<label for = "password2">Confirm Password:</label>
 				<input class = "form-control" id = "password2" type="password" name="password_again">
 		</div>
 
-	  <button type="submit" class="btn btn-default">Change</button>
+		<div class = "form-group col-xs-12">
+
+	  <button type="submit" class="btn btn-info">Change</button>
+	  
+  </div>
 		
 	</form>
 <?php

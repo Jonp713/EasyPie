@@ -5,9 +5,9 @@
 
 
 	
-	<li><a data-toggle="tooltip" title="View all of your communities boards and services"  data-placement="bottom" href = 'posts.php?c=<?php echo($home) ?>'>HOME</a></li>
+	<li><a data-toggle="tooltip" title="View your habbitats home page"  data-placement="bottom" href = 'posts.php?c=<?php echo($home) ?>'>HOME</a></li>
 	
-    <li data-toggle="tooltip" title="View only the boards and services you are subscribed to"  data-placement="bottom"><a href='feed.php'>FEED</a></li>
+    <li data-toggle="tooltip" title="View the boards you have subscribed to"  data-placement="bottom"><a href='feed.php'>FEED</a></li>
 
 	
 	<?php $notcount = count_notifications($session_user_id); ?>

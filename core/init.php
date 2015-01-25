@@ -54,7 +54,7 @@ $current_file = end($current_file);
 if (logged_in() === true) {
 	
 	$session_user_id = $_SESSION['user_id'];
-	$user_data = user_data($session_user_id, 'user_id', 'username', 'password', 'active','first_name', 'last_name', 'email', 'password_recover', 'type', 'allow_email', 'profile', 'email_code', 'img_src', 'has_identity');
+	$user_data = user_data($session_user_id, 'user_id', 'username', 'password', 'active','first_name', 'last_name', 'email', 'password_recover', 'type', 'allow_email', 'profile', 'email_code', 'img_src', 'has_identity', 'home');
 	if (user_active($user_data['username']) === false) {
 		session_destroy();
 		header('Location: index.php');
@@ -63,6 +63,12 @@ if (logged_in() === true) {
 	if ($current_file !== 'changepassword.php' && $user_data['password_recover'] == 1) {
 		header('Location: changepassword.php?force');
 		exit();
+	}
+	
+	if(empty($user_data['home']) && $current_file != "explore.php" && !isset($_GET['selecthome'])){
+		
+		header('Location: explore.php');
+		
 	}
 	
 }else{

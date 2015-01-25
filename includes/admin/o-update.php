@@ -114,10 +114,7 @@
 		if($_POST['geo_lock'] == 'on'){
 	
 			$service_data1['geo_locked'] = 1;
-	
-		}else{
 			
-			$service_data1['geo_locked'] = 0;
 			
 			$service = sanitize($_GET['service']);
 			
@@ -125,15 +122,19 @@
 			
 			mysql_query("UPDATE posts SET is_home = 0 WHERE service = '$service' AND (status = 1 OR status = 0) AND is_home = 1");			
 						
+	
+		}else{
+			
+			$service_data1['geo_locked'] = 0;
+			
+			
+		
 		}
 		
 		if($_POST['blur_on'] == 'on'){
 	
 			$service_data1['blur_on'] = 1;
-	
-		}else{
 			
-			$service_data1['blur_on'] = 0;
 			
 			$service = sanitize($_GET['service']);
 			
@@ -141,6 +142,13 @@
 			
 			mysql_query("UPDATE posts SET is_home = 0 WHERE service = '$service' AND (status = 1 OR status = 0) AND is_home = 1");			
 			
+	
+		}else{
+			
+			
+			$service_data1['blur_on'] = 0;
+			
+	
 			
 			
 		}

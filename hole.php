@@ -8,12 +8,16 @@ active_protect($_GET['c']);
 
 <html>
 <head>
-<title><?php if(!empty($service_in)){echo($service_in);}else{echo('ICU');} ?> <?php if(!empty($community_in)){echo($community_in);}else{echo('Hampy');}  ?></title>
+<title><?php echo($_GET['c']); ?>Hole</title>
 
 	<meta charset="UTF-8">
 	<link rel="stylesheet" href="css/screen2.css">
 	<link rel="stylesheet" href="css/bootstrap.css">
-	<link rel="shortcut icon" type="image/png" href="https://www.icu.university/images/blackhole.png"/>
+	<link href="css/reset.css" rel="stylesheet">
+	
+	<?php if(!empty($service_in)){	$url =  get_logo_picture_url_from_service_name($service_in); }else{  $url = "bsh"; } ?>
+	
+	<link rel="shortcut icon" type="image/png" href="<?php echo($url); ?>"/>
 	<meta name="description" content="Never come here again">
 	<meta name="keywords" content="<?php if(!empty($community_in)){echo($community_in.',');} ?> <?php if(!empty($service_in)){echo($service_in.',');} ?>, college, community, events, in the area, life, tickling, personals, compliments, icuhampy">	
 	<meta name="author" content="The Devil">
@@ -32,9 +36,8 @@ active_protect($_GET['c']);
 </head>
 <body>
 	
-	<?php include 'includes/widgets/modals.php'; ?>
 	
-	<div id = "topalert" class="topalert"><?php include('includes/widgets/postrecieve.php'); ?>
+	<div id = "topalert" class="topalert">
 </div>
 	
 <header>
@@ -43,7 +46,7 @@ active_protect($_GET['c']);
 
 <div id = "holeoverlay-left">
 	
-	<a href = "posts.php?c=<?php echo($_GET['c']); ?>" class = " btn btn-md btn-default"><span class = "glyphicon glyphicon-arrow-left"></span>&nbsp;EXIT</a>
+	<a href = "posts.php?c=<?php echo($_GET['c']); ?>" class = "hidden-xs btn btn-md btn-default"><span class = "glyphicon glyphicon-arrow-left"></span>&nbsp;EXIT</a>
 	
 </div>
 
@@ -72,11 +75,11 @@ active_protect($_GET['c']);
 	
 	?>
 	
-	<button class="btn btn-info btn-md inline" data-toggle="modal" data-target="#myModal">SUBMIT POST</button>
+	<a href = "posts.php?c=<?php echo($_GET['c']); ?>&submitpost=go" class="btn btn-info btn-md inline" data-toggle="modal">SUBMIT POST</a>
 	
 	
 	<!-- Button trigger modal -->
-	<button class="btn btn-default btn-md inline" data-toggle="modal" data-target="#holeModal">
+	<button class="btn btn-default btn-md inline hidden-xs" data-toggle="modal" data-target="#holeModal">
 		What the Hell Is This?
 	</button>
 	

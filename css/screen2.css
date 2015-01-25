@@ -930,6 +930,12 @@ overflow-x: hidden;
 	opacity:.2;
 }
 
+.serviceformcontainer{
+	width:50px !important;
+	height:50px !important;
+
+}
+
 .icon-selected{
 	
 	opacity:1;
@@ -983,9 +989,10 @@ border-radius:3px;
 }
 
 .service-submit-button{
-	height:11%;
-	width:11%;
-	
+
+	width:50px !important;
+	height:50px !important;
+	padding:0px;
 }
 
 .service-submit-button.active{
@@ -994,10 +1001,66 @@ border-radius:3px;
 }
 
 
+
 .submit-services{
 	
 	margin-bottom:30px;
 	
+}
+
+.service-form-circle{
+	
+	position:absolute;
+	top:3px;
+	width:40px !important;
+	height:44px !important;
+	left:5px;
+    -moz-border-radius: 50%; 
+    -webkit-border-radius: 50%; 
+    border-radius: 20px;
+}
+
+.service-form-image{
+	position:absolute;
+	top:.5px;
+	left:.5px;
+	width:50px !important;
+	height:50px !important;
+	
+}
+
+.btn{
+
+	  border-radius:0px !important;
+}
+
+.messagehr{
+	
+	border-color:#ccc;
+	border-width:1px;
+
+}
+
+
+.prompt{
+	
+	margin-bottom:8px;
+}
+
+.form-font-service{
+	
+	font-weight:700;
+	font-size:45px;
+	position:absolute;
+	top:-8px;
+	left:9px;
+	
+	
+}
+
+.service-title{
+	
+ font-size:22px;
 }
 
 .picture-disabled{
@@ -1041,8 +1104,9 @@ body{
   width:100%;
   top:0px;
   left:0px;
-
+  min-height:100% !important;
 }
+
 
 #log{
   color:#ffffff;

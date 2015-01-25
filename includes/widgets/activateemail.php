@@ -5,10 +5,7 @@ if (isset($_GET['email'], $_GET['email_code']) === true) {
 	$email 		= trim($_GET['email']);
 	$email_code = trim($_GET['email_code']);
 	
-	echo($email);
-	echo($email_code);
-	
-	if (email_exists($email) === false) {
+	if (email_ready($email) === false) {
 		$errors[] = 'Oops, something went wrong, and we couldn\'t find that email address!';
 	} else if (activate($email, $email_code) === false) {
 		$errors[] = 'We had problems activating your account';

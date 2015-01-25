@@ -47,16 +47,16 @@ if (isset($_GET['s']) === true && empty($_GET['s']) === true) {
 ?>
 
 <form class ="form-horizontal" action="" method="post">
-	<div class = "form-group">
+	<div class = "form-group col-xs-12">
 		<label for = "email">Email:</label>
 		<input class = "form-control" id = "email" type="text" name="email">
 	</div>
-	<div class = "form-group">
+	<div class = "form-group col-xs-12">
 		<label for = "password">Password:</label>
 		<input id = "password" class = "form-control" type="password" name="password">
 	</div>
-	<div class = "form-group">
-	  <button type="submit" class="btn btn-default">Confirm Email</button>
+	<div class = "form-group col-xs-12">
+	  <button type="submit" class="btn btn-info">Confirm Email</button>
 	</div>
 </form>
 

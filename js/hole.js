@@ -175,6 +175,81 @@ $('.btn').mousedown(function() {
 	onHover = true;
 
 });
+
+
+$(document).bind('touchmove',function(e){
+      e.preventDefault();
+      var touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+      var elm = $(this).offset();
+      var x = touch.pageX - elm.left;
+      var y = touch.pageY - elm.top;
+	  
+      if(x < $(this).width() && x > 0){
+          if(y < $(this).height() && y > 0){
+			  
+		  	if(y >= ($(window).height() - 200)){
+		  		window.scrollBy(0, .8);
+
+		  	}
+		  	if(y  >= ($(window).height() - 150)){
+
+		  		window.scrollBy(0, 2);
+	
+		  	}
+		  	if(y >= ($(window).height() - 100)){
+
+
+		  		window.scrollBy(0, 5);
+
+		  	}
+		  	if(y >= ($(window).height() - 50)){
+
+
+		  		window.scrollBy(0, 10);
+
+		  	}
+		  	if(y >= ($(window).height() - 20)){
+
+
+		  		window.scrollBy(0, 30);
+
+		  	}
+
+		  	if(y <= 200){
+
+		  		window.scrollBy(0, -.8);
+
+		  	}
+		  	if(y <= 150){
+
+
+		  		window.scrollBy(0, -2);
+
+		  	}
+		  	if(y <= 100){
+
+
+		  		window.scrollBy(0, -5);
+
+		  	}
+		  	if(y <= 50){
+
+
+		  		window.scrollBy(0, -10);
+
+		  	}
+		  	if(y <= 20){
+
+
+		  		window.scrollBy(0, -30);
+
+		  	}
+
+
+
+          }
+      }
+});
 	
 $(document).mousemove(function( mouse ) {
 		 

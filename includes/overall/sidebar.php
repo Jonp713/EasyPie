@@ -8,22 +8,100 @@
 	</li>
 		<hr class = "sidebarhr">
 		
-        <li>
+			
+			<?php
+		
+			if($current_file == "posts.php"){
+		
+			?>
+			
+	        <li>
 			
 			<button data-toggle="modal" data-target="#myModal" class="btn btn-info btn-lg">SUBMIT POST</button>
+	        </li><br>
+			
+			
 			
 		<?php
 		
-		//This is where youd put the other services
+	}
+		
 		
 		?>
-        </li><br>
 		
-		
+        <li>
+
+
+			<a href = 'explore.php'>EXPLORE</a>
+
+        </li>
 		
   				<?php
   				if (logged_in() === true) {
   					include 'includes/navbar/loggedin.php';
+					
+					?>
+					
+							<hr class = "sidebarhr">
+
+			
+											<span class = "col-xs-6 subscriptionstitle" style = "color:white; font-size:20px;">DASHBOARD</span><br><br>
+									        <li>	
+						
+													<?php //if (check_mod_power($session_user_id) > 0){ ?>
+				
+														<a href = "admin.php">ADMIN</a>
+				
+				
+														<?php //}?>				
+												</li>
+							
+							
+		
+					        <li>
+			
+
+								<a href = 'dashboard.php?t=notifications'>NOTIFICATIONS</a>
+
+					        </li>
+      
+					        <li>
+
+
+								<a href = 'dashboard.php?t=inbox'>INBOX</a>
+
+					        </li>
+
+					        <li>
+
+
+
+								<a href = 'dashboard.php?t=sent'>SENT</a>
+
+					        </li>
+
+					        <li>
+
+
+								<a href = 'dashboard.php?t=submissions'>SUBMISSIONS</a>
+
+					        </li>
+
+					        <li>
+
+								<a href = 'dashboard.php?t=saved'>SAVED</a>
+			
+		
+					        </li>
+		
+					<br>
+								<li>
+								<a href="logout.php">LOGOUT</a>
+			
+						        </li>
+					
+					
+					<?php
   				} else {
   					include 'includes/navbar/login.php';
   				}
@@ -31,62 +109,7 @@
 
 		<!--<li><a href = "search.php">SEARCH</a></li>-->
 
-		<hr class = "sidebarhr">
-
-			
-						<span class = "col-xs-6 subscriptionstitle" style = "color:white; font-size:20px;">DASHBOARD</span><br><br>
-				        <li>	
-						
-								<?php if (check_mod_power($session_user_id) > 0){ ?>
-				
-									<a href = "admin.php">ADMIN</a>
-				
-				
-									<?php }?>				
-							</li>
 		
-        <li>
-			
-
-			<a href = 'dashboard.php?t=notifications'>NOTIFICATIONS</a>
-
-        </li>
-      
-        <li>
-
-
-			<a href = 'dashboard.php?t=inbox'>INBOX</a>
-
-        </li>
-
-        <li>
-
-
-
-			<a href = 'dashboard.php?t=sent'>SENT</a>
-
-        </li>
-
-        <li>
-
-
-			<a href = 'dashboard.php?t=submissions'>SUBMISSIONS</a>
-
-        </li>
-
-        <li>
-
-			<a href = 'dashboard.php?t=saved'>SAVED</a>
-			
-		
-        </li>
-		
-<br>
-			<li>
-			<a href="logout.php">LOGOUT</a>
-			
-	        </li>
-			
 		
 
 		

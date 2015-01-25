@@ -1,5 +1,31 @@
 <?php
 
+function get_links($community){
+	
+	$community = sanitize($community);
+		
+	$result = mysql_query("SELECT * FROM links WHERE community = '$community' ORDER BY ID DESC");
+		
+	$alllinks= array();
+	
+    while($number = mysql_fetch_assoc($result)) { 
+		$alllinks[] = $number;		
+   	}
+	
+	return $alllinks;
+	
+}
+
+function add_link($link_data){
+	
+	array_walk($link_data, 'array_sanitize');
+	
+	$fields = '`' . implode('`, `', array_keys($link_data)) . '`';
+	$data = '\'' . implode('\', \'', $link_data) . '\'';
+		
+	return mysql_query("INSERT INTO `links` ($fields) VALUES ($data)");
+	
+}
 
 
 function community_data($community_name) {

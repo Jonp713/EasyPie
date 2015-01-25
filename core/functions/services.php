@@ -422,15 +422,6 @@ function display_form($service_name, $service_in){
 			echo('<span class = "form-note col-xs-12">This board uses your <a href = "identity.php">identity</a>. Your first and last name as well as your picture if you uploaded one will appear at the top of the post</span>');
 		
 		}
-	
-		echo('<input value = "'.$data['name'].'" name = "service" hidden>');
-	
-	
-		if($data['title_on'] == 1){
-	
-			 echo('<div class = "form-group"><div class="col-xs-12"><input class = "form-control" id = "title" type="text" name="title" placeholder = "Title"></div></div>');
-	
-		}
 		
 	
 		if($data['for_memes'] == 1){
@@ -440,8 +431,23 @@ function display_form($service_name, $service_in){
 		
 		}
 		
+		echo('<hr class = "messagehr">');
+		
+		$newcolor = hex2rgb($data['color']);
+		
+		echo('<span style = "background-color:rgba('.implode($newcolor,',').', .1);" class = "col-xs-12 prompt">'.$data['prompt'].'</span>');
+		
+		echo('<input value = "'.$data['name'].'" name = "service" hidden>');
+		
+		if($data['title_on'] == 1){
+	
+			 echo('<div class = "form-group"><div class="col-xs-12"><input class = "form-control" id = "title" type="text" name="title" placeholder = "Title"></div></div>');
+	
+		}
+		
+		
 		//textarea 4posts
-		echo('<div class="form-group"><div class="col-xs-12"><textarea placeholder = "'.$data['prompt'].'" name="post" class ="form-control" ></textarea></div></div>');
+		echo('<div class="form-group"><div class="col-xs-12"><textarea placeholder = "Post" name="post" class ="form-control" ></textarea></div></div>');
 		
 	
 				
@@ -522,7 +528,36 @@ function display_form($service_name, $service_in){
 		
 		
 		  		<select class = "form-control" name = "day" id = "'.$data['name'].'_day">
-		  			<option value = "1">1</option>
+	  			<option value = "01">1</option>
+	  			<option value = "02">2</option>
+	  			<option value = "03">3</option>
+	  			<option value = "04">4</option>
+	  			<option value = "05">5</option>
+	  			<option value = "06">6</option>
+	  			<option value = "07">7</option>
+	  			<option value = "08">8</option>
+	  			<option value = "09">9</option>
+	  			<option value = "10">10</option>
+	  			<option value = "11">11</option>
+	  			<option value = "12">12</option>
+	  			<option value = "13">13</option>
+	  			<option value = "14">14</option>
+	  			<option value = "15">15</option>
+	  			<option value = "16">16</option>
+	  			<option value = "17">17</option>
+	  			<option value = "18">18</option>
+	  			<option value = "19">19</option>
+	  			<option value = "20">20</option>
+	  			<option value = "21">21</option>
+	  			<option value = "22">22</option>
+	  			<option value = "23">23</option>
+	  			<option value = "24">24</option>
+	  			<option value = "25">25</option>
+	  			<option value = "26">26</option>
+	  			<option value = "27">27</option>
+	  			<option value = "28">28</option>
+	  			<option value = "29">29</option>
+	  			<option value = "30">30</option>
 		  		</select>
 		
 		  	    </div>
@@ -617,7 +652,38 @@ function display_form($service_name, $service_in){
 		
 		
 		  		<select class = "form-control" name = "r_day" id = "r_'.$data['name'].'_day">
-		  			<option value = "1">1</option>
+		  			<option value = "01">1</option>
+		  			<option value = "02">2</option>
+		  			<option value = "03">3</option>
+		  			<option value = "04">4</option>
+		  			<option value = "05">5</option>
+		  			<option value = "06">6</option>
+		  			<option value = "07">7</option>
+		  			<option value = "08">8</option>
+		  			<option value = "09">9</option>
+		  			<option value = "10">10</option>
+		  			<option value = "11">11</option>
+		  			<option value = "12">12</option>
+		  			<option value = "13">13</option>
+		  			<option value = "14">14</option>
+		  			<option value = "15">15</option>
+		  			<option value = "16">16</option>
+		  			<option value = "17">17</option>
+		  			<option value = "18">18</option>
+		  			<option value = "19">19</option>
+		  			<option value = "20">20</option>
+		  			<option value = "21">21</option>
+		  			<option value = "22">22</option>
+		  			<option value = "23">23</option>
+		  			<option value = "24">24</option>
+		  			<option value = "25">25</option>
+		  			<option value = "26">26</option>
+		  			<option value = "27">27</option>
+		  			<option value = "28">28</option>
+		  			<option value = "29">29</option>
+		  			<option value = "30">30</option>
+					
+					
 		  		</select>
 		
 		  	    </div>

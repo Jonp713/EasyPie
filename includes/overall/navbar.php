@@ -189,6 +189,8 @@ if(isset($_GET['service'])){
 				 
 				 
 	  		<!--<li><a href = "search.php" data-toggle="tooltip" title="Pretty self-explanatory..." data-placement="bottom">SEARCH</a></li>-->
+			
+					<li><a href = "explore.php" data-toggle="tooltip" title="Find other habbitats" data-placement="bottom">EXPLORE</a></li>
 			  
 			   
 				<?php

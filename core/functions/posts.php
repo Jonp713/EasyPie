@@ -236,7 +236,7 @@ function get_user_feed($user_id, $start, $status){
 	
 	if($status != 0){
 		
-		$result_posts = mysql_query("SELECT * FROM posts WHERE site IN ($all_names2) AND service IN ($all_services2) AND (status = '$status' OR service = 'Hole') ORDER BY coolness DESC, id DESC LIMIT $start,5");
+		$result_posts = mysql_query("SELECT * FROM posts WHERE site IN ($all_names2) AND service IN ($all_services2) AND (status = '$status' OR (service = 'Hole' AND status = 1)) ORDER BY coolness DESC, id DESC LIMIT $start,5");
 	
 	}else{
 		
@@ -279,7 +279,7 @@ function get_more_approved_posts($start, $site, $service){
 			
 			$result = mysql_query("SELECT * FROM posts WHERE status <> 3 AND site = '$site' AND service = '$service' ORDER BY ID DESC LIMIT $start,5");
 			
-		}else if($service === "Events"){
+		}else if(is_event($service) == 1){
 	
 	$result = mysql_query("SELECT * FROM posts WHERE status = 1 AND site = '$site' AND service = '$service' ORDER BY start_second LIMIT $start,5");
 			
@@ -343,7 +343,7 @@ function get_posts($status, $site, $type, $admin_id, $service){
 	
 		if($service == 'Hole'){
 				
-			$result = mysql_query("SELECT * FROM posts WHERE (service = 'Hole' OR status = 2) AND status <> 3 AND site = '$site' ORDER BY ID DESC LIMIT 0,5");
+			$result = mysql_query("SELECT * FROM posts WHERE service = 'Hole' AND status <> 3 AND site = '$site' ORDER BY ID DESC LIMIT 0,5");
 			
 			
 			
@@ -586,7 +586,7 @@ function upload_image_post($type, $file_temp, $file_extn){
 	
 	if(filesize($file_path) > 500000){
 													
-		compress_image($file_path, $file_path, 1);
+		compress_image($file_path, $file_path, 20);
 	
 	}
 		

@@ -22,7 +22,7 @@
 		
 		?>
 		
-		<meta name="description" content="Community - Oriented Anon Social Network AKA Gesellschaft in Gemeinschaft">
+		<meta name="description" content="<?php if(!empty($service_in)){ echo(get_service_description_from_service_name($service_in)); }else{ echo('Do and share fun things with people in your community'); }?>">
 	
 	 <?php }?>
 	<meta charset="UTF-8">
@@ -32,7 +32,7 @@
 	<link href="css/bootstrap.css" rel="stylesheet">
 	<link href="css/reset.css" rel="stylesheet">
 	
-	<link href="css/screen3.1.css" rel="stylesheet">
+	<link href="css/screen3.2.css" rel="stylesheet">
 	
 	<?php if(!empty($service_in)){	$url =  get_logo_picture_url_from_service_name($service_in); }else{  $url = "bsh"; } ?>
 	
@@ -43,10 +43,17 @@
 	<script src="js/html5shiv.js"></script>
 	<![endif]-->
 </head>
-	
 
-<body <?php if(isset($_GET['service']) && is_geo_locked($_GET['service']) && ($current_file == "posts.php" || $current_file == "zombledon.php")){ echo('class = "not-visible "'); }else { echo('class = "eeebg"'); }?>>
+
+<body class = "eeebg">
 	
+	
+	<?php if(isset($_GET['service']) && is_geo_locked($_GET['service'])){
+	
+		echo('<div class = "spinner"></div>');	
+	
+		}
+	?>
 	
 <header>
 	
@@ -113,7 +120,7 @@
 <div id = "page-content-wrapper">
 <?php include 'includes/widgets/modals.php'; ?>
 	
-<div class="container-fluid">
+<div <?php if(isset($_GET['service']) && is_geo_locked($_GET['service']) && ($current_file == "posts.php" || $current_file == "zombledon.php")){ echo('class = "seer not-visible container-fluid"'); }else { echo('class = "container-fluid seer"'); }?>>
 	
 <div id = "topalert" class="topalert"></div>
 	

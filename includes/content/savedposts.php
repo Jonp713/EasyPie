@@ -4,9 +4,9 @@ $posts = get_user_saved_posts($session_user_id);
 
 if(count($posts) <= 0){
 	
-	echo('<span class = "text-center">');
+	echo('<span class = "speaking">');
 
-	echo("<h1>Dont think anything here is worth saving?</h1><br><h4>Like we care.......</h4>");
+	echo("<h1>Save while you are young</h1><br><h4>.......lol</h4>");
 	
 	echo('</span>');
 	

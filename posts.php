@@ -46,9 +46,13 @@ if($_SESSION['seen_ad'] == 0){
 	}
 }
 
-echo('<span class = "communitymoderator hidden-xs">');
+echo('<span class = "communitymoderator hidden-xs no-padding">');
 
-echo('<span class = "lowerandscroll">');
+echo('<span class = "lowerandscroll no-padding">');
+
+
+
+echo('<span class = "cominfo col-xs-12">');
 
 include 'includes/content/servicedescription.php';
 
@@ -70,9 +74,15 @@ if(isset($session_user_id)){
 
 }
 
+
+
 include 'includes/content/displaymoderator.php';
 
 include 'includes/widgets/subscribe.php';
+
+echo('</span>');
+
+
 
 
 if($_GET['c'] == "TrapCity"){
@@ -85,7 +95,14 @@ if($_GET['c'] == "TrapCity"){
 		
 }
 
-echo('</span></span>');
+include 'includes/content/displaylinks.php';
+
+echo('</span>');
+
+
+echo('</span>');
+
+
 
 //$rgb = hex2rgb($colortouse);
 

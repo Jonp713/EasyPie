@@ -13,6 +13,7 @@ if (empty($_POST) === false) {
 	
 		/}*/
 	
+		/*
 	$count = get_request_count($_SERVER['REMOTE_ADDR'], 'submit_post');		
 	
 	if(!$session_local && $count >= 10){
@@ -29,6 +30,8 @@ if (empty($_POST) === false) {
      }
  
  	}
+		
+		*/
 	
 	if ((empty($_POST['email']) === false) && (filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) === false)) {
 		$errors[] = 'A valid email address is required';
@@ -226,6 +229,11 @@ if (empty($_POST) === false && empty($errors) === true) {
 			
 		}
 		
+		if(empty($_POST['year'])){
+			
+			$_POST['year'] = date("Y");
+		}
+		
 		$time = $_POST['year'] . "-" . $_POST['month'] . "-". $_POST['day']  . " " . $real_hour . ":" . $_POST['minute'] . ":" . "00";
 		
 		$seconds = strtotime($time);
@@ -250,6 +258,12 @@ if (empty($_POST) === false && empty($errors) === true) {
 		if($_POST['recurring_type'] != "Not"){
 						
 			$post_data['recurring_type'] = $_POST['recurring_type'];
+			
+		
+			if(empty($_POST['r_year'])){
+			
+				$_POST['r_year'] = date("Y");
+			}
 			
 			$time = $_POST['r_year'] . "-" . $_POST['r_month'] . "-". $_POST['r_day'];
 		
@@ -281,22 +295,13 @@ if (empty($_POST) === false && empty($errors) === true) {
 				
 			if(!empty($_GET['c'])){			
 				
-				if(!empty($_GET['service'])){
+				if($_POST['service'] == "Hole"){
 					
-					if($_POST['service'] == "Hole"){
-						
-						header('Location: hole.php?c='.$community_in.'&service=Hole&success=post');
-						
-					}else{
-						header('Location: posts.php?c='.$community_in.'&service='.$service_in.'&success=post');
-						
-						
-					}
+					header('Location: hole.php?c='.$community_in.'&service=Hole&success=post');
 					
-				
 				}else{
+					header('Location: posts.php?c='.$community_in.'&service='.$service_in.'&success=post');
 					
-					header('Location: posts.php?c='.$community_in.'&success=post');
 					
 				}
 		

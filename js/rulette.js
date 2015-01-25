@@ -22,7 +22,7 @@ try {
 function Rulette(){
 	this.namespace = '/chatroulette';
 	this.socket;this.iceReady = 0;
-	this.socketURL = 'http://localhost:1240'+this.namespace;
+	this.socketURL = 'https://node.habbit.at:1240'+this.namespace;
 	this.media = {"audio": true, "video": {"mandatory": {}, "optional": [{RtpDataChannels: true}]}};
 	this.idStatusBox = 'statusbox';
 	this.nickname = 'Spippotato';
@@ -269,7 +269,7 @@ Rulette.prototype.onMediaFailure = function (err) {
 
 Rulette.prototype.connect = function(){
 	try {
-		this.socket = io.connect(this.socketURL);
+		this.socket = io.connect(this.socketURL, {secure:true});
 
 		this.socket.on('connecting',this.onConnection);
 		this.socket.on('connect',this.onConnect);

@@ -16,7 +16,11 @@ function display_full_page_ad($ad_id){
 	
 	$data = mysql_fetch_assoc(mysql_query("SELECT * FROM ads WHERE id = '$ad_id' LIMIT 1"));
 	
+	if($data){
+	
 	echo("<div id = 'overlay'><button class = 'xbutton btn btn-lg btn-default glyphicon glyphicon-remove-sign'></button><a href = 'http://www.irollie.co/icu' target ='_blank'><img src = 'images/bla/".$data['img']."' class = 'bla img-responsive col-xs-10 col-xs-offset-1 col-sm-4 col-sm-offset-4'></a></div>");
+	
+	}
 	
 	
 }

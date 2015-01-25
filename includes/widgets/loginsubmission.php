@@ -69,18 +69,15 @@ $home = get_home_from_username($username);
 
 <span class = "basic-forms col-xs-12">
 
-<span class = "row">
-
 <span class = "col-xs-12 col-sm-4 col-sm-offset-4 text-center">
 
 <h1>LOGIN</h1>
-<hr class = "whitehr">
 
-<!-- Forgotten your <a href="recover.php?mode=username">username</a>? -->
-
+ 
+ Forgotten your <a href="recover.php?mode=username">username</a>?
+<br><br>
 </span>
 
-</span>
 
 
 <!--

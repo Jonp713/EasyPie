@@ -234,7 +234,7 @@ function save_suspicious_request($type){
 
 function email($to, $subject, $body) {
 	
-	mail($to, $subject, $body, 'From: donotreply@icu.university');
+	mail($to, $subject, $body, 'From: donotreply@habbit.at');
 	
 }
 
@@ -260,10 +260,8 @@ function active_protect($community_name){
 	
 	if($is == false){
 		
-		echo("fuck you");
-		die();
-		
 		header('location: explore.php');
+		
 	}
 	
 	

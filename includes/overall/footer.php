@@ -28,6 +28,15 @@
 		$('[data-toggle="tooltip"]').tooltip();
 		$('[data-toggle="popover"]').popover();
 		$('[data-toggle="tooltip"]').tooltip({ container: 'body' });
+		
+		
+		if(getURLParameter('submitpost') == "go"){
+ 
+
+			$('#myModal').modal('show');
+	 
+	 
+ 		}
 			
 
 	</script>
@@ -40,6 +49,9 @@
 	<script type = "text/javascript">
 
 		$('#sharepostmodal').modal('show');
+		
+	
+		
 		
 	</script>
 	
@@ -75,13 +87,46 @@
 		
 			if(getURLParameter('success') == "post"){
 				 
+				 check = Math.random();
+				 
+				 if(check <= .2 && check > 0){
+				 
 				 html = '<span class="alert alert-success" role="alert">Post submitted! Party later?</span>';
+				 
+			 		}
+   				 if(check <= .4 && check > .2){
+					
+					
+					 html = '<span class="alert alert-success" role="alert">Post submitted!</span>';
+					
+				 }
+   				 if(check <= .6 && check > .4){
+					
+					
+					 html = '<span class="alert alert-success" role="alert">Post submitted! But will it be approved?</span>';
+					
+				 }
+   				 if(check <= .8 && check > .6){
+					
+					
+					 html = '<span class="alert alert-success" role="alert">Post submitted! Great computer skills!</span>';
+					
+				 }
+   				 if(check <= 1 && check > .8){
+					 
+					 html = '<span class="alert alert-success" role="alert">Post submitted! You won!</span>';
+					 
+					 
+				 }
+				 
+				 	
+				 	
 				 				 
 			 }
 			 
  			if(getURLParameter('success') == "board"){
 			 
-				html = '<span class="alert alert-success" role="alert">Board created! SNNYYEAHHH</span>';
+				html = '<span class="alert alert-success" role="alert">Board created! Life is good!</span>';
 				 
 			 }
   			if(getURLParameter('success') == "franchise"){
@@ -170,6 +215,14 @@
 		 
 		 
 	 		}
+			
+			if(getURLParameter('success') == "addlink"){
+	 
+
+		 	   html = '<span class="alert alert-success" role="alert">Link added!</span>';
+		 
+		 
+	 		}
 		
 		
 			if(getURLParameter('success') == "newbie"){
@@ -179,6 +232,15 @@
 		 
 		 
 	 		}
+			
+			if(getURLParameter('success') == "added_home"){
+	 
+
+		 	   html = '<span class="alert alert-success" role="alert"> Yes, hello, welcome home.</span>';
+		 
+		 
+	 		}
+		
 		
 			$("#topalert").html(html);
 			
@@ -223,4 +285,5 @@
 	
 
 </body>
+
 </html>

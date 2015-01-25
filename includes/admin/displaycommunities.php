@@ -4,7 +4,7 @@
 	
 	echo('<span class = "admin-section col-xs-12 no-padding">');
 	
-	echo('<span class = "col-xs-12 section-top"><strong>Franchises you moderate:</strong></span><br>');
+	echo('<span class = "col-xs-12 section-top"><strong>Boards you moderate:</strong></span><br>');
 	
 	
 	$services = get_mod_services($session_user_id, 'moderator');
@@ -12,7 +12,7 @@
 	foreach ($services as $currentservice){
 	
 		
-			echo("<span class = 'col-xs-12 col-sm-4'>");
+			echo("<span class = 'col-xs-12 col-sm-6'>");
 		
 	   		 $color = get_service_color_from_service_name($currentservice['name']);
 			 $url =  get_logo_picture_url_from_service_name($currentservice['name']);

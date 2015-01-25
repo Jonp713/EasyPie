@@ -14,24 +14,23 @@ function create_display_set($post_id, $from, $type){
 	
 	if($from == 'moderator'){
 		
-		if($data1['status'] != 1 && $data2['name'] != "Hole" ){
+		if($data1['status'] != 1){
 		
 			$string[] = "approve";
+			
 		
 		}
 		$string[] = "deny";		
-		$string[] = "hole";	
 		
-		if($data2['name'] != "Hole"){
 			
-			$string[] = "send";		
+		$string[] = "send";	
 		
-		}
 		if($data2['for_memes'] == 1){
 			$string[] = "addtodb";	
 			
 			
 		}
+		
 	}
 	
 	if($data2['blur_on'] == 1 && $from != "moderator"){
@@ -292,7 +291,7 @@ function display_post($post_id){
 	
 	$data = mysql_fetch_assoc(mysql_query("SELECT * FROM posts WHERE id = '$post_id'"));
 	
-	echo('<span class = "col-xs-12 no-padding" id = "post'.$post_id.'">');
+	echo('<span class = "col-xs-12 no-padding post-container" id = "post'.$post_id.'">');
 	
 	echo('<span class = "col-xs-12 anypost '.$data['service'].'-post');
 		
@@ -960,7 +959,6 @@ function display_post($post_id){
 		
 	}
 
-	echo('</span>');
 	
 	
 	
@@ -975,6 +973,8 @@ function display_post($post_id){
 		
 		
 	}
+	
+	echo('</span>');
 	
 }
 

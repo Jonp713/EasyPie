@@ -4,14 +4,24 @@
 
 <!--
 
-<form action = 'login.php' method = 'POST' class="navbar-form navbar-left pull-right">
-  <div class="form-group">
-    <input type="text" name = "username" class="form-control" placeholder="Username">
-  </div>
-  <div class="form-group">
-    <input type="password" name = "password" class="form-control" placeholder="Password">
-  </div>
-  <button type="submit" value = "LOG IN" class="btn btn-default">LOG IN</button>
-</form>
+
+<li>	<form class="form-inline gen-login pull-right" method = "POST" action = "login.php" role="form"><strong>
+	  <div class="form-group">
+	    <div class="input-group">
+	      <input type="text" name = "username" id = "username" class="form-control" id="exampleInputEmail2" placeholder="Username">
+	    </div>
+	  </div>
+	  <div class="form-group">
+  	    <div class="input-group">
+	    <input type="password" name = "password" id = "password" class="form-control" id="exampleInputPassword2" placeholder="Password">
+		</div>
+
+	  
+	  <button type="submit" class="btn btn-info">Login</button></strong>
+	</form></li>
+	
+	<li>&nbsp;&nbsp;<button type="submit" class="btn btn-default gen-login">Sign Up</button></strong>
+</li>
+		
 
 -->

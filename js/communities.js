@@ -48,3 +48,12 @@ function delete_subscription(community_name, service, span, type, graphic_type){
     
     }); 
 }
+
+function selecthome(community_name){
+    $.post("core/functions/ajax.php",{function: "select_home", community_name: community_name},function(data){
+	
+	
+	});
+	
+	
+}

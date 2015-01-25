@@ -7,7 +7,7 @@ include 'core/init.php';
 <html>
 <head>
 
-	<title>Matropolix</title>
+	<title>Habbitat</title>
 	
 		
 		<meta name="description" content="Community - Oriented Anon Social Network AKA Gesellschaft in Gemeinschaft">
@@ -17,13 +17,10 @@ include 'core/init.php';
 	<meta name="keywords" content="<?php if(!empty($community_in)){echo($community_in.',');} ?> <?php if(!empty($service_in)){echo($service_in.',');} ?>, matropolix, reddit, local, social, college, board, franchise, community, life, tickling, icuhampy">		
 	
 	<link href="css/bootstrap.css" rel="stylesheet">
-	<link href="css/screen3.1.css" rel="stylesheet">
-	
+	<link href="css/screen3.2.css" rel="stylesheet">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<!--[if lt IE 9]>
-	<script src="js/html5shiv.js"></script>
-	<![endif]-->
+
 </head>
 <body>
 <header>
@@ -62,6 +59,8 @@ include 'core/init.php';
 	
 <div class="container-fluid landingdiv no-padding">
     <div class="thinblacklayer">
+		
+		<span class = "brandbackground hidden-xs"><img src = "images/treebackground.png" class = "img-responsive"></span>
 
 <?php
 

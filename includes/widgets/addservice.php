@@ -54,7 +54,7 @@
 			
 			?>
 		
-		 <h3>Franchise an existing board</h3>By adding this board, you will be responsible for moderating all of its posts within your home community.<i> You can only add boards to your home community.</i><br>
+		 <h3>Open a pre-existing board</h3>By adding this board, you will be responsible for moderating all of its posts within your home habbitat.<i>You can only add boards to your home habbitat.</i><br>
 		 
 				  
 				  <?php
@@ -110,6 +110,12 @@
 
 			  	}
 	  			echo('</span>');
+				
+				if(count($services) < 1){
+					
+					echo('<span class = "form-note col-xs-12 ">Your Habbitat already has all the boards that exist!!</span>');
+					
+				}
 				  
 				  
 				?>
